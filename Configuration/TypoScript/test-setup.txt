@@ -1,0 +1,134 @@
+
+
+plugin.tx_locate_pi1 {
+
+	debug = 1
+	dryRun =
+
+
+	actions {
+
+		helloWorld {
+			10 = \Bitmotion\Locate\Action\HelloWorld
+			10 = \Bitmotion\Locate\Action\Dummy
+		}
+
+		nothing {
+			10 = \Bitmotion\Locate\Action\SetCookie
+		}
+
+		switchToPreferedLanguage {
+			10 = \Bitmotion\Locate\Action\SetCookie
+			20 = \Bitmotion\Locate\Action\SwitchToPreferedLanguage
+		}
+
+		redirectToDomainXY {
+			10 = \Bitmotion\Locate\Action\SetCookie
+			20 = \Bitmotion\Locate\Action\Redirect
+			20.url = http:\\www.bitmotion.com
+		}
+
+		redirectToPageGB {
+			10 = \Bitmotion\Locate\Action\SetCookie
+			20 = \Bitmotion\Locate\Action\RedirectToPage
+			20.pid = 12
+		}
+
+	}
+
+
+
+
+	facts {
+
+		\\
+		env = \Bitmotion\Locate\FactProvider\Environment
+
+		\\ DE, UK, ...
+		countryByIP = \Bitmotion\Locate\FactProvider\IP2Country
+
+		\\ de, DE, de_DE; en, GB, en_GB
+		browserAccepted = \Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
+
+		\\ google.de, google.com, ...
+		#refererLanguage = \Bitmotion\Locate\FactProvider\Referer
+
+		\\ current page language: de, DE, de_DE, sys_language_uid
+		\\ enriches the facts array with following data:
+		\\ currentPage.lang = de
+		\\ currentPage.country = DE
+		\\ currentPage.locale = de_DE
+		currentPage = \Bitmotion\Locate\FactProvider\Typo3Page
+
+
+		someConstants = \Bitmotion\Locate\FactProvider\Constants
+		someConstants.something = 123
+		someConstants.some.other = 1234
+
+	}
+
+
+	\\ reviewer can manipulate or enrich the facts
+	\\ for example this could be a rating which might be used in later decision process
+	reviewer {
+
+		someName = \Bitmotion\Locate\Reviewer\Something
+
+		anotherName = \Bitmotion\Locate\Reviewer\SomethingElse
+
+
+		matchDe = \Bitmotion\Locate\Reviewer\MatchesCurrentLanguage
+		matchDe.current = de
+		matchDe.matches = de,da
+
+		matchDE = \Bitmotion\Locate\Reviewer\MatchesCurrentCountry
+		matchDE.current = DE
+		matchDE.matches = DE,AT
+
+		matchDeDE = \Bitmotion\Locate\Reviewer\MatchesCurrentLocale
+		matchDeDE.current = de_DE
+		matchDeDE.matches = de_DE,de_AT
+
+	}
+
+
+	judges {
+
+		10 = \Bitmotion\Locate\Judge\Fixed
+		10.action = helloWorld
+
+		#10 = \Bitmotion\Locate\Judge\Fixed
+		#10.action = helloWorld
+
+
+		20 = \Bitmotion\Locate\Judge\Matcher
+		20.action = anotherAction
+		20.matches (
+			currentPage.lang = de
+			browserAccepted.lang = de
+		)
+
+
+		30 = \Bitmotion\Locate\Judge\Matcher
+		30.action = anotherAction
+		30.matches (
+			browserAccepted.country = countryByIP.country
+			currentPage.country = countryByIP.country
+		)
+
+
+		40 = \Bitmotion\Locate\Judge\ExpressionMatcher
+		40.action = redirectToDomainXY
+		40.expression = referer ~= \TestSomeRegexOnUrl\
+
+
+		50 = \Bitmotion\Locate\Judge\SomethingRandom
+		50.action = aufGutGlück
+
+
+		999 = \Bitmotion\Locate\Judge\TriggerAction
+		999.action = nothing
+	}
+
+
+}

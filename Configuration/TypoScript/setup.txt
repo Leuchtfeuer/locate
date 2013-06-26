@@ -1,0 +1,63 @@
+
+// CH test IPs
+// 217.150.241.201
+// 46.14.211.179
+// 178.209.54.88
+// 212.243.94.146
+// 31.7.63.213
+
+
+plugin.tx_locate_pi1 {
+
+	debug = 1
+	dryRun = 1
+
+
+	actions {
+
+		redirect_fr {
+			10 = \Bitmotion\Locate\Action\Redirect
+			10.url = http://www.brz.eu/ch-fr/
+		}
+
+		default {
+			10 = \Bitmotion\Locate\Action\Redirect
+			10.url = http://www.brz.eu/de/
+		}
+	}
+
+
+	facts {
+
+		\\
+		env = \Bitmotion\Locate\FactProvider\Environment
+
+		\\ DE, UK, ...
+		countryByIP = \Bitmotion\Locate\FactProvider\IP2Country
+
+		\\ de, DE, de_DE; en, GB, en_GB
+		browserAccepted = \Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
+
+		\\ current page language: de, DE, de_DE, sys_language_uid
+		\\ enriches the facts array with following data:
+		\\ currentPage.lang = de
+		\\ currentPage.country = DE
+		\\ currentPage.locale = de_DE
+		currentPage = \Bitmotion\Locate\FactProvider\Typo3Page
+	}
+
+
+	judges {
+
+		20 = \Bitmotion\Locate\Judge\AndCondition
+		20.action = redirect_fr
+		20.matches (
+			countryByIP.countryCode = CH
+			browserAccepted.lang = fr
+		)
+
+		999 = \Bitmotion\Locate\Judge\Fixed
+		999.action = default
+	}
+
+}
