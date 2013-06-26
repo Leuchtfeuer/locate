@@ -47,6 +47,7 @@ return array(
 	'Bitmotion\Locate\Action\ActionInterface' => $PATH_extension.'Classes/Action/ActionInterface.php',
 	'Bitmotion\Locate\Action\Dummy' => $PATH_extension.'Classes/Action/Dummy.php',
 	'Bitmotion\Locate\Action\HelloWorld' => $PATH_extension.'Classes/Action/HelloWorld.php',
+	'Bitmotion\Locate\Action\TicTacToe' => $PATH_extension.'Classes/Action/TicTacToe.php',
 	'Bitmotion\Locate\Action\AbstractAction' => $PATH_extension.'Classes/Action/AbstractAction.php',
 	'Bitmotion\Locate\Action\Exception' => $PATH_extension.'Classes/Action/Exception.php',
 	'Bitmotion\Locate\Action\Redirect' => $PATH_extension.'Classes/Action/Redirect.php',
