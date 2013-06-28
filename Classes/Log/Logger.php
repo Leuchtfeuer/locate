@@ -240,7 +240,7 @@ class Logger
     public function addFilter($filter)
     {
         if (is_integer($filter)) {
-            $filter = new \Bitmotion\Locate\Filter\Priority($filter);
+            $filter = new \Bitmotion\Locate\Log\Filter\Priority($filter);
         } elseif(!is_object($filter) || ! $filter instanceof Zend_Log_Filter_Interface) {
 
 

@@ -32,20 +32,20 @@ namespace Bitmotion\Locate\Log\Writer;
 abstract class AbstractWriter
 {
     /**
-     * @var array of Zend_Log_Filter_Interface
+     * @var array of \Bitmotion\Locate\Log\Filter\FilterInterface
      */
     protected $_filters = array();
 
     /**
      * Formats the log message before writing.
-     * @var Zend_Log_Formatter_Interface
+     * @var \Bitmotion\Locate\Log\Filter\FilterInterface
      */
     protected $_formatter;
 
     /**
      * Add a filter specific to this writer.
      *
-     * @param  Zend_Log_Filter_Interface  $filter
+     * @param  \Bitmotion\Locate\Log\Filter\FilterInterface  $filter
      * @return void
      */
     public function addFilter($filter)
@@ -78,7 +78,7 @@ abstract class AbstractWriter
     /**
      * Set a new formatter for this writer
      *
-     * @param  Zend_Log_Formatter_Interface $formatter
+     * @param  \Bitmotion\Locate\Log\Filter\FilterInterface $formatter
      * @return void
      */
     public function setFormatter($formatter)

@@ -70,7 +70,7 @@ class Mail extends AbstractWriter
     /**
      * Optional formatter for use when rendering with Zend_Layout.
      *
-     * @var Zend_Log_Formatter_Interface
+     * @var \Bitmotion\Locate\Log\Formatter\FormatterInterface
      */
     protected $_layoutFormatter;
 
@@ -150,7 +150,7 @@ class Mail extends AbstractWriter
      * Gets instance of Zend_Log_Formatter_Instance used for formatting a
      * message using Zend_Layout, if applicable.
      *
-     * @return Zend_Log_Formatter_Interface|null The formatter, or null.
+     * @return \Bitmotion\Locate\Log\Formatter\FormatterInterface|null The formatter, or null.
      */
     public function getLayoutFormatter()
     {
@@ -164,11 +164,11 @@ class Mail extends AbstractWriter
      * Zend_Layout.  In the event that Zend_Layout is not being used, this
      * formatter cannot be set, so an exception will be thrown.
      *
-     * @param  Zend_Log_Formatter_Interface $formatter
+     * @param  \Bitmotion\Locate\Log\Formatter\FormatterInterface $formatter
      * @return Zend_Log_Writer_Mail
      * @throws \Bitmotion\Locate\Log\Exception
      */
-    public function setLayoutFormatter(Zend_Log_Formatter_Interface $formatter)
+    public function setLayoutFormatter(\Bitmotion\Locate\Log\Formatter\FormatterInterface $formatter)
     {
         if (!$this->_layout) {
             throw new \Bitmotion\Locate\Log\Exception(

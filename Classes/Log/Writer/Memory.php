@@ -52,7 +52,7 @@ class Memory extends AbstractWriter
     /**
      * Close the stream resource.
      *
-     * @return void
+     * @return string
      */
     public function GetLog()
     {
