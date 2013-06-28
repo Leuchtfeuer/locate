@@ -47,7 +47,7 @@ class tx_locate_pi1 extends tslib_pibase {
 	 */
 	function main($content,$conf)	{
 
-		$conf['debug'] = true;
+		# $conf['debug'] = true;
 		# $_SERVER['REMOTE_ADDR'] = '217.150.241.201';
 
 		$locateProcessor = new \Bitmotion\Locate\Processor\Court($conf);
@@ -59,7 +59,7 @@ class tx_locate_pi1 extends tslib_pibase {
 			if ($objLog = $locateProcessor->Logger->GetWriter('Memory')) {
 				$ResultLog = str_replace("\n\n", "\n", (string)$objLog->GetLog());
 			}
-			return nl2br($ResultLog) . \t3lib_div::view_array($locateProcessor->GetFactsArray());
+			return nl2br($ResultLog) . \t3lib_utility_Debug::viewArray($locateProcessor->GetFactsArray());
 		}
 	}
 }
