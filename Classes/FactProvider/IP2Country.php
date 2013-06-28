@@ -21,6 +21,9 @@ class IP2Country extends AbstractFactProvider {
 	{
 		$factPropertyName = $this->GetFactPropertyName('countryCode');
 		$factsArray[$factPropertyName] = $this->GetCountryIso2FromIP();
+
+		$factPropertyName = $this->GetFactPropertyName('IP2Dezimal');
+		$factsArray[$factPropertyName] = $this->GetIP2Long();
 	}
 
 
@@ -31,13 +34,24 @@ class IP2Country extends AbstractFactProvider {
 	 */
 	protected static function GetCountryIso2FromIP()
 	{
-		$IP = sprintf("%u",IP2Long($_SERVER['REMOTE_ADDR']));
+		$IP = self::GetIP2Long();
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('iso2','tx_locate_ip2country','ipfrom <= '.$IP.' AND ipto >= '.$IP);
 		if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-			var_dump($row);
+//			var_dump($row);
 			return $row['iso2'];
 		}
 		return false;
+	}
+
+
+	/**
+	 * translates the ip to the decimal form
+	 *
+	 * @return string
+	 */
+	protected static function GetIP2Long()
+	{
+		return sprintf("%u",IP2Long(\t3lib_div::getIndpEnv('REMOTE_ADDR')));
 	}
 
 }
