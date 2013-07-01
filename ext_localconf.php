@@ -1,8 +1,7 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
-
-if (!class_exists('\Cmp3\Autoload', false)) {
+if (!class_exists('\Bitmotion\System\Autoloader', false)) {
 
 	$PATH_extension = t3lib_extMgm::extPath('locate');
 	require_once($PATH_extension.'Classes/System/Autoloader.php');
