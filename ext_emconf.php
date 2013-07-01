@@ -33,6 +33,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'constraints' => array(
 		'depends' => array(
 			'static_info_tables' => '',
+			'php' => '5.3',
 		),
 		'conflicts' => array(
 		),
