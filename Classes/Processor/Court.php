@@ -193,7 +193,7 @@ class Court implements ProcessorInterface {
 
 			$this->Logger->Info(" Action part '$key.$value' will be called");
 
-			/* @var $factProvider \Bitmotion\Locate\Action\ActionInterface */
+			/* @var $actionPart \Bitmotion\Locate\Action\ActionInterface */
 			$actionPart = new $value($actionConfigArray[$key.'.'], $this->Logger);
 			$actionPart->Process($this->factsArray, $decision);
 
