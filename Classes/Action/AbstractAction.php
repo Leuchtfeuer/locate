@@ -20,6 +20,7 @@ abstract class AbstractAction implements ActionInterface {
 	 */
 	protected $Logger;
 
+
 	/**
 	 *
 	 * @param array $configArray TypoScript configuration array for this action

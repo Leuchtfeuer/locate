@@ -16,6 +16,7 @@ namespace Bitmotion\Locate\Action;
  */
 class Redirect extends AbstractAction {
 
+
 	/**
 	 * Call the action module
 	 *
@@ -24,11 +25,12 @@ class Redirect extends AbstractAction {
 	 */
 	public function Process(&$factsArray, &$decision)
 	{
-		if ($strTarget = $this->conf['page']) {
-			$this->RedirectToPid($strTarget);
-		}
 		$httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
-		$this->Redirect($this->configArray['url'], $httpResponseCode);
+
+		if ($strTarget = $this->conf['page']) {
+			$this->RedirectToPid($strTarget, $httpResponseCode);
+		}
+		$this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
 	}
 
 
@@ -38,7 +40,7 @@ class Redirect extends AbstractAction {
 	 *
 	 * @return    void
 	 */
-	private function RedirectToPid($strTarget)
+	private function RedirectToPid($strTarget, $httpResponseCode)
 	{
 			if (intval($strTarget)) {
 				$strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL(intval($strTarget));
@@ -49,7 +51,7 @@ class Redirect extends AbstractAction {
 				throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
 			}
 
-			$this->Redirect($strUrl);
+			$this->RedirectToUrl($strUrl, $httpResponseCode);
 	}
 
 
@@ -61,7 +63,7 @@ class Redirect extends AbstractAction {
 	 * @param integer $httpResponseCode
 	 * @return void
 	 */
-	public function Redirect($strLocation, $httpResponseCode)
+	public function RedirectToUrl($strLocation, $httpResponseCode)
 	{
 		$this->Logger->Info(__CLASS__ . " Will redirect to '$strLocation' with code '$httpResponseCode'");
 
