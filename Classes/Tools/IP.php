@@ -371,6 +371,24 @@ abstract class IP {
 	}
 
 	*/
+
+	/**
+	 * Returns the current remote address as long
+	 *
+	 * @return integer
+	 */
+	public static function GetUserIpAsLong() {
+		return sprintf("%u",IP2Long(\t3lib_div::getIndpEnv('REMOTE_ADDR')));
+	}
+
+	/**
+	 * Returns the current remote address
+	 *
+	 * @return string
+	 */
+	public static function GetUserIp() {
+		return \t3lib_div::getIndpEnv('REMOTE_ADDR');
+	}
 }
 
 
