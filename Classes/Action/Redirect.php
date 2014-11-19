@@ -27,8 +27,10 @@ class Redirect extends AbstractAction {
 	{
 		$httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
 
-		if ($strTarget = $this->conf['page']) {
-			$this->RedirectToPid($strTarget, $httpResponseCode);
+		error_log(print_r($this->configArray, true));
+		if ($this->configArray['page'] OR $this->configArray['sys_language'] ) {
+			$this->RedirectToPid($this->configArray['page'], $this->configArray['sys_language'], $httpResponseCode);
+			return;
 		}
 		$this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
 	}
@@ -40,16 +42,59 @@ class Redirect extends AbstractAction {
 	 *
 	 * @return    void
 	 */
-	private function RedirectToPid($strTarget, $httpResponseCode)
+	private function RedirectToPid($strTarget, $strLanguage, $httpResponseCode)
 	{
-			if (intval($strTarget)) {
-				$strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL(intval($strTarget));
+error_log($strLanguage);
+			if ($strLanguage) {
+				$urlParameters = array('L' => intval($strLanguage));
+			} else {
+				$urlParameters = array();
+			}
+error_log(print_r($urlParameters, true));
+			error_log(__LINE__);
+			$intTarget = intval($strTarget);
+
+			if ($intTarget) {
+error_log(__LINE__);
+				if ($intTarget == $GLOBALS['TSFE']->id) {
+error_log(__LINE__);
+					if($urlParameters['L']) {
+error_log(__LINE__);
+						if ($GLOBALS['TSFE']->sys_language_uid == $urlParameters['L']) {
+error_log(__LINE__);
+							return;
+						}
+					} else {
+error_log(__LINE__);
+						return;
+					}
+				}
+
+error_log(__LINE__);
+				$strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL($intTarget, $urlParameters);
+				$strUrl = $GLOBALS['TSFE']->baseUrlWrap($strUrl);
+				$strUrl = \t3lib_div::locationHeaderURL($strUrl);
+
+			} else if ($strLanguage) {
+
+				error_log(__LINE__);
+				if($urlParameters['L']) {
+error_log(__LINE__);
+					if ($GLOBALS['TSFE']->sys_language_uid == $urlParameters['L']) {
+error_log(__LINE__);
+						return;
+					}
+				}
+
+				error_log(__LINE__);
+				$strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
 				$strUrl = $GLOBALS['TSFE']->baseUrlWrap($strUrl);
 				$strUrl = \t3lib_div::locationHeaderURL($strUrl);
 
 			} else {
 				throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
 			}
+error_log($strUrl);
 
 			$this->RedirectToUrl($strUrl, $httpResponseCode);
 	}

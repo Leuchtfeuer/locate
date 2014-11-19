@@ -51,6 +51,7 @@ return array(
 	'Bitmotion\Locate\Action\AbstractAction' => $PATH_extension.'Classes/Action/AbstractAction.php',
 	'Bitmotion\Locate\Action\Exception' => $PATH_extension.'Classes/Action/Exception.php',
 	'Bitmotion\Locate\Action\Redirect' => $PATH_extension.'Classes/Action/Redirect.php',
+	'Bitmotion\Locate\Action\SetCookie' => $PATH_extension.'Classes/Action/SetCookie.php',
 
 );
 ?>
