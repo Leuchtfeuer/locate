@@ -22,9 +22,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-if (!class_exists('tslib_pibase')) {
-  require_once(PATH_tslib.'class.tslib_pibase.php');
-}
 
 /**
  * Plugin 'Locate' for the 'locate' extension.
@@ -33,7 +30,7 @@ if (!class_exists('tslib_pibase')) {
  * @package	TYPO3
  * @subpackage	tx_locate
  */
-class tx_locate_pi1 extends tslib_pibase {
+class tx_locate_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	var $prefixId      = 'tx_locate_pi1';		// Same as class name
 	var $scriptRelPath = 'pi1/class.tx_locate_pi1.php';	// Path to this script relative to the extension dir.
 	var $extKey        = 'locate';	// The extension key.

@@ -21,7 +21,7 @@ class AndCondition extends AbstractJudge {
 	public function Process(&$factsArray)
 	{
 		$matches = $this->configArray['matches'];
-		$matches = \t3lib_div::trimexplode("\n", $matches);
+		$matches = \TYPO3\CMS\Core\Utility\GeneralUtility::trimexplode("\n", $matches);
 
 		foreach ($matches as $value) {
 			list($c1, $c2) = explode('=', $value);

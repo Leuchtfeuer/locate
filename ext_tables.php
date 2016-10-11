@@ -11,8 +11,8 @@ $TCA["tx_locate_ip2country"] = array (
 		'readOnly' => '1',
 		'editlock' => '1',
 		'default_sortby' => "ORDER BY uid",
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'Configuration/TCA/IP2Country.php',
-		'iconfile'          => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_locate_ip2country.png',
+		'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY).'Configuration/TCA/IP2Country.php',
+		'iconfile'          => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY).'icon_tx_locate_ip2country.png',
 	),
 	"feInterface" => array (
 		"fe_admin_fieldList" => "ipfrom, ipto, iso2",
@@ -20,12 +20,11 @@ $TCA["tx_locate_ip2country"] = array (
 );
 
 
-t3lib_extMgm::addStaticFile($_EXTKEY,"Configuration/TypoScript/","Locate test setup");
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY,"Configuration/TypoScript/","Locate test setup");
 
-t3lib_div::loadTCA('tt_content');
 $TCA['tt_content']['types']['list']['subtypes_excludelist'][$_EXTKEY.'_pi1']='layout,select_key';
 
-t3lib_extMgm::addPlugin(array('LLL:EXT:locate/Resources/Private/Language/locallang_db.xml:tt_content.list_type_pi1', $_EXTKEY.'_pi1'),'list_type');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(array('LLL:EXT:locate/Resources/Private/Language/locallang_db.xml:tt_content.list_type_pi1', $_EXTKEY.'_pi1'),'list_type');
 
 if (TYPO3_MODE == 'BE')	{
 

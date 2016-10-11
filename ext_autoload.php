@@ -1,5 +1,5 @@
 <?php
-$PATH_extension = t3lib_extMgm::extPath('locate');
+$PATH_extension = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('locate');
 return array(
 
 	## generated

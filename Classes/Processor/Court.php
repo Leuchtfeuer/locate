@@ -109,16 +109,21 @@ class Court implements ProcessorInterface {
 	 */
 	protected function ReviewFacts()
 	{
-		foreach ($this->configArray['reviewer.'] as $key => $value) {
 
-			if (strpos($key, '.')) {
-				continue;
+
+		if (is_array($this->configArray['reviewer.']) && count($this->configArray['reviewer.'])) {
+			foreach ($this->configArray['reviewer.'] as $key => $value) {
+
+				if (strpos($key, '.')) {
+					continue;
+				}
+
+				$this->Logger->Info("Reviewer with key '$key' will be called: " . $value);
+
+				#TODO;
 			}
-
-			$this->Logger->Info("Reviewer with key '$key' will be called: " . $value);
-
-			#TODO;
 		}
+
 
 		foreach ($this->factsArray as $key => $value) {
 			if (!$value) {
@@ -135,7 +140,7 @@ class Court implements ProcessorInterface {
 	protected function CallJudges()
 	{
 
-#TODO sort TS numbers
+		#TODO sort TS numbers
 		$actionName = NULL;
 		foreach ($this->configArray['judges.'] as $key =>  $value) {
 

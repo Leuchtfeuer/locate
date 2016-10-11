@@ -35,7 +35,7 @@ abstract class Autoloader {
 	 */
 	public static function RegisterAutoload()
 	{
-		$extAutoloadPath = \t3lib_extMgm::extPath('locate').'ext_autoload.php';
+		$extAutoloadPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('locate').'ext_autoload.php';
 		self::$classFile = include($extAutoloadPath);
 		spl_autoload_register(array('\Bitmotion\System\Autoloader', 'Autoload'));
 	}

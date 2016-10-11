@@ -65,7 +65,7 @@ class Environment extends AbstractFactProvider {
 	 */
 	public function Process(&$factsArray)
 	{
-		$envFactArray = \t3lib_div::getIndpEnv('_ARRAY');
+		$envFactArray = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('_ARRAY');
 
 		foreach ($envFactArray as $key => $value) {
 			$factPropertyName = $this->GetFactPropertyName($key);

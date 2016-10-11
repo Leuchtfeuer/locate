@@ -63,7 +63,7 @@ class Redirect extends AbstractAction {
 
 				$strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL($intTarget, $urlParameters);
 				$strUrl = $GLOBALS['TSFE']->baseUrlWrap($strUrl);
-				$strUrl = \t3lib_div::locationHeaderURL($strUrl);
+				$strUrl = \TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderURL($strUrl);
 
 			} else if ($strLanguage) {
 
@@ -98,7 +98,7 @@ class Redirect extends AbstractAction {
 		$this->Logger->Info(__CLASS__ . " Will redirect to '$strLocation' with code '$httpResponseCode'");
 
 		// Check for redirect recursion
-		if (\t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') != $strLocation) {
+		if (\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') != $strLocation) {
 			// Clear the output buffer (if any)
 			ob_clean();
 
