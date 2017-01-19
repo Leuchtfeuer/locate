@@ -18,6 +18,11 @@ class Redirect extends AbstractAction {
 
 
 	/**
+	 * @var bool
+	 */
+	private $ignoreRedirects = false;
+
+	/**
 	 * Call the action module
 	 *
 	 * @param array $factsArray
@@ -27,13 +32,47 @@ class Redirect extends AbstractAction {
 	{
 		$httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
 
+		$this->checkIfRedirectIsAllowed($this->configArray);
+
 		if ($this->configArray['page'] OR $this->configArray['sys_language'] ) {
 			$this->RedirectToPid($this->configArray['page'], $this->configArray['sys_language'], $httpResponseCode);
 			return;
 		}
+
+		if ($this->configArray['sys_language'] && $this->shouldRedirect((int)$this->configArray['sys_language'])) {
+			$this->RedirectToUrl($this->configArray['url'], $httpResponseCode, (int)$this->configArray['sys_language']);
+		}
+
 		$this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
+
 	}
 
+	/**
+	 * @param array $configuration
+	 */
+	private function checkIfRedirectIsAllowed($configuration)
+	{
+		if (isset($configuration['cookieHandling']) && $configuration['cookieHandling'] == 1) {
+			$this->ignoreRedirects = true;
+		}
+	}
+
+	/**
+	 * @param int $sysLanguageUid
+	 * @return bool
+	 */
+	private function shouldRedirect($sysLanguageUid)
+	{
+		if (!$this->ignoreRedirects) {
+			return true;
+		}
+
+		if (isset($_COOKIE['bm_locate']) && (int)$_COOKIE['bm_locate'] === $sysLanguageUid) {
+			return false;
+		}
+
+		return true;
+	}
 
 
 	/**
@@ -44,10 +83,16 @@ class Redirect extends AbstractAction {
 	private function RedirectToPid($strTarget, $strLanguage, $httpResponseCode)
 	{
 			if ($strLanguage) {
+				$languageId = (int)$strLanguage;
 				$urlParameters = array('L' => intval($strLanguage));
 			} else {
+				$languageId = 0;
 				$urlParameters = array();
 			}
+			if (!$this->shouldRedirect($languageId)) {
+				return;
+			}
+
 			$intTarget = intval($strTarget);
 
 			if ($intTarget) {
@@ -81,7 +126,7 @@ class Redirect extends AbstractAction {
 				throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
 			}
 
-			$this->RedirectToUrl($strUrl, $httpResponseCode);
+			$this->RedirectToUrl($strUrl, $httpResponseCode, $languageId);
 	}
 
 
@@ -93,13 +138,14 @@ class Redirect extends AbstractAction {
 	 * @param integer $httpResponseCode
 	 * @return void
 	 */
-	public function RedirectToUrl($strLocation, $httpResponseCode)
+	public function RedirectToUrl($strLocation, $httpResponseCode, $languageId = 0)
 	{
 		$this->Logger->Info(__CLASS__ . " Will redirect to '$strLocation' with code '$httpResponseCode'");
 
 		// Check for redirect recursion
 		if (\t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') != $strLocation) {
 			// Clear the output buffer (if any)
+			setcookie('bm_locate', $languageId, time() + 60 * 60 * 24 * 30);
 			ob_clean();
 
 			// this is the place where Qcodo answers ajax requests
