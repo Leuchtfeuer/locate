@@ -41,10 +41,9 @@ class Redirect extends AbstractAction {
 
 		if ($this->configArray['sys_language'] && $this->shouldRedirect((int)$this->configArray['sys_language'])) {
 			$this->RedirectToUrl($this->configArray['url'], $httpResponseCode, (int)$this->configArray['sys_language']);
+		} else {
+			$this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
 		}
-
-		$this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
-
 	}
 
 	/**
