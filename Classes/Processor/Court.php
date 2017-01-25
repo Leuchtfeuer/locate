@@ -109,16 +109,18 @@ class Court implements ProcessorInterface {
 	 */
 	protected function ReviewFacts()
 	{
-		foreach ($this->configArray['reviewer.'] as $key => $value) {
+		if (is_array($this->configArray['reviewer.'])) {
+		    foreach ($this->configArray['reviewer.'] as $key => $value) {
 
-			if (strpos($key, '.')) {
-				continue;
-			}
+                if (strpos($key, '.')) {
+                    continue;
+                }
 
-			$this->Logger->Info("Reviewer with key '$key' will be called: " . $value);
+                $this->Logger->Info("Reviewer with key '$key' will be called: " . $value);
 
-			#TODO;
-		}
+                #TODO;
+            }
+        }
 
 		foreach ($this->factsArray as $key => $value) {
 			if (!$value) {

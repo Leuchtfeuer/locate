@@ -1,6 +1,7 @@
 <?php
 namespace Bitmotion\Locate\Action;
 
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 
 /**
@@ -23,6 +24,11 @@ class Redirect extends AbstractAction
     private $ignoreRedirects = false;
 
     /**
+     * @var string
+     */
+    private $cookieName = 'bm_locate';
+
+    /**
      * Call the action module
      *
      * @param array $factsArray
@@ -32,56 +38,76 @@ class Redirect extends AbstractAction
     {
         $httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
 
-        if (!$this->forceNewLanguage($this->configArray)) {
-            $this->checkIfRedirectIsAllowed($this->configArray);
-
-            if ($this->configArray['page'] OR $this->configArray['sys_language']) {
-                $this->RedirectToPid($this->configArray['page'], $this->configArray['sys_language'], $httpResponseCode);
+        if ($this->isCookieSet()) {
+            if (!$this->isCookieInCurrentLanguage() && $this->shouldOverrideCookie()){
+                $this->setCookie(\t3lib_div::_GP('L'));
+                return;
+            } elseif ($this->isCookieInCurrentLanguage()) {
                 return;
             }
 
-            if ($this->configArray['sys_language'] && $this->shouldRedirect((int)$this->configArray['sys_language'])) {
-                $this->RedirectToUrl($this->configArray['url'], $httpResponseCode,
-                    (int)$this->configArray['sys_language']);
-            } else {
-                $this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
-            }
+            $this->configArray['sys_language'] = $this->getCookieValue();
+        }
+
+        if ($this->configArray['page'] OR $this->configArray['sys_language']) {
+            $this->RedirectToPid($this->configArray['page'], $this->configArray['sys_language'], $httpResponseCode);
+            return;
+        }
+
+        if ($this->configArray['sys_language'] && $this->shouldRedirect((int)$this->configArray['sys_language'])) {
+            $this->RedirectToUrl($this->configArray['url'], $httpResponseCode,
+                (int)$this->configArray['sys_language']);
+        } else {
+            $this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
         }
     }
 
     /**
-     * @param array $configuration
      * @return bool
      */
-    private function forceNewLanguage($configuration)
+    private function isCookieSet()
     {
-        if (isset($configuration['forceLanguage']) && $configuration['forceLanguage'] == 1) {
-            $forceLanguageParam = \t3lib_div::_GP($configuration['forceLanguageParam']);
-            $language = \t3lib_div::_GP('L');
-            if (!empty($forceLanguageParam) && $language != '') {
-                $this->setCookie($language);
+        return isset($_COOKIE[$this->cookieName]);
+    }
+
+    /**
+     * @return bool
+     */
+    private function isCookieInCurrentLanguage()
+    {
+        return \t3lib_div::_GP('L') == $_COOKIE[$this->cookieName];
+    }
+
+    /**
+     * @return bool
+     */
+    private function shouldOverrideCookie()
+    {
+        if (isset($this->configArray['overrideCookie']) && $this->configArray['overrideCookie'] == 1) {
+            if (\t3lib_div::_GP('setLang') == 1) {
                 return true;
+            } else {
+
             }
         }
+
         return false;
     }
 
     /**
-     * @param int $languageId
+     * @param string $value
      */
-    private function setCookie($languageId)
+    private function setCookie($value)
     {
-        setcookie('bm_locate', $languageId, time() + 60 * 60 * 24 * 30);
+        setcookie($this->cookieName, $value, time() + 60 * 60 * 24 * 30);
     }
 
     /**
-     * @param array $configuration
+     * @return string
      */
-    private function checkIfRedirectIsAllowed($configuration)
+    private function getCookieValue()
     {
-        if (isset($configuration['cookieHandling']) && $configuration['cookieHandling'] == 1) {
-            $this->ignoreRedirects = true;
-        }
+        return $_COOKIE[$this->cookieName];
     }
 
     /**
@@ -96,13 +122,10 @@ class Redirect extends AbstractAction
     {
         if ($strLanguage) {
             $languageId = (int)$strLanguage;
-            $urlParameters = array('L' => intval($strLanguage));
+            $urlParameters = ['L' => intval($strLanguage)];
         } else {
             $languageId = 0;
-            $urlParameters = array();
-        }
-        if (!$this->shouldRedirect($languageId)) {
-            return;
+            $urlParameters = [];
         }
 
         $intTarget = intval($strTarget);
@@ -144,23 +167,6 @@ class Redirect extends AbstractAction
     }
 
     /**
-     * @param int $sysLanguageUid
-     * @return bool
-     */
-    private function shouldRedirect($sysLanguageUid)
-    {
-        if (!$this->ignoreRedirects) {
-            return true;
-        }
-
-        if (isset($_COOKIE['bm_locate']) && (int)$_COOKIE['bm_locate'] === $sysLanguageUid) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * This will redirect the user to a new web location. This can be a relative or absolute web path, or it
      * can be an entire URL.
      *
@@ -174,8 +180,9 @@ class Redirect extends AbstractAction
 
         // Check for redirect recursion
         if (\t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') != $strLocation) {
-            // Clear the output buffer (if any)
             $this->setCookie($languageId);
+
+            // Clear the output buffer (if any)
             ob_clean();
 
             // this is the place where Qcodo answers ajax requests
