@@ -1,7 +1,6 @@
 <?php
 namespace Bitmotion\Locate\Action;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
@@ -57,8 +56,8 @@ class Redirect extends AbstractAction
     private function forceNewLanguage($configuration)
     {
         if (isset($configuration['forceLanguage']) && $configuration['forceLanguage'] == 1) {
-            $forceLanguageParam = GeneralUtility::_GP($configuration['forceLanguageParam']);
-            $language = GeneralUtility::_GP('L');
+            $forceLanguageParam = \t3lib_div::_GP($configuration['forceLanguageParam']);
+            $language = \t3lib_div::_GP('L');
             if (!empty($forceLanguageParam) && $language != '') {
                 $this->setCookie($language);
                 return true;
