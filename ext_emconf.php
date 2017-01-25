@@ -29,9 +29,10 @@ $EM_CONF[$_EXTKEY] = array(
 	'clearCacheOnLoad' => 0,
 	'lockType' => '',
 	'author_company' => '<a href="http://www.bitmotion.de" target="_blank">Bitmotion</a>',
-	'version' => '1.1.1',
+	'version' => '1.1.2',
 	'constraints' => array(
 		'depends' => array(
+		    'typo3' => '4.5.0-6.2.99'
 			'static_info_tables' => '',
 			'php' => '5.3',
 		),
