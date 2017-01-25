@@ -1,6 +1,7 @@
 <?php
 namespace Bitmotion\Locate\Action;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
@@ -10,159 +11,190 @@ namespace Bitmotion\Locate\Action;
  * @TsProperty url string Url to redirect to. Dafault:
  * @TsProperty httpResponseCode integer HTTP response code used for redirection. Dafault: 301
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
+ * @author Rene Fritz (typo3-ext@bitmotion.de)
+ * @author Florian WEssels (typo3-ext@bitmotion.de)
  * @package    Locate
  * @subpackage Action
  */
-class Redirect extends AbstractAction {
+class Redirect extends AbstractAction
+{
+    /**
+     * @var bool
+     */
+    private $ignoreRedirects = false;
 
+    /**
+     * Call the action module
+     *
+     * @param array $factsArray
+     * @param \Bitmotion\Locate\Judge\Decision
+     */
+    public function Process(&$factsArray, &$decision)
+    {
+        $httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
 
-	/**
-	 * @var bool
-	 */
-	private $ignoreRedirects = false;
+        if (!$this->forceNewLanguage($this->configArray)) {
+            $this->checkIfRedirectIsAllowed($this->configArray);
 
-	/**
-	 * Call the action module
-	 *
-	 * @param array $factsArray
-	 * @param \Bitmotion\Locate\Judge\Decision
-	 */
-	public function Process(&$factsArray, &$decision)
-	{
-		$httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
+            if ($this->configArray['page'] OR $this->configArray['sys_language']) {
+                $this->RedirectToPid($this->configArray['page'], $this->configArray['sys_language'], $httpResponseCode);
+                return;
+            }
 
-		$this->checkIfRedirectIsAllowed($this->configArray);
+            if ($this->configArray['sys_language'] && $this->shouldRedirect((int)$this->configArray['sys_language'])) {
+                $this->RedirectToUrl($this->configArray['url'], $httpResponseCode,
+                    (int)$this->configArray['sys_language']);
+            } else {
+                $this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
+            }
+        }
+    }
 
-		if ($this->configArray['page'] OR $this->configArray['sys_language'] ) {
-			$this->RedirectToPid($this->configArray['page'], $this->configArray['sys_language'], $httpResponseCode);
-			return;
-		}
+    /**
+     * @param array $configuration
+     * @return bool
+     */
+    private function forceNewLanguage($configuration)
+    {
+        if (isset($configuration['forceLanguage']) && $configuration['forceLanguage'] == 1) {
+            $forceLanguageParam = GeneralUtility::_GP($configuration['forceLanguageParam']);
+            $language = GeneralUtility::_GP('L');
+            if (!empty($forceLanguageParam) && $language != '') {
+                $this->setCookie($language);
+                return true;
+            }
+        }
+        return false;
+    }
 
-		if ($this->configArray['sys_language'] && $this->shouldRedirect((int)$this->configArray['sys_language'])) {
-			$this->RedirectToUrl($this->configArray['url'], $httpResponseCode, (int)$this->configArray['sys_language']);
-		} else {
-			$this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
-		}
-	}
+    /**
+     * @param int $languageId
+     */
+    private function setCookie($languageId)
+    {
+        setcookie('bm_locate', $languageId, time() + 60 * 60 * 24 * 30);
+    }
 
-	/**
-	 * @param array $configuration
-	 */
-	private function checkIfRedirectIsAllowed($configuration)
-	{
-		if (isset($configuration['cookieHandling']) && $configuration['cookieHandling'] == 1) {
-			$this->ignoreRedirects = true;
-		}
-	}
+    /**
+     * @param array $configuration
+     */
+    private function checkIfRedirectIsAllowed($configuration)
+    {
+        if (isset($configuration['cookieHandling']) && $configuration['cookieHandling'] == 1) {
+            $this->ignoreRedirects = true;
+        }
+    }
 
-	/**
-	 * @param int $sysLanguageUid
-	 * @return bool
-	 */
-	private function shouldRedirect($sysLanguageUid)
-	{
-		if (!$this->ignoreRedirects) {
-			return true;
-		}
+    /**
+     * Redirect to a page
+     *
+     * @param string $strTarget
+     * @param string $strLanguage
+     * @param string $httpResponseCode
+     * @throws Exception
+     */
+    private function RedirectToPid($strTarget, $strLanguage, $httpResponseCode)
+    {
+        if ($strLanguage) {
+            $languageId = (int)$strLanguage;
+            $urlParameters = array('L' => intval($strLanguage));
+        } else {
+            $languageId = 0;
+            $urlParameters = array();
+        }
+        if (!$this->shouldRedirect($languageId)) {
+            return;
+        }
 
-		if (isset($_COOKIE['bm_locate']) && (int)$_COOKIE['bm_locate'] === $sysLanguageUid) {
-			return false;
-		}
+        $intTarget = intval($strTarget);
 
-		return true;
-	}
+        if ($intTarget) {
+            if ($intTarget == $GLOBALS['TSFE']->id) {
+                if ($urlParameters['L']) {
+                    if ($GLOBALS['TSFE']->sys_language_uid == $urlParameters['L']) {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
 
+            $strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL($intTarget, $urlParameters);
+            $strUrl = $GLOBALS['TSFE']->baseUrlWrap($strUrl);
+            $strUrl = \t3lib_div::locationHeaderURL($strUrl);
 
-	/**
-	 * Redirect to a page
-	 *
-	 * @return    void
-	 */
-	private function RedirectToPid($strTarget, $strLanguage, $httpResponseCode)
-	{
-			if ($strLanguage) {
-				$languageId = (int)$strLanguage;
-				$urlParameters = array('L' => intval($strLanguage));
-			} else {
-				$languageId = 0;
-				$urlParameters = array();
-			}
-			if (!$this->shouldRedirect($languageId)) {
-				return;
-			}
+        } else {
+            if ($strLanguage) {
 
-			$intTarget = intval($strTarget);
+                if ($urlParameters['L']) {
+                    if ($GLOBALS['TSFE']->sys_language_uid == $urlParameters['L']) {
+                        return;
+                    }
+                }
 
-			if ($intTarget) {
-				if ($intTarget == $GLOBALS['TSFE']->id) {
-					if($urlParameters['L']) {
-						if ($GLOBALS['TSFE']->sys_language_uid == $urlParameters['L']) {
-							return;
-						}
-					} else {
-						return;
-					}
-				}
+                $strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
+                $strUrl = $GLOBALS['TSFE']->baseUrlWrap($strUrl);
+                $strUrl = \t3lib_div::locationHeaderURL($strUrl);
 
-				$strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL($intTarget, $urlParameters);
-				$strUrl = $GLOBALS['TSFE']->baseUrlWrap($strUrl);
-				$strUrl = \t3lib_div::locationHeaderURL($strUrl);
+            } else {
+                throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
+            }
+        }
 
-			} else if ($strLanguage) {
+        $this->RedirectToUrl($strUrl, $httpResponseCode, $languageId);
+    }
 
-				if($urlParameters['L']) {
-					if ($GLOBALS['TSFE']->sys_language_uid == $urlParameters['L']) {
-						return;
-					}
-				}
+    /**
+     * @param int $sysLanguageUid
+     * @return bool
+     */
+    private function shouldRedirect($sysLanguageUid)
+    {
+        if (!$this->ignoreRedirects) {
+            return true;
+        }
 
-				$strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
-				$strUrl = $GLOBALS['TSFE']->baseUrlWrap($strUrl);
-				$strUrl = \t3lib_div::locationHeaderURL($strUrl);
+        if (isset($_COOKIE['bm_locate']) && (int)$_COOKIE['bm_locate'] === $sysLanguageUid) {
+            return false;
+        }
 
-			} else {
-				throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
-			}
+        return true;
+    }
 
-			$this->RedirectToUrl($strUrl, $httpResponseCode, $languageId);
-	}
+    /**
+     * This will redirect the user to a new web location. This can be a relative or absolute web path, or it
+     * can be an entire URL.
+     *
+     * @param string $strLocation
+     * @param integer $httpResponseCode
+     * @return void
+     */
+    public function RedirectToUrl($strLocation, $httpResponseCode, $languageId = 0)
+    {
+        $this->Logger->Info(__CLASS__ . " Will redirect to '$strLocation' with code '$httpResponseCode'");
 
+        // Check for redirect recursion
+        if (\t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') != $strLocation) {
+            // Clear the output buffer (if any)
+            $this->setCookie($languageId);
+            ob_clean();
 
-	/**
-	 * This will redirect the user to a new web location. This can be a relative or absolute web path, or it
-	 * can be an entire URL.
-	 *
-	 * @param string $strLocation
-	 * @param integer $httpResponseCode
-	 * @return void
-	 */
-	public function RedirectToUrl($strLocation, $httpResponseCode, $languageId = 0)
-	{
-		$this->Logger->Info(__CLASS__ . " Will redirect to '$strLocation' with code '$httpResponseCode'");
+            // this is the place where Qcodo answers ajax requests
+            // Was "DOCUMENT_ROOT" set?
+            if (array_key_exists('DOCUMENT_ROOT', $_SERVER) && ($_SERVER['DOCUMENT_ROOT']) AND !headers_sent()) {
+                // If so, we're likley using PHP as a Plugin/Module
+                // Use 'header' to redirect
+                header("Location: $strLocation", true, $httpResponseCode);
+                exit;
+            } else {
+                // We're likely using this as a CGI
+                // Use JavaScript to redirect
+                printf('<script type="text/javascript">document.location = "%s";</script>', $strLocation);
+            }
 
-		// Check for redirect recursion
-		if (\t3lib_div::getIndpEnv('TYPO3_REQUEST_URL') != $strLocation) {
-			// Clear the output buffer (if any)
-			setcookie('bm_locate', $languageId, time() + 60 * 60 * 24 * 30);
-			ob_clean();
-
-			// this is the place where Qcodo answers ajax requests
-			// Was "DOCUMENT_ROOT" set?
-			if (array_key_exists('DOCUMENT_ROOT', $_SERVER) && ($_SERVER['DOCUMENT_ROOT']) AND !headers_sent()) {
-				// If so, we're likley using PHP as a Plugin/Module
-				// Use 'header' to redirect
-				header("Location: $strLocation", true, $httpResponseCode);
-				exit;
-			} else {
-				// We're likely using this as a CGI
-				// Use JavaScript to redirect
-				printf('<script type="text/javascript">document.location = "%s";</script>', $strLocation);
-			}
-
-			// End the Response Script
-			exit();
-		}
-	}
+            // End the Response Script
+            exit();
+        }
+    }
 }
 
