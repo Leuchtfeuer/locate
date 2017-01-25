@@ -1,9 +1,6 @@
 <?php
 namespace Bitmotion\Locate\Action;
 
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-
-
 /**
  * Redirect Action class
  *
@@ -39,7 +36,7 @@ class Redirect extends AbstractAction
         $httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
 
         if ($this->isCookieSet()) {
-            if (!$this->isCookieInCurrentLanguage() && $this->shouldOverrideCookie()){
+            if (!$this->isCookieInCurrentLanguage() && $this->shouldOverrideCookie()) {
                 $this->setCookie(\t3lib_div::_GP('L'));
                 return;
             } elseif ($this->isCookieInCurrentLanguage()) {
@@ -49,7 +46,7 @@ class Redirect extends AbstractAction
             $this->configArray['sys_language'] = $this->getCookieValue();
         }
 
-        if ($this->configArray['page'] OR $this->configArray['sys_language']) {
+        if ($this->configArray['page'] || isset($this->configArray['sys_language'])) {
             $this->RedirectToPid($this->configArray['page'], $this->configArray['sys_language'], $httpResponseCode);
             return;
         }
@@ -122,10 +119,10 @@ class Redirect extends AbstractAction
     {
         if ($strLanguage) {
             $languageId = (int)$strLanguage;
-            $urlParameters = ['L' => intval($strLanguage)];
+            $urlParameters = array('L' => intval($strLanguage));
         } else {
             $languageId = 0;
-            $urlParameters = [];
+            $urlParameters = array();
         }
 
         $intTarget = intval($strTarget);
