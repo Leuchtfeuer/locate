@@ -44,6 +44,8 @@ class Redirect extends AbstractAction
             }
 
             $this->configArray['sys_language'] = $this->getCookieValue();
+        } else {
+            $this->setCookie(\t3lib_div::_GP('L'));
         }
 
         if ($this->configArray['page'] || isset($this->configArray['sys_language'])) {
@@ -83,8 +85,6 @@ class Redirect extends AbstractAction
         if (isset($this->configArray['overrideCookie']) && $this->configArray['overrideCookie'] == 1) {
             if (\t3lib_div::_GP('setLang') == 1) {
                 return true;
-            } else {
-
             }
         }
 
@@ -96,7 +96,11 @@ class Redirect extends AbstractAction
      */
     private function setCookie($value)
     {
-        setcookie($this->cookieName, $value, time() + 60 * 60 * 24 * 30);
+        if ($value === null || $value === '') {
+            setcookie($this->cookieName, $this->configArray['sys_language'], time() + 60 * 60 * 24 * 30);
+        } else {
+            setcookie($this->cookieName, $value, time() + 60 * 60 * 24 * 30);
+        }
     }
 
     /**
