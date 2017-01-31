@@ -128,6 +128,11 @@ class Redirect extends AbstractAction
             $languageId = 0;
             $urlParameters = array();
         }
+        
+        $additionalUrlParameters = $GLOBALS['HTTP_GET_VARS'];                  
+        unset($additionalUrlParameters['id']);  
+        unset($additionalUrlParameters['L']); 
+        $urlParameters = array_merge($additionalUrlParameters, $urlParameters);
 
         $intTarget = intval($strTarget);
 
