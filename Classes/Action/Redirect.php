@@ -213,7 +213,7 @@ class Redirect extends AbstractAction
     private function getAdditionalUrlParams(&$urlParameters)
     {
         $additionalUrlParams = $GLOBALS['HTTP_GET_VARS'];
-        unset ($additionalUrlParams('setLang'));
+        unset ($additionalUrlParams['setLang']);
         $urlParameters = array_merge($additionalUrlParams, $urlParameters);
 
         return $urlParameters;
