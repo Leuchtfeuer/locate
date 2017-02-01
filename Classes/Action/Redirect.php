@@ -128,11 +128,8 @@ class Redirect extends AbstractAction
             $languageId = 0;
             $urlParameters = array();
         }
-        
-        $additionalUrlParameters = $GLOBALS['HTTP_GET_VARS'];                  
-        unset($additionalUrlParameters['id']);  
-        unset($additionalUrlParameters['L']); 
-        $urlParameters = array_merge($additionalUrlParameters, $urlParameters);
+
+        $this->getAdditionalUrlParams($urlParameters);
 
         $intTarget = intval($strTarget);
 
@@ -207,6 +204,19 @@ class Redirect extends AbstractAction
             // End the Response Script
             exit();
         }
+    }
+
+    /**
+     * @param array $urlParameters
+     * @return array
+     */
+    private function getAdditionalUrlParams(&$urlParameters)
+    {
+        $additionalUrlParams = $GLOBALS['HTTP_GET_VARS'];
+        unset ($additionalUrlParams('setLang'));
+        $urlParameters = array_merge($additionalUrlParams, $urlParameters);
+
+        return $urlParameters;
     }
 }
 
