@@ -57,7 +57,7 @@ class tx_locate_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			if ($objLog = $locateProcessor->Logger->GetWriter('Memory')) {
 				$ResultLog = str_replace("\n\n", "\n", (string)$objLog->GetLog());
 			}
-			return nl2br($ResultLog) . \t3lib_utility_Debug::viewArray($locateProcessor->GetFactsArray());
+			return nl2br($ResultLog) . \TYPO3\CMS\Core\Utility\DebugUtility::viewArray($locateProcessor->GetFactsArray());
 		}
 	}
 }
