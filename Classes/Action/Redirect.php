@@ -98,7 +98,7 @@ class Redirect extends AbstractAction
      */
     private function setCookie($value)
     {
-        setcookie($this->cookieName, $value, time() + 60 * 60 * 24 * 30);
+        setcookie($this->cookieName, $value, time() + 60 * 60 * 24 * 30, '/');
     }
 
     /**
