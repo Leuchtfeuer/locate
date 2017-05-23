@@ -36,7 +36,7 @@
     }
   },
   "replace": {
-    "auth0": "self.version",
+    "locate": "self.version",
     "typo3-ter/locate": "self.version"
   }
 }
