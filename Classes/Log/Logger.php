@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log;
 
 
@@ -33,75 +34,75 @@ class Logger
      * Emergency: system is unusable
      * @var integer
      */
-    const EMERG   = 0;
+    const EMERG = 0;
 
     /**
      * Alert: action must be taken immediately
      * @var integer
      */
-    const ALERT   = 1;
+    const ALERT = 1;
 
     /**
      * Critical: critical conditions
      * @var integer
      */
-    const CRIT    = 2;
+    const CRIT = 2;
 
     /**
      * Error: error conditions
      * @var integer
      */
-    const ERR     = 3;
+    const ERR = 3;
 
     /**
      * Warning: warning conditions
      * @var integer
      */
-    const WARN    = 4;
+    const WARN = 4;
 
     /**
      * Notice: normal but significant condition
      * @var integer
      */
-    const NOTICE  = 5;
+    const NOTICE = 5;
 
     /**
      * Informational: informational messages
      * @var integer
      */
-    const INFO    = 6;
+    const INFO = 6;
 
     /**
      * Debug: debug messages
      * @var integer
      */
-    const DEBUG   = 7;
+    const DEBUG = 7;
 
     /**
      * @var array of priorities where the keys are the
      * priority numbers and the values are the priority names
      */
-    protected $_priorities = array();
+    protected $_priorities = [];
 
     /**
      * @var array of Zend_Log_Writer_Abstract
      */
-    protected $_writers = array();
+    protected $_writers = [];
 
     /**
      * @var array of Zend_Log_Filter_Interface
      */
-    protected $_filters = array();
+    protected $_filters = [];
 
     /**
      * @var array of extra log event
      */
-    protected $_extras = array();
+    protected $_extras = [];
 
     /**
      * Class constructor.  Create a new logger
      *
-     * @param Zend_Log_Writer_Abstract|null  $writer  default writer
+     * @param Zend_Log_Writer_Abstract|null $writer default writer
      */
     public function __construct(\Bitmotion\Locate\Log\Writer\AbstractWriter $writer = null)
     {
@@ -114,13 +115,30 @@ class Logger
     }
 
     /**
+     * Add a writer.  A writer is responsible for taking a log
+     * message and writing it out to storage.
+     *
+     * @param  \Zend_Log_Writer_Abstract $writer
+     * @param string $strName
+     * @return void
+     */
+    public function AddWriter(\Bitmotion\Locate\Log\Writer\AbstractWriter $writer, $strName = null)
+    {
+        if ($strName) {
+            $this->_writers[$strName] = $writer;
+        } else {
+            $this->_writers[] = $writer;
+        }
+    }
+
+    /**
      * Class destructor.  Shutdown log writers
      *
      * @return void
      */
     public function __destruct()
     {
-        foreach($this->_writers as $writer) {
+        foreach ($this->_writers as $writer) {
             $writer->shutdown();
         }
     }
@@ -131,8 +149,8 @@ class Logger
      *     instead of
      *   $log->log('message', Logger::PRIORITY_NAME)
      *
-     * @param  string  $method  priority name
-     * @param  string  $params  message to log
+     * @param  string $method priority name
+     * @param  string $params message to log
      * @return void
      * @throws \Bitmotion\Locate\Log\Exception
      */
@@ -151,8 +169,8 @@ class Logger
     /**
      * Log a message at a priority
      *
-     * @param  string   $message   Message to log
-     * @param  integer  $priority  Priority of message
+     * @param  string $message Message to log
+     * @param  integer $priority Priority of message
      * @return void
      * @throws \Bitmotion\Locate\Log\Exception
      */
@@ -165,23 +183,25 @@ class Logger
             throw new \Bitmotion\Locate\Log\Exception('No writers were added');
         }
 
-        if (! isset($this->_priorities[$priority])) {
+        if (!isset($this->_priorities[$priority])) {
 
 
             throw new \Bitmotion\Locate\Log\Exception('Bad log priority');
         }
-		$this->_extras = array();
+        $this->_extras = [];
 
         // pack into event required by filters and writers
-        $event = array_merge(array('timestamp'    => date('c'),
-                                    'message'      => (string)$message,
-                                    'priority'     => $priority,
-                                    'priorityName' => $this->_priorities[$priority]),
-                              $this->_extras);
+        $event = array_merge([
+            'timestamp' => date('c'),
+            'message' => (string)$message,
+            'priority' => $priority,
+            'priorityName' => $this->_priorities[$priority],
+        ],
+            $this->_extras);
 
         // abort if rejected by the global filters
         foreach ($this->_filters as $filter) {
-            if (! $filter->accept($event)) {
+            if (!$filter->accept($event)) {
                 return;
             }
         }
@@ -192,27 +212,27 @@ class Logger
         }
     }
 
-	/**
-	 * Log a message at a priority and add some data
-	 *
-	 * @param  string   $message   Message to log
-	 * @param  mixed   	 $data      Any data
-	 * @param  integer  $priority  Priority of message
-	 * @return void
-	 * @throws \Bitmotion\Locate\Log\Exception
-	 */
-	public function LogData($message, $data, $priority=self::INFO)
-	{
-		$this->_extras['data'] = $data;
+    /**
+     * Log a message at a priority and add some data
+     *
+     * @param  string $message Message to log
+     * @param  mixed $data Any data
+     * @param  integer $priority Priority of message
+     * @return void
+     * @throws \Bitmotion\Locate\Log\Exception
+     */
+    public function LogData($message, $data, $priority = self::INFO)
+    {
+        $this->_extras['data'] = $data;
 
-		return $this->log($message, $priority);
-	}
+        return $this->log($message, $priority);
+    }
 
     /**
      * Add a custom priority
      *
-     * @param  string   $name      Name of priority
-     * @param  integer  $priority  Numeric priority
+     * @param  string $name Name of priority
+     * @param  integer $priority Numeric priority
      * @throws \Bitmotion\Locate\Log\Exception
      */
     public function addPriority($name, $priority)
@@ -221,7 +241,8 @@ class Logger
         $name = strtoupper($name);
 
         if (isset($this->_priorities[$priority])
-            || array_search($name, $this->_priorities)) {
+            || array_search($name, $this->_priorities)
+        ) {
 
             throw new \Bitmotion\Locate\Log\Exception('Existing priorities cannot be overwritten');
         }
@@ -241,7 +262,7 @@ class Logger
     {
         if (is_integer($filter)) {
             $filter = new \Bitmotion\Locate\Log\Filter\Priority($filter);
-        } elseif(!is_object($filter) || ! $filter instanceof Zend_Log_Filter_Interface) {
+        } elseif (!is_object($filter) || !$filter instanceof Zend_Log_Filter_Interface) {
 
 
             throw new \Bitmotion\Locate\Log\Exception('Invalid filter provided');
@@ -254,30 +275,12 @@ class Logger
      * Add a writer.  A writer is responsible for taking a log
      * message and writing it out to storage.
      *
-     * @param  \Zend_Log_Writer_Abstract $writer
-     * @param string $strName
-     * @return void
-     */
-    public function AddWriter(\Bitmotion\Locate\Log\Writer\AbstractWriter $writer, $strName=null)
-    {
-    	if ($strName) {
-        	$this->_writers[$strName] = $writer;
-    	} else {
-    		$this->_writers[] = $writer;
-    	}
-    }
-
-
-    /**
-     * Add a writer.  A writer is responsible for taking a log
-     * message and writing it out to storage.
-     *
      * @param string $strName
      * @return \Zend_Log_Writer_Abstract
      */
     public function GetWriter($strName)
     {
-    	return $this->_writers[$strName];
+        return $this->_writers[$strName];
     }
 
     /**
@@ -287,8 +290,9 @@ class Logger
      * @param  $value   Value of the field
      * @return void
      */
-    public function setEventItem($name, $value) {
-        $this->_extras = array_merge($this->_extras, array($name => $value));
+    public function setEventItem($name, $value)
+    {
+        $this->_extras = array_merge($this->_extras, [$name => $value]);
     }
 
 }

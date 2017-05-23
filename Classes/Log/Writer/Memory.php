@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log\Writer;
 
 /**
@@ -25,8 +26,6 @@ namespace Bitmotion\Locate\Log\Writer;
  */
 
 
-
-
 /**
  * Writes log messages to memory
  *
@@ -37,7 +36,7 @@ namespace Bitmotion\Locate\Log\Writer;
 class Memory extends AbstractWriter
 {
 
-	protected $strLog = '';
+    protected $strLog = '';
 
 
     /**
@@ -62,7 +61,7 @@ class Memory extends AbstractWriter
     /**
      * Write a message to the log.
      *
-     * @param  array  $event  event data
+     * @param  array $event event data
      * @return void
      */
     protected function _write($event)

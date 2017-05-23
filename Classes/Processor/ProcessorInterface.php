@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Processor;
 
 
@@ -9,17 +10,18 @@ namespace Bitmotion\Locate\Processor;
  * @package    Locate
  * @subpackage Processor
  */
-interface ProcessorInterface {
+interface ProcessorInterface
+{
 
-	/**
-	 *
-	 * @param array $configArray TypoScript config array
-	 */
-	public function __construct($configArray);
+    /**
+     *
+     * @param array $configArray TypoScript config array
+     */
+    public function __construct($configArray);
 
-	/**
-	 * Processes the configuration
-	 */
-	public function Run();
+    /**
+     * Processes the configuration
+     */
+    public function Run();
 }
 

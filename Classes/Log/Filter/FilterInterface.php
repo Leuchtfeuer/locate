@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log\Filter;
 
 
@@ -15,7 +16,7 @@ namespace Bitmotion\Locate\Log\Filter;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * 
+ *
  * @package    Zend_Log
  * @subpackage Filter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -23,7 +24,7 @@ namespace Bitmotion\Locate\Log\Filter;
  */
 
 /**
- * 
+ *
  * @package    Zend_Log
  * @subpackage Filter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -34,7 +35,7 @@ interface FilterInterface
     /**
      * Returns TRUE to accept the message, FALSE to block it.
      *
-     * @param  array    $event    event data
+     * @param  array $event event data
      * @return boolean            accepted?
      */
     public function accept($event);

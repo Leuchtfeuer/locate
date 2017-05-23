@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log\Writer;
 
 /**
@@ -39,14 +40,16 @@ class Firebug extends AbstractWriter
      * Maps logging priorities to logging display styles
      * @var array
      */
-    protected $_priorityStyles = array(\Bitmotion\Locate\Log\Logger::EMERG  => Zend_Wildfire_Plugin_FirePhp::ERROR,
-                                       \Bitmotion\Locate\Log\Logger::ALERT  => Zend_Wildfire_Plugin_FirePhp::ERROR,
-                                       \Bitmotion\Locate\Log\Logger::CRIT   => Zend_Wildfire_Plugin_FirePhp::ERROR,
-                                       \Bitmotion\Locate\Log\Logger::ERR    => Zend_Wildfire_Plugin_FirePhp::ERROR,
-                                       \Bitmotion\Locate\Log\Logger::WARN   => Zend_Wildfire_Plugin_FirePhp::WARN,
-                                       \Bitmotion\Locate\Log\Logger::NOTICE => Zend_Wildfire_Plugin_FirePhp::INFO,
-                                       \Bitmotion\Locate\Log\Logger::INFO   => Zend_Wildfire_Plugin_FirePhp::INFO,
-                                       \Bitmotion\Locate\Log\Logger::DEBUG  => Zend_Wildfire_Plugin_FirePhp::LOG);
+    protected $_priorityStyles = [
+        \Bitmotion\Locate\Log\Logger::EMERG => Zend_Wildfire_Plugin_FirePhp::ERROR,
+        \Bitmotion\Locate\Log\Logger::ALERT => Zend_Wildfire_Plugin_FirePhp::ERROR,
+        \Bitmotion\Locate\Log\Logger::CRIT => Zend_Wildfire_Plugin_FirePhp::ERROR,
+        \Bitmotion\Locate\Log\Logger::ERR => Zend_Wildfire_Plugin_FirePhp::ERROR,
+        \Bitmotion\Locate\Log\Logger::WARN => Zend_Wildfire_Plugin_FirePhp::WARN,
+        \Bitmotion\Locate\Log\Logger::NOTICE => Zend_Wildfire_Plugin_FirePhp::INFO,
+        \Bitmotion\Locate\Log\Logger::INFO => Zend_Wildfire_Plugin_FirePhp::INFO,
+        \Bitmotion\Locate\Log\Logger::DEBUG => Zend_Wildfire_Plugin_FirePhp::LOG,
+    ];
 
     /**
      * The default logging style for un-mapped priorities
@@ -65,7 +68,7 @@ class Firebug extends AbstractWriter
      */
     public function __construct()
     {
-        if (php_sapi_name()=='cli') {
+        if (php_sapi_name() == 'cli') {
             $this->setEnabled(false);
         }
 
@@ -73,26 +76,13 @@ class Firebug extends AbstractWriter
     }
 
     /**
-     * Enable or disable the log writer.
+     * Get the default display style for user-defined priorities
      *
-     * @param boolean $enabled Set to TRUE to enable the log writer
-     * @return boolean The previous value.
+     * @return string Returns the default log display style
      */
-    public function setEnabled($enabled)
+    public function getDefaultPriorityStyle()
     {
-        $previous = $this->_enabled;
-        $this->_enabled = $enabled;
-        return $previous;
-    }
-
-    /**
-     * Determine if the log writer is enabled.
-     *
-     * @return boolean Returns TRUE if the log writer is enabled.
-     */
-    public function getEnabled()
-    {
-        return $this->_enabled;
+        return $this->_defaultPriorityStyle;
     }
 
     /**
@@ -109,16 +99,6 @@ class Firebug extends AbstractWriter
     }
 
     /**
-     * Get the default display style for user-defined priorities
-     *
-     * @return string Returns the default log display style
-     */
-    public function getDefaultPriorityStyle()
-    {
-        return $this->_defaultPriorityStyle;
-    }
-
-    /**
      * Set a display style for a logging priority
      *
      * @param int $priority The logging priority
@@ -128,7 +108,7 @@ class Firebug extends AbstractWriter
     public function setPriorityStyle($priority, $style)
     {
         $previous = true;
-        if (array_key_exists($priority,$this->_priorityStyles)) {
+        if (array_key_exists($priority, $this->_priorityStyles)) {
             $previous = $this->_priorityStyles[$priority];
         }
         $this->_priorityStyles[$priority] = $style;
@@ -143,7 +123,7 @@ class Firebug extends AbstractWriter
      */
     public function getPriorityStyle($priority)
     {
-        if (array_key_exists($priority,$this->_priorityStyles)) {
+        if (array_key_exists($priority, $this->_priorityStyles)) {
             return $this->_priorityStyles[$priority];
         }
         return false;
@@ -161,7 +141,7 @@ class Firebug extends AbstractWriter
             return;
         }
 
-        if (array_key_exists($event['priority'],$this->_priorityStyles)) {
+        if (array_key_exists($event['priority'], $this->_priorityStyles)) {
             $type = $this->_priorityStyles[$event['priority']];
         } else {
             $type = $this->_defaultPriorityStyle;
@@ -169,11 +149,34 @@ class Firebug extends AbstractWriter
 
         $message = $this->_formatter->format($event);
 
-        $label = isset($event['firebugLabel'])?$event['firebugLabel']:null;
+        $label = isset($event['firebugLabel']) ? $event['firebugLabel'] : null;
 
         Zend_Wildfire_Plugin_FirePhp::getInstance()->send($message,
-                                                          $label,
-                                                          $type,
-                                                          array('traceOffset'=>6));
+            $label,
+            $type,
+            ['traceOffset' => 6]);
+    }
+
+    /**
+     * Determine if the log writer is enabled.
+     *
+     * @return boolean Returns TRUE if the log writer is enabled.
+     */
+    public function getEnabled()
+    {
+        return $this->_enabled;
+    }
+
+    /**
+     * Enable or disable the log writer.
+     *
+     * @param boolean $enabled Set to TRUE to enable the log writer
+     * @return boolean The previous value.
+     */
+    public function setEnabled($enabled)
+    {
+        $previous = $this->_enabled;
+        $this->_enabled = $enabled;
+        return $previous;
     }
 }

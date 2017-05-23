@@ -54,12 +54,6 @@ class  tx_locate_module1 extends t3lib_SCbase {
 					global $BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
 
 					parent::init();
-
-					/*
-					if (t3lib_div::_GP('clear_all_cache'))	{
-						$this->include_once[] = PATH_t3lib.'class.t3lib_tcemain.php';
-					}
-					*/
 				}
 
 				/**

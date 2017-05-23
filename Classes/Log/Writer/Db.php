@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log\Writer;
 
 /**
@@ -14,7 +15,7 @@ namespace Bitmotion\Locate\Log\Writer;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * 
+ *
  * @package    Zend_Log
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -22,9 +23,8 @@ namespace Bitmotion\Locate\Log\Writer;
  */
 
 
-
 /**
- * 
+ *
  * @package    Zend_Log
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -54,13 +54,13 @@ class Db extends AbstractWriter
     /**
      * Class constructor
      *
-     * @param Zend_Db_Adapter $db   Database adapter instance
-     * @param string $table         Log table in database
+     * @param Zend_Db_Adapter $db Database adapter instance
+     * @param string $table Log table in database
      * @param array $columnMap
      */
     public function __construct($db, $table, $columnMap = null)
     {
-        $this->_db    = $db;
+        $this->_db = $db;
         $this->_table = $table;
         $this->_columnMap = $columnMap;
     }
@@ -86,7 +86,7 @@ class Db extends AbstractWriter
     /**
      * Write a message to the log.
      *
-     * @param  array  $event  event data
+     * @param  array $event event data
      * @return void
      */
     protected function _write($event)
@@ -98,7 +98,7 @@ class Db extends AbstractWriter
         if ($this->_columnMap === null) {
             $dataToInsert = $event;
         } else {
-            $dataToInsert = array();
+            $dataToInsert = [];
             foreach ($this->_columnMap as $columnName => $fieldKey) {
                 $dataToInsert[$columnName] = $event[$fieldKey];
             }

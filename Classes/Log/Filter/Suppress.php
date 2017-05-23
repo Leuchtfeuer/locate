@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log\Filter;
 
 /**
@@ -14,7 +15,7 @@ namespace Bitmotion\Locate\Log\Filter;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * 
+ *
  * @package    Zend_Log
  * @subpackage Filter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -23,7 +24,7 @@ namespace Bitmotion\Locate\Log\Filter;
 
 
 /**
- * 
+ *
  * @package    Zend_Log
  * @subpackage Filter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -42,18 +43,18 @@ class Suppress implements FilterInterface
      * Call suppress(true) to suppress all log events.
      * Call suppress(false) to accept all log events.
      *
-     * @param  boolean  $suppress  Should all log events be suppressed?
+     * @param  boolean $suppress Should all log events be suppressed?
      * @return  void
      */
     public function suppress($suppress)
     {
-        $this->_accept = (! $suppress);
+        $this->_accept = (!$suppress);
     }
 
     /**
      * Returns TRUE to accept the message, FALSE to block it.
      *
-     * @param  array    $event    event data
+     * @param  array $event event data
      * @return boolean            accepted?
      */
     public function accept($event)

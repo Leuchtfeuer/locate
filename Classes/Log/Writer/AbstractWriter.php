@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log\Writer;
 
 /**
@@ -14,7 +15,7 @@ namespace Bitmotion\Locate\Log\Writer;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * 
+ *
  * @package    Zend_Log
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -23,7 +24,7 @@ namespace Bitmotion\Locate\Log\Writer;
 
 
 /**
- * 
+ *
  * @package    Zend_Log
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -34,7 +35,7 @@ abstract class AbstractWriter
     /**
      * @var array of \Bitmotion\Locate\Log\Filter\FilterInterface
      */
-    protected $_filters = array();
+    protected $_filters = [];
 
     /**
      * Formats the log message before writing.
@@ -45,7 +46,7 @@ abstract class AbstractWriter
     /**
      * Add a filter specific to this writer.
      *
-     * @param  \Bitmotion\Locate\Log\Filter\FilterInterface  $filter
+     * @param  \Bitmotion\Locate\Log\Filter\FilterInterface $filter
      * @return void
      */
     public function addFilter($filter)
@@ -60,13 +61,13 @@ abstract class AbstractWriter
     /**
      * Log a message to this writer.
      *
-     * @param  array     $event  log data event
+     * @param  array $event log data event
      * @return void
      */
     public function write($event)
     {
         foreach ($this->_filters as $filter) {
-            if (! $filter->accept($event)) {
+            if (!$filter->accept($event)) {
                 return;
             }
         }
@@ -74,6 +75,14 @@ abstract class AbstractWriter
         // exception occurs on error
         $this->_write($event);
     }
+
+    /**
+     * Write a message to the log.
+     *
+     * @param  array $event log data event
+     * @return void
+     */
+    abstract protected function _write($event);
 
     /**
      * Set a new formatter for this writer
@@ -92,14 +101,7 @@ abstract class AbstractWriter
      * @return void
      */
     public function shutdown()
-    {}
-
-    /**
-     * Write a message to the log.
-     *
-     * @param  array  $event  log data event
-     * @return void
-     */
-    abstract protected function _write($event);
+    {
+    }
 
 }

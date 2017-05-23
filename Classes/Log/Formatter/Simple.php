@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log\Formatter;
 
 
@@ -15,7 +16,7 @@ namespace Bitmotion\Locate\Log\Formatter;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * 
+ *
  * @package    Zend_Log
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -24,7 +25,7 @@ namespace Bitmotion\Locate\Log\Formatter;
 
 
 /**
- * 
+ *
  * @package    Zend_Log
  * @subpackage Formatter
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -32,17 +33,16 @@ namespace Bitmotion\Locate\Log\Formatter;
  */
 class Simple implements FormatterInterface
 {
+    const DEFAULT_FORMAT = '%timestamp% %priorityName% (%priority%): %message%';
     /**
      * @var string
      */
     protected $_format;
 
-    const DEFAULT_FORMAT = '%timestamp% %priorityName% (%priority%): %message%';
-
     /**
      * Class constructor
      *
-     * @param  null|string  $format  Format specifier for log messages
+     * @param  null|string $format Format specifier for log messages
      * @throws \Bitmotion\Locate\Log\Exception
      */
     public function __construct($format = null)
@@ -51,7 +51,7 @@ class Simple implements FormatterInterface
             $format = self::DEFAULT_FORMAT . PHP_EOL;
         }
 
-        if (! is_string($format)) {
+        if (!is_string($format)) {
             throw new \Bitmotion\Locate\Log\Exception('Format must be a string');
         }
 
@@ -61,7 +61,7 @@ class Simple implements FormatterInterface
     /**
      * Formats data into a single line to be written by the writer.
      *
-     * @param  array    $event    event data
+     * @param  array $event event data
      * @return string             formatted line to write to the log
      */
     public function format($event)
@@ -69,8 +69,9 @@ class Simple implements FormatterInterface
         $output = $this->_format;
         foreach ($event as $name => $value) {
 
-            if ((is_object($value) && !method_exists($value,'__toString'))
-                || is_array($value)) {
+            if ((is_object($value) && !method_exists($value, '__toString'))
+                || is_array($value)
+            ) {
 
                 $value = gettype($value);
             }

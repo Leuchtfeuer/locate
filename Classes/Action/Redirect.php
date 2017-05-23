@@ -1,7 +1,9 @@
 <?php
+
 namespace Bitmotion\Locate\Action;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * Redirect Action class
@@ -20,7 +22,7 @@ class Redirect extends AbstractAction
     /**
      * @var bool
      */
-    private $ignoreRedirects = false;
+    private $cookieMode = false;
 
     /**
      * @var string
@@ -37,16 +39,8 @@ class Redirect extends AbstractAction
     {
         $httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
 
-        if ($this->isCookieSet()) {
-            if (!$this->isCookieInCurrentLanguage() && $this->shouldOverrideCookie()) {
-                $this->setCookie(GeneralUtility::_GP('L'));
-                return;
-            } elseif ($this->isCookieInCurrentLanguage()) {
-                return;
-            }
-
-            $this->configArray['sys_language'] = $this->getCookieValue();
-        }
+        $this->checkIfRedirectIsAllowed();
+        $this->handleCookieStuff();
 
         if ($this->configArray['page'] || isset($this->configArray['sys_language'])) {
             $this->RedirectToPid($this->configArray['page'], $this->configArray['sys_language'], $httpResponseCode);
@@ -58,6 +52,35 @@ class Redirect extends AbstractAction
                 (int)$this->configArray['sys_language']);
         } else {
             $this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
+        }
+    }
+
+    /**
+     *
+     */
+    private function checkIfRedirectIsAllowed()
+    {
+        if (isset($this->configArray['cookieHandling']) && $this->configArray['cookieHandling'] == 1) {
+            $this->cookieMode = true;
+        }
+    }
+
+    /**
+     *
+     */
+    private function handleCookieStuff()
+    {
+        if ($this->isCookieSet()) {
+            if (!$this->isCookieInCurrentLanguage() && $this->shouldOverrideCookie()) {
+                $this->setCookie(GeneralUtility::_GP('L'));
+                return;
+            } elseif ($this->isCookieInCurrentLanguage()) {
+                return;
+            }
+
+            $this->configArray['sys_language'] = $this->getCookieValue();
+        } elseif ($this->cookieMode) {
+            $this->setCookie(GeneralUtility::_GP('L'));
         }
     }
 
@@ -85,8 +108,6 @@ class Redirect extends AbstractAction
         if (isset($this->configArray['overrideCookie']) && $this->configArray['overrideCookie'] == 1) {
             if (GeneralUtility::_GP('setLang') == 1) {
                 return true;
-            } else {
-
             }
         }
 
@@ -98,7 +119,11 @@ class Redirect extends AbstractAction
      */
     private function setCookie($value)
     {
-        setcookie($this->cookieName, $value, time() + 60 * 60 * 24 * 30, '/');
+        if ($value === null || $value === '') {
+            setcookie($this->cookieName, $this->configArray['sys_language'], time() + 60 * 60 * 24 * 30, '/');
+        } else {
+            setcookie($this->cookieName, $value, time() + 60 * 60 * 24 * 30, '/');
+        }
     }
 
     /**
@@ -121,11 +146,13 @@ class Redirect extends AbstractAction
     {
         if ($strLanguage) {
             $languageId = (int)$strLanguage;
-            $urlParameters = array('L' => intval($strLanguage));
+            $urlParameters = ['L' => intval($strLanguage)];
         } else {
             $languageId = 0;
-            $urlParameters = array();
+            $urlParameters = [];
         }
+
+        $this->getAdditionalUrlParams($urlParameters);
 
         $intTarget = intval($strTarget);
 
@@ -166,6 +193,19 @@ class Redirect extends AbstractAction
     }
 
     /**
+     * @param array $urlParameters
+     * @return array
+     */
+    private function getAdditionalUrlParams(&$urlParameters)
+    {
+        $additionalUrlParams = $GLOBALS['HTTP_GET_VARS'];
+        unset ($additionalUrlParams['setLang']);
+        $urlParameters = array_merge($additionalUrlParams, $urlParameters);
+
+        return $urlParameters;
+    }
+
+    /**
      * This will redirect the user to a new web location. This can be a relative or absolute web path, or it
      * can be an entire URL.
      *
@@ -179,7 +219,11 @@ class Redirect extends AbstractAction
 
         // Check for redirect recursion
         if (GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') != $strLocation) {
-            $this->setCookie($languageId);
+
+            // Set cookie if cookieMode is enabled
+            if ($this->cookieMode) {
+                $this->setCookie($languageId);
+            }
 
             // Clear the output buffer (if any)
             ob_clean();
@@ -200,6 +244,23 @@ class Redirect extends AbstractAction
             // End the Response Script
             exit();
         }
+    }
+
+    /**
+     * @param int $sysLanguageUid
+     * @return bool
+     */
+    private function shouldRedirect($sysLanguageUid)
+    {
+        if (!$this->cookieMode) {
+            return true;
+        }
+
+        if (isset($_COOKIE[$this->cookieName]) && (int)$_COOKIE[$this->cookieName] === $sysLanguageUid) {
+            return false;
+        }
+
+        return true;
     }
 }
 

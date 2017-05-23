@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log\Formatter;
 
 /**
@@ -49,13 +50,13 @@ class Xml implements FormatterInterface
     public function __construct($rootElement = 'logEntry', $elementMap = null)
     {
         $this->_rootElement = $rootElement;
-        $this->_elementMap  = $elementMap;
+        $this->_elementMap = $elementMap;
     }
 
     /**
      * Formats data into a single line to be written by the writer.
      *
-     * @param  array    $event    event data
+     * @param  array $event event data
      * @return string             formatted line to write to the log
      */
     public function format($event)
@@ -63,7 +64,7 @@ class Xml implements FormatterInterface
         if ($this->_elementMap === null) {
             $dataToInsert = $event;
         } else {
-            $dataToInsert = array();
+            $dataToInsert = [];
             foreach ($this->_elementMap as $elementName => $fieldKey) {
                 $dataToInsert[$elementName] = $event[$fieldKey];
             }
@@ -73,7 +74,7 @@ class Xml implements FormatterInterface
         $elt = $dom->appendChild(new \DOMElement($this->_rootElement));
 
         foreach ($dataToInsert as $key => $value) {
-            if($key == "message") {
+            if ($key == "message") {
                 $value = htmlspecialchars($value);
             }
             $elt->appendChild(new \DOMElement($key, $value));

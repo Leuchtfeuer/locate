@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log\Writer;
 
 /**
@@ -14,7 +15,7 @@ namespace Bitmotion\Locate\Log\Writer;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * 
+ *
  * @package    Zend_Log
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -29,7 +30,7 @@ namespace Bitmotion\Locate\Log\Writer;
  * Zend_Mail object.  Note that this class only sends the email upon
  * completion, so any log entries accumulated are sent in a single email.
  *
- * 
+ *
  * @package    Zend_Log
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -42,7 +43,7 @@ class Mail extends AbstractWriter
      *
      * @var array
      */
-    protected $_eventsToMail = array();
+    protected $_eventsToMail = [];
 
     /**
      * Array of formatted lines for use in an HTML email body; these events
@@ -51,7 +52,7 @@ class Mail extends AbstractWriter
      *
      * @var array
      */
-    protected $_layoutEventsToMail = array();
+    protected $_layoutEventsToMail = [];
 
     /**
      * Zend_Mail instance to use
@@ -79,7 +80,7 @@ class Mail extends AbstractWriter
      *
      * @var array
      */
-    protected $_numEntriesPerPriority = array();
+    protected $_numEntriesPerPriority = [];
 
     /**
      * Subject prepend text.
@@ -105,45 +106,9 @@ class Mail extends AbstractWriter
      */
     public function __construct(Zend_Mail $mail, Zend_Layout $layout = null)
     {
-        $this->_mail      = $mail;
-        $this->_layout    = $layout;
+        $this->_mail = $mail;
+        $this->_layout = $layout;
         $this->_formatter = new Zend_Log_Formatter_Simple();
-    }
-
-    /**
-     * Places event line into array of lines to be used as message body.
-     *
-     * Handles the formatting of both plaintext entries, as well as those
-     * rendered with Zend_Layout.
-     *
-     * @param  array $event Event data
-     * @return void
-     */
-    protected function _write($event)
-    {
-        // Track the number of entries per priority level.
-        if (!isset($this->_numEntriesPerPriority[$event['priorityName']])) {
-            $this->_numEntriesPerPriority[$event['priorityName']] = 1;
-        } else {
-            $this->_numEntriesPerPriority[$event['priorityName']]++;
-        }
-
-        $formattedEvent = $this->_formatter->format($event);
-
-        // All plaintext events are to use the standard formatter.
-        $this->_eventsToMail[] = $formattedEvent;
-
-        // If we have a Zend_Layout instance, use a specific formatter for the
-        // layout if one exists.  Otherwise, just use the event with its
-        // default format.
-        if ($this->_layout) {
-            if ($this->_layoutFormatter) {
-                $this->_layoutEventsToMail[] =
-                    $this->_layoutFormatter->format($event);
-            } else {
-                $this->_layoutEventsToMail[] = $formattedEvent;
-            }
-        }
     }
 
     /**
@@ -173,7 +138,7 @@ class Mail extends AbstractWriter
         if (!$this->_layout) {
             throw new \Bitmotion\Locate\Log\Exception(
                 'cannot set formatter for layout; ' .
-                    'a Zend_Layout instance is not in use');
+                'a Zend_Layout instance is not in use');
         }
 
         $this->_layoutFormatter = $formatter;
@@ -197,10 +162,10 @@ class Mail extends AbstractWriter
         if ($this->_mail->getSubject()) {
             throw new \Bitmotion\Locate\Log\Exception(
                 'subject already set on mail; ' .
-                    'cannot set subject prepend text');
+                'cannot set subject prepend text');
         }
 
-        $this->_subjectPrependText = (string) $subject;
+        $this->_subjectPrependText = (string)$subject;
         return $this;
     }
 
@@ -259,12 +224,48 @@ class Mail extends AbstractWriter
      */
     protected function _getFormattedNumEntriesPerPriority()
     {
-        $strings = array();
+        $strings = [];
 
         foreach ($this->_numEntriesPerPriority as $priority => $numEntries) {
             $strings[] = "{$priority}={$numEntries}";
         }
 
         return implode(', ', $strings);
+    }
+
+    /**
+     * Places event line into array of lines to be used as message body.
+     *
+     * Handles the formatting of both plaintext entries, as well as those
+     * rendered with Zend_Layout.
+     *
+     * @param  array $event Event data
+     * @return void
+     */
+    protected function _write($event)
+    {
+        // Track the number of entries per priority level.
+        if (!isset($this->_numEntriesPerPriority[$event['priorityName']])) {
+            $this->_numEntriesPerPriority[$event['priorityName']] = 1;
+        } else {
+            $this->_numEntriesPerPriority[$event['priorityName']]++;
+        }
+
+        $formattedEvent = $this->_formatter->format($event);
+
+        // All plaintext events are to use the standard formatter.
+        $this->_eventsToMail[] = $formattedEvent;
+
+        // If we have a Zend_Layout instance, use a specific formatter for the
+        // layout if one exists.  Otherwise, just use the event with its
+        // default format.
+        if ($this->_layout) {
+            if ($this->_layoutFormatter) {
+                $this->_layoutEventsToMail[] =
+                    $this->_layoutFormatter->format($event);
+            } else {
+                $this->_layoutEventsToMail[] = $formattedEvent;
+            }
+        }
     }
 }

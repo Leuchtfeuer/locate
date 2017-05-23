@@ -1,4 +1,5 @@
 <?php
+
 namespace Bitmotion\Locate\Log\Writer;
 
 /**
@@ -14,7 +15,7 @@ namespace Bitmotion\Locate\Log\Writer;
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
- * 
+ *
  * @package    Zend_Log
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -23,7 +24,7 @@ namespace Bitmotion\Locate\Log\Writer;
 
 
 /**
- * 
+ *
  * @package    Zend_Log
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
@@ -34,7 +35,7 @@ class Mock extends AbstractWriter
     /**
      * array of log events
      */
-    public $events = array();
+    public $events = [];
 
     /**
      * shutdown called?
@@ -44,7 +45,7 @@ class Mock extends AbstractWriter
     /**
      * Write a message to the log.
      *
-     * @param  array  $event  event data
+     * @param  array $event event data
      * @return void
      */
     public function _write($event)
