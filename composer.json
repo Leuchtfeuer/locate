@@ -1,0 +1,42 @@
+{
+  "name": "bitmotion/locate",
+  "type": "typo3-cms-extension",
+  "description": "",
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "locate",
+    "IP2Country"
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://satis.w1.bitmotion.de"
+    }
+  ],
+  "homepage": "https://www.bitmotion.de",
+  "authors": [
+    {
+      "name": "Florian Wessels",
+      "role": "Developer",
+      "homepage": "https://www.bitmotion.de"
+    },
+    {
+      "name": "René Fritz",
+      "role": "Developer",
+      "homepage": "https://www.colorcube.de"
+    }
+  ],
+  "license": [
+    "GPL-2.0+"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Bitmotion\\Locate\\": "Classes"
+    }
+  },
+  "replace": {
+    "auth0": "self.version",
+    "typo3-ter/locate": "self.version"
+  }
+}
