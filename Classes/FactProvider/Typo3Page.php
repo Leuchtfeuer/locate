@@ -2,6 +2,8 @@
 
 namespace Bitmotion\Locate\FactProvider;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Provide multiple environment data from t3lib_div::getIndpEnv()
  *
@@ -92,7 +94,7 @@ class Typo3Page extends AbstractFactProvider {
 		}
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 			if (TYPO3_DLOG && !$row['isocode'])
-				\t3lib_div::devLog('No ISO-code given for language with UID ' . $row['uid'], $this->extKey);
+				GeneralUtility::devLog('No ISO-code given for language with UID ' . $row['uid'], $this->extKey);
 			$availableLanguages[$row['uid']] = trim(strtolower($row['isocode']));
 		}
 
@@ -113,7 +115,7 @@ class Typo3Page extends AbstractFactProvider {
 
 		//Remove all languages except limitToLanguages
 		if($this->conf['limitToLanguages'] != '') {
-			$limitToLanguages = \t3lib_div::trimExplode(
+			$limitToLanguages = GeneralUtility::trimExplode(
 			  ',', //Delimiter string to explode with
 			  strtolower($this->conf['limitToLanguages']), //The string to explode
 			  true //If set, all empty values (='') will NOT be set in output
@@ -131,7 +133,7 @@ class Typo3Page extends AbstractFactProvider {
 		//Remove all languages in the exclude list
 		if($this->conf['excludeLanguages'] != '') {
 			if($this->conf['excludeLanguages'] != '') {
-				$excludeLanguages = \t3lib_div::trimExplode(
+				$excludeLanguages = GeneralUtility::trimExplode(
 				  ',', //Delimiter string to explode with
 				  strtolower($this->conf['excludeLanguages']), //The string to explode
 				  true //If set, all empty values (='') will NOT be set in output

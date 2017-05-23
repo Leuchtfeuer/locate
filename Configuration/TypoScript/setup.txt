@@ -21,7 +21,7 @@ plugin.tx_locate_pi1 {
 		}
 
 		default {
-			10 = \Bitmotion\Locate\Action\Redirect
+			10 = \Bitmotion\Locate\Action\Red eirect
 			10.url = http://www.brz.eu/de/
 		}
 	}

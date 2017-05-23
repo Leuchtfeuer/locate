@@ -1,6 +1,8 @@
 <?php
 namespace Bitmotion\Locate\Judge;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 
 /**
@@ -21,7 +23,7 @@ class AndCondition extends AbstractJudge {
 	public function Process(&$factsArray)
 	{
 		$matches = $this->configArray['matches'];
-		$matches = \t3lib_div::trimexplode("\n", $matches);
+		$matches = GeneralUtility::trimexplode("\n", $matches);
 
 		foreach ($matches as $value) {
 			list($c1, $c2) = explode('=', $value);

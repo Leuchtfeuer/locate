@@ -2,6 +2,8 @@
 
 namespace Bitmotion\Locate\Tools;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * IP functions
  *
@@ -378,7 +380,7 @@ abstract class IP {
 	 * @return integer
 	 */
 	public static function GetUserIpAsLong() {
-		return sprintf("%u",IP2Long(\t3lib_div::getIndpEnv('REMOTE_ADDR')));
+		return sprintf("%u",IP2Long(GeneralUtility::getIndpEnv('REMOTE_ADDR')));
 	}
 
 	/**
@@ -387,7 +389,7 @@ abstract class IP {
 	 * @return string
 	 */
 	public static function GetUserIp() {
-		return \t3lib_div::getIndpEnv('REMOTE_ADDR');
+		return GeneralUtility::getIndpEnv('REMOTE_ADDR');
 	}
 }
 
