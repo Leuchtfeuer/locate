@@ -45,7 +45,7 @@ abstract class AbstractReviewer implements ReviewerInterface
      */
     public function Process(&$factsArray)
     {
-        throw new \Exception('Process not implemented in ' . __CLASS__);
+        throw new Exception('Process not implemented in ' . __CLASS__);
     }
 
     /**
