@@ -39,7 +39,7 @@ class Redirect extends AbstractAction
     {
         $httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
 
-        $this->checkIfRedirectIsAllowed();
+        $this->initializeCookieMode();
         $this->handleCookieStuff();
 
         if ($this->configArray['page'] || isset($this->configArray['sys_language'])) {
@@ -58,7 +58,7 @@ class Redirect extends AbstractAction
     /**
      *
      */
-    private function checkIfRedirectIsAllowed()
+    private function initializeCookieMode()
     {
         if (isset($this->configArray['cookieHandling']) && $this->configArray['cookieHandling'] == 1) {
             $this->cookieMode = true;
@@ -137,7 +137,7 @@ class Redirect extends AbstractAction
     /**
      * Redirect to a page
      *
-     * @param string $strTarget
+     * @param string $strTarget         Start!23
      * @param string $strLanguage
      * @param string $httpResponseCode
      * @throws Exception
