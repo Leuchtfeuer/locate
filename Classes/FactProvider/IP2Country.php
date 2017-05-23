@@ -24,7 +24,7 @@ class IP2Country extends AbstractFactProvider
     public function Process(&$factsArray)
     {
         $factPropertyName = $this->GetFactPropertyName('countryCode');
-        $factsArray[$factPropertyName] = IP2Country::GetCountryIso2FromIP(IP::GetUserIpAsLong());
+        $factsArray[$factPropertyName] = \Bitmotion\Locate\Tools\IP2Country::GetCountryIso2FromIP(IP::GetUserIpAsLong());
 
         $factPropertyName = $this->GetFactPropertyName('IP2Dezimal');
         $factsArray[$factPropertyName] = IP::GetUserIpAsLong();
