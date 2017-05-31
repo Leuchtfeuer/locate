@@ -30,6 +30,11 @@ class Redirect extends AbstractAction
     private $cookieName = 'bm_locate';
 
     /**
+     * @var int
+     */
+    private $redirectLanguageUid = 0;
+
+    /**
      * Call the action module
      *
      * @param array $factsArray
@@ -38,25 +43,34 @@ class Redirect extends AbstractAction
     public function Process(&$factsArray, &$decision)
     {
         $httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
+        $this->redirectLanguageUid = (int)$this->configArray['sys_language'];
 
+        // Initialize Cookie mode if necessary and prepare everything for possible redirects
         $this->initializeCookieMode();
         $this->handleCookieStuff();
 
-        if ($this->configArray['page'] || isset($this->configArray['sys_language'])) {
-            $this->RedirectToPid($this->configArray['page'], $this->configArray['sys_language'], $httpResponseCode);
+        // Skip if no redirect is necessary
+        if (!$this->shouldRedirect((int)GeneralUtility::_GP('L'))) {
             return;
+        };
+
+        // Try to redirect to page (if not set, it will be the current page) on configured language
+        if ($this->configArray['page'] || isset($this->configArray['sys_language'])) {
+            $this->RedirectToPid($this->configArray['page'], $this->redirectLanguageUid, $httpResponseCode);
         }
 
-        if ($this->configArray['sys_language'] && $this->shouldRedirect((int)$this->configArray['sys_language'])) {
-            $this->RedirectToUrl($this->configArray['url'], $httpResponseCode,
-                (int)$this->configArray['sys_language']);
-        } else {
+        // Try to redirect by configured URL (and language, if configured)
+        if ($this->configArray['url'] && $this->configArray['sys_language']) {
+            $this->RedirectToUrl($this->configArray['url'], $httpResponseCode, $this->redirectLanguageUid);
+        } elseif ($this->configArray['url']) {
             $this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
         }
+
+        return;
     }
 
     /**
-     *
+     * Set CookeMode Param to true if cookieHandling is enables
      */
     private function initializeCookieMode()
     {
@@ -72,14 +86,22 @@ class Redirect extends AbstractAction
     {
         if ($this->isCookieSet()) {
             if (!$this->isCookieInCurrentLanguage() && $this->shouldOverrideCookie()) {
+                // Override Cookie
+                $this->redirectLanguageUid = (int)GeneralUtility::_GP('L');
                 $this->setCookie(GeneralUtility::_GP('L'));
                 return;
             } elseif ($this->isCookieInCurrentLanguage()) {
+                // Cookie is in Current language
+                $this->redirectLanguageUid = (int)GeneralUtility::_GP('L');
                 return;
+            } else {
+                // Cookie is not in current language
+                $this->redirectLanguageUid = $this->getCookieValue();
             }
 
             $this->configArray['sys_language'] = $this->getCookieValue();
         } elseif ($this->cookieMode) {
+
             $this->setCookie(GeneralUtility::_GP('L'));
         }
     }
@@ -131,33 +153,49 @@ class Redirect extends AbstractAction
      */
     private function getCookieValue()
     {
-        return $_COOKIE[$this->cookieName];
+        return $_COOKIE[$this->cookieName] ? $_COOKIE[$this->cookieName] : 0;
+    }
+
+    /**
+     * @param int $sysLanguageUid
+     * @return bool
+     */
+    private function shouldRedirect($sysLanguageUid)
+    {
+        if (!$this->cookieMode) {
+            return true;
+        }
+
+        if (isset($_COOKIE[$this->cookieName]) && (int)$_COOKIE[$this->cookieName] === $sysLanguageUid) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * Redirect to a page
      *
-     * @param string $strTarget         Start!23
-     * @param string $strLanguage
+     * @param string $target
+     * @param string $language
      * @param string $httpResponseCode
      * @throws Exception
      */
-    private function RedirectToPid($strTarget, $strLanguage, $httpResponseCode)
+    private function RedirectToPid($target, $language, $httpResponseCode)
     {
-        if ($strLanguage) {
-            $languageId = (int)$strLanguage;
-            $urlParameters = ['L' => intval($strLanguage)];
+        if ($language) {
+            $languageId = (int)$language;
+            $urlParameters = ['L' => intval($language)];
         } else {
             $languageId = 0;
             $urlParameters = [];
         }
 
         $this->getAdditionalUrlParams($urlParameters);
+        $targetPageUid = intval($target);
 
-        $intTarget = intval($strTarget);
-
-        if ($intTarget) {
-            if ($intTarget == $GLOBALS['TSFE']->id) {
+        if ($targetPageUid) {
+            if ($targetPageUid == $GLOBALS['TSFE']->id) {
                 if ($urlParameters['L']) {
                     if ($GLOBALS['TSFE']->sys_language_uid == $urlParameters['L']) {
                         return;
@@ -167,29 +205,26 @@ class Redirect extends AbstractAction
                 }
             }
 
-            $strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL($intTarget, $urlParameters);
-            $strUrl = $GLOBALS['TSFE']->baseUrlWrap($strUrl);
-            $strUrl = GeneralUtility::locationHeaderURL($strUrl);
-
+            $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($targetPageUid, $urlParameters);
+            $url = $GLOBALS['TSFE']->baseUrlWrap($url);
+            $url = GeneralUtility::locationHeaderURL($url);
         } else {
-            if ($strLanguage) {
+            if ($language >= 0) {
 
-                if ($urlParameters['L']) {
-                    if ($GLOBALS['TSFE']->sys_language_uid == $urlParameters['L']) {
-                        return;
-                    }
+                // Override urlParamter L if cookie is in use
+                if ($this->cookieMode) {
+                    $urlParameters['L'] = $this->getCookieValue();
                 }
 
-                $strUrl = $GLOBALS['TSFE']->cObj->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
-                $strUrl = $GLOBALS['TSFE']->baseUrlWrap($strUrl);
-                $strUrl = GeneralUtility::locationHeaderURL($strUrl);
+                $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
+                $url = $GLOBALS['TSFE']->baseUrlWrap($url);
+                $url = GeneralUtility::locationHeaderURL($url);
 
             } else {
                 throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
             }
         }
-
-        $this->RedirectToUrl($strUrl, $httpResponseCode, $languageId);
+        $this->RedirectToUrl($url, $httpResponseCode, $languageId);
     }
 
     /**
@@ -244,23 +279,6 @@ class Redirect extends AbstractAction
             // End the Response Script
             exit();
         }
-    }
-
-    /**
-     * @param int $sysLanguageUid
-     * @return bool
-     */
-    private function shouldRedirect($sysLanguageUid)
-    {
-        if (!$this->cookieMode) {
-            return true;
-        }
-
-        if (isset($_COOKIE[$this->cookieName]) && (int)$_COOKIE[$this->cookieName] === $sysLanguageUid) {
-            return false;
-        }
-
-        return true;
     }
 }
 
