@@ -1,0 +1,61 @@
+
+plugin.tx_locate_pi1 {
+
+  debug = 1
+  dryRun =
+
+  actions {
+
+    redirectToPageEN {
+      10 = \Bitmotion\Locate\Action\SetCookie
+      20 = \Bitmotion\Locate\Action\Redirect
+      // current page
+      20.page = 17
+      20.sys_language = 0
+    }
+
+    redirectToPageDE {
+      10 = \Bitmotion\Locate\Action\SetCookie
+      20 = \Bitmotion\Locate\Action\Redirect
+      // current page
+      20.page = 17
+      20.sys_language = 1
+    }
+
+    redirectToPageZH {
+      10 = \Bitmotion\Locate\Action\SetCookie
+      20 = \Bitmotion\Locate\Action\Redirect
+      // current page
+      20.page = 17
+      20.sys_language = 2
+
+    }
+  }
+
+
+  facts {
+    \\ de, DE, de_DE; en, GB, en_GB
+    browserAccepted = \Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
+  }
+
+
+  judges {
+
+    10 = \Bitmotion\Locate\Judge\AndCondition
+    10.action = redirectToPageDE
+    10.matches (
+      browserAccepted.lang = de
+    )
+
+    20 = \Bitmotion\Locate\Judge\AndCondition
+    20.action = redirectToPageZH
+    20.matches (
+      browserAccepted.lang = zh
+    )
+
+    999 = \Bitmotion\Locate\Judge\Fixed
+    999.action = redirectToPageEN
+  }
+
+}
+
