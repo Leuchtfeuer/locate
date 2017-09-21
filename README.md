@@ -51,7 +51,7 @@ actions {
     redirectToPageDE {
         20 = \Bitmotion\Locate\Action\Redirect
         20.sys_language = 1
-        20.useLangCookie = 1
+        20.cookieHandling = 1
     }
     redirectToPageEN {
         20 = \Bitmotion\Locate\Action\Redirect
