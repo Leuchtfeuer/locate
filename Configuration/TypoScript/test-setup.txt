@@ -17,12 +17,12 @@ plugin.tx_locate_pi1 {
 			20 = \Bitmotion\Locate\Action\Redirect
 			20.url = http:\\www.bitmotion.com
 		}
-
+/*
 		redirectToPageGB {
 			20 = \Bitmotion\Locate\Action\RedirectToPage
 			20.pid = 12
 		}
-
+*/
 	}
 
 
