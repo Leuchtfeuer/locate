@@ -13,23 +13,12 @@ plugin.tx_locate_pi1 {
 			10 = \Bitmotion\Locate\Action\Dummy
 		}
 
-		nothing {
-			10 = \Bitmotion\Locate\Action\SetCookie
-		}
-
-		switchToPreferedLanguage {
-			10 = \Bitmotion\Locate\Action\SetCookie
-			20 = \Bitmotion\Locate\Action\SwitchToPreferedLanguage
-		}
-
 		redirectToDomainXY {
-			10 = \Bitmotion\Locate\Action\SetCookie
 			20 = \Bitmotion\Locate\Action\Redirect
 			20.url = http:\\www.bitmotion.com
 		}
 
 		redirectToPageGB {
-			10 = \Bitmotion\Locate\Action\SetCookie
 			20 = \Bitmotion\Locate\Action\RedirectToPage
 			20.pid = 12
 		}
