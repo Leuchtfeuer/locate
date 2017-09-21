@@ -45,6 +45,18 @@ Judges
 
 ## TypoScript
 
+### Installation (via UserFunc)
+
+```
+plugin.tx_locate_pi1 = USER_INT
+plugin.tx_locate_pi1 {
+  userFunc = Bitmotion\Locate\Locate->main
+  # for further configuration see details below
+}
+page.7 < plugin.tx_locate_pi1
+```
+* Include userfunc at the beginning of the page
+
 ### Actions
 ```
 actions {
@@ -112,10 +124,6 @@ plugin.tx_locate_pi1.debug
 plugin.tx_locate_pi1.dryRun
 ```
 * Set to 1 if you want debug only
-```
-page.1 < plugin.tx_locate_pi1
-```
-* Include userfunc at the beginning of the page
 
 ## Cookies
 
