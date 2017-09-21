@@ -8,7 +8,7 @@
 
 
 plugin.tx_locate_pi1 {
-
+	userFunc = Bitmotion\Locate\Locate->main
 	debug = 1
 	dryRun = 1
 
