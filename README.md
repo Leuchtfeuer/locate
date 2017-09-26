@@ -45,13 +45,25 @@ Judges
 
 ## TypoScript
 
+### Installation (via UserFunc)
+
+```
+plugin.tx_locate_pi1 = USER_INT
+plugin.tx_locate_pi1 {
+  userFunc = Bitmotion\Locate\Locate->main
+  # for further configuration see details below
+}
+page.7 < plugin.tx_locate_pi1
+```
+* Include userfunc at the beginning of the page
+
 ### Actions
 ```
 actions {
     redirectToPageDE {
         20 = \Bitmotion\Locate\Action\Redirect
         20.sys_language = 1
-        20.useLangCookie = 1
+        20.cookieHandling = 1
     }
     redirectToPageEN {
         20 = \Bitmotion\Locate\Action\Redirect
@@ -112,10 +124,6 @@ plugin.tx_locate_pi1.debug
 plugin.tx_locate_pi1.dryRun
 ```
 * Set to 1 if you want debug only
-```
-page.1 < plugin.tx_locate_pi1
-```
-* Include userfunc at the beginning of the page
 
 ## Cookies
 
