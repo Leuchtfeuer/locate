@@ -3,8 +3,6 @@
 namespace Bitmotion\Locate\Action;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-
 /**
  * Redirect Action class
  *
