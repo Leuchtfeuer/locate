@@ -237,7 +237,7 @@ class Redirect extends AbstractAction
             if (isset($additionalUrlParams['setLang'])) {
                 unset ($additionalUrlParams['setLang']);
             }
-            $urlParameters = array_combine($additionalUrlParams, $urlParameters);
+            $urlParameters = array_merge($additionalUrlParams, $urlParameters);
         }
 
         return $urlParameters;
