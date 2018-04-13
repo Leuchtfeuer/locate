@@ -83,25 +83,38 @@ class Redirect extends AbstractAction
      */
     private function handleCookieStuff()
     {
+        $currentLanguageUid = (int)GeneralUtility::_GP('L');
+
         if ($this->isCookieSet()) {
             if (!$this->isCookieInCurrentLanguage() && $this->shouldOverrideCookie()) {
-                // Override Cookie
-                $this->redirectLanguageUid = (int)GeneralUtility::_GP('L');
-                $this->setCookie(GeneralUtility::_GP('L'));
+                // Override cookie
+                $this->redirectLanguageUid = $currentLanguageUid;
+                $this->setCookie($currentLanguageUid);
                 return;
+
             } elseif ($this->isCookieInCurrentLanguage()) {
-                // Cookie is in Current language
-                $this->redirectLanguageUid = (int)GeneralUtility::_GP('L');
+                // Cookie is in current language
+                $this->redirectLanguageUid = $currentLanguageUid;
                 return;
+
             } else {
                 // Cookie is not in current language
                 $this->redirectLanguageUid = $this->getCookieValue();
             }
 
+            // Override config array by cookie value
             $this->configArray['sys_language'] = $this->getCookieValue();
+
         } elseif ($this->cookieMode) {
 
-            $this->setCookie(GeneralUtility::_GP('L'));
+            if ($currentLanguageUid !== $this->redirectLanguageUid) {
+                // Set cookie value to target language
+                $this->setCookie($this->redirectLanguageUid);
+            } else {
+                // Set cookie value to current language
+                $this->setCookie($currentLanguageUid);
+            }
+
         }
     }
 
