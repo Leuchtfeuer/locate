@@ -3,7 +3,7 @@ if (!defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
-return[
+return [
     "ctrl" => [
         'title' => 'LLL:EXT:locate/Resources/Private/Language/locallang_db.xml:tx_locate_ip2country',
         'label' => 'iso2',
@@ -13,7 +13,7 @@ return[
         'readOnly' => '1',
         'editlock' => '1',
         'default_sortby' => "ORDER BY uid",
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('locate') . 'icon_tx_locate_ip2country.png',
+        'iconfile' => 'EXT:locate/Resources/Public/Icons/icon_tx_locate_ip2country.png',
     ],
     "interface" => [
         "showRecordFieldList" => "ipfrom,ipto,iso2",
@@ -62,4 +62,3 @@ return[
         "1" => ["showitem" => ""],
     ],
 ];
-?>
