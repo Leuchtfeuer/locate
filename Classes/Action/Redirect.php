@@ -203,7 +203,9 @@ class Redirect extends AbstractAction
                 }
             }
 
+            // Remove ID from urlParameters
             unset($urlParameters['id']);
+
             $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($targetPageUid, $urlParameters);
             $url = $GLOBALS['TSFE']->baseUrlWrap($url);
             $url = GeneralUtility::locationHeaderURL($url);
