@@ -277,6 +277,7 @@ class Redirect extends AbstractAction
         if (GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') != $strLocation) {
 
             // Set cookie if cookieMode is enabled
+            // TODO: Is this necessary??? Cookie should only be set in handleCookieStuff()
             if ($this->cookieMode) {
                 $this->setCookie($languageId);
             }
