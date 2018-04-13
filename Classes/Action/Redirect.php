@@ -3,6 +3,7 @@
 namespace Bitmotion\Locate\Action;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Redirect Action class
  *
@@ -209,22 +210,22 @@ class Redirect extends AbstractAction
             $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($targetPageUid, $urlParameters);
             $url = $GLOBALS['TSFE']->baseUrlWrap($url);
             $url = GeneralUtility::locationHeaderURL($url);
-        } else {
-            if ($language >= 0) {
 
-                // Override urlParamter L if cookie is in use
-                if ($this->cookieMode) {
-                    $urlParameters['L'] = $this->getCookieValue();
-                }
+        } elseif ($language >= 0) {
 
-                $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
-                $url = $GLOBALS['TSFE']->baseUrlWrap($url);
-                $url = GeneralUtility::locationHeaderURL($url);
-
-            } else {
-                throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
+            // Override urlParamter L if cookie is in use
+            if ($this->cookieMode) {
+                $urlParameters['L'] = $this->getCookieValue();
             }
+
+            $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
+            $url = $GLOBALS['TSFE']->baseUrlWrap($url);
+            $url = GeneralUtility::locationHeaderURL($url);
+
+        } else {
+            throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
         }
+
         $this->RedirectToUrl($url, $httpResponseCode, $languageId);
     }
 
