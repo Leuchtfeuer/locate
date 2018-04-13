@@ -266,6 +266,7 @@ class Redirect extends AbstractAction
      *
      * @param string $strLocation
      * @param integer $httpResponseCode
+     * @param integer $languageId
      * @return void
      */
     public function RedirectToUrl($strLocation, $httpResponseCode, $languageId = 0)
