@@ -17,7 +17,7 @@ class AndCondition extends AbstractJudge
      * The judge decide if the case is true and therefore the configured action should be called
      *
      * @param array $facts
-     * @return Decision|FALSE
+     * @return Decision|false
      */
     public function process(array &$facts)
     {
@@ -41,6 +41,7 @@ class AndCondition extends AbstractJudge
         /** @var Decision $decision */
         $decision = GeneralUtility::makeInstance(Decision::class);
         $decision->setActionName($this->configuration['action']);
+
         return $decision;
     }
 

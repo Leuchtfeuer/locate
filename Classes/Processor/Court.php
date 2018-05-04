@@ -54,7 +54,7 @@ class Court implements ProcessorInterface
     /**
      * @param boolean $dryRun
      */
-    public function setDryRun($dryRun)
+    public function setDryRun(bool $dryRun)
     {
         $this->dryRun = $dryRun;
     }

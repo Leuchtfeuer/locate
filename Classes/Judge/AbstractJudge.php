@@ -58,7 +58,7 @@ abstract class AbstractJudge implements JudgeInterface
      * @param string $property
      * @return string
      */
-    protected function getFactPropertyName($property)
+    protected function getFactPropertyName(string $property): string
     {
         return $this->baseName . '.' . $property;
     }

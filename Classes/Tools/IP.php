@@ -23,7 +23,7 @@ abstract class IP
      * @param    string $list is a comma-list of IP-addresses to match with. *-wildcard allowed instead of number, plus leaving out parts in the IP number is accepted as wildcard (eg. 192.168.*.* equals 192.168). If list is "*" no check is done and the function returns TRUE immediately. An empty list always returns FALSE.
      * @return    boolean        True if an IP-mask from $list matches $baseIP
      */
-    public static function compare($baseIP, $list)
+    public static function compare(string $baseIP, string $list): bool
     {
         $list = trim($list);
         if ($list === '') {
@@ -46,7 +46,7 @@ abstract class IP
      * @param    string        IP address to be tested
      * @return    boolean        True if $ip is of IPv6 format.
      */
-    public static function isValidIPv6($ip)
+    public static function isValidIPv6(string $ip): bool
     {
         $uppercaseIP = strtoupper($ip);
 
@@ -70,7 +70,7 @@ abstract class IP
      * @param    string $list is a comma-list of IPv6 prefixes, could also contain IPv4 addresses
      * @return    boolean        True if an baseIP matches any prefix
      */
-    public static function compareIPv6($baseIP, $list)
+    public static function compareIPv6(string $baseIP, string $list): bool
     {
         $success = false;    // Policy default: Deny connection
         $baseIP = self::normalizeIPv6($baseIP);
@@ -175,13 +175,15 @@ abstract class IP
      * @param    string $hex IPv6 in hex format
      * @return    string
      */
-    public static function IPv6Hex2Bin($hex)
+    public static function IPv6Hex2Bin(string $hex): string
     {
         $bin = '';
         $hex = str_replace(':', '', $hex);    // Replace colon to nothing
+
         for ($i = 0; $i < strlen($hex); $i = $i + 2) {
             $bin .= chr(hexdec(substr($hex, $i, 2)));
         }
+
         return $bin;
     }
 
@@ -192,7 +194,7 @@ abstract class IP
      * @param    string $list is a comma-list of IP-addresses to match with. *-wildcard allowed instead of number, plus leaving out parts in the IP number is accepted as wildcard (eg. 192.168.*.* equals 192.168)
      * @return    boolean        True if an IP-mask from $list matches $baseIP
      */
-    public static function compareIPv4($baseIP, $list)
+    public static function compareIPv4(string $baseIP, string $list): bool
     {
         $IPpartsReq = explode('.', $baseIP);
         if (count($IPpartsReq) == 4) {
@@ -237,7 +239,7 @@ abstract class IP
      * @param    string        IP address to be tested
      * @return    boolean        True if $ip is either of IPv4 or IPv6 format.
      */
-    public static function isValid($ip)
+    public static function isValid(string $ip): bool
     {
         if (strpos($ip, ':') === false) {
             return self::isValidIPv4($ip);
@@ -254,7 +256,7 @@ abstract class IP
      * @param    string        IP address to be tested
      * @return    boolean        True if $ip is of IPv4 format.
      */
-    public static function isValidIPv4($ip)
+    public static function isValidIPv4(string $ip): bool
     {
         $parts = explode('.', $ip);
         if (count($parts) == 4 &&
@@ -319,7 +321,7 @@ abstract class IP
      * @param string $ip
      * @return boolean
      */
-    public static function isLocal($ip)
+    public static function isLocal(string $ip): bool
     {
         if (!self::isValidIPv4($ip)) {
             return false;
@@ -357,32 +359,12 @@ abstract class IP
 
     }
 
-
-    /* @todo get IP for hostname
-     *
-     * see http://php.net/manual/en/function.gethostbyname.php
-     *
-     * $ip = gethostbyname($host);
-     * if(ip2long($ip) == -1 || ($ip == gethostbyaddr($ip) && preg_match("/.*\.[a-zA-Z]{2,3}$/",$host) == 0) ) {
-     * echo 'Error, incorrect host or ip';
-     * } else {
-     * echo 'Ok';
-     * }
-     *
-     * public static function getAddressByHost($host, $timeout = 3) {
-     * $query = `nslookup -timeout=$timeout -retry=1 $host`;
-     * if(preg_match('/\nAddress: (.*)\n/', $query, $matches))
-     * return trim($matches[1]);
-     * return $host;
-     * }
-     */
-
     /**
      * Returns the current remote address as long
      *
-     * @return integer
+     * @return int
      */
-    public static function getUserIpAsLong()
+    public static function getUserIpAsLong(): int
     {
         return sprintf("%u", IP2Long(GeneralUtility::getIndpEnv('REMOTE_ADDR')));
     }
@@ -392,7 +374,7 @@ abstract class IP
      *
      * @return string
      */
-    public static function getUserIp()
+    public static function getUserIp(): string
     {
         return GeneralUtility::getIndpEnv('REMOTE_ADDR');
     }

@@ -15,9 +15,9 @@ class Fixed extends AbstractJudge
      * The judge decide if the case is true and therefore the configured action should be called
      *
      * @param array $facts
-     * @return Decision|FALSE
+     * @return Decision
      */
-    public function process(array &$facts)
+    public function process(array &$facts): Decision
     {
         $decision = new Decision();
         $decision->setActionName($this->configuration['action']);

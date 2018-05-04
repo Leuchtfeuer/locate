@@ -49,7 +49,7 @@ class Redirect extends AbstractAction
 
         // Try to redirect to page (if not set, it will be the current page) on configured language
         if ($this->configuration['page'] || isset($this->configuration['sys_language'])) {
-            $this->redirectToPid($this->configuration['page'], $this->redirectLanguageUid, $httpResponseCode);
+            $this->redirectToPid($this->configuration['page'], $this->redirectLanguageUid, (int)$httpResponseCode);
         }
 
         // Try to redirect by configured URL (and language, if configured)
@@ -115,7 +115,7 @@ class Redirect extends AbstractAction
     /**
      * @return bool
      */
-    private function isCookieSet()
+    private function isCookieSet(): bool
     {
         return isset($_COOKIE[$this->cookieName]);
     }
@@ -123,7 +123,7 @@ class Redirect extends AbstractAction
     /**
      * @return bool
      */
-    private function isCookieInCurrentLanguage()
+    private function isCookieInCurrentLanguage(): bool
     {
         return GeneralUtility::_GP('L') == $_COOKIE[$this->cookieName];
     }
@@ -131,7 +131,7 @@ class Redirect extends AbstractAction
     /**
      * @return bool
      */
-    private function shouldOverrideCookie()
+    private function shouldOverrideCookie(): bool
     {
         if (isset($this->configuration['overrideCookie']) && $this->configuration['overrideCookie'] == 1) {
             if (GeneralUtility::_GP('setLang') == 1) {
@@ -145,9 +145,9 @@ class Redirect extends AbstractAction
     /**
      * @param string $value
      */
-    private function setCookie($value)
+    private function setCookie(string $value)
     {
-        if ($value === null || $value === '') {
+        if ($value === '') {
             setcookie($this->cookieName, $this->configuration['sys_language'], time() + 60 * 60 * 24 * 30, '/');
         } else {
             setcookie($this->cookieName, $value, time() + 60 * 60 * 24 * 30, '/');
@@ -157,16 +157,16 @@ class Redirect extends AbstractAction
     /**
      * @return string
      */
-    private function getCookieValue()
+    private function getCookieValue(): string
     {
-        return $_COOKIE[$this->cookieName] ? $_COOKIE[$this->cookieName] : 0;
+        return $_COOKIE[$this->cookieName] ? $_COOKIE[$this->cookieName] : '';
     }
 
     /**
      * @param int $sysLanguageUid
      * @return bool
      */
-    private function shouldRedirect($sysLanguageUid)
+    private function shouldRedirect(int $sysLanguageUid): bool
     {
         if (!$this->cookieMode) {
             return true;
@@ -184,10 +184,10 @@ class Redirect extends AbstractAction
      *
      * @param string $target
      * @param string $language
-     * @param string $httpResponseCode
+     * @param int $httpResponseCode
      * @throws Exception
      */
-    private function redirectToPid($target, $language, $httpResponseCode)
+    private function redirectToPid(string $target, string $language, int $httpResponseCode)
     {
         if ($language) {
             $languageId = (int)$language;
@@ -240,7 +240,7 @@ class Redirect extends AbstractAction
      * @param array $urlParameters
      * @return array
      */
-    private function getAdditionalUrlParams(&$urlParameters)
+    private function getAdditionalUrlParams(array &$urlParameters): array
     {
         $additionalUrlParams = $GLOBALS['HTTP_GET_VARS'];
 
@@ -258,17 +258,17 @@ class Redirect extends AbstractAction
      * This will redirect the user to a new web location. This can be a relative or absolute web path, or it
      * can be an entire URL.
      *
-     * @param string $strLocation
+     * @param string $location
      * @param integer $httpResponseCode
      * @param integer $languageId
      * @return void
      */
-    public function redirectToUrl($strLocation, $httpResponseCode, $languageId = 0)
+    public function redirectToUrl(string $location, int $httpResponseCode, int $languageId = 0)
     {
-        $this->logger->info(__CLASS__ . " Will redirect to '$strLocation' with code '$httpResponseCode'");
+        $this->logger->info(__CLASS__ . ' Will redirect to ' . $location . ' with code ' . $httpResponseCode);
 
         // Check for redirect recursion
-        if (GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') != $strLocation) {
+        if (GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') != $location) {
 
             // Set cookie if cookieMode is enabled
             // TODO: Is this necessary??? Cookie should only be set in handleCookieStuff()
@@ -284,12 +284,12 @@ class Redirect extends AbstractAction
             if (array_key_exists('DOCUMENT_ROOT', $_SERVER) && ($_SERVER['DOCUMENT_ROOT']) AND !headers_sent()) {
                 // If so, we're likley using PHP as a Plugin/Module
                 // Use 'header' to redirect
-                header("Location: $strLocation", true, $httpResponseCode);
+                header("Location: $location", true, $httpResponseCode);
                 exit;
             } else {
                 // We're likely using this as a CGI
                 // Use JavaScript to redirect
-                printf('<script type="text/javascript">document.location = "%s";</script>', $strLocation);
+                printf('<script type="text/javascript">document.location = "%s";</script>', $location);
             }
 
             // End the Response Script

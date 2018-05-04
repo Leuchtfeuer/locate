@@ -24,7 +24,7 @@ class Decision
     /**
      * @return boolean
      */
-    public function hasAction()
+    public function hasAction(): bool
     {
         return ($this->actionName ? true : false);
     }
@@ -32,7 +32,7 @@ class Decision
     /**
      * @return string
      */
-    public function getActionName()
+    public function getActionName(): string
     {
         return $this->actionName;
     }
@@ -40,7 +40,7 @@ class Decision
     /**
      * @param string $actionName
      */
-    public function setActionName($actionName)
+    public function setActionName(string $actionName)
     {
         $this->actionName = $actionName;
     }
@@ -48,7 +48,7 @@ class Decision
     /**
      * @return array
      */
-    public function getSpecifications()
+    public function getSpecifications(): array
     {
         return $this->specification;
     }
@@ -66,7 +66,7 @@ class Decision
      * @param string $name
      * @param string $value
      */
-    public function addSpecification($name, $value)
+    public function addSpecification(string $name, string $value)
     {
         $this->specification[$name] = $value;
     }

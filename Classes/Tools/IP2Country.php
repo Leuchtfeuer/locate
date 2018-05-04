@@ -18,8 +18,8 @@ abstract class IP2Country
     /**
      * Check the IP in the geoip table and returns iso 2 code for the current remote address
      *
-     * @param     int           $ip     as long remote address
-     * @return    bool|string           Example: DE
+     * @param int $ip
+     * @return bool|string
      */
     public static function getCountryIso2FromIP(int $ip)
     {
