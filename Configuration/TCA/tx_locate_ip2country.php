@@ -5,7 +5,7 @@ if (!defined('TYPO3_MODE')) {
 
 return [
     "ctrl" => [
-        'title' => 'LLL:EXT:locate/Resources/Private/Language/locallang_db.xml:tx_locate_ip2country',
+        'title' => 'LLL:EXT:locate/Resources/Private/Language/locallang_db.xlf:tx_locate_ip2country',
         'label' => 'iso2',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -24,7 +24,7 @@ return [
     "columns" => [
         "ipfrom" => [
             "exclude" => 1,
-            "label" => "LLL:EXT:locate/Resources/Private/Language/locallang_db.xml:tx_locate_ip2country.ipfrom",
+            "label" => "LLL:EXT:locate/Resources/Private/Language/locallang_db.xlf:tx_locate_ip2country.ipfrom",
             "config" => [
                 "type" => "input",
                 "size" => "4",
@@ -36,7 +36,7 @@ return [
         ],
         "ipto" => [
             "exclude" => 1,
-            "label" => "LLL:EXT:locate/Resources/Private/Language/locallang_db.xml:tx_locate_ip2country.ipto",
+            "label" => "LLL:EXT:locate/Resources/Private/Language/locallang_db.xlf:tx_locate_ip2country.ipto",
             "config" => [
                 "type" => "input",
                 "size" => "4",
@@ -48,7 +48,7 @@ return [
         ],
         "iso2" => [
             "exclude" => 1,
-            "label" => "LLL:EXT:locate/Resources/Private/Language/locallang_db.xml:tx_locate_ip2country.iso2",
+            "label" => "LLL:EXT:locate/Resources/Private/Language/locallang_db.xlf:tx_locate_ip2country.iso2",
             "config" => [
                 "type" => "input",
                 "size" => "5",

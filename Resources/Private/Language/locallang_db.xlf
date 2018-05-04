@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="" product-name="locate">
+        <body>
+            <trans-unit id="tx_locate_ip2country" xml:space="preserve">
+                <source>Country to IP</source>
+            </trans-unit>
+            <trans-unit id="tx_locate_ip2country.ipfrom" xml:space="preserve">
+                <source>ipfrom</source>
+            </trans-unit>
+            <trans-unit id="tx_locate_ip2country.ipto" xml:space="preserve">
+                <source>ipto</source>
+            </trans-unit>
+            <trans-unit id="tx_locate_ip2country.iso2" xml:space="preserve">
+                <source>Country ISO 2 code</source>
+            </trans-unit>
+            <trans-unit id="tt_content.list_type_pi1" xml:space="preserve">
+                <source>Locate (Language/Country detection and redirect)</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
