@@ -20,21 +20,20 @@ plugin.tx_locate_pi1 {
 
 	facts {
 
-		\\
-		env = \Bitmotion\Locate\FactProvider\Environment
+		env = Bitmotion\Locate\FactProvider\Environment
 
-		\\ DE, UK, ...
-		countryByIP = \Bitmotion\Locate\FactProvider\IP2Country
+#		DE, UK, ...
+		countryByIP = Bitmotion\Locate\FactProvider\IP2Country
 
-		\\ de, DE, de_DE; en, GB, en_GB
-		browserAccepted = \Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
+#		de, DE, de_DE; en, GB, en_GB
+		browserAccepted = Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
 
-		\\ current page language: de, DE, de_DE, sys_language_uid
-		\\ enriches the facts array with following data:
-		\\ currentPage.lang = de
-		\\ currentPage.country = DE
-		\\ currentPage.locale = de_DE
-		currentPage = \Bitmotion\Locate\FactProvider\Typo3Page
+#		current page language: de, DE, de_DE, sys_language_uid
+#		enriches the facts array with following data:
+#		currentPage.lang = de
+#		currentPage.country = DE
+#		currentPage.locale = de_DE
+		currentPage = Bitmotion\Locate\FactProvider\Typo3Page
 	}
 
 
