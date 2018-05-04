@@ -4,10 +4,9 @@ namespace Bitmotion\Locate\Reviewer;
 
 
 /**
- * Reviewer exception
+ * Class Exception
  *
- * @package    Locate
- * @subpackage Reviewer
+ * @package Bitmotion\Locate\Reviewer
  */
 class Exception extends \Bitmotion\Locate\Exception
 {

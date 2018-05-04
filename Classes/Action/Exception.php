@@ -4,10 +4,9 @@ namespace Bitmotion\Locate\Action;
 
 
 /**
- * Action exception
+ * Class Exception
  *
- * @package    Locate
- * @subpackage Action
+ * @package Bitmotion\Locate\Action
  */
 class Exception extends \Bitmotion\Locate\Exception
 {

@@ -4,13 +4,11 @@ namespace Bitmotion\Locate\Reviewer;
 
 
 /**
- * Abstract Reviewer class
+ * Class AbstractReviewer
  *
  * This is in fact the same stuff as in FactProvider
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage Reviewer
+ * @package Bitmotion\Locate\Reviewer
  */
 abstract class AbstractReviewer implements ReviewerInterface
 {

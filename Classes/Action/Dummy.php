@@ -4,11 +4,9 @@ namespace Bitmotion\Locate\Action;
 
 
 /**
- * Fixed Action class
+ * Class Dummy
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage Action
+ * @package Bitmotion\Locate\Action
  */
 class Dummy extends AbstractAction
 {

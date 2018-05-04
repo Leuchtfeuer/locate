@@ -6,11 +6,9 @@ use Bitmotion\Locate\Tools\IP;
 
 
 /**
- * IP to Country
+ * Class IP2Country
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage FactProvider
+ * @package Bitmotion\Locate\FactProvider
  */
 class IP2Country extends AbstractFactProvider
 {

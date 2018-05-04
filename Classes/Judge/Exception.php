@@ -4,10 +4,9 @@ namespace Bitmotion\Locate\Judge;
 
 
 /**
- * Judge exception
+ * Class Exception
  *
- * @package    Locate
- * @subpackage Judge
+ * @package Bitmotion\Locate\Judge
  */
 class Exception extends \Bitmotion\Locate\Exception
 {

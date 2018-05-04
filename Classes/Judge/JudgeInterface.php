@@ -4,11 +4,9 @@ namespace Bitmotion\Locate\Judge;
 
 
 /**
- * Judge interface
+ * Interface JudgeInterface
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage Judge
+ * @package Bitmotion\Locate\Judge
  */
 interface JudgeInterface
 {

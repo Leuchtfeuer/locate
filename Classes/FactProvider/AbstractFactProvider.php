@@ -4,11 +4,9 @@ namespace Bitmotion\Locate\FactProvider;
 
 
 /**
- * Abstract fact provider class
+ * Class AbstractFactProvider
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage FactProvider
+ * @package Bitmotion\Locate\FactProvider
  */
 abstract class AbstractFactProvider implements FactProviderInterface
 {

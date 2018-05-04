@@ -9,11 +9,9 @@ use Bitmotion\Locate\Log\Writer\Memory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Processor interface
+ * Class Court
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage Processor
+ * @package Bitmotion\Locate\Processor
  */
 class Court implements ProcessorInterface
 {

@@ -6,17 +6,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
- * Provide multiple environment data from t3lib_div::getIndpEnv()
+ * Class Environment
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage FactProvider
+ * Provide multiple environment data from GeneralUtility::getIndpEnv()
+ *
+ * @package Bitmotion\Locate\FactProvider
  */
 class Environment extends AbstractFactProvider
 {
 
     /*
-     Conventions:
+    Conventions:
     output from parse_url():
     URL:	http://username:password@192.168.1.4:8080/typo3/32/temp/phpcheck/index.php/arg1/arg2/arg3/?arg1,arg2,arg3&p1=parameter1&p2[key]=value#link1
     [scheme] => 'http'
@@ -57,7 +57,7 @@ class Environment extends AbstractFactProvider
     - Output all the values.
     - In the script, make a link to the script it self, maybe add some parameters and click the link a few times so HTTP_REFERER is seen
     - ALSO TRY the script from the ROOT of a site (like 'http://www.mytest.com/' and not 'http://www.mytest.com/test/' !!)
-    */
+     */
 
 
     /**

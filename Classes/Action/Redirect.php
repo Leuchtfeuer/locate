@@ -5,16 +5,9 @@ namespace Bitmotion\Locate\Action;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Redirect Action class
+ * Class Redirect
  *
- * @TsProperty page integer Page id to redirect to. Dafault:
- * @TsProperty url string Url to redirect to. Dafault:
- * @TsProperty httpResponseCode integer HTTP response code used for redirection. Dafault: 301
- *
- * @author Rene Fritz (typo3-ext@bitmotion.de)
- * @author Florian WEssels (typo3-ext@bitmotion.de)
- * @package    Locate
- * @subpackage Action
+ * @package Bitmotion\Locate\Action
  */
 class Redirect extends AbstractAction
 {

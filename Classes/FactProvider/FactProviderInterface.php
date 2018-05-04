@@ -4,17 +4,14 @@ namespace Bitmotion\Locate\FactProvider;
 
 
 /**
- * Fact provider interface
+ * Interface FactProviderInterface
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage FactProvider
+ * @package Bitmotion\Locate\FactProvider
  */
 interface FactProviderInterface
 {
 
     /**
-     *
      * @param string $baseName The basename for the factsArray. This name comes from configuration.
      * @param array $configArray TypoScript configuration array for this fact provider
      */

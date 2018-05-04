@@ -4,17 +4,14 @@ namespace Bitmotion\Locate\Action;
 
 
 /**
- * Action interface
+ * Interface ActionInterface
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage Action
+ * @package Bitmotion\Locate\Action
  */
 interface ActionInterface
 {
 
     /**
-     *
      * @param array $configArray TypoScript configuration array for this action
      * @param \Bitmotion\Locate\Log\Logger
      */

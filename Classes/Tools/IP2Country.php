@@ -8,11 +8,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
- * IP to Country
+ * Class IP2Country
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage FactProvider
+ * @package Bitmotion\Locate\Tools
  */
 abstract class IP2Country
 {

@@ -4,19 +4,19 @@ namespace Bitmotion\Locate\Action;
 
 
 /**
- * Abstract Action class
+ * Class AbstractAction
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage Action
+ * @package Bitmotion\Locate\Action
  */
 abstract class AbstractAction implements ActionInterface
 {
 
+    /**
+     * @var array
+     */
     protected $configArray;
 
     /**
-     *
      * @var \Bitmotion\Locate\Log\Logger
      */
     protected $Logger;

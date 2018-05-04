@@ -4,11 +4,9 @@ namespace Bitmotion\Locate\Judge;
 
 
 /**
- * Fixed judge class
+ * Class Fixed
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage Judge
+ * @package Bitmotion\Locate\Judge
  */
 class Fixed extends AbstractJudge
 {

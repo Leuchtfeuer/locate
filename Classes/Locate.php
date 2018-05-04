@@ -1,6 +1,7 @@
 <?php
 
 namespace Bitmotion\Locate;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -29,27 +30,29 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 
 /**
+ * Class Locate
+ *
  * Plugin 'Locate' for the 'locate' extension.
  *
- * @author	Rene Fritz <typo3-ext(at)bitmotion.de>
- * @package	TYPO3
- * @subpackage	tx_locate
+ * @package Bitmotion\Locate
  */
-class Locate extends AbstractPlugin {
+class Locate extends AbstractPlugin
+{
 
-    var $prefixId      = 'tx_locate_pi1';		// Same as class name
-    var $scriptRelPath = 'pi1/class.tx_locate_pi1.php';	// Path to this script relative to the extension dir.
-    var $extKey        = 'locate';	// The extension key.
+    var $prefixId = 'tx_locate_pi1';        // Same as class name
+    var $scriptRelPath = 'pi1/class.tx_locate_pi1.php';    // Path to this script relative to the extension dir.
+    var $extKey = 'locate';    // The extension key.
     var $pi_checkCHash = true;
 
     /**
      * The main method of the PlugIn
      *
-     * @param	string		$content: The PlugIn content
-     * @param	array		$conf: The PlugIn configuration
-     * @return	string The content that is displayed on the website
+     * @param    string $content : The PlugIn content
+     * @param    array $conf : The PlugIn configuration
+     * @return    string The content that is displayed on the website
      */
-    function main($content,$conf)	{
+    function main($content, $conf)
+    {
 
         /** @var Court $locateProcessor */
         $locateProcessor = GeneralUtility::makeInstance(Court::class, $conf);

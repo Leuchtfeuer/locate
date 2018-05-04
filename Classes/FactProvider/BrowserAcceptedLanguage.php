@@ -3,10 +3,9 @@
 namespace Bitmotion\Locate\FactProvider;
 
 /**
+ * Class BrowserAcceptedLanguage
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package Locate
- * @subpackage FactProvider
+ * @package Bitmotion\Locate\FactProvider
  */
 class BrowserAcceptedLanguage extends AbstractFactProvider
 {

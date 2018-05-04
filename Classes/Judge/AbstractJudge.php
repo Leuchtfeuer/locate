@@ -4,11 +4,9 @@ namespace Bitmotion\Locate\Judge;
 
 
 /**
- * Abstract judge class
+ * Class AbstractJudge
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage Judge
+ * @package Bitmotion\Locate\Judge
  */
 abstract class AbstractJudge implements JudgeInterface
 {

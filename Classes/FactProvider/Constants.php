@@ -4,11 +4,9 @@ namespace Bitmotion\Locate\FactProvider;
 
 
 /**
- * Constants
+ * Class Constants
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage FactProvider
+ * @package Bitmotion\Locate\FactProvider
  */
 class Constants extends AbstractFactProvider
 {

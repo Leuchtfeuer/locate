@@ -4,17 +4,14 @@ namespace Bitmotion\Locate\Reviewer;
 
 
 /**
- * Reviewer interface
+ * Interface ReviewerInterface
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage Reviewer
+ * @package Bitmotion\Locate\Reviewer
  */
 interface ReviewerInterface
 {
 
     /**
-     *
      * @param string $baseName The basename for the factsArray. This name comes from configuration.
      * @param array $configArray TypoScript configuration array for this fact provider
      */

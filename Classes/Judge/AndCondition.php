@@ -7,11 +7,9 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 
 /**
- * Fixed judge class
+ * Class AndCondition
  *
- * @author Rene Fritz (r.fritz@bitmotion.de)
- * @package    Locate
- * @subpackage Judge
+ * @package Bitmotion\Locate\Judge
  */
 class AndCondition extends AbstractJudge
 {

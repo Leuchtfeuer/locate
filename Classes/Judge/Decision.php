@@ -4,10 +4,9 @@ namespace Bitmotion\Locate\Judge;
 
 
 /**
- * Decision
+ * Class Decision
  *
- * @package    Locate
- * @subpackage Judge
+ * @package Bitmotion\Locate\Judge
  */
 class Decision
 {

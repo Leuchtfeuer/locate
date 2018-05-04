@@ -3,11 +3,11 @@
 namespace Bitmotion\Locate;
 
 
-
 /**
- * General Locate exception
- *
- * @package    Locate
+ * Class Exception
+ * @package Bitmotion\Locate
  */
-class Exception extends \Exception {}
+class Exception extends \Exception
+{
+}
 

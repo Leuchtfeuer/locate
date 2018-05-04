@@ -4,10 +4,9 @@ namespace Bitmotion\Locate\FactProvider;
 
 
 /**
- * Fact exception
+ * Class Exception
  *
- * @package    Locate
- * @subpackage FactProvider
+ * @package Bitmotion\Locate\FactProvider
  */
 class Exception extends \Bitmotion\Locate\Exception
 {
