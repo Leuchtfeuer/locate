@@ -1,12 +1,3 @@
-
-// CH test IPs
-// 217.150.241.201
-// 46.14.211.179
-// 178.209.54.88
-// 212.243.94.146
-// 31.7.63.213
-
-
 plugin.tx_locate_pi1 {
 	userFunc = Bitmotion\Locate\Locate->main
 	debug = 1
