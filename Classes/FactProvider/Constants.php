@@ -10,16 +10,14 @@ namespace Bitmotion\Locate\FactProvider;
  */
 class Constants extends AbstractFactProvider
 {
-
-
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @param array $factsArray
+     * @param array $facts
      */
-    public function Process(&$factsArray)
+    public function Process(array &$facts)
     {
-        foreach ($this->configArray as $key => $value) {
+        foreach ($this->configuration as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $subKey => $SubValue) {
                     $factsArray[$key . $subKey] = $SubValue;

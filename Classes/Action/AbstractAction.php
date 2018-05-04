@@ -17,33 +17,33 @@ abstract class AbstractAction implements ActionInterface
     /**
      * @var array
      */
-    protected $configArray;
+    protected $configuration = [];
 
     /**
-     * @var \Bitmotion\Locate\Log\Logger
+     * @var Logger
      */
-    protected $Logger;
+    protected $logger = null;
 
 
     /**
      *
-     * @param array $configArray TypoScript configuration array for this action
-     * @param \Bitmotion\Locate\Log\Logger $logger
+     * @param array $configuration TypoScript configuration array for this action
+     * @param Logger $logger
      */
-    public function __construct($configArray, $logger)
+    public function __construct(array $configuration, Logger $logger)
     {
-        $this->configArray = $configArray;
-        $this->Logger = $logger;
+        $this->configuration = $configuration;
+        $this->logger = $logger;
     }
 
     /**
      * Call the action module
      *
-     * @param array $factsArray
-     * @param $decision
+     * @param array $facts
+     * @param Decision $decision
      * @throws Exception
      */
-    public function Process(&$factsArray, &$decision)
+    public function process(array &$facts, Decision &$decision)
     {
         throw new Exception('Process not implemented in ' . __CLASS__);
     }

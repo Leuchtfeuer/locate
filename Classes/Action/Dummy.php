@@ -2,6 +2,8 @@
 
 namespace Bitmotion\Locate\Action;
 
+use Bitmotion\Locate\Judge\Decision;
+
 
 /**
  * Class Dummy
@@ -14,10 +16,10 @@ class Dummy extends AbstractAction
     /**
      * Call the action module
      *
-     * @param array $factsArray
-     * @param \Bitmotion\Locate\Judge\Decision
+     * @param array $facts
+     * @param Decision $decision
      */
-    public function Process(&$factsArray, &$decision)
+    public function process(array &$facts, Decision &$decision)
     {
         // nothing
     }

@@ -17,9 +17,9 @@ class IP2Country extends AbstractFactProvider
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @param array $factsArray
+     * @param array $facts
      */
-    public function Process(&$factsArray)
+    public function Process(array &$facts)
     {
         $factPropertyName = $this->GetFactPropertyName('countryCode');
         $factsArray[$factPropertyName] = \Bitmotion\Locate\Tools\IP2Country::GetCountryIso2FromIP(IP::GetUserIpAsLong());

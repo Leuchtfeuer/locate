@@ -113,13 +113,12 @@ abstract class IP
     /**
      * Normalize an IPv6 address to full length
      *
-     * @param    string        Given IPv6 address
-     * @return    string        Normalized address
+     * @param string $address
+     * @return string
      */
-    public static function NormalizeIPv6($address)
+    public static function normalizeIPv6(string $address): string
     {
         $normalizedAddress = '';
-        $stageOneAddress = '';
 
         $chunks = explode('::', $address);    // Count 2 if if address has hidden zero blocks
         if (count($chunks) == 2) {
@@ -135,6 +134,7 @@ abstract class IP
 
             $hiddenBlocks = 8 - ($left + $right);
             $hiddenPart = '';
+            $h = 0;
             while ($h < $hiddenBlocks) {
                 $hiddenPart .= '0000:';
                 $h++;
@@ -273,10 +273,10 @@ abstract class IP
      * Internal
      * Tests if the input is an integer.
      *
-     * @param    mixed        Any input variable to test.
+     * @param    mixed $var        Any input variable to test.
      * @return    boolean        Returns true if string is an integer
      */
-    protected static function _testInt($var)
+    protected static function _testInt($var): bool
     {
         return !strcmp($var, intval($var));
     }
@@ -284,11 +284,11 @@ abstract class IP
     /**
      * Match fully qualified domain name with list of strings with wildcard
      *
-     * @param    string        The current remote IP address for instance, typ. REMOTE_ADDR
-     * @param    string        A comma-list of domain names to match with. *-wildcard allowed but cannot be part of a string, so it must match the full host name (eg. myhost.*.com => correct, myhost.*domain.com => wrong)
-     * @return    boolean        True if a domain name mask from $list matches $baseIP
+     * @param string $baseIP
+     * @param string $list
+     * @return bool
      */
-    public static function CompareFQDN($baseIP, $list)
+    public static function CompareFQDN(string $baseIP, string $list): bool
     {
         if (count(explode('.', $baseIP)) == 4) {
             $resolvedHostName = explode('.', gethostbyaddr($baseIP));
@@ -324,6 +324,10 @@ abstract class IP
         if (!self::isValidIPv4($ip)) {
             return false;
         }
+
+        $ips1 = [];
+        $ips2 = [];
+
         // get local ip prefix list
         // 1.0.0.0 - 10.255.255.255
         for ($i = 0; $i < 256; $i++) {

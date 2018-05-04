@@ -2,6 +2,7 @@
 
 namespace Bitmotion\Locate\Action;
 
+use Bitmotion\Locate\Judge\Decision;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -29,13 +30,13 @@ class Redirect extends AbstractAction
     /**
      * Call the action module
      *
-     * @param array $factsArray
-     * @param \Bitmotion\Locate\Judge\Decision
+     * @param array $facts
+     * @param Decision $decision
      */
-    public function Process(&$factsArray, &$decision)
+    public function Process(array &$facts, Decision &$decision)
     {
-        $httpResponseCode = $this->configArray['httpResponseCode'] ? $this->configArray['httpResponseCode'] : 301;
-        $this->redirectLanguageUid = (int)$this->configArray['sys_language'];
+        $httpResponseCode = $this->configuration['httpResponseCode'] ? $this->configuration['httpResponseCode'] : 301;
+        $this->redirectLanguageUid = (int)$this->configuration['sys_language'];
 
         // Initialize Cookie mode if necessary and prepare everything for possible redirects
         $this->initializeCookieMode();
@@ -47,15 +48,15 @@ class Redirect extends AbstractAction
         };
 
         // Try to redirect to page (if not set, it will be the current page) on configured language
-        if ($this->configArray['page'] || isset($this->configArray['sys_language'])) {
-            $this->RedirectToPid($this->configArray['page'], $this->redirectLanguageUid, $httpResponseCode);
+        if ($this->configuration['page'] || isset($this->configuration['sys_language'])) {
+            $this->RedirectToPid($this->configuration['page'], $this->redirectLanguageUid, $httpResponseCode);
         }
 
         // Try to redirect by configured URL (and language, if configured)
-        if ($this->configArray['url'] && $this->configArray['sys_language']) {
-            $this->RedirectToUrl($this->configArray['url'], $httpResponseCode, $this->redirectLanguageUid);
-        } elseif ($this->configArray['url']) {
-            $this->RedirectToUrl($this->configArray['url'], $httpResponseCode);
+        if ($this->configuration['url'] && $this->configuration['sys_language']) {
+            $this->RedirectToUrl($this->configuration['url'], $httpResponseCode, $this->redirectLanguageUid);
+        } elseif ($this->configuration['url']) {
+            $this->RedirectToUrl($this->configuration['url'], $httpResponseCode);
         }
 
         return;
@@ -66,7 +67,7 @@ class Redirect extends AbstractAction
      */
     private function initializeCookieMode()
     {
-        if (isset($this->configArray['cookieHandling']) && $this->configArray['cookieHandling'] == 1) {
+        if (isset($this->configuration['cookieHandling']) && $this->configuration['cookieHandling'] == 1) {
             $this->cookieMode = true;
         }
     }
@@ -96,7 +97,7 @@ class Redirect extends AbstractAction
             }
 
             // Override config array by cookie value
-            $this->configArray['sys_language'] = $this->getCookieValue();
+            $this->configuration['sys_language'] = $this->getCookieValue();
 
         } elseif ($this->cookieMode) {
 
@@ -132,7 +133,7 @@ class Redirect extends AbstractAction
      */
     private function shouldOverrideCookie()
     {
-        if (isset($this->configArray['overrideCookie']) && $this->configArray['overrideCookie'] == 1) {
+        if (isset($this->configuration['overrideCookie']) && $this->configuration['overrideCookie'] == 1) {
             if (GeneralUtility::_GP('setLang') == 1) {
                 return true;
             }
@@ -147,7 +148,7 @@ class Redirect extends AbstractAction
     private function setCookie($value)
     {
         if ($value === null || $value === '') {
-            setcookie($this->cookieName, $this->configArray['sys_language'], time() + 60 * 60 * 24 * 30, '/');
+            setcookie($this->cookieName, $this->configuration['sys_language'], time() + 60 * 60 * 24 * 30, '/');
         } else {
             setcookie($this->cookieName, $value, time() + 60 * 60 * 24 * 30, '/');
         }

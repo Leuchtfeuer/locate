@@ -14,31 +14,31 @@ abstract class AbstractFactProvider implements FactProviderInterface
     /**
      * @var string
      */
-    protected $baseName;
+    protected $baseName = '';
 
     /**
      * @var array
      */
-    protected $configArray;
+    protected $configuration = [];
 
     /**
      *
      * @param string $baseName The basename for the factsArray. This name comes from configuration.
-     * @param array $configArray TypoScript configuration array for this fact provider
+     * @param array $configuration TypoScript configuration array for this fact provider
      */
-    public function __construct($baseName, $configArray)
+    public function __construct(string $baseName, array $configuration)
     {
         $this->baseName = $baseName;
-        $this->configArray = $configArray;
+        $this->configuration = $configuration;
     }
 
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @param array $factsArray
+     * @param array $facts
      * @throws Exception
      */
-    public function Process(&$factsArray)
+    public function process(array &$facts)
     {
         throw new Exception('Process not implemented in ' . __CLASS__);
     }
@@ -49,7 +49,7 @@ abstract class AbstractFactProvider implements FactProviderInterface
      * @param string $property
      * @return string
      */
-    protected function GetFactPropertyName($property)
+    protected function getFactPropertyName(string $property): string
     {
         return $this->baseName . '.' . $property;
     }

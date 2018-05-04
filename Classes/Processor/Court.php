@@ -62,32 +62,23 @@ class Court implements ProcessorInterface
     /**
      * Processes the configuration
      */
-    public function Run()
+    public function run()
     {
         try {
-            $this->GetFacts();
-
-            if (!$this->factsArray) {
-                throw new Exception('No facts are collected. this seems to be a misconfiguration.');
-            }
-
-            $this->ReviewFacts();
-
-            $decision = $this->CallJudges();
-
-            $this->CallAction($decision);
-
-        } catch (\Bitmotion\Locate\Exception $e) {
-            $this->Logger->Log($e->getMessage(), \Bitmotion\Locate\Log\Logger::EMERG);
+            $this->processFacts();
+            $this->reviewFacts();
+            $this->callAction($this->callJudges());
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage());
         }
     }
 
     /**
      *
      */
-    protected function GetFacts()
+    protected function processFacts()
     {
-        foreach ($this->configArray['facts.'] as $key => $value) {
+        foreach ($this->configuration['facts.'] as $key => $className) {
 
             if (strpos($key, '.')) {
                 continue;
@@ -99,19 +90,19 @@ class Court implements ProcessorInterface
 
             $this->logger->info("Fact provider with key '$key' will be called: " . $className);
 
-            /* @var $factProvider \Bitmotion\Locate\FactProvider\FactProviderInterface */
-            $factProvider = new $value($key, $this->configArray['facts.'][$key . '.']);
-            $factProvider->Process($this->factsArray);
+            /* @var $factProvider FactProviderInterface */
+            $factProvider = GeneralUtility::makeInstance($className, $key, []);
+            $factProvider->process($this->facts);
         }
     }
 
     /**
      *
      */
-    protected function ReviewFacts()
+    protected function reviewFacts()
     {
-        if (is_array($this->configArray['reviewer.']) && count($this->configArray['reviewer.'])) {
-            foreach ($this->configArray['reviewer.'] as $key => $value) {
+        if (is_array($this->configuration['reviewer.']) && count($this->configuration['reviewer.'])) {
+            foreach ($this->configuration['reviewer.'] as $key => $value) {
 
                 if (strpos($key, '.')) {
                     continue;
@@ -121,23 +112,23 @@ class Court implements ProcessorInterface
             }
         }
 
-        foreach ($this->factsArray as $key => $value) {
+        foreach ($this->facts as $key => $value) {
             if (!$value) {
-                $this->factsArray[$key] = '__empty__';
+                $this->facts[$key] = '__empty__';
             }
         }
     }
 
     /**
-     *
-     * @return \Bitmotion\Locate\Judge\Decision
+     * @return Decision|bool
      */
-    protected function CallJudges()
+    protected function callJudges()
     {
+        $actionName = null;
+        $decision = null;
 
         #TODO sort TS numbers
-        $actionName = null;
-        foreach ($this->configArray['judges.'] as $key => $value) {
+        foreach ($this->configuration['judges.'] as $key => $value) {
 
             if (strpos($key, '.')) {
                 continue;
@@ -146,35 +137,36 @@ class Court implements ProcessorInterface
             $this->logger->info("Juge with key '$key' will be called: " . $value);
 
 
+            /* @var $factProvider FactProviderInterface */
+            $factProvider = new $value($this->configuration['judges.'][$key . '.'], $this->logger);
+            $decision = $factProvider->process($this->facts);
 
-            /* @var $factProvider \Bitmotion\Locate\FactProvider\FactInterface */
-            $judge = new $value($this->configArray['judges.'][$key . '.'], $this->Logger);
-            $decision = $judge->Process($this->factsArray);
             if ($decision) {
-                break;
+                return $decision;
             }
         }
-        return $decision;
+
+        return false;
     }
 
 
     /**
      *
-     * @param \Bitmotion\Locate\Judge\Decision $decision
+     * @param Decision $decision
      * @throws \Bitmotion\Locate\Exception
      */
-    protected function CallAction(\Bitmotion\Locate\Judge\Decision $decision)
+    protected function callAction(Decision $decision)
     {
         if (!$decision->hasAction()) {
-            throw new \Bitmotion\Locate\Exception("No action should be called. This migth be a problem in you configuration");
+            throw new Exception("No action should be called. This migth be a problem in you configuration");
         }
 
         $actionName = $decision->getActionName();
 
-        $actionConfigArray = $this->configArray['actions.'][$actionName . '.'];
+        $actionConfigArray = $this->configuration['actions.'][$actionName . '.'];
 
         if (!$actionConfigArray) {
-            throw new \Bitmotion\Locate\Exception("Action with name '$actionName' should be called but is not configured!");
+            throw new Exception("Action with name '$actionName' should be called but is not configured!");
         }
 
 
@@ -188,15 +180,15 @@ class Court implements ProcessorInterface
             }
 
             if ($this->dryRun) {
-                $this->Logger->Info(" Action part '$key.$value' would be called, but dryRun is set.");
+                $this->logger->info(" Action part '$key.$value' would be called, but dryRun is set.");
                 continue;
             }
 
             $this->logger->info(" Action part '$key.$value' will be called");
 
-            /* @var $actionPart \Bitmotion\Locate\Action\ActionInterface */
-            $actionPart = new $value($actionConfigArray[$key . '.'], $this->Logger);
-            $actionPart->Process($this->factsArray, $decision);
+            /* @var $action ActionInterface */
+            $action = new $value($actionConfigArray[$key . '.'], $this->logger);
+            $action->process($this->facts, $decision);
 
         }
     }
@@ -204,9 +196,9 @@ class Court implements ProcessorInterface
     /**
      * @return array
      */
-    public function GetFactsArray()
+    public function getFacts(): array
     {
-        return $this->factsArray;
+        return $this->facts;
     }
 }
 

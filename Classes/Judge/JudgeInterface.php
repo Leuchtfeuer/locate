@@ -22,9 +22,9 @@ interface JudgeInterface
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @param array $factsArray
+     * @param array $facts
      * @return Decision|FALSE
      */
-    public function Process(&$factsArray);
+    public function process(array &$facts);
 }
 

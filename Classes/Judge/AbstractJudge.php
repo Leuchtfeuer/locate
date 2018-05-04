@@ -16,7 +16,7 @@ abstract class AbstractJudge implements JudgeInterface
     /**
      * @var array
      */
-    protected $configArray;
+    protected $configuration = [];
 
     /**
      *
@@ -43,10 +43,11 @@ abstract class AbstractJudge implements JudgeInterface
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @param array $factsArray
+     * @param array $facts
      * @throws Exception
+     * @return bool
      */
-    public function Process(&$factsArray)
+    public function process(array &$facts)
     {
         throw new Exception('Process not implemented in ' . __CLASS__);
     }
@@ -57,7 +58,7 @@ abstract class AbstractJudge implements JudgeInterface
      * @param string $property
      * @return string
      */
-    protected function GetFactPropertyName($property)
+    protected function getFactPropertyName($property)
     {
         return $this->baseName . '.' . $property;
     }

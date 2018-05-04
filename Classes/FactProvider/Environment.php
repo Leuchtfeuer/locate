@@ -63,20 +63,20 @@ class Environment extends AbstractFactProvider
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @param array $factsArray
+     * @param array $facts
      */
-    public function Process(&$factsArray)
+    public function process(array &$facts)
     {
         /** @var array $envFactArray */
         $envFactArray = GeneralUtility::getIndpEnv('_ARRAY');
 
         foreach ($envFactArray as $key => $value) {
             $factPropertyName = $this->GetFactPropertyName($key);
-            $factsArray[$factPropertyName] = $value;
+            $facts[$factPropertyName] = $value;
         }
 
         foreach ($_SERVER as $key => $value) {
-            $factsArray['SERVER_' . $key] = $value;
+            $facts['SERVER_' . $key] = $value;
         }
     }
 

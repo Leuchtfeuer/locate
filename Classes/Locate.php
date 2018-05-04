@@ -34,36 +34,20 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @package Bitmotion\Locate
  */
-class Locate extends AbstractPlugin
+class Locate
 {
-
-    var $prefixId = 'tx_locate_pi1';        // Same as class name
-    var $scriptRelPath = 'pi1/class.tx_locate_pi1.php';    // Path to this script relative to the extension dir.
-    var $extKey = 'locate';    // The extension key.
-    var $pi_checkCHash = true;
-
     /**
      * The main method of the PlugIn
      *
      * @param    string $content : The PlugIn content
-     * @param    array $conf : The PlugIn configuration
-     * @return    string The content that is displayed on the website
+     * @param    array $configuration : The PlugIn configuration
      */
-    function main($content, $conf)
+    function main($content, $configuration)
     {
-
-        /** @var Court $locateProcessor */
-        $locateProcessor = GeneralUtility::makeInstance(Court::class, $conf);
-        $locateProcessor->setDryRun($conf['dryRun']);
-        $locateProcessor->Run();
-
-        if ($conf['debug']) {
-
-            if ($objLog = $locateProcessor->Logger->GetWriter('Memory')) {
-                $ResultLog = str_replace("\n\n", "\n", (string)$objLog->GetLog());
-            }
-            return nl2br($ResultLog) . \TYPO3\CMS\Core\Utility\DebugUtility::viewArray($locateProcessor->GetFactsArray());
-        }
+        /** @var Court $court */
+        $court = GeneralUtility::makeInstance(Court::class, $configuration);
+        $court->setDryRun($configuration['dryRun']);
+        $court->run();
     }
 }
 
