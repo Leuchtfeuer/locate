@@ -2,6 +2,9 @@
 
 namespace Bitmotion\Locate\Action;
 
+use Bitmotion\Locate\Judge\Decision;
+use TYPO3\CMS\Core\Log\Logger;
+
 
 /**
  * Class AbstractAction

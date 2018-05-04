@@ -3,7 +3,6 @@
 namespace Bitmotion\Locate\Judge;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 
 /**
@@ -32,10 +31,10 @@ class AndCondition extends AbstractJudge
             $f1 = isset($factsArray[$c1]) ? $factsArray[$c1] : $c1;
             $f2 = isset($factsArray[$c2]) ? $factsArray[$c2] : $c2;
             if ($f1 != $f2) {
-                $this->Logger->Info("Condition $c1 = $c2 failed: $f1 != $f2");
+                $this->logger->info("Condition $c1 = $c2 failed: $f1 != $f2");
                 return false;
             } else {
-                $this->Logger->Info("Condition $c1 = $c2 is true: $f1 = $f2");
+                $this->logger->info("Condition $c1 = $c2 is true: $f1 = $f2");
             }
         }
 

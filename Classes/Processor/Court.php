@@ -3,9 +3,12 @@
 namespace Bitmotion\Locate\Processor;
 
 
-use Bitmotion\Locate\Judge\Exception;
-use Bitmotion\Locate\Log\Logger;
-use Bitmotion\Locate\Log\Writer\Memory;
+use Bitmotion\Locate\Action\ActionInterface;
+use Bitmotion\Locate\Exception;
+use Bitmotion\Locate\FactProvider\FactProviderInterface;
+use Bitmotion\Locate\Judge\Decision;
+use TYPO3\CMS\Core\Log\Logger;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -17,58 +20,35 @@ class Court implements ProcessorInterface
 {
 
     /**
-     * Logger object
-     *
-     * @var \Bitmotion\Locate\Log\Logger
+     * @var Logger
      */
-    public $Logger;
+    public $logger = null;
 
     /**
      * @var array
      */
-    protected $configArray;
+    protected $configuration = [];
 
     /**
      * @var array
      */
-    protected $factsArray = [];
+    protected $facts = [];
 
     /**
      * If set the action won't be executed
      *
-     * @var boolean
+     * @var bool
      */
     protected $dryRun = false;
 
     /**
      *
-     * @param array $configArray TypoScript config array
+     * @param array $configuration TypoScript config array
      */
-    public function __construct($configArray)
+    public function __construct(array $configuration)
     {
-        $this->configArray = $configArray;
-        $this->Logger = $this->CreateLogger();
-    }
-
-    /**
-     *
-     * @return \Bitmotion\Locate\Log\Logger
-     */
-
-    /**
-     * @return Logger
-     */
-    protected function CreateLogger()
-    {
-        /**
-         * @var Logger $objLog
-         * @var Memory $objLogWriter
-         */
-        $objLog = GeneralUtility::makeInstance(Logger::class);
-        $objLogWriter = GeneralUtility::makeInstance(Memory::class);
-        $objLog->AddWriter($objLogWriter, 'Memory');
-
-        return $objLog;
+        $this->configuration = $configuration;
+        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
     /**
@@ -113,7 +93,11 @@ class Court implements ProcessorInterface
                 continue;
             }
 
-            $this->Logger->Info("Fact provider with key '$key' will be called: " . $value);
+            if (!class_exists($className)) {
+                throw new \Bitmotion\Locate\Action\Exception('Class ' . $className . ' does not exist.');
+            }
+
+            $this->logger->info("Fact provider with key '$key' will be called: " . $className);
 
             /* @var $factProvider \Bitmotion\Locate\FactProvider\FactProviderInterface */
             $factProvider = new $value($key, $this->configArray['facts.'][$key . '.']);
@@ -133,9 +117,7 @@ class Court implements ProcessorInterface
                     continue;
                 }
 
-                $this->Logger->Info("Reviewer with key '$key' will be called: " . $value);
-
-                #TODO;
+                $this->logger->info("Reviewer with key '$key' will be called: " . $value);
             }
         }
 
@@ -145,7 +127,6 @@ class Court implements ProcessorInterface
             }
         }
     }
-
 
     /**
      *
@@ -162,7 +143,8 @@ class Court implements ProcessorInterface
                 continue;
             }
 
-            $this->Logger->Info("Juge with key '$key' will be called: " . $value);
+            $this->logger->info("Juge with key '$key' will be called: " . $value);
+
 
 
             /* @var $factProvider \Bitmotion\Locate\FactProvider\FactInterface */
@@ -196,7 +178,7 @@ class Court implements ProcessorInterface
         }
 
 
-        $this->Logger->Info(" Action with name '$actionName' will be called");
+        $this->logger->info(" Action with name '$actionName' will be called");
 
         # TODO sort array
         foreach ($actionConfigArray as $key => $value) {
@@ -210,18 +192,16 @@ class Court implements ProcessorInterface
                 continue;
             }
 
-            $this->Logger->Info(" Action part '$key.$value' will be called");
+            $this->logger->info(" Action part '$key.$value' will be called");
 
             /* @var $actionPart \Bitmotion\Locate\Action\ActionInterface */
             $actionPart = new $value($actionConfigArray[$key . '.'], $this->Logger);
             $actionPart->Process($this->factsArray, $decision);
 
         }
-        #TODO
     }
 
     /**
-     *
      * @return array
      */
     public function GetFactsArray()

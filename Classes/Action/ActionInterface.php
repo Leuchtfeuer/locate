@@ -2,6 +2,9 @@
 
 namespace Bitmotion\Locate\Action;
 
+use Bitmotion\Locate\Judge\Decision;
+use TYPO3\CMS\Core\Log\Logger;
+
 
 /**
  * Interface ActionInterface
@@ -12,10 +15,10 @@ interface ActionInterface
 {
 
     /**
-     * @param array $configArray TypoScript configuration array for this action
-     * @param \Bitmotion\Locate\Log\Logger
+     * @param array $configuration TypoScript configuration array for this action
+     * @param Logger $logger
      */
-    public function __construct($configArray, $logger);
+    public function __construct(array $configuration, Logger $logger);
 
     /**
      * Call the action module

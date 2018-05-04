@@ -2,6 +2,8 @@
 
 namespace Bitmotion\Locate\Judge;
 
+use TYPO3\CMS\Core\Log\Logger;
+
 
 /**
  * Class AbstractJudge
@@ -18,9 +20,9 @@ abstract class AbstractJudge implements JudgeInterface
 
     /**
      *
-     * @var \Bitmotion\Locate\Log\Logger
+     * @var Logger
      */
-    protected $Logger;
+    protected $logger = null;
 
     /**
      * @var string
@@ -29,13 +31,13 @@ abstract class AbstractJudge implements JudgeInterface
 
     /**
      *
-     * @param array $configArray TypoScript configuration array for this judge
-     * @param \Bitmotion\Locate\Log\Logger $logger
+     * @param array $configuration TypoScript configuration array for this judge
+     * @param Logger $logger
      */
-    public function __construct($configArray, $logger)
+    public function __construct(array $configuration, Logger $logger)
     {
-        $this->configArray = $configArray;
-        $this->Logger = $logger;
+        $this->configuration = $configuration;
+        $this->logger = $logger;
     }
 
     /**

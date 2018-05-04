@@ -264,7 +264,7 @@ class Redirect extends AbstractAction
      */
     public function RedirectToUrl($strLocation, $httpResponseCode, $languageId = 0)
     {
-        $this->Logger->Info(__CLASS__ . " Will redirect to '$strLocation' with code '$httpResponseCode'");
+        $this->logger->info(__CLASS__ . " Will redirect to '$strLocation' with code '$httpResponseCode'");
 
         // Check for redirect recursion
         if (GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') != $strLocation) {

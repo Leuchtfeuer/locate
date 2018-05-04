@@ -26,8 +26,6 @@ namespace Bitmotion\Locate;
  ***************************************************************/
 use Bitmotion\Locate\Processor\Court;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
-use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 
 /**
  * Class Locate
