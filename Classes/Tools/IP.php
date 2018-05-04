@@ -23,7 +23,7 @@ abstract class IP
      * @param    string $list is a comma-list of IP-addresses to match with. *-wildcard allowed instead of number, plus leaving out parts in the IP number is accepted as wildcard (eg. 192.168.*.* equals 192.168). If list is "*" no check is done and the function returns TRUE immediately. An empty list always returns FALSE.
      * @return    boolean        True if an IP-mask from $list matches $baseIP
      */
-    public static function Compare($baseIP, $list)
+    public static function compare($baseIP, $list)
     {
         $list = trim($list);
         if ($list === '') {
@@ -32,9 +32,9 @@ abstract class IP
             return true;
         }
         if (strpos($baseIP, ':') !== false && self::isValidIPv6($baseIP)) {
-            return self::CompareIPv6($baseIP, $list);
+            return self::compareIPv6($baseIP, $list);
         } else {
-            return self::CompareIPv4($baseIP, $list);
+            return self::compareIPv4($baseIP, $list);
         }
     }
 
@@ -70,16 +70,16 @@ abstract class IP
      * @param    string $list is a comma-list of IPv6 prefixes, could also contain IPv4 addresses
      * @return    boolean        True if an baseIP matches any prefix
      */
-    public static function CompareIPv6($baseIP, $list)
+    public static function compareIPv6($baseIP, $list)
     {
         $success = false;    // Policy default: Deny connection
-        $baseIP = self::NormalizeIPv6($baseIP);
+        $baseIP = self::normalizeIPv6($baseIP);
 
         $values = GeneralUtility::trimExplode(',', $list);
         foreach ($values as $test) {
             list($test, $mask) = explode('/', $test);
             if (self::isValidIPv6($test)) {
-                $test = self::NormalizeIPv6($test);
+                $test = self::normalizeIPv6($test);
                 if (intval($mask)) {
                     switch ($mask) {    // test on /48 /64
                         case '48':
@@ -192,7 +192,7 @@ abstract class IP
      * @param    string $list is a comma-list of IP-addresses to match with. *-wildcard allowed instead of number, plus leaving out parts in the IP number is accepted as wildcard (eg. 192.168.*.* equals 192.168)
      * @return    boolean        True if an IP-mask from $list matches $baseIP
      */
-    public static function CompareIPv4($baseIP, $list)
+    public static function compareIPv4($baseIP, $list)
     {
         $IPpartsReq = explode('.', $baseIP);
         if (count($IPpartsReq) == 4) {
@@ -288,7 +288,7 @@ abstract class IP
      * @param string $list
      * @return bool
      */
-    public static function CompareFQDN(string $baseIP, string $list): bool
+    public static function compareFQDN(string $baseIP, string $list): bool
     {
         if (count(explode('.', $baseIP)) == 4) {
             $resolvedHostName = explode('.', gethostbyaddr($baseIP));
@@ -382,7 +382,7 @@ abstract class IP
      *
      * @return integer
      */
-    public static function GetUserIpAsLong()
+    public static function getUserIpAsLong()
     {
         return sprintf("%u", IP2Long(GeneralUtility::getIndpEnv('REMOTE_ADDR')));
     }
@@ -392,7 +392,7 @@ abstract class IP
      *
      * @return string
      */
-    public static function GetUserIp()
+    public static function getUserIp()
     {
         return GeneralUtility::getIndpEnv('REMOTE_ADDR');
     }

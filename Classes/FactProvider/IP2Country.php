@@ -19,13 +19,13 @@ class IP2Country extends AbstractFactProvider
      *
      * @param array $facts
      */
-    public function Process(array &$facts)
+    public function process(array &$facts)
     {
         $factPropertyName = $this->GetFactPropertyName('countryCode');
-        $factsArray[$factPropertyName] = \Bitmotion\Locate\Tools\IP2Country::GetCountryIso2FromIP(IP::GetUserIpAsLong());
+        $facts[$factPropertyName] = \Bitmotion\Locate\Tools\IP2Country::GetCountryIso2FromIP(IP::GetUserIpAsLong());
 
         $factPropertyName = $this->GetFactPropertyName('IP2Dezimal');
-        $factsArray[$factPropertyName] = IP::GetUserIpAsLong();
+        $facts[$factPropertyName] = IP::GetUserIpAsLong();
     }
 
 }

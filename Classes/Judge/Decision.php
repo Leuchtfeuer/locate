@@ -61,7 +61,6 @@ class Decision
         $this->specification = $specification;
     }
 
-
     /**
      *
      * @param string $name

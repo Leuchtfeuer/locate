@@ -21,7 +21,7 @@ abstract class IP2Country
      * @param     int           $ip     as long remote address
      * @return    bool|string           Example: DE
      */
-    public static function GetCountryIso2FromIP(int $ip)
+    public static function getCountryIso2FromIP(int $ip)
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_locate_ip2country');

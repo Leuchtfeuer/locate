@@ -13,15 +13,15 @@ interface ReviewerInterface
 
     /**
      * @param string $baseName The basename for the factsArray. This name comes from configuration.
-     * @param array $configArray TypoScript configuration array for this fact provider
+     * @param array $configuration TypoScript configuration array for this fact provider
      */
-    public function __construct($baseName, $configArray);
+    public function __construct(string $baseName, array $configuration);
 
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @param array $factsArray
+     * @param array $facts
      */
-    public function Process(&$factsArray);
+    public function process(array &$facts);
 }
 

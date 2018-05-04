@@ -12,9 +12,9 @@ interface ProcessorInterface
 {
 
     /**
-     * @param array $configArray TypoScript config array
+     * @param array $configuration TypoScript config array
      */
-    public function __construct(array $configArray);
+    public function __construct(array $configuration);
 
     /**
      * Processes the configuration

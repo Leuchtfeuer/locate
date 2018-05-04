@@ -15,15 +15,15 @@ class Constants extends AbstractFactProvider
      *
      * @param array $facts
      */
-    public function Process(array &$facts)
+    public function process(array &$facts)
     {
         foreach ($this->configuration as $key => $value) {
             if (is_array($value)) {
                 foreach ($value as $subKey => $SubValue) {
-                    $factsArray[$key . $subKey] = $SubValue;
+                    $facts[$key . $subKey] = $SubValue;
                 }
             } else {
-                $factsArray[$key] = $value;
+                $facts[$key] = $value;
             }
         }
     }

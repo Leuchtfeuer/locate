@@ -33,7 +33,7 @@ class Redirect extends AbstractAction
      * @param array $facts
      * @param Decision $decision
      */
-    public function Process(array &$facts, Decision &$decision)
+    public function process(array &$facts, Decision &$decision)
     {
         $httpResponseCode = $this->configuration['httpResponseCode'] ? $this->configuration['httpResponseCode'] : 301;
         $this->redirectLanguageUid = (int)$this->configuration['sys_language'];
@@ -49,14 +49,14 @@ class Redirect extends AbstractAction
 
         // Try to redirect to page (if not set, it will be the current page) on configured language
         if ($this->configuration['page'] || isset($this->configuration['sys_language'])) {
-            $this->RedirectToPid($this->configuration['page'], $this->redirectLanguageUid, $httpResponseCode);
+            $this->redirectToPid($this->configuration['page'], $this->redirectLanguageUid, $httpResponseCode);
         }
 
         // Try to redirect by configured URL (and language, if configured)
         if ($this->configuration['url'] && $this->configuration['sys_language']) {
-            $this->RedirectToUrl($this->configuration['url'], $httpResponseCode, $this->redirectLanguageUid);
+            $this->redirectToUrl($this->configuration['url'], $httpResponseCode, $this->redirectLanguageUid);
         } elseif ($this->configuration['url']) {
-            $this->RedirectToUrl($this->configuration['url'], $httpResponseCode);
+            $this->redirectToUrl($this->configuration['url'], $httpResponseCode);
         }
 
         return;
@@ -187,7 +187,7 @@ class Redirect extends AbstractAction
      * @param string $httpResponseCode
      * @throws Exception
      */
-    private function RedirectToPid($target, $language, $httpResponseCode)
+    private function redirectToPid($target, $language, $httpResponseCode)
     {
         if ($language) {
             $languageId = (int)$language;
@@ -233,7 +233,7 @@ class Redirect extends AbstractAction
             throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
         }
 
-        $this->RedirectToUrl($url, $httpResponseCode, $languageId);
+        $this->redirectToUrl($url, $httpResponseCode, $languageId);
     }
 
     /**
@@ -263,7 +263,7 @@ class Redirect extends AbstractAction
      * @param integer $languageId
      * @return void
      */
-    public function RedirectToUrl($strLocation, $httpResponseCode, $languageId = 0)
+    public function redirectToUrl($strLocation, $httpResponseCode, $languageId = 0)
     {
         $this->logger->info(__CLASS__ . " Will redirect to '$strLocation' with code '$httpResponseCode'");
 

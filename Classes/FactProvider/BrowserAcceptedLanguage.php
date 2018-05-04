@@ -21,25 +21,25 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
         $languages = $this->getAcceptedLanguages();
 
         $factPropertyName = $this->getFactPropertyName('lang');
-        $factsArray[$factPropertyName] = $languages[0];
+        $facts[$factPropertyName] = $languages[0];
 
         $factPropertyName = $this->getFactPropertyName('lang1');
-        $factsArray[$factPropertyName] = $languages[1];
+        $facts[$factPropertyName] = $languages[1];
 
         $factPropertyName = $this->getFactPropertyName('lang2');
-        $factsArray[$factPropertyName] = $languages[2];
+        $facts[$factPropertyName] = $languages[2];
 
 
         $locales = $this->getAcceptedLocales();
 
         $factPropertyName = $this->getFactPropertyName('locale');
-        $factsArray[$factPropertyName] = $locales[0];
+        $facts[$factPropertyName] = $locales[0];
 
         $factPropertyName = $this->getFactPropertyName('locale1');
-        $factsArray[$factPropertyName] = $locales[1];
+        $facts[$factPropertyName] = $locales[1];
 
         $factPropertyName = $this->getFactPropertyName('locale2');
-        $factsArray[$factPropertyName] = $locales[2];
+        $facts[$factPropertyName] = $locales[2];
     }
 
     /**

@@ -28,8 +28,8 @@ class AndCondition extends AbstractJudge
             list($c1, $c2) = explode('=', $value);
             $c1 = trim($c1);
             $c2 = trim($c2);
-            $f1 = isset($factsArray[$c1]) ? $facts[$c1] : $c1;
-            $f2 = isset($factsArray[$c2]) ? $facts[$c2] : $c2;
+            $f1 = isset($facts[$c1]) ? $facts[$c1] : $c1;
+            $f2 = isset($facts[$c2]) ? $facts[$c2] : $c2;
             if ($f1 != $f2) {
                 $this->logger->info("Condition $c1 = $c2 failed: $f1 != $f2");
                 return false;

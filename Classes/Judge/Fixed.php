@@ -17,7 +17,7 @@ class Fixed extends AbstractJudge
      * @param array $facts
      * @return Decision|FALSE
      */
-    public function Process(array &$facts)
+    public function process(array &$facts)
     {
         $decision = new Decision();
         $decision->setActionName($this->configuration['action']);
