@@ -3,7 +3,7 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Locate',
     'description' => 'The users country and prefered language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages.  New functionality can be added easily.',
-    'category' => 'Bitmotion Extensions',
+    'category' => 'fe',
     'author' => 'Rene Fritz, Florian Wessels',
     'author_email' => 'typo3-ext@bitmotion.de',
     'state' => 'stable',
