@@ -225,6 +225,9 @@ class Redirect extends AbstractAction
                 $urlParameters['L'] = $this->getCookieValue();
             }
 
+            // Remove ID from urlParameters
+            unset($urlParameters['id']);
+
             $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
             $url = $GLOBALS['TSFE']->baseUrlWrap($url);
             $url = GeneralUtility::locationHeaderURL($url);
@@ -242,7 +245,7 @@ class Redirect extends AbstractAction
      */
     private function getAdditionalUrlParams(array &$urlParameters): array
     {
-        $additionalUrlParams = $GLOBALS['HTTP_GET_VARS'];
+        $additionalUrlParams = GeneralUtility::_GET();
 
         if (is_array($additionalUrlParams) && count($additionalUrlParams)) {
             if (isset($additionalUrlParams['setLang'])) {
