@@ -69,7 +69,7 @@ class Court implements ProcessorInterface
             $this->reviewFacts();
             $this->callAction($this->callJudges());
         } catch (Exception $e) {
-            $this->logger->error($e->getMessage());
+            $this->logger->critical($e->getMessage());
         }
     }
 
