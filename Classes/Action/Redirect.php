@@ -28,28 +28,42 @@ class Redirect extends AbstractAction
     private $redirectLanguageUid = 0;
 
     /**
+     * @var int 
+     */
+    private $requestedLanguageUid = 0;
+
+    /**
      * Call the action module
-     *
-     * @param array $facts
-     * @param Decision $decision
      */
     public function process(array &$facts, Decision &$decision)
     {
         $httpResponseCode = $this->configuration['httpResponseCode'] ? $this->configuration['httpResponseCode'] : 301;
         $this->redirectLanguageUid = (int)$this->configuration['sys_language'];
 
+        if (class_exists(\TYPO3\CMS\Core\Context\Context::class)) {
+            try {
+                $languageAspect = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class)->getAspect('language');
+                $this->requestedLanguageUid = (int)$languageAspect->getId();
+            } catch (\Exception $e) {
+                $this->logger->critical($e->getMessage());
+                return;
+            }
+        } else {
+            $this->requestedLanguageUid = (int)GeneralUtility::_GP('L');
+        }
+        
         // Initialize Cookie mode if necessary and prepare everything for possible redirects
         $this->initializeCookieMode();
         $this->handleCookieStuff();
 
         // Skip if no redirect is necessary
-        if (!$this->shouldRedirect((int)GeneralUtility::_GP('L'))) {
+        if (!$this->shouldRedirect($this->requestedLanguageUid )) {
             return;
         };
 
         // Try to redirect to page (if not set, it will be the current page) on configured language
         if ($this->configuration['page'] || isset($this->configuration['sys_language'])) {
-            $this->redirectToPid($this->configuration['page'], $this->redirectLanguageUid, (int)$httpResponseCode);
+            $this->redirectToPid((string)$this->configuration['page'], $this->redirectLanguageUid, (int)$httpResponseCode);
         }
 
         // Try to redirect by configured URL (and language, if configured)
@@ -77,7 +91,7 @@ class Redirect extends AbstractAction
      */
     private function handleCookieStuff()
     {
-        $currentLanguageUid = (int)GeneralUtility::_GP('L');
+        $currentLanguageUid = $this->requestedLanguageUid;
 
         if ($this->isCookieSet()) {
             if (!$this->isCookieInCurrentLanguage() && $this->shouldOverrideCookie()) {
@@ -125,7 +139,7 @@ class Redirect extends AbstractAction
      */
     private function isCookieInCurrentLanguage(): bool
     {
-        return GeneralUtility::_GP('L') == $_COOKIE[$this->cookieName];
+        return $this->requestedLanguageUid == $_COOKIE[$this->cookieName];
     }
 
     /**
@@ -154,18 +168,11 @@ class Redirect extends AbstractAction
         }
     }
 
-    /**
-     * @return string
-     */
     private function getCookieValue(): string
     {
         return $_COOKIE[$this->cookieName] ? $_COOKIE[$this->cookieName] : '';
     }
 
-    /**
-     * @param int $sysLanguageUid
-     * @return bool
-     */
     private function shouldRedirect(int $sysLanguageUid): bool
     {
         if (!$this->cookieMode) {
@@ -202,16 +209,10 @@ class Redirect extends AbstractAction
 
         if ($targetPageUid) {
             if ($targetPageUid == $GLOBALS['TSFE']->id) {
+                // Legacy (only TYPO3 8)
                 if ($urlParameters['L']) {
-                    if (class_exists(\TYPO3\CMS\Core\Context\Context::class)) {
-                        $languageAspect = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class)->getAspect('language');
-                        $currentLanguageId = $languageAspect->getId();
-                    } else {
-                        // Deprecated since TYPO3 9
-                        $currentLanguageId = $GLOBALS['TSFE']->sys_language_uid;
-                    }
 
-                    if ($currentLanguageId == $urlParameters['L']) {
+                    if ($this->requestedLanguageUid == $urlParameters['L']) {
                         return;
                     }
                 } else {

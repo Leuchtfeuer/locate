@@ -42,9 +42,8 @@ class Locate
      * @param    string $content : The PlugIn content
      * @param    array $configuration : The PlugIn configuration
      */
-    function main($content, $configuration)
+    function main(string $content, array $configuration)
     {
-        /** @var Court $court */
         $court = GeneralUtility::makeInstance(Court::class, $configuration);
         $court->setDryRun($configuration['dryRun']);
         $court->run();
