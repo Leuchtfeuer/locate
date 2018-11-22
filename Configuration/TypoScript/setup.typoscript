@@ -1,3 +1,4 @@
+plugin.tx_locate_pi1 = USER_INT
 plugin.tx_locate_pi1 {
     userFunc = Bitmotion\Locate\Locate->main
     debug = 1
