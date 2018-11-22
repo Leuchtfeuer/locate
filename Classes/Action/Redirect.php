@@ -203,7 +203,15 @@ class Redirect extends AbstractAction
         if ($targetPageUid) {
             if ($targetPageUid == $GLOBALS['TSFE']->id) {
                 if ($urlParameters['L']) {
-                    if ($GLOBALS['TSFE']->sys_language_uid == $urlParameters['L']) {
+                    if (class_exists(\TYPO3\CMS\Core\Context\Context::class)) {
+                        $languageAspect = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class)->getAspect('language');
+                        $currentLanguageId = $languageAspect->getId();
+                    } else {
+                        // Deprecated since TYPO3 9
+                        $currentLanguageId = $GLOBALS['TSFE']->sys_language_uid;
+                    }
+
+                    if ($currentLanguageId == $urlParameters['L']) {
                         return;
                     }
                 } else {
