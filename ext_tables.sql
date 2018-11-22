@@ -1,16 +1,12 @@
 #
-# Table structure for table 'tx_locate_ip2country'
+# Table structure for table 'static_ip2country'
 #
-CREATE TABLE tx_locate_ip2country (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	ipfrom int(11) unsigned DEFAULT '0' NOT NULL,
-	ipto int(11) unsigned DEFAULT '0' NOT NULL,
-	iso2 char(2) DEFAULT '' NOT NULL,
-	
-	PRIMARY KEY (uid),
-	KEY parent (pid)
+CREATE TABLE static_ip2country (
+  uid int(10) unsigned NOT NULL auto_increment,
+  pid int(10) unsigned NOT NULL DEFAULT '0',
+  ipfrom int(10) unsigned NOT NULL DEFAULT '0',
+  ipto int(10) unsigned NOT NULL DEFAULT '0',
+  iso2 varchar(2)  NOT NULL DEFAULT '',
+  PRIMARY KEY (uid),
+  KEY parent (pid,deleted)
 );

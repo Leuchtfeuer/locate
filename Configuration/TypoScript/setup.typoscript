@@ -1,53 +1,19 @@
 plugin.tx_locate_pi1 {
-	userFunc = Bitmotion\Locate\Locate->main
-	debug = 1
-	dryRun = 1
+    userFunc = Bitmotion\Locate\Locate->main
+    debug = 1
+    dryRun = 1
 
 
-	actions {
+    # See example files for configuration
+    actions {
 
-		redirect_fr {
-			10 = \Bitmotion\Locate\Action\Redirect
-			10.url = http://www.brz.eu/ch-fr/
-		}
+    }
 
-		default {
-			10 = \Bitmotion\Locate\Action\Red eirect
-			10.url = http://www.brz.eu/de/
-		}
-	}
+    facts {
 
+    }
 
-	facts {
+    judges {
 
-		env = Bitmotion\Locate\FactProvider\Environment
-
-#		DE, UK, ...
-		countryByIP = Bitmotion\Locate\FactProvider\IP2Country
-
-#		de, DE, de_DE; en, GB, en_GB
-		browserAccepted = Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
-
-#		current page language: de, DE, de_DE, sys_language_uid
-#		enriches the facts array with following data:
-#		currentPage.lang = de
-#		currentPage.country = DE
-#		currentPage.locale = de_DE
-		currentPage = Bitmotion\Locate\FactProvider\Typo3Page
-	}
-
-
-	judges {
-
-		20 = \Bitmotion\Locate\Judge\AndCondition
-		20.action = redirect_fr
-		20.matches (
-			countryByIP.countryCode = CH
-			browserAccepted.lang = fr
-		)
-
-		999 = \Bitmotion\Locate\Judge\Fixed
-		999.action = default
-	}
-
+    }
 }

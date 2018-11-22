@@ -28,7 +28,7 @@ abstract class IP2Country
 
         return $queryBuilder
             ->select('iso2')
-            ->from('tx_locate_ip2country')
+            ->from('static_ip2country')
             ->where($queryBuilder->expr()->lte('ipfrom', $queryBuilder->createNamedParameter($ip)))
             ->andWhere($queryBuilder->expr()->gte('ipto', $queryBuilder->createNamedParameter($ip)))
             ->execute()
