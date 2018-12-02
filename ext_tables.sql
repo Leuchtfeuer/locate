@@ -8,5 +8,5 @@ CREATE TABLE static_ip2country (
   ipto int(10) unsigned NOT NULL DEFAULT '0',
   iso2 varchar(2)  NOT NULL DEFAULT '',
   PRIMARY KEY (uid),
-  KEY parent (pid,deleted)
+  KEY parent (pid)
 );
