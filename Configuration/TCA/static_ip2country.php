@@ -9,7 +9,6 @@ return [
         'is_static' => 1,
         'readOnly' => 1,
         'default_sortby' => 'ORDER BY cn_short_en',
-        'delete' => 'deleted',
         'title' => 'LLL:EXT:locate/Resources/Private/Language/locallang_db.xlf:tx_locate_ip2country',
         'iconfile' => 'EXT:locate/Resources/Public/Icons/icon_tx_locate_ip2country.png',
         'hideTable' => true,
