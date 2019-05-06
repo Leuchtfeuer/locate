@@ -40,6 +40,8 @@ class Redirect extends AbstractAction
 
         // Skip if no redirect is necessary
         if (!$this->shouldRedirect($this->requestedLanguageUid)) {
+            $this->logger->info('No redirect necessary.');
+
             return;
         }
 
@@ -62,9 +64,10 @@ class Redirect extends AbstractAction
     /**
      * Set CookeMode Param to true if cookieHandling is enables
      */
-    private function initializeCookieMode()
+    private function initializeCookieMode(): void
     {
-        if (isset($this->configuration['cookieHandling']) && $this->configuration['cookieHandling'] == 1) {
+        if (isset($this->configuration['cookieHandling']) && (bool)$this->configuration['cookieHandling'] === true) {
+            $this->logger->info('Cookie Handling is set.');
             $this->cookieMode = true;
         }
     }
@@ -74,24 +77,27 @@ class Redirect extends AbstractAction
         $currentLanguageUid = $this->requestedLanguageUid;
 
         if ($this->isCookieSet()) {
-            if (!$this->isCookieInCurrentLanguage() && $this->shouldOverrideCookie()) {
+            // Cookie is not in current language
+            $this->logger->info('Cookie is set.');
+
+            if ($this->isCookieInCurrentLanguage() === false && $this->shouldOverrideCookie() === true) {
                 // Override cookie
+                $this->logger->info('Cookie is not in current language, so we override it.');
                 $this->redirectLanguageUid = $currentLanguageUid;
                 $this->setCookie($currentLanguageUid);
-
-                return;
             } elseif ($this->isCookieInCurrentLanguage()) {
                 // Cookie is in current language
+                $this->logger->info('Cookie is in current language.');
                 $this->redirectLanguageUid = $currentLanguageUid;
-
-                return;
+            } else {
+                // Override config array by cookie value
+                $this->logger->info('Cookie is not in current language and overriding is not allowed.');
+                $this->redirectLanguageUid = $this->getCookieValue();
+                $this->configuration['sys_language'] = $this->getCookieValue();
             }
-            // Cookie is not in current language
-            $this->redirectLanguageUid = $this->getCookieValue();
+        } elseif ($this->cookieMode === true) {
+            $this->logger->info('Cookie is not set, but we are in cookie mode.');
 
-            // Override config array by cookie value
-            $this->configuration['sys_language'] = $this->getCookieValue();
-        } elseif ($this->cookieMode) {
             if ($currentLanguageUid !== $this->redirectLanguageUid) {
                 // Set cookie value to target language
                 $this->setCookie($this->redirectLanguageUid);
@@ -104,18 +110,18 @@ class Redirect extends AbstractAction
 
     private function isCookieSet(): bool
     {
-        return isset($_COOKIE[$this->cookieName]);
+        return isset($_COOKIE[self::COOKIE_NAME]);
     }
 
     private function isCookieInCurrentLanguage(): bool
     {
-        return $this->requestedLanguageUid == $_COOKIE[$this->cookieName];
+        return $this->requestedLanguageUid === (int)$_COOKIE[self::COOKIE_NAME];
     }
 
     private function shouldOverrideCookie(): bool
     {
-        if (isset($this->configuration['overrideCookie']) && $this->configuration['overrideCookie'] == 1) {
-            if (GeneralUtility::_GP('setLang') == 1) {
+        if (isset($this->configuration['overrideCookie']) && (bool)$this->configuration['overrideCookie'] === true) {
+            if ((bool)GeneralUtility::_GP(self::OVERRIDE_PARAMETER) === true) {
                 return true;
             }
         }
@@ -123,27 +129,29 @@ class Redirect extends AbstractAction
         return false;
     }
 
-    private function setCookie(string $value)
+    private function setCookie(int $value)
     {
-        if ($value === '') {
-            setcookie($this->cookieName, $this->configuration['sys_language'], time() + 60 * 60 * 24 * 30, '/');
+        if ($value === null) {
+            setcookie(self::COOKIE_NAME, (string)$this->configuration['sys_language'], time() + 60 * 60 * 24 * 30, '/');
         } else {
-            setcookie($this->cookieName, $value, time() + 60 * 60 * 24 * 30, '/');
+            setcookie(self::COOKIE_NAME, (string)$value, time() + 60 * 60 * 24 * 30, '/');
         }
     }
 
-    private function getCookieValue(): string
+    private function getCookieValue(): int
     {
-        return $_COOKIE[$this->cookieName] ? $_COOKIE[$this->cookieName] : '';
+        return (int)$_COOKIE[self::COOKIE_NAME] ?? 0;
     }
 
     private function shouldRedirect(int $sysLanguageUid): bool
     {
-        if (!$this->cookieMode) {
+        // Always redirect when we are not in cookie mode
+        if ($this->cookieMode === false) {
             return true;
         }
 
-        if (isset($_COOKIE[$this->cookieName]) && (int)$_COOKIE[$this->cookieName] === $sysLanguageUid) {
+        // Do not redirect, when cookie is set and cookie value matches given language id
+        if (isset($_COOKIE[self::COOKIE_NAME]) && (int)$_COOKIE[self::COOKIE_NAME] === $sysLanguageUid) {
             return false;
         }
 
