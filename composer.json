@@ -26,8 +26,8 @@
     }
   ],
   "require": {
-    "typo3-ter/static-info-tables": "^6.4",
-    "typo3/cms-core": "^8.7 || ^9.5"
+    "sjbr/static-info-tables": "^6.7",
+    "typo3/cms-core": "^9.5"
   },
   "license": "GPL-2.0-or-later",
   "autoload": {
@@ -36,7 +36,6 @@
     }
   },
   "replace": {
-    "locate": "self.version",
     "typo3-ter/locate": "self.version",
     "bitmotion/locate": "self.version"
   }
