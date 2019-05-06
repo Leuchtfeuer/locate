@@ -1,63 +1,58 @@
-plugin.tx_locate_pi1 = USER_INT
-plugin.tx_locate_pi1 {
-  userFunc = Bitmotion\Locate\Locate->main
-  debug = 1
-  dryRun =
+config.tx_locate {
+    dryRun = 0
+    cookieName = bm_locate
+    overrideParam = setLang
+    httpResponseCode = HTTP/1.1 303 See Other
 
-  actions {
+    actions {
+        redirectToPageEN {
+            20 = Bitmotion\Locate\Action\Redirect
+            20 {
+                sys_language = 0
+                cookieHandling = 1
+                overrideCookie = 1
+            }
+        }
 
-    redirectToPageEN {
-      20 = Bitmotion\Locate\Action\Redirect
-      // current page
-      20.page = 17
-      20.sys_language = 0
-      20.cookieHandling = 1
-      20.overrideCookie = 1
+        redirectToPageDE {
+            20 = Bitmotion\Locate\Action\Redirect
+            20 {
+                sys_language = 1
+                cookieHandling = 1
+                overrideCookie = 1
+            }
+        }
+
+        redirectToPageZH {
+            20 = Bitmotion\Locate\Action\Redirect
+            20 {
+                sys_language = 2
+                cookieHandling = 1
+                overrideCookie = 1
+            }
+        }
     }
 
-    redirectToPageDE {
-      20 = Bitmotion\Locate\Action\Redirect
-      // current page
-      20.page = 17
-      20.sys_language = 1
-      20.cookieHandling = 1
-      20.overrideCookie = 1
+    facts {
+        \\ de, DE, de_DE; en, GB, en_GB
+        browserAccepted = Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
     }
 
-    redirectToPageZH {
-      20 = Bitmotion\Locate\Action\Redirect
-      // current page
-      20.page = 17
-      20.sys_language = 2
-      20.cookieHandling = 1
-      20.overrideCookie = 1
+    judges {
+        10 = Bitmotion\Locate\Judge\AndCondition
+        10.action = redirectToPageDE
+        10.matches (
+            browserAccepted.lang = de
+        )
+
+        20 = Bitmotion\Locate\Judge\AndCondition
+        20.action = redirectToPageZH
+        20.matches (
+            browserAccepted.lang = zh
+        )
+
+        999 = Bitmotion\Locate\Judge\Fixed
+        999.action = redirectToPageEN
     }
-  }
-
-
-  facts {
-    \\ de, DE, de_DE; en, GB, en_GB
-    browserAccepted = Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
-  }
-
-
-  judges {
-
-    10 = Bitmotion\Locate\Judge\AndCondition
-    10.action = redirectToPageDE
-    10.matches (
-      browserAccepted.lang = de
-    )
-
-    20 = Bitmotion\Locate\Judge\AndCondition
-    20.action = redirectToPageZH
-    20.matches (
-      browserAccepted.lang = zh
-    )
-
-    999 = Bitmotion\Locate\Judge\Fixed
-    999.action = redirectToPageEN
-  }
-
 }
 

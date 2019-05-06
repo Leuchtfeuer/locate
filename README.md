@@ -44,21 +44,11 @@ Judges
 
 ## TypoScript
 
-### Installation (via UserFunc)
-
-```
-plugin.tx_locate_pi1 = USER_INT
-plugin.tx_locate_pi1 {
-  userFunc = Bitmotion\Locate\Locate->main
-  # for further configuration see details below
-}
-page.1 < plugin.tx_locate_pi1
-```
-* Include userfunc at the beginning of the page
+* Include TypoScript on pages where the redirect should take place
 
 ### Actions
 ```
-actions {
+config.tx_locate.actions {
     redirectToPageDE {
         20 = Bitmotion\Locate\Action\Redirect
         20.sys_language = 1
@@ -85,7 +75,7 @@ actions {
 
 ### Facts
 ```
-facts {
+config.tx_locate.facts {
     # de, DE, de_DE; en, GB, en_GB
     env = Bitmotion\Locate\FactProvider\Environment
     # DE, UK, ...
@@ -105,7 +95,7 @@ Ausprägungen zu deren Verwendung in Judges:
 
 ### Judges
 ```
-judges {
+config.tx_locate.judges {
     20 = Bitmotion\Locate\Judge\AndCondition
     20.action = redirect_fr
     20.matches (
@@ -119,11 +109,11 @@ judges {
 
 ### Sonstiges
 ```
-plugin.tx_locate_pi1.cookieName = bm_locate
+config.tx_locate.cookieName = bm_locate
 ```
 * Name of the cookie.
 ```
-plugin.tx_locate_pi1.httpResponseCode = HTTP/1.1 303 See Other
+config.tx_locate.httpResponseCode = HTTP/1.1 303 See Other
 ```
 * HTTP response code for redirects.
 

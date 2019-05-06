@@ -1,8 +1,15 @@
-plugin.tx_locate_pi1 = USER_INT
-plugin.tx_locate_pi1 {
-    userFunc = Bitmotion\Locate\Locate->main
-    debug = 1
+config.tx_locate {
+    # Set this param if you do not want to execute the redirect
     dryRun = 1
+
+    # Name of the cookie used when cookieHandling is set to true within action
+    cookieName = bm_locate
+
+    # URL Parameter which has to be true when overrideCookie is allowed within action and cookieHandling is enabled
+    overrideParam = setLang
+
+    # Default http status code send on redirects
+    httpResponseCode = HTTP/1.1 303 See Other
 
 
     # See example files for configuration

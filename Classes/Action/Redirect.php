@@ -6,6 +6,7 @@ use Bitmotion\Locate\Judge\Decision;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Class Redirect
@@ -124,7 +125,8 @@ class Redirect extends AbstractAction
     private function shouldOverrideCookie(): bool
     {
         if (isset($this->configuration['overrideCookie']) && (bool)$this->configuration['overrideCookie'] === true) {
-            if ((bool)GeneralUtility::_GP(self::OVERRIDE_PARAMETER) === true) {
+            $overrideParam = $this->configuration['overrideParam'] ?? self::OVERRIDE_PARAMETER;
+            if ((bool)GeneralUtility::_GP($overrideParam) === true) {
                 return true;
             }
         }
@@ -170,6 +172,8 @@ class Redirect extends AbstractAction
         $urlParameters = [];
         $this->getAdditionalUrlParams($urlParameters);
 
+        $contentObjectRenderer = !empty($GLOBALS['TSFE']->cObj) ? $GLOBALS['TSFE']->cObj : new ContentObjectRenderer($GLOBALS['TSFE']);
+
         if ($page > 0) {
             if ($page === $GLOBALS['TSFE']->id) {
                 $this->logger->info('Target page matches current page. No redirect.');
@@ -177,12 +181,12 @@ class Redirect extends AbstractAction
                 return;
             }
 
-            $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($page, $urlParameters);
+            $url = $contentObjectRenderer->getTypoLink_URL($page, $urlParameters);
             $url = $GLOBALS['TSFE']->baseUrlWrap($url);
             $url = GeneralUtility::locationHeaderURL($url);
         } elseif ($language >= 0) {
             $urlParameters['L'] = $language;
-            $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
+            $url = $contentObjectRenderer->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
             $url = $GLOBALS['TSFE']->baseUrlWrap($url);
             $url = GeneralUtility::locationHeaderURL($url);
         } else {
