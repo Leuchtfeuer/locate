@@ -86,6 +86,11 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
             $this->logger->info("Juge with key '$key' will be called: " . $value);
 
+            if (!class_exists($value)) {
+                $this->logger->error(sprintf('Class %s does nost exist.', $value));
+                throw new \Bitmotion\Locate\Judge\Exception(sprintf('Judge %s does not exist.', $value));
+            }
+
             /* @var $factProvider FactProviderInterface */
             $factProvider = GeneralUtility::makeInstance($value, $this->configuration['judges.'][$key . '.']);
             $decision = $factProvider->process($this->facts);
