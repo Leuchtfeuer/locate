@@ -12,11 +12,10 @@ Ziel: „Richtige Version“ der Website zuweisen Version: „L=<Sprachen / Län
 Entscheidungskriterien
 * Browsersprache
 * IP
-* HTML5 Geo Location (nicht implementiert)
 * andere
 
 Feinheit: Zugriff auf definierte Versions-Seite („/de/produkte“)
-* beibehalten? -> Extension nur auf <home> einbinden
+* beibehalten? -> Extension nur auf der Startseite einbinden
 * übersteuern? -> Extension überall einbinden
 
 Sprachwechsel... wohin?
@@ -53,7 +52,7 @@ plugin.tx_locate_pi1 {
   userFunc = Bitmotion\Locate\Locate->main
   # for further configuration see details below
 }
-page.7 < plugin.tx_locate_pi1
+page.1 < plugin.tx_locate_pi1
 ```
 * Include userfunc at the beginning of the page
 
@@ -61,21 +60,24 @@ page.7 < plugin.tx_locate_pi1
 ```
 actions {
     redirectToPageDE {
-        20 = \Bitmotion\Locate\Action\Redirect
+        20 = Bitmotion\Locate\Action\Redirect
         20.sys_language = 1
         20.cookieHandling = 1
+        20.overrideCookie = 1
     }
     redirectToPageEN {
-        20 = \Bitmotion\Locate\Action\Redirect
+        20 = Bitmotion\Locate\Action\Redirect
         20.page = 42
         20.sys_language = 0
         20.cookieHandling = 1
+        20.overrideCookie = 1
     }
     default {
-        20 = \Bitmotion\Locate\Action\Redirect
+        20 = Bitmotion\Locate\Action\Redirect
         20.page = 43
         20.sys_language = 0
         20.cookieHandling = 1
+        20.overrideCookie = 1
     }
 }
 ```
@@ -85,11 +87,11 @@ actions {
 ```
 facts {
     # de, DE, de_DE; en, GB, en_GB
-    env = \Bitmotion\Locate\FactProvider\Environment
+    env = Bitmotion\Locate\FactProvider\Environment
     # DE, UK, ...
-    countryByIP = \Bitmotion\Locate\FactProvider\IP2Country
-    browserAccepted = \Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
-    constants  = \Bitmotion\Locate\FactProvider\Constants
+    countryByIP = Bitmotion\Locate\FactProvider\IP2Country
+    browserAccepted = Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
+    constants  = Bitmotion\Locate\FactProvider\Constants
 }
 ```
 Facts = Klassen und symbolische Namen
@@ -104,31 +106,31 @@ Ausprägungen zu deren Verwendung in Judges:
 ### Judges
 ```
 judges {
-    20 = \Bitmotion\Locate\Judge\AndCondition
+    20 = Bitmotion\Locate\Judge\AndCondition
     20.action = redirect_fr
     20.matches (
         countryByIP.countryCode = CH
         browserAccepted.lang = fr
     )
-    999 = \Bitmotion\Locate\Judge\Fixed
+    999 = Bitmotion\Locate\Judge\Fixed
     999.action = default
 }
 ```
 
 ### Sonstiges
 ```
-plugin.tx_locate_pi1.debug
+plugin.tx_locate_pi1.cookieName = bm_locate
 ```
-* Set to 1 toshow additional information (on the screen), i.e. what was the data of incoming request
+* Name of the cookie.
 ```
-plugin.tx_locate_pi1.dryRun
+plugin.tx_locate_pi1.httpResponseCode = HTTP/1.1 303 See Other
 ```
-* Set to 1 if you want debug only
+* HTTP response code for redirects.
 
 ## Cookies
 
 ```
-Key: bm_locate
+Key: bm_locate (configurable)
 Value: Language ID
 ```
 * Wird beim ersten Zugriff gesetzt, falls im TS erlaubt

@@ -24,6 +24,8 @@ class Redirect extends AbstractAction
 
     private $httpStatus = '';
 
+    private $cookieName = '';
+
     /**
      * Call the action module
      *
@@ -69,6 +71,7 @@ class Redirect extends AbstractAction
         if (isset($this->configuration['cookieHandling']) && (bool)$this->configuration['cookieHandling'] === true) {
             $this->logger->info('Cookie Handling is set.');
             $this->cookieMode = true;
+            $this->cookieName = $this->configuration['cookieName'] ?? self::COOKIE_NAME;
         }
     }
 
@@ -110,12 +113,12 @@ class Redirect extends AbstractAction
 
     private function isCookieSet(): bool
     {
-        return isset($_COOKIE[self::COOKIE_NAME]);
+        return isset($_COOKIE[$this->cookieName]);
     }
 
     private function isCookieInCurrentLanguage(): bool
     {
-        return $this->requestedLanguageUid === (int)$_COOKIE[self::COOKIE_NAME];
+        return $this->requestedLanguageUid === (int)$_COOKIE[$this->cookieName];
     }
 
     private function shouldOverrideCookie(): bool
@@ -132,15 +135,15 @@ class Redirect extends AbstractAction
     private function setCookie(int $value)
     {
         if ($value === null) {
-            setcookie(self::COOKIE_NAME, (string)$this->configuration['sys_language'], time() + 60 * 60 * 24 * 30, '/');
+            setcookie($this->cookieName, (string)$this->configuration['sys_language'], time() + 60 * 60 * 24 * 30, '/');
         } else {
-            setcookie(self::COOKIE_NAME, (string)$value, time() + 60 * 60 * 24 * 30, '/');
+            setcookie($this->cookieName, (string)$value, time() + 60 * 60 * 24 * 30, '/');
         }
     }
 
     private function getCookieValue(): int
     {
-        return (int)$_COOKIE[self::COOKIE_NAME] ?? 0;
+        return (int)$_COOKIE[$this->cookieName] ?? 0;
     }
 
     private function shouldRedirect(int $sysLanguageUid): bool
@@ -151,7 +154,7 @@ class Redirect extends AbstractAction
         }
 
         // Do not redirect, when cookie is set and cookie value matches given language id
-        if (isset($_COOKIE[self::COOKIE_NAME]) && (int)$_COOKIE[self::COOKIE_NAME] === $sysLanguageUid) {
+        if (isset($_COOKIE[$this->cookieName]) && (int)$_COOKIE[$this->cookieName] === $sysLanguageUid) {
             return false;
         }
 
