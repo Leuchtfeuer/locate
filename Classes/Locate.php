@@ -43,7 +43,7 @@ class Locate
     public function main(string $content, array $configuration)
     {
         $court = GeneralUtility::makeInstance(Court::class, $configuration);
-        $court->setDryRun($configuration['dryRun']);
+        $court->setDryRun((bool)$configuration['dryRun']);
         $court->run();
     }
 }
