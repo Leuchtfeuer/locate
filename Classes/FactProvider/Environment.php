@@ -1,20 +1,16 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate\FactProvider;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 /**
  * Class Environment
  *
  * Provide multiple environment data from GeneralUtility::getIndpEnv()
- *
- * @package Bitmotion\Locate\FactProvider
  */
 class Environment extends AbstractFactProvider
 {
-
     /*
     Conventions:
     output from parse_url():
@@ -59,11 +55,8 @@ class Environment extends AbstractFactProvider
     - ALSO TRY the script from the ROOT of a site (like 'http://www.mytest.com/' and not 'http://www.mytest.com/test/' !!)
      */
 
-
     /**
      * Call the fact module which might add some data to the factArray
-     *
-     * @param array $facts
      */
     public function process(array &$facts)
     {
@@ -79,5 +72,4 @@ class Environment extends AbstractFactProvider
             $facts['SERVER_' . $key] = $value;
         }
     }
-
 }

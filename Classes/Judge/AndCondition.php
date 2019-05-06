@@ -1,22 +1,17 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate\Judge;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 /**
  * Class AndCondition
- *
- * @package Bitmotion\Locate\Judge
  */
 class AndCondition extends AbstractJudge
 {
-
     /**
      * The judge decide if the case is true and therefore the configured action should be called
      *
-     * @param array $facts
      * @return Decision|false
      */
     public function process(array &$facts)
@@ -32,10 +27,10 @@ class AndCondition extends AbstractJudge
             $f2 = isset($facts[$c2]) ? $facts[$c2] : $c2;
             if ($f1 != $f2) {
                 $this->logger->info("Condition $c1 = $c2 failed: $f1 != $f2");
+
                 return false;
-            } else {
-                $this->logger->info("Condition $c1 = $c2 is true: $f1 = $f2");
             }
+            $this->logger->info("Condition $c1 = $c2 is true: $f1 = $f2");
         }
 
         /** @var Decision $decision */
@@ -44,6 +39,4 @@ class AndCondition extends AbstractJudge
 
         return $decision;
     }
-
 }
-

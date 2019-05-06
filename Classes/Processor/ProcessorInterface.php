@@ -1,16 +1,12 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate\Processor;
-
 
 /**
  * Interface ProcessorInterface
- *
- * @package Bitmotion\Locate\Processor
  */
 interface ProcessorInterface
 {
-
     /**
      * @param array $configuration TypoScript config array
      */
@@ -21,4 +17,3 @@ interface ProcessorInterface
      */
     public function run();
 }
-

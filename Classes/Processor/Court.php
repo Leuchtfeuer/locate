@@ -1,7 +1,6 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate\Processor;
-
 
 use Bitmotion\Locate\Action\ActionInterface;
 use Bitmotion\Locate\Exception;
@@ -13,12 +12,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class Court
- *
- * @package Bitmotion\Locate\Processor
  */
 class Court implements ProcessorInterface
 {
-
     /**
      * @var Logger
      */
@@ -42,7 +38,6 @@ class Court implements ProcessorInterface
     protected $dryRun = false;
 
     /**
-     *
      * @param array $configuration TypoScript config array
      */
     public function __construct(array $configuration)
@@ -51,9 +46,6 @@ class Court implements ProcessorInterface
         $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
-    /**
-     * @param boolean $dryRun
-     */
     public function setDryRun(bool $dryRun)
     {
         $this->dryRun = $dryRun;
@@ -73,13 +65,9 @@ class Court implements ProcessorInterface
         }
     }
 
-    /**
-     *
-     */
     protected function processFacts()
     {
         foreach ($this->configuration['facts.'] as $key => $className) {
-
             if (strpos($key, '.')) {
                 continue;
             }
@@ -96,14 +84,10 @@ class Court implements ProcessorInterface
         }
     }
 
-    /**
-     *
-     */
     protected function reviewFacts()
     {
         if (is_array($this->configuration['reviewer.']) && count($this->configuration['reviewer.'])) {
             foreach ($this->configuration['reviewer.'] as $key => $value) {
-
                 if (strpos($key, '.')) {
                     continue;
                 }
@@ -127,15 +111,13 @@ class Court implements ProcessorInterface
         $actionName = null;
         $decision = null;
 
-        #TODO sort TS numbers
+        //TODO sort TS numbers
         foreach ($this->configuration['judges.'] as $key => $value) {
-
             if (strpos($key, '.')) {
                 continue;
             }
 
             $this->logger->info("Juge with key '$key' will be called: " . $value);
-
 
             /* @var $factProvider FactProviderInterface */
             $factProvider = new $value($this->configuration['judges.'][$key . '.'], $this->logger);
@@ -149,16 +131,13 @@ class Court implements ProcessorInterface
         return false;
     }
 
-
     /**
-     *
-     * @param Decision $decision
      * @throws \Bitmotion\Locate\Exception
      */
     protected function callAction(Decision $decision)
     {
         if (!$decision->hasAction()) {
-            throw new Exception("No action should be called. This migth be a problem in you configuration");
+            throw new Exception('No action should be called. This migth be a problem in you configuration');
         }
 
         $actionName = $decision->getActionName();
@@ -169,12 +148,10 @@ class Court implements ProcessorInterface
             throw new Exception("Action with name '$actionName' should be called but is not configured!");
         }
 
-
         $this->logger->info(" Action with name '$actionName' will be called");
 
-        # TODO sort array
+        // TODO sort array
         foreach ($actionConfigArray as $key => $value) {
-
             if (strpos($key, '.')) {
                 continue;
             }
@@ -189,16 +166,11 @@ class Court implements ProcessorInterface
             /* @var $action ActionInterface */
             $action = new $value($actionConfigArray[$key . '.'], $this->logger);
             $action->process($this->facts, $decision);
-
         }
     }
 
-    /**
-     * @return array
-     */
     public function getFacts(): array
     {
         return $this->facts;
     }
 }
-

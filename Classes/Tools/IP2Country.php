@@ -1,24 +1,19 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate\Tools;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 /**
  * Class IP2Country
- *
- * @package Bitmotion\Locate\Tools
  */
 abstract class IP2Country
 {
-
     /**
      * Check the IP in the geoip table and returns iso 2 code for the current remote address
      *
-     * @param int $ip
      * @return bool|string
      */
     public static function getCountryIso2FromIP(int $ip)
@@ -34,5 +29,4 @@ abstract class IP2Country
             ->execute()
             ->fetchColumn(0);
     }
-
 }

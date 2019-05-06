@@ -1,18 +1,14 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate\Reviewer;
-
 
 /**
  * Class AbstractReviewer
  *
  * This is in fact the same stuff as in FactProvider
- *
- * @package Bitmotion\Locate\Reviewer
  */
 abstract class AbstractReviewer implements ReviewerInterface
 {
-
     /**
      * @var string
      */
@@ -23,9 +19,7 @@ abstract class AbstractReviewer implements ReviewerInterface
      */
     protected $configuration = [];
 
-
     /**
-     *
      * @param string $baseName The basename for the factsArray. This name comes from configuration.
      * @param array $configuration TypoScript configuration array for this fact provider
      */
@@ -38,7 +32,6 @@ abstract class AbstractReviewer implements ReviewerInterface
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @param array $facts
      * @throws \Exception
      */
     public function process(array &$facts)
@@ -48,13 +41,9 @@ abstract class AbstractReviewer implements ReviewerInterface
 
     /**
      * Adds a prefix to the factArray property name
-     *
-     * @param string $property
-     * @return string
      */
     protected function getFactPropertyName(string $property): string
     {
         return $this->baseName . '.' . $property;
     }
 }
-

@@ -1,23 +1,17 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate\FactProvider;
 
 /**
  * Class BrowserAcceptedLanguage
- *
- * @package Bitmotion\Locate\FactProvider
  */
 class BrowserAcceptedLanguage extends AbstractFactProvider
 {
-
     /**
      * Call the fact module which might add some data to the factArray
-     *
-     * @param array $facts
      */
     public function process(array &$facts)
     {
-
         $languages = $this->getAcceptedLanguages();
 
         $factPropertyName = $this->getFactPropertyName('lang');
@@ -28,7 +22,6 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
 
         $factPropertyName = $this->getFactPropertyName('lang2');
         $facts[$factPropertyName] = $languages[2];
-
 
         $locales = $this->getAcceptedLocales();
 
@@ -42,12 +35,9 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
         $facts[$factPropertyName] = $locales[2];
     }
 
-    /**
-     * @return array
-     */
     protected function getAcceptedLanguages(): array
     {
-        $httpAcceptLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "";
+        $httpAcceptLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
         preg_match_all('/([a-z]{2})(?:-[a-zA-Z]{2})?/', $httpAcceptLanguage, $matches);
 
         $pref_lang = [];
@@ -60,15 +50,12 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
         return $pref_lang;
     }
 
-    /**
-     * @return array
-     */
     protected function getAcceptedLocales(): array
     {
-        $httpAcceptLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "";
+        $httpAcceptLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
         preg_match_all('/([a-z]{2})(?:-[a-zA-Z]{2})?/', $httpAcceptLanguage, $matches);
 
-        #TODO is the quality property needed? The browser seem to send it sorted anyway
+        //TODO is the quality property needed? The browser seem to send it sorted anyway
         $pref_locale = [];
         foreach ($matches[0] as $locale) {
             list($a, $b) = explode('-', $locale);
@@ -80,6 +67,4 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
 
         return $pref_locale;
     }
-
-
 }

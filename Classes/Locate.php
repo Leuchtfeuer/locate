@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate;
 
 /***************************************************************
@@ -31,8 +31,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Class Locate
  *
  * Plugin 'Locate' for the 'locate' extension.
- *
- * @package Bitmotion\Locate
  */
 class Locate
 {
@@ -42,11 +40,10 @@ class Locate
      * @param    string $content : The PlugIn content
      * @param    array $configuration : The PlugIn configuration
      */
-    function main(string $content, array $configuration)
+    public function main(string $content, array $configuration)
     {
         $court = GeneralUtility::makeInstance(Court::class, $configuration);
         $court->setDryRun($configuration['dryRun']);
         $court->run();
     }
 }
-

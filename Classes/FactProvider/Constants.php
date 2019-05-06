@@ -1,19 +1,14 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate\FactProvider;
-
 
 /**
  * Class Constants
- *
- * @package Bitmotion\Locate\FactProvider
  */
 class Constants extends AbstractFactProvider
 {
     /**
      * Call the fact module which might add some data to the factArray
-     *
-     * @param array $facts
      */
     public function process(array &$facts)
     {
@@ -27,6 +22,4 @@ class Constants extends AbstractFactProvider
             }
         }
     }
-
-
 }

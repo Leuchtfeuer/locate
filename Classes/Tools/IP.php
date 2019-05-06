@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate\Tools;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -8,20 +8,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Class IP
  *
  * These are borrowed from TYPO3 t3lib_div and slightly modified
- *
- * @package Bitmotion\Locate\Tools
  */
 abstract class IP
 {
-
-
     /**
      * Match IP number with list of numbers with wildcard
      * Dispatcher method for switching into specialised IPv4 and IPv6 methods.
      *
      * @param    string $baseIP is the current remote IP address for instance, typ. REMOTE_ADDR
      * @param    string $list is a comma-list of IP-addresses to match with. *-wildcard allowed instead of number, plus leaving out parts in the IP number is accepted as wildcard (eg. 192.168.*.* equals 192.168). If list is "*" no check is done and the function returns TRUE immediately. An empty list always returns FALSE.
-     * @return    boolean        True if an IP-mask from $list matches $baseIP
+     * @return    bool        True if an IP-mask from $list matches $baseIP
      */
     public static function compare(string $baseIP, string $list): bool
     {
@@ -33,9 +29,9 @@ abstract class IP
         }
         if (strpos($baseIP, ':') !== false && self::isValidIPv6($baseIP)) {
             return self::compareIPv6($baseIP, $list);
-        } else {
-            return self::compareIPv4($baseIP, $list);
         }
+
+        return self::compareIPv4($baseIP, $list);
     }
 
     /**
@@ -44,7 +40,7 @@ abstract class IP
      * Example for possible format:  43FB::BB3F:A0A0:0 | ::1
      *
      * @param    string        IP address to be tested
-     * @return    boolean        True if $ip is of IPv6 format.
+     * @return    bool        True if $ip is of IPv6 format.
      */
     public static function isValidIPv6(string $ip): bool
     {
@@ -68,7 +64,7 @@ abstract class IP
      *
      * @param    string $baseIP is the current remote IP address for instance
      * @param    string $list is a comma-list of IPv6 prefixes, could also contain IPv4 addresses
-     * @return    boolean        True if an baseIP matches any prefix
+     * @return    bool        True if an baseIP matches any prefix
      */
     public static function compareIPv6(string $baseIP, string $list): bool
     {
@@ -107,14 +103,12 @@ abstract class IP
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * Normalize an IPv6 address to full length
-     *
-     * @param string $address
-     * @return string
      */
     public static function normalizeIPv6(string $address): string
     {
@@ -166,6 +160,7 @@ abstract class IP
                 $divCounter++;
             }
         }
+
         return $normalizedAddress;
     }
 
@@ -173,7 +168,6 @@ abstract class IP
      * Decode hex v6 IP
      *
      * @param    string $hex IPv6 in hex format
-     * @return    string
      */
     public static function IPv6Hex2Bin(string $hex): string
     {
@@ -192,7 +186,7 @@ abstract class IP
      *
      * @param    string $baseIP is the current remote IP address for instance, typ. REMOTE_ADDR
      * @param    string $list is a comma-list of IP-addresses to match with. *-wildcard allowed instead of number, plus leaving out parts in the IP number is accepted as wildcard (eg. 192.168.*.* equals 192.168)
-     * @return    boolean        True if an IP-mask from $list matches $baseIP
+     * @return    bool        True if an IP-mask from $list matches $baseIP
      */
     public static function compareIPv4(string $baseIP, string $list): bool
     {
@@ -228,6 +222,7 @@ abstract class IP
                 }
             }
         }
+
         return false;
     }
 
@@ -237,15 +232,15 @@ abstract class IP
      * Possible format are IPv4 and IPv6.
      *
      * @param    string        IP address to be tested
-     * @return    boolean        True if $ip is either of IPv4 or IPv6 format.
+     * @return    bool        True if $ip is either of IPv4 or IPv6 format.
      */
     public static function isValid(string $ip): bool
     {
         if (strpos($ip, ':') === false) {
             return self::isValidIPv4($ip);
-        } else {
-            return self::isValidIPv6($ip);
         }
+
+        return self::isValidIPv6($ip);
     }
 
     /**
@@ -254,7 +249,7 @@ abstract class IP
      * Example for possible format:  10.0.45.99
      *
      * @param    string        IP address to be tested
-     * @return    boolean        True if $ip is of IPv4 format.
+     * @return    bool        True if $ip is of IPv4 format.
      */
     public static function isValidIPv4(string $ip): bool
     {
@@ -266,9 +261,9 @@ abstract class IP
             self::_testInt($parts[3]) && $parts[0] >= 0 && $parts[0] < 256
         ) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -276,7 +271,7 @@ abstract class IP
      * Tests if the input is an integer.
      *
      * @param    mixed $var        Any input variable to test.
-     * @return    boolean        Returns true if string is an integer
+     * @return    bool        Returns true if string is an integer
      */
     protected static function _testInt($var): bool
     {
@@ -285,10 +280,6 @@ abstract class IP
 
     /**
      * Match fully qualified domain name with list of strings with wildcard
-     *
-     * @param string $baseIP
-     * @param string $list
-     * @return bool
      */
     public static function compareFQDN(string $baseIP, string $list): bool
     {
@@ -311,6 +302,7 @@ abstract class IP
                 }
             }
         }
+
         return false;
     }
 
@@ -318,8 +310,6 @@ abstract class IP
      * check whether an ip is local ip
      *
      * @todo How can this work for IPv6??
-     * @param string $ip
-     * @return boolean
      */
     public static function isLocal(string $ip): bool
     {
@@ -353,32 +343,24 @@ abstract class IP
 
         if (in_array($ip, $local_ips)) {
             return true;
-        } else {
-            return false;
         }
 
+        return false;
     }
 
     /**
      * Returns the current remote address as long
-     *
-     * @return int
      */
     public static function getUserIpAsLong(): int
     {
-        return sprintf("%u", IP2Long(GeneralUtility::getIndpEnv('REMOTE_ADDR')));
+        return sprintf('%u', ip2long(GeneralUtility::getIndpEnv('REMOTE_ADDR')));
     }
 
     /**
      * Returns the current remote address
-     *
-     * @return string
      */
     public static function getUserIp(): string
     {
         return GeneralUtility::getIndpEnv('REMOTE_ADDR');
     }
 }
-
-
-

@@ -1,25 +1,20 @@
 <?php
-
+declare(strict_types=1);
 namespace Bitmotion\Locate\Judge;
 
 use TYPO3\CMS\Core\Log\Logger;
 
-
 /**
  * Class AbstractJudge
- *
- * @package Bitmotion\Locate\Judge
  */
 abstract class AbstractJudge implements JudgeInterface
 {
-
     /**
      * @var array
      */
     protected $configuration = [];
 
     /**
-     *
      * @var Logger
      */
     protected $logger = null;
@@ -30,9 +25,7 @@ abstract class AbstractJudge implements JudgeInterface
     protected $baseName = '';
 
     /**
-     *
      * @param array $configuration TypoScript configuration array for this judge
-     * @param Logger $logger
      */
     public function __construct(array $configuration, Logger $logger)
     {
@@ -43,7 +36,6 @@ abstract class AbstractJudge implements JudgeInterface
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @param array $facts
      * @throws Exception
      * @return bool
      */
@@ -54,13 +46,9 @@ abstract class AbstractJudge implements JudgeInterface
 
     /**
      * Adds a prefix to the factArray property name
-     *
-     * @param string $property
-     * @return string
      */
     protected function getFactPropertyName(string $property): string
     {
         return $this->baseName . '.' . $property;
     }
 }
-
