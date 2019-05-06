@@ -39,7 +39,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
         $this->configuration = $configuration;
     }
 
-    public function setDryRun(bool $dryRun)
+    public function setDryRun(bool $dryRun): void
     {
         $this->dryRun = $dryRun;
     }
@@ -47,24 +47,19 @@ class Court implements ProcessorInterface, LoggerAwareInterface
     /**
      * Processes the configuration
      */
-    public function run()
+    public function run(): void
     {
         try {
             $this->processFacts();
-            $this->reviewFacts();
             $this->callAction($this->callJudges());
         } catch (Exception $e) {
             $this->logger->critical($e->getMessage());
         }
     }
 
-    protected function processFacts()
+    protected function processFacts(): void
     {
         foreach ($this->configuration['facts.'] as $key => $className) {
-            if (strpos($key, '.')) {
-                continue;
-            }
-
             if (!class_exists($className)) {
                 throw new \Bitmotion\Locate\Action\Exception('Class ' . $className . ' does not exist.');
             }
@@ -97,16 +92,14 @@ class Court implements ProcessorInterface, LoggerAwareInterface
     }
 
     /**
-     * @return Decision|bool
+     * @todo: Maybe sort TypoScript keys
+     * @throws \Bitmotion\Locate\Judge\Exception
      */
-    protected function callJudges()
+    protected function callJudges(): ?Decision
     {
-        $actionName = null;
-        $decision = null;
-
-        //TODO sort TS numbers
         foreach ($this->configuration['judges.'] as $key => $value) {
-            if (strpos($key, '.')) {
+            // As we have an TypoScript array, skip every key which has sub properties
+            if (strpos((string)$key, '.') !== false) {
                 continue;
             }
 
@@ -121,7 +114,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -143,9 +136,9 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
         $this->logger->info(" Action with name '$actionName' will be called");
 
-        // TODO sort array
         foreach ($actionConfigArray as $key => $value) {
-            if (strpos($key, '.')) {
+            // As we have an TypoScript array, skip every key which has sub properties
+            if (strpos((string)$key, '.') !== false) {
                 continue;
             }
 
