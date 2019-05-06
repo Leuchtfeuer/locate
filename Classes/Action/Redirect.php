@@ -3,53 +3,36 @@ declare(strict_types=1);
 namespace Bitmotion\Locate\Action;
 
 use Bitmotion\Locate\Judge\Decision;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 
 /**
  * Class Redirect
  */
 class Redirect extends AbstractAction
 {
-    /**
-     * @var bool
-     */
+    const COOKIE_NAME = 'bm_locate';
+    const OVERRIDE_PARAMETER = 'setLang';
+    const HTTP_RESPONSE_CODE = 301;
+
     private $cookieMode = false;
 
-    /**
-     * @var string
-     */
-    private $cookieName = 'bm_locate';
-
-    /**
-     * @var int
-     */
     private $redirectLanguageUid = 0;
 
-    /**
-     * @var int
-     */
     private $requestedLanguageUid = 0;
+
+    private $httpStatus = '';
 
     /**
      * Call the action module
+     *
+     * @throws \Exception
      */
     public function process(array &$facts, Decision &$decision)
     {
-        $httpResponseCode = $this->configuration['httpResponseCode'] ? $this->configuration['httpResponseCode'] : 301;
         $this->redirectLanguageUid = (int)$this->configuration['sys_language'];
-
-        if (class_exists(\TYPO3\CMS\Core\Context\Context::class)) {
-            try {
-                $languageAspect = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class)->getAspect('language');
-                $this->requestedLanguageUid = (int)$languageAspect->getId();
-            } catch (\Exception $e) {
-                $this->logger->critical($e->getMessage());
-
-                return;
-            }
-        } else {
-            $this->requestedLanguageUid = (int)GeneralUtility::_GP('L');
-        }
+        $this->requestedLanguageUid = GeneralUtility::makeInstance(Context::class)->getAspect('language')->getId();
 
         // Initialize Cookie mode if necessary and prepare everything for possible redirects
         $this->initializeCookieMode();
@@ -60,16 +43,19 @@ class Redirect extends AbstractAction
             return;
         }
 
+        $this->httpStatus = $this->configuration['httpResponseCode'] ? (int)$this->configuration['httpResponseCode'] : HttpUtility::HTTP_STATUS_301;
+
         // Try to redirect to page (if not set, it will be the current page) on configured language
         if ($this->configuration['page'] || isset($this->configuration['sys_language'])) {
-            $this->redirectToPid((string)$this->configuration['page'], $this->redirectLanguageUid, (int)$httpResponseCode);
+            $this->logger->info('Try to redirect to page');
+            $this->redirectToPid((int)$this->configuration['page'], $this->redirectLanguageUid);
         }
 
         // Try to redirect by configured URL (and language, if configured)
         if ($this->configuration['url'] && $this->configuration['sys_language']) {
-            $this->redirectToUrl($this->configuration['url'], $httpResponseCode, $this->redirectLanguageUid);
+            $this->redirectToUrl($this->configuration['url']);
         } elseif ($this->configuration['url']) {
-            $this->redirectToUrl($this->configuration['url'], $httpResponseCode);
+            $this->redirectToUrl($this->configuration['url']);
         }
     }
 
@@ -166,49 +152,25 @@ class Redirect extends AbstractAction
 
     /**
      * Redirect to a page
-     *
      * @throws Exception
      */
-    private function redirectToPid(string $target, string $language, int $httpResponseCode)
+    private function redirectToPid(int $page, int $language): void
     {
-        if ($language) {
-            $languageId = (int)$language;
-            $urlParameters = ['L' => intval($language)];
-        } else {
-            $languageId = 0;
-            $urlParameters = [];
-        }
-
+        $urlParameters = [];
         $this->getAdditionalUrlParams($urlParameters);
-        $targetPageUid = intval($target);
 
-        if ($targetPageUid) {
-            if ($targetPageUid == $GLOBALS['TSFE']->id) {
-                // Legacy (only TYPO3 8)
-                if ($urlParameters['L']) {
-                    if ($this->requestedLanguageUid == $urlParameters['L']) {
-                        return;
-                    }
-                } else {
-                    return;
-                }
+        if ($page > 0) {
+            if ($page === $GLOBALS['TSFE']->id) {
+                $this->logger->info('Target page matches current page. No redirect.');
+
+                return;
             }
 
-            // Remove ID from urlParameters
-            unset($urlParameters['id']);
-
-            $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($targetPageUid, $urlParameters);
+            $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($page, $urlParameters);
             $url = $GLOBALS['TSFE']->baseUrlWrap($url);
             $url = GeneralUtility::locationHeaderURL($url);
         } elseif ($language >= 0) {
-            // Override urlParamter L if cookie is in use
-            if ($this->cookieMode) {
-                $urlParameters['L'] = $this->getCookieValue();
-            }
-
-            // Remove ID from urlParameters
-            unset($urlParameters['id']);
-
+            $urlParameters['L'] = $language;
             $url = $GLOBALS['TSFE']->cObj->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
             $url = $GLOBALS['TSFE']->baseUrlWrap($url);
             $url = GeneralUtility::locationHeaderURL($url);
@@ -216,10 +178,10 @@ class Redirect extends AbstractAction
             throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
         }
 
-        $this->redirectToUrl($url, $httpResponseCode, $languageId);
+        $this->redirectToUrl($url);
     }
 
-    private function getAdditionalUrlParams(array &$urlParameters): array
+    private function getAdditionalUrlParams(array &$urlParameters): void
     {
         $additionalUrlParams = GeneralUtility::_GET();
 
@@ -227,47 +189,27 @@ class Redirect extends AbstractAction
             if (isset($additionalUrlParams['setLang'])) {
                 unset($additionalUrlParams['setLang']);
             }
+
+            if (isset($additionalUrlParams['id'])) {
+                unset($additionalUrlParams['id']);
+            }
+
             $urlParameters = array_merge($additionalUrlParams, $urlParameters);
         }
-
-        return $urlParameters;
     }
 
     /**
      * This will redirect the user to a new web location. This can be a relative or absolute web path, or it
      * can be an entire URL.
-     *
-     * @return void
      */
-    public function redirectToUrl(string $location, int $httpResponseCode, int $languageId = 0)
+    public function redirectToUrl(string $location): void
     {
-        $this->logger->info(__CLASS__ . ' Will redirect to ' . $location . ' with code ' . $httpResponseCode);
-
-        // Check for redirect recursion
-        if (GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') != $location) {
-            // Set cookie if cookieMode is enabled
-            // TODO: Is this necessary??? Cookie should only be set in handleCookieStuff()
-            if ($this->cookieMode) {
-                $this->setCookie($languageId);
-            }
-
-            // Clear the output buffer (if any)
-            ob_clean();
-
-            // this is the place where Qcodo answers ajax requests
-            // Was "DOCUMENT_ROOT" set?
-            if (array_key_exists('DOCUMENT_ROOT', $_SERVER) && ($_SERVER['DOCUMENT_ROOT']) and !headers_sent()) {
-                // If so, we're likley using PHP as a Plugin/Module
-                // Use 'header' to redirect
-                header("Location: $location", true, $httpResponseCode);
-                exit;
-            }
-            // We're likely using this as a CGI
-            // Use JavaScript to redirect
-            printf('<script type="text/javascript">document.location = "%s";</script>', $location);
-
-            // End the Response Script
-            exit();
+        if (GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') !== $location) {
+            $this->logger->info(sprintf('%s Will redirect to %s with code %s.', __CLASS__, $location, $this->httpStatus));
+            HttpUtility::redirect($location, $this->httpStatus);
+            exit;
         }
+
+        $this->logger->info('No redirect.');
     }
 }
