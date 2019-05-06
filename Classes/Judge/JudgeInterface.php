@@ -2,8 +2,6 @@
 declare(strict_types=1);
 namespace Bitmotion\Locate\Judge;
 
-use TYPO3\CMS\Core\Log\Logger;
-
 /**
  * Interface JudgeInterface
  */
@@ -12,7 +10,7 @@ interface JudgeInterface
     /**
      * @param array $configuration TypoScript configuration array for this judge
      */
-    public function __construct(array $configuration, Logger $logger);
+    public function __construct(array $configuration);
 
     /**
      * Call the fact module which might add some data to the factArray

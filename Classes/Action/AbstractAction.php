@@ -3,30 +3,27 @@ declare(strict_types=1);
 namespace Bitmotion\Locate\Action;
 
 use Bitmotion\Locate\Judge\Decision;
-use TYPO3\CMS\Core\Log\Logger;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Class AbstractAction
  */
-abstract class AbstractAction implements ActionInterface
+abstract class AbstractAction implements ActionInterface, LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * @var array
      */
     protected $configuration = [];
 
     /**
-     * @var Logger
-     */
-    protected $logger = null;
-
-    /**
      * @param array $configuration TypoScript configuration array for this action
      */
-    public function __construct(array $configuration, Logger $logger)
+    public function __construct(array $configuration)
     {
         $this->configuration = $configuration;
-        $this->logger = $logger;
     }
 
     /**

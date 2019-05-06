@@ -6,19 +6,16 @@ use Bitmotion\Locate\Action\ActionInterface;
 use Bitmotion\Locate\Exception;
 use Bitmotion\Locate\FactProvider\FactProviderInterface;
 use Bitmotion\Locate\Judge\Decision;
-use TYPO3\CMS\Core\Log\Logger;
-use TYPO3\CMS\Core\Log\LogManager;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class Court
  */
-class Court implements ProcessorInterface
+class Court implements ProcessorInterface, LoggerAwareInterface
 {
-    /**
-     * @var Logger
-     */
-    public $logger = null;
+    use LoggerAwareTrait;
 
     /**
      * @var array
@@ -37,13 +34,9 @@ class Court implements ProcessorInterface
      */
     protected $dryRun = false;
 
-    /**
-     * @param array $configuration TypoScript config array
-     */
     public function __construct(array $configuration)
     {
         $this->configuration = $configuration;
-        $this->logger = GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
     }
 
     public function setDryRun(bool $dryRun)
@@ -120,7 +113,7 @@ class Court implements ProcessorInterface
             $this->logger->info("Juge with key '$key' will be called: " . $value);
 
             /* @var $factProvider FactProviderInterface */
-            $factProvider = new $value($this->configuration['judges.'][$key . '.'], $this->logger);
+            $factProvider = GeneralUtility::makeInstance($value, $this->configuration['judges.'][$key . '.']);
             $decision = $factProvider->process($this->facts);
 
             if ($decision) {
@@ -164,7 +157,7 @@ class Court implements ProcessorInterface
             $this->logger->info(" Action part '$key.$value' will be called");
 
             /* @var $action ActionInterface */
-            $action = new $value($actionConfigArray[$key . '.'], $this->logger);
+            $action = GeneralUtility::makeInstance($value, $actionConfigArray[$key . '.']);
             $action->process($this->facts, $decision);
         }
     }
