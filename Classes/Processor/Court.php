@@ -72,25 +72,6 @@ class Court implements ProcessorInterface, LoggerAwareInterface
         }
     }
 
-    protected function reviewFacts()
-    {
-        if (is_array($this->configuration['reviewer.']) && count($this->configuration['reviewer.'])) {
-            foreach ($this->configuration['reviewer.'] as $key => $value) {
-                if (strpos($key, '.')) {
-                    continue;
-                }
-
-                $this->logger->info("Reviewer with key '$key' will be called: " . $value);
-            }
-        }
-
-        foreach ($this->facts as $key => $value) {
-            if (!$value) {
-                $this->facts[$key] = '__empty__';
-            }
-        }
-    }
-
     /**
      * @todo: Maybe sort TypoScript keys
      * @throws \Bitmotion\Locate\Judge\Exception

@@ -56,31 +56,6 @@ plugin.tx_locate_pi1 {
 
 	}
 
-
-	\\ reviewer can manipulate or enrich the facts
-	\\ for example this could be a rating which might be used in later decision process
-	reviewer {
-
-		someName = \Bitmotion\Locate\Reviewer\Something
-
-		anotherName = \Bitmotion\Locate\Reviewer\SomethingElse
-
-
-		matchDe = \Bitmotion\Locate\Reviewer\MatchesCurrentLanguage
-		matchDe.current = de
-		matchDe.matches = de,da
-
-		matchDE = \Bitmotion\Locate\Reviewer\MatchesCurrentCountry
-		matchDE.current = DE
-		matchDE.matches = DE,AT
-
-		matchDeDE = \Bitmotion\Locate\Reviewer\MatchesCurrentLocale
-		matchDeDE.current = de_DE
-		matchDeDE.matches = de_DE,de_AT
-
-	}
-
-
 	judges {
 
 		10 = \Bitmotion\Locate\Judge\Fixed
