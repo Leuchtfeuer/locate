@@ -1,3 +1,4 @@
+config.tx_locate = 1
 config.tx_locate {
     dryRun = 0
     cookieName = bm_locate
