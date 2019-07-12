@@ -201,8 +201,9 @@ class Redirect extends AbstractAction
         $additionalUrlParams = GeneralUtility::_GET();
 
         if (is_array($additionalUrlParams) && count($additionalUrlParams)) {
-            if (isset($additionalUrlParams['setLang'])) {
-                unset($additionalUrlParams['setLang']);
+            $overrideParam = $this->configuration['overrideParam'] ?? self::OVERRIDE_PARAMETER;
+            if (isset($additionalUrlParams[$overrideParam])) {
+                unset($additionalUrlParams[$overrideParam]);
             }
 
             if (isset($additionalUrlParams['id'])) {
