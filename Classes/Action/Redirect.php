@@ -82,6 +82,7 @@ class Redirect extends AbstractAction
     private function initializeCookieMode()
     {
         if (isset($this->configuration['cookieHandling']) && $this->configuration['cookieHandling'] == 1) {
+            $this->logger->notice('Cookie mode is enabled.');
             $this->cookieMode = true;
         }
     }
