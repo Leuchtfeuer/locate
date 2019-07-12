@@ -171,7 +171,7 @@ class Redirect extends AbstractAction
 
     private function getCookieValue(): string
     {
-        return $_COOKIE[$this->cookieName] ? $_COOKIE[$this->cookieName] : '';
+        return $_COOKIE[$this->cookieName] ?? $this->redirectLanguageUid ?? '';
     }
 
     private function shouldRedirect(int $sysLanguageUid): bool
