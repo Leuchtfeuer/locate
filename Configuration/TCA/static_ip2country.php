@@ -11,7 +11,7 @@ return [
         'readOnly' => 1,
         'default_sortby' => 'ORDER BY cn_short_en',
         'title' => 'LLL:EXT:locate/Resources/Private/Language/locallang_db.xlf:tx_locate_ip2country',
-        'iconfile' => 'EXT:locate/Resources/Public/Icons/icon_tx_locate_ip2country.png',
+        'iconfile' => 'EXT:locate/Resources/Public/Icons/Extension.png',
         'hideTable' => true,
     ],
     'interface' => [
