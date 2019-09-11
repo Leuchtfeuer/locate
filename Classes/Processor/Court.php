@@ -5,6 +5,7 @@ namespace Bitmotion\Locate\Processor;
 use Bitmotion\Locate\Action\AbstractAction;
 use Bitmotion\Locate\Exception;
 use Bitmotion\Locate\FactProvider\AbstractFactProvider;
+use Bitmotion\Locate\Judge\AbstractJudge;
 use Bitmotion\Locate\Judge\Decision;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -76,9 +77,9 @@ class Court implements ProcessorInterface, LoggerAwareInterface
                 throw new \Bitmotion\Locate\Judge\Exception(sprintf('Judge %s does not exist.', $value));
             }
 
-            /* @var $factProvider FactProviderInterface */
-            $factProvider = GeneralUtility::makeInstance($value, $this->configuration['judges'][$key . '.']);
-            $decision = $factProvider->process($this->facts);
+            /* @var $judge AbstractJudge */
+            $judge = GeneralUtility::makeInstance($value, $this->configuration['judges'][$key . '.']);
+            $decision = $judge->process($this->facts);
 
             if ($decision) {
                 return $decision;
