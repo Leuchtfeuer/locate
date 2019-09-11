@@ -91,12 +91,10 @@ Ausprägungen zu deren Verwendung in Judges:
 ### Judges
 ```
 config.tx_locate.judges {
-    20 = Bitmotion\Locate\Judge\AndCondition
-    20.action = redirect_fr
-    20.matches (
-        countryByIP.countryCode = CH
-        browserAccepted.lang = fr
-    )
+    20 = Bitmotion\Locate\Judge\Condition
+    20.action = redirectToPageDE
+    20.match = browserAccepted.lang = de
+
     999 = Bitmotion\Locate\Judge\Fixed
     999.action = default
 }

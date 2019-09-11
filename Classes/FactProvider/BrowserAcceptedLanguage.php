@@ -4,64 +4,39 @@ namespace Bitmotion\Locate\FactProvider;
 
 class BrowserAcceptedLanguage extends AbstractFactProvider
 {
+    protected $locales = [];
+
+    protected $languages = [];
+
     /**
      * Call the fact module which might add some data to the factArray
      */
-    public function process(array &$facts)
+    public function process(array &$facts): void
     {
-        $languages = $this->getAcceptedLanguages();
+        $this->getAcceptedLanguages();
+        $facts = [];
 
-        $factPropertyName = $this->getFactPropertyName('lang');
-        $facts[$factPropertyName] = $languages[0];
-
-        $factPropertyName = $this->getFactPropertyName('lang1');
-        $facts[$factPropertyName] = $languages[1];
-
-        $factPropertyName = $this->getFactPropertyName('lang2');
-        $facts[$factPropertyName] = $languages[2];
-
-        $locales = $this->getAcceptedLocales();
-
-        $factPropertyName = $this->getFactPropertyName('locale');
-        $facts[$factPropertyName] = $locales[0];
-
-        $factPropertyName = $this->getFactPropertyName('locale1');
-        $facts[$factPropertyName] = $locales[1];
-
-        $factPropertyName = $this->getFactPropertyName('locale2');
-        $facts[$factPropertyName] = $locales[2];
-    }
-
-    protected function getAcceptedLanguages(): array
-    {
-        $httpAcceptLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
-        preg_match_all('/([a-z]{2})(?:-[a-zA-Z]{2})?/', $httpAcceptLanguage, $matches);
-
-        $pref_lang = [];
-        foreach ($matches[1] as $lang) {
-            if (!in_array($lang, $pref_lang)) {
-                $pref_lang [] = $lang;
-            }
+        foreach ($this->locales as $priority => $locale) {
+            $facts[$this->getFactPropertyName('locale')][$locale] = $priority;
         }
 
-        return $pref_lang;
+        foreach ($this->languages as $priority => $language) {
+            $facts[$this->getFactPropertyName('lang')][$language] = $priority;
+        }
     }
 
-    protected function getAcceptedLocales(): array
+    protected function getAcceptedLanguages(): void
     {
-        $httpAcceptLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
+        $httpAcceptLanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
         preg_match_all('/([a-z]{2})(?:-[a-zA-Z]{2})?/', $httpAcceptLanguage, $matches);
 
-        //TODO is the quality property needed? The browser seem to send it sorted anyway
-        $pref_locale = [];
-        foreach ($matches[0] as $locale) {
-            list($a, $b) = explode('-', $locale);
-            if ($b) {
-                $locale = $a . '_' . strtoupper($b);
-            }
-            $pref_locale[] = $locale;
-        }
+        list($locales, $languages) = $matches;
 
-        return $pref_locale;
+        array_walk($locales, function (&$locale) {
+            $locale = str_replace('-', '_', $locale);
+        });
+
+        $this->locales = $locales;
+        $this->languages = array_unique($languages);
     }
 }
