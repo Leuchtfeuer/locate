@@ -66,6 +66,8 @@ class Court implements ProcessorInterface, LoggerAwareInterface
      */
     protected function callJudges(): ?Decision
     {
+        $decisions = [];
+
         foreach ($this->configuration['judges'] as $key => $value) {
             // As we have an TypoScript array, skip every key which has sub properties
             if (strpos((string)$key, '.') !== false) {
@@ -81,22 +83,28 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
             /* @var $judge AbstractJudge */
             $judge = GeneralUtility::makeInstance($value, $this->configuration['judges'][$key . '.']);
-            $decision = $judge->process($this->facts);
+            $decision = $judge->process($this->facts, (int)$key);
 
-            if ($decision) {
-                return $decision;
+            if ($decision instanceof Decision && !isset($decisions[$decision->getPriority()])) {
+                $decisions[$decision->getPriority()] = $decision;
             }
         }
 
-        return null;
+        if (empty($decisions)) {
+            return null;
+        }
+
+        ksort($decisions);
+
+        return array_shift($decisions);
     }
 
     /**
      * @throws Exception
      */
-    protected function callAction(Decision $decision)
+    protected function callAction(?Decision $decision)
     {
-        if (!$decision->hasAction()) {
+        if ($decision === null || !$decision->hasAction()) {
             throw new Exception('No action should be called. This migth be a problem in you configuration');
         }
 

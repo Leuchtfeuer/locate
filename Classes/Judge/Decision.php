@@ -6,6 +6,8 @@ class Decision
 {
     protected $actionName = '';
 
+    protected $priority = 999;
+
     public function hasAction(): bool
     {
         return !empty($this->actionName);
@@ -19,5 +21,15 @@ class Decision
     public function setActionName(string $actionName): void
     {
         $this->actionName = $actionName;
+    }
+
+    public function getPriority(): int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(int $priority): void
+    {
+        $this->priority = $priority;
     }
 }

@@ -11,7 +11,7 @@ class AndCondition extends AbstractJudge
      *
      * @return Decision|false
      */
-    public function process(array &$facts)
+    public function process(array $facts, int $priority = 999): ?Decision
     {
         $matches = $this->configuration['matches'];
         $matches = GeneralUtility::trimexplode("\n", $matches);

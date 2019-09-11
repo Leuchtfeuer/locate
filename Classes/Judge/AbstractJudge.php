@@ -25,7 +25,7 @@ abstract class AbstractJudge implements LoggerAwareInterface
      *
      * @throws \Bitmotion\Locate\Exception
      */
-    public function process(array &$facts)
+    public function process(array $facts, int $priority = 999): ?Decision
     {
         throw new Exception(sprintf('Process not implemented in %s.', __CLASS__));
     }
