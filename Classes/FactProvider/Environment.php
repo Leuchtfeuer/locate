@@ -18,9 +18,5 @@ class Environment extends AbstractFactProvider
             $factPropertyName = $this->getFactPropertyName($key);
             $facts[$factPropertyName] = $value;
         }
-
-        foreach ($_SERVER as $key => $value) {
-            $facts['SERVER_' . $key] = $value;
-        }
     }
 }
