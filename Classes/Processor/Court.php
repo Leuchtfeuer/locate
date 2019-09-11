@@ -2,9 +2,9 @@
 declare(strict_types=1);
 namespace Bitmotion\Locate\Processor;
 
-use Bitmotion\Locate\Action\ActionInterface;
+use Bitmotion\Locate\Action\AbstractAction;
 use Bitmotion\Locate\Exception;
-use Bitmotion\Locate\FactProvider\FactProviderInterface;
+use Bitmotion\Locate\FactProvider\AbstractFactProvider;
 use Bitmotion\Locate\Judge\Decision;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -51,7 +51,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
             $this->logger->info(sprintf('Fact provider with key "%s" will be called.', $key));
 
-            /* @var $factProvider FactProviderInterface */
+            /* @var $factProvider AbstractFactProvider */
             $factProvider = GeneralUtility::makeInstance($className, $key, []);
             $factProvider->process($this->facts);
         }
@@ -120,7 +120,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
             $this->logger->info(sprintf('Action part "%s.%s" will be called.', $key, $value));
             $configuration = array_merge($this->configuration['settings'], $actionConfigArray[$key . '.']);
 
-            /* @var $action ActionInterface */
+            /* @var $action AbstractAction */
             $action = GeneralUtility::makeInstance($value, $configuration);
             $action->process($this->facts, $decision);
         }

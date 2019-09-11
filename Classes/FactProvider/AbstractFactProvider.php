@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Bitmotion\Locate\FactProvider;
 
-abstract class AbstractFactProvider implements FactProviderInterface
+abstract class AbstractFactProvider
 {
     /**
      * @var string

@@ -6,7 +6,7 @@ use Bitmotion\Locate\Judge\Decision;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
-abstract class AbstractAction implements ActionInterface, LoggerAwareInterface
+abstract class AbstractAction implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
