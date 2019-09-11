@@ -12,7 +12,6 @@ class Redirect extends AbstractAction
 {
     const COOKIE_NAME = 'bm_locate';
     const OVERRIDE_PARAMETER = 'setLang';
-    const HTTP_RESPONSE_CODE = 301;
 
     private $cookieMode = false;
 
