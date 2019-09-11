@@ -26,7 +26,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
     public function __construct(array $configuration)
     {
         $this->configuration = $configuration;
-        $this->dryRun = (bool)$configuration['dryRun'];
+        $this->dryRun = (bool)$configuration['settings']['dryRun'];
     }
 
     /**
