@@ -35,22 +35,23 @@ config.tx_locate {
     }
 
     facts {
-        \\ de, DE, de_DE; en, GB, en_GB
         browserAccepted = Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
+        countryByIP = Bitmotion\Locate\FactProvider\IP2Country
+        env = Bitmotion\Locate\FactProvider\Environment
     }
 
     judges {
-        10 = Bitmotion\Locate\Judge\AndCondition
+        10 = Bitmotion\Locate\Judge\Condition
         10.action = redirectToPageDE
-        10.matches (
-            browserAccepted.lang = de
-        )
+        10.match = browserAccepted.lang = de
 
-        20 = Bitmotion\Locate\Judge\AndCondition
+        20 = Bitmotion\Locate\Judge\Condition
         20.action = redirectToPageZH
-        20.matches (
-            browserAccepted.lang = zh
-        )
+        20.match = browserAccepted.lang = zh
+
+        30 = Bitmotion\Locate\Judge\Condition
+        30.action = redirectToPageDK
+        30.match = env.HTTP_HOST = www.bitmotion.de
 
         999 = Bitmotion\Locate\Judge\Fixed
         999.action = redirectToPageEN
