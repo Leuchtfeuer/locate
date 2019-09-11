@@ -4,6 +4,7 @@ namespace Bitmotion\Locate\FactProvider;
 
 /**
  * Interface FactProviderInterface
+ * @deprecated
  */
 interface FactProviderInterface
 {

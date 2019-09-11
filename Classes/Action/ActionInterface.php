@@ -5,7 +5,7 @@ namespace Bitmotion\Locate\Action;
 use Bitmotion\Locate\Judge\Decision;
 
 /**
- * Interface ActionInterface
+ * @deprecated
  */
 interface ActionInterface
 {

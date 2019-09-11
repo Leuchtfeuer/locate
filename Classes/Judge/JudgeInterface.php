@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Bitmotion\Locate\Judge;
 
 /**
- * Interface JudgeInterface
+ * @deprecated
  */
 interface JudgeInterface
 {
