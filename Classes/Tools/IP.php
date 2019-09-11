@@ -4,6 +4,9 @@ namespace Bitmotion\Locate\Tools;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * @deprecated
+ */
 abstract class IP
 {
     /**
@@ -13,9 +16,12 @@ abstract class IP
      * @param    string $baseIP is the current remote IP address for instance, typ. REMOTE_ADDR
      * @param    string $list is a comma-list of IP-addresses to match with. *-wildcard allowed instead of number, plus leaving out parts in the IP number is accepted as wildcard (eg. 192.168.*.* equals 192.168). If list is "*" no check is done and the function returns TRUE immediately. An empty list always returns FALSE.
      * @return    bool        True if an IP-mask from $list matches $baseIP
+     * @deprecated
      */
     public static function compare(string $baseIP, string $list): bool
     {
+        trigger_error('Calling IP::compare() is deprecated.', E_USER_DEPRECATED);
+
         $list = trim($list);
         if ($list === '') {
             return false;
@@ -36,9 +42,12 @@ abstract class IP
      *
      * @param    string        IP address to be tested
      * @return    bool        True if $ip is of IPv6 format.
+     * @deprecated
      */
     public static function isValidIPv6(string $ip): bool
     {
+        trigger_error('Calling IP::isValidIPv6() is deprecated.', E_USER_DEPRECATED);
+
         $uppercaseIP = strtoupper($ip);
 
         $regex = '/^(';
@@ -60,9 +69,12 @@ abstract class IP
      * @param    string $baseIP is the current remote IP address for instance
      * @param    string $list is a comma-list of IPv6 prefixes, could also contain IPv4 addresses
      * @return    bool        True if an baseIP matches any prefix
+     * @deprecated
      */
     public static function compareIPv6(string $baseIP, string $list): bool
     {
+        trigger_error('Calling IP::compareIPv6() is deprecated.', E_USER_DEPRECATED);
+
         $success = false;    // Policy default: Deny connection
         $baseIP = self::normalizeIPv6($baseIP);
 
@@ -104,9 +116,12 @@ abstract class IP
 
     /**
      * Normalize an IPv6 address to full length
+     * @deprecated
      */
     public static function normalizeIPv6(string $address): string
     {
+        trigger_error('Calling IP::normalizeIPv6() is deprecated.', E_USER_DEPRECATED);
+
         $normalizedAddress = '';
 
         $chunks = explode('::', $address);    // Count 2 if if address has hidden zero blocks
@@ -163,9 +178,12 @@ abstract class IP
      * Decode hex v6 IP
      *
      * @param    string $hex IPv6 in hex format
+     * @deprecated
      */
     public static function IPv6Hex2Bin(string $hex): string
     {
+        trigger_error('Calling IP::IPv6Hex2Bin() is deprecated.', E_USER_DEPRECATED);
+
         $bin = '';
         $hex = str_replace(':', '', $hex);    // Replace colon to nothing
 
@@ -182,9 +200,12 @@ abstract class IP
      * @param    string $baseIP is the current remote IP address for instance, typ. REMOTE_ADDR
      * @param    string $list is a comma-list of IP-addresses to match with. *-wildcard allowed instead of number, plus leaving out parts in the IP number is accepted as wildcard (eg. 192.168.*.* equals 192.168)
      * @return    bool        True if an IP-mask from $list matches $baseIP
+     * @deprecated
      */
     public static function compareIPv4(string $baseIP, string $list): bool
     {
+        trigger_error('Calling IP::compareIPv4() is deprecated.', E_USER_DEPRECATED);
+
         $IPpartsReq = explode('.', $baseIP);
         if (count($IPpartsReq) == 4) {
             $values = GeneralUtility::trimExplode(',', $list);
@@ -228,9 +249,12 @@ abstract class IP
      *
      * @param    string        IP address to be tested
      * @return    bool        True if $ip is either of IPv4 or IPv6 format.
+     * @deprecated
      */
     public static function isValid(string $ip): bool
     {
+        trigger_error('Calling IP::isValid() is deprecated.', E_USER_DEPRECATED);
+
         if (strpos($ip, ':') === false) {
             return self::isValidIPv4($ip);
         }
@@ -245,9 +269,12 @@ abstract class IP
      *
      * @param    string        IP address to be tested
      * @return    bool        True if $ip is of IPv4 format.
+     * @deprecated
      */
     public static function isValidIPv4(string $ip): bool
     {
+        trigger_error('Calling IP::isValidIPv4() is deprecated.', E_USER_DEPRECATED);
+
         $parts = explode('.', $ip);
         if (count($parts) == 4 &&
             self::_testInt($parts[0]) && $parts[0] >= 1 && $parts[0] < 256 &&
@@ -267,17 +294,23 @@ abstract class IP
      *
      * @param    mixed $var        Any input variable to test.
      * @return    bool        Returns true if string is an integer
+     * @deprecated
      */
     protected static function _testInt($var): bool
     {
+        trigger_error('Calling IP::_testInt() is deprecated.', E_USER_DEPRECATED);
+
         return !strcmp($var, intval($var));
     }
 
     /**
      * Match fully qualified domain name with list of strings with wildcard
+     * @deprecated
      */
     public static function compareFQDN(string $baseIP, string $list): bool
     {
+        trigger_error('Calling IP::compareFQDN() is deprecated.', E_USER_DEPRECATED);
+
         if (count(explode('.', $baseIP)) == 4) {
             $resolvedHostName = explode('.', gethostbyaddr($baseIP));
             $values = GeneralUtility::trimExplode(',', $list, 1);
@@ -302,12 +335,12 @@ abstract class IP
     }
 
     /**
-     * check whether an ip is local ip
-     *
-     * @todo How can this work for IPv6??
+     * @deprecated
      */
     public static function isLocal(string $ip): bool
     {
+        trigger_error('Calling IP::isLocal() is deprecated.', E_USER_DEPRECATED);
+
         if (!self::isValidIPv4($ip)) {
             return false;
         }
@@ -345,17 +378,23 @@ abstract class IP
 
     /**
      * Returns the current remote address as long
+     * @deprecated
      */
     public static function getUserIpAsLong(): int
     {
-        return sprintf('%u', ip2long(GeneralUtility::getIndpEnv('REMOTE_ADDR')));
+        trigger_error('Calling IP::getUserIpAsLong() is deprecated.', E_USER_DEPRECATED);
+
+        return (int)sprintf('%u', ip2long(GeneralUtility::getIndpEnv('REMOTE_ADDR')));
     }
 
     /**
      * Returns the current remote address
+     * @deprecated
      */
     public static function getUserIp(): string
     {
+        trigger_error('Calling IP::getUserIp() is deprecated.', E_USER_DEPRECATED);
+
         return GeneralUtility::getIndpEnv('REMOTE_ADDR');
     }
 }
