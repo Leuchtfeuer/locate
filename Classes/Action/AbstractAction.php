@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Bitmotion\Locate\Action;
 
+use Bitmotion\Locate\Exception;
 use Bitmotion\Locate\Judge\Decision;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
