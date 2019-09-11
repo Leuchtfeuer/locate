@@ -8,6 +8,7 @@ class Decision
 
     /**
      * @var array
+     * @deprecated
      */
     protected $specification = [];
 
@@ -26,16 +27,25 @@ class Decision
         $this->actionName = $actionName;
     }
 
+    /**
+     * @deprecated
+     */
     public function getSpecifications(): array
     {
         return $this->specification;
     }
 
+    /**
+     * @deprecated
+     */
     public function setSpecifications(array $specification)
     {
         $this->specification = $specification;
     }
 
+    /**
+     * @deprecated
+     */
     public function addSpecification(string $name, string $value)
     {
         $this->specification[$name] = $value;
