@@ -128,14 +128,4 @@ class Court implements ProcessorInterface, LoggerAwareInterface
             $action->process($this->facts, $decision);
         }
     }
-
-    /**
-     * @deprecated
-     */
-    public function getFacts(): array
-    {
-        trigger_error('Facts will no longer be public available.', E_USER_DEPRECATED);
-
-        return $this->facts;
-    }
 }

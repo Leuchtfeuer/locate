@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Bitmotion\Locate\Judge;
 
+use Bitmotion\Locate\Exception;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
@@ -26,6 +27,6 @@ abstract class AbstractJudge implements LoggerAwareInterface
      */
     public function process(array &$facts)
     {
-        throw new \Bitmotion\Locate\Exception(sprintf('Process not implemented in %s.', __CLASS__));
+        throw new Exception(sprintf('Process not implemented in %s.', __CLASS__));
     }
 }

@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace Bitmotion\Locate\FactProvider;
 
+use Bitmotion\Locate\Exception;
+
 abstract class AbstractFactProvider
 {
     /**
