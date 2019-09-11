@@ -197,7 +197,7 @@ class Redirect extends AbstractAction
      */
     private function redirectToPid(string $target, string $language, int $httpResponseCode)
     {
-        if ($language) {
+        if (is_numeric($language)) {
             $languageId = (int)$language;
             $urlParameters = ['L' => intval($language)];
         } else {
@@ -211,7 +211,7 @@ class Redirect extends AbstractAction
         if ($targetPageUid) {
             if ($targetPageUid == $GLOBALS['TSFE']->id) {
                 // Legacy (only TYPO3 8)
-                if ($urlParameters['L']) {
+                if (isset($urlParameters['L']) && is_numeric($urlParameters['L'])) {
 
                     if ($this->requestedLanguageUid == $urlParameters['L']) {
                         return;
