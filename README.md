@@ -36,7 +36,6 @@ Facts
 * BrowserAcceptedLanguage (Lang, Locale)
 * Environment (UserAgent, ...)
 * IP2Country (Country Code based on Source IP of Request, ...)
-* Constants (any TS constants)
 
 Judges
 * AndCondition = Proceed to action if all facts are matched
@@ -81,7 +80,6 @@ config.tx_locate.facts {
     # DE, UK, ...
     countryByIP = Bitmotion\Locate\FactProvider\IP2Country
     browserAccepted = Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
-    constants  = Bitmotion\Locate\FactProvider\Constants
 }
 ```
 Facts = Klassen und symbolische Namen
@@ -89,7 +87,6 @@ Facts = Klassen und symbolische Namen
 Ausprägungen zu deren Verwendung in Judges:
 * countryByIP.countrycode = DE
 * countryByIP.IP2Dezimal = 1.2.3.4
-* constants.<meinkey> = DACH
 * browserAccepted.lang = fr browserAccepted.locale = de_DE
 * env.<Env.-Variable> = <value> z.B. env.HTTP_HOST = https://mysite.fr
 

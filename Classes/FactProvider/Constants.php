@@ -3,12 +3,13 @@ declare(strict_types=1);
 namespace Bitmotion\Locate\FactProvider;
 
 /**
- * Class Constants
+ * @deprecated
  */
 class Constants extends AbstractFactProvider
 {
     /**
      * Call the fact module which might add some data to the factArray
+     * @deprecated
      */
     public function process(array &$facts)
     {
