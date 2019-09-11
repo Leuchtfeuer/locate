@@ -4,10 +4,7 @@ namespace Bitmotion\Locate\Judge;
 
 class Decision
 {
-    /**
-     * @var bool
-     */
-    protected $actionName = false;
+    protected $actionName = '';
 
     /**
      * @var array
@@ -16,7 +13,7 @@ class Decision
 
     public function hasAction(): bool
     {
-        return $this->actionName ? true : false;
+        return !empty($this->actionName);
     }
 
     public function getActionName(): string
@@ -24,7 +21,7 @@ class Decision
         return $this->actionName;
     }
 
-    public function setActionName(string $actionName)
+    public function setActionName(string $actionName): void
     {
         $this->actionName = $actionName;
     }
