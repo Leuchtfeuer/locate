@@ -75,11 +75,9 @@ config.tx_locate.actions {
 ### Facts
 ```
 config.tx_locate.facts {
-    # de, DE, de_DE; en, GB, en_GB
-    env = Bitmotion\Locate\FactProvider\Environment
-    # DE, UK, ...
-    countryByIP = Bitmotion\Locate\FactProvider\IP2Country
     browserAccepted = Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
+    countryByIP = Bitmotion\Locate\FactProvider\IP2Country
+    env = Bitmotion\Locate\FactProvider\Environment
 }
 ```
 Facts = Klassen und symbolische Namen
@@ -87,7 +85,7 @@ Facts = Klassen und symbolische Namen
 Ausprägungen zu deren Verwendung in Judges:
 * countryByIP.countrycode = DE
 * countryByIP.IP2Dezimal = 1.2.3.4
-* browserAccepted.lang = fr browserAccepted.locale = de_DE
+* browserAccepted.lang = fr oder browserAccepted.locale = de_DE
 * env.<Env.-Variable> = <value> z.B. env.HTTP_HOST = https://mysite.fr
 
 ### Judges
