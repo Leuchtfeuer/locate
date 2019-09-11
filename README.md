@@ -106,6 +106,10 @@ config.tx_locate.cookieName = bm_locate
 ```
 * Name of the cookie.
 ```
+config.tx_locate.cookieLifetime = 30
+```
+* Default lifetime of cookie (in days).
+```
 config.tx_locate.httpResponseCode = HTTP/1.1 303 See Other
 ```
 * HTTP response code for redirects.

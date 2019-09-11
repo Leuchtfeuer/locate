@@ -2,6 +2,7 @@ config.tx_locate = 1
 config.tx_locate {
     dryRun = 0
     cookieName = bm_locate
+    cookieLifetime = 30
     overrideParam = setLang
     httpResponseCode = HTTP/1.1 303 See Other
 

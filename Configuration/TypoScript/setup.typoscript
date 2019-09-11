@@ -7,6 +7,9 @@ config.tx_locate {
     # Name of the cookie used when cookieHandling is set to true within action
     cookieName = bm_locate
 
+    # Default lifetime of cookie (in days)
+    cookieLifetime = 30
+
     # URL Parameter which has to be true when overrideCookie is allowed within action and cookieHandling is enabled
     overrideParam = setLang
 

@@ -11,6 +11,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class Redirect extends AbstractAction
 {
     const COOKIE_NAME = 'bm_locate';
+    const COOKIE_LIFETIME = 30;
     const OVERRIDE_PARAMETER = 'setLang';
 
     private $cookieMode = false;
@@ -132,10 +133,11 @@ class Redirect extends AbstractAction
 
     private function setCookie(int $value)
     {
+        $lifetime = time() + 60 * 60 * 24 * $this->configuration['cookieLifetime'];
         if ($value === null) {
-            setcookie($this->cookieName, (string)$this->configuration['sys_language'], time() + 60 * 60 * 24 * 30, '/');
+            setcookie($this->cookieName, (string)$this->configuration['sys_language'], $lifetime, '/');
         } else {
-            setcookie($this->cookieName, (string)$value, time() + 60 * 60 * 24 * 30, '/');
+            setcookie($this->cookieName, (string)$value, $lifetime, '/');
         }
     }
 
