@@ -15,7 +15,7 @@ class Environment extends AbstractFactProvider
         $envFactArray = GeneralUtility::getIndpEnv('_ARRAY');
 
         foreach ($envFactArray as $key => $value) {
-            $factPropertyName = $this->GetFactPropertyName($key);
+            $factPropertyName = $this->getFactPropertyName($key);
             $facts[$factPropertyName] = $value;
         }
 
