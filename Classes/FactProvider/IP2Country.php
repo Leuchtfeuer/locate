@@ -4,9 +4,6 @@ namespace Bitmotion\Locate\FactProvider;
 
 use Bitmotion\Locate\Tools\IP;
 
-/**
- * Class IP2Country
- */
 class IP2Country extends AbstractFactProvider
 {
     /**

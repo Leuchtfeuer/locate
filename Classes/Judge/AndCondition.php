@@ -4,9 +4,6 @@ namespace Bitmotion\Locate\Judge;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class AndCondition
- */
 class AndCondition extends AbstractJudge
 {
     /**

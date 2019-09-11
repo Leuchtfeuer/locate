@@ -8,9 +8,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-/**
- * Class Redirect
- */
 class Redirect extends AbstractAction
 {
     const COOKIE_NAME = 'bm_locate';

@@ -4,11 +4,6 @@ namespace Bitmotion\Locate\FactProvider;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class Environment
- *
- * Provide multiple environment data from GeneralUtility::getIndpEnv()
- */
 class Environment extends AbstractFactProvider
 {
     /*

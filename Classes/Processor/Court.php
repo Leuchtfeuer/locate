@@ -10,9 +10,6 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class Court
- */
 class Court implements ProcessorInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;

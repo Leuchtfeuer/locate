@@ -4,9 +4,6 @@ namespace Bitmotion\Locate\Action;
 
 use Bitmotion\Locate\Judge\Decision;
 
-/**
- * Class Dummy
- */
 class Dummy extends AbstractAction
 {
     /**

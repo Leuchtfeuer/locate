@@ -4,11 +4,6 @@ namespace Bitmotion\Locate\Tools;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class IP
- *
- * These are borrowed from TYPO3 t3lib_div and slightly modified
- */
 abstract class IP
 {
     /**

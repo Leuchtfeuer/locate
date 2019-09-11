@@ -2,9 +2,6 @@
 declare(strict_types=1);
 namespace Bitmotion\Locate\FactProvider;
 
-/**
- * Class BrowserAcceptedLanguage
- */
 class BrowserAcceptedLanguage extends AbstractFactProvider
 {
     /**

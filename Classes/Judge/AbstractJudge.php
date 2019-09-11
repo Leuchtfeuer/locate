@@ -5,9 +5,6 @@ namespace Bitmotion\Locate\Judge;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
-/**
- * Class AbstractJudge
- */
 abstract class AbstractJudge implements JudgeInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
