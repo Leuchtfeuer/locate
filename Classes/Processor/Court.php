@@ -107,7 +107,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
             throw new Exception(sprintf('Action with name "%s" should be called but is not configured!', $actionName));
         }
 
-        $this->logger->info(" Action with name '$actionName' will be called");
+        $this->logger->info(sprintf('Action with name %s will be called', $actionName));
 
         foreach ($actionConfigArray as $key => $value) {
             // As we have an TypoScript array, skip every key which has sub properties
