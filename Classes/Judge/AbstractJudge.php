@@ -9,15 +9,7 @@ abstract class AbstractJudge implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var array
-     */
     protected $configuration = [];
-
-    /**
-     * @var string
-     */
-    protected $baseName = '';
 
     /**
      * @param array $configuration TypoScript configuration array for this judge
@@ -30,19 +22,10 @@ abstract class AbstractJudge implements LoggerAwareInterface
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @throws Exception
-     * @return bool
+     * @throws \Bitmotion\Locate\Exception
      */
     public function process(array &$facts)
     {
         throw new \Bitmotion\Locate\Exception(sprintf('Process not implemented in %s.', __CLASS__));
-    }
-
-    /**
-     * Adds a prefix to the factArray property name
-     */
-    protected function getFactPropertyName(string $property): string
-    {
-        return $this->baseName . '.' . $property;
     }
 }
