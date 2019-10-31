@@ -83,7 +83,7 @@ config.tx_locate.facts {
 Facts = Klassen und symbolische Namen
 
 Ausprägungen zu deren Verwendung in Judges:
-* countryByIP.countrycode = DE
+* countryByIP.countryCode = DE
 * countryByIP.IP2Dezimal = 1.2.3.4
 * browserAccepted.lang = fr oder browserAccepted.locale = de_DE
 * env.<Env.-Variable> = <value> z.B. env.HTTP_HOST = https://mysite.fr
