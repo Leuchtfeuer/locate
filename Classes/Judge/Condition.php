@@ -15,7 +15,7 @@ class Condition extends AbstractJudge
 
         if ($match !== null) {
             $match = preg_replace('/\s+/', '', $match);
-            list($factIdentifier, $value) = explode('=', $match);
+            [$factIdentifier, $value] = explode('=', $match);
 
             if (!isset($facts[$factIdentifier]) || !(isset($facts[$factIdentifier][$value]) || $facts[$factIdentifier] == $value)) {
                 return null;
