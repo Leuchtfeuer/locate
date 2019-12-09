@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Bitmotion\Locate\Tools;
+namespace Bitmotion\Locate\Utility;
 
 /***
  *
@@ -16,15 +16,16 @@ namespace Bitmotion\Locate\Tools;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-abstract class IP2Country
+class LocateUtility
 {
     /**
      * Check the IP in the geoip table and returns iso 2 code for the current remote address
      *
      * @return bool|string
      */
-    public static function getCountryIso2FromIP(int $ip)
+    public function getCountryIso2FromIP(?string $ip = null)
     {
+        $ip = $this->getNumericIp($ip);
         $tableName = self::getTableNameForIp($ip);
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableName);
 
@@ -37,7 +38,19 @@ abstract class IP2Country
             ->fetchColumn(0);
     }
 
-    protected static function getTableNameForIp(int $ip): string
+
+    public function getNumericIp(?string $ip = null): int
+    {
+        $binNum = '';
+
+        foreach (unpack('C*', inet_pton($ip ?? GeneralUtility::getIndpEnv('REMOTE_ADDR'))) as $byte) {
+            $binNum .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
+        }
+
+        return (int)base_convert(ltrim($binNum, '0'), 2, 10);
+    }
+
+    protected function getTableNameForIp(int $ip): string
     {
         if (strlen((string)$ip) > 10) {
             return 'static_ip2country_v6';

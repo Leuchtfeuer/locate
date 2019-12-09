@@ -13,6 +13,7 @@ namespace Bitmotion\Locate\FactProvider;
  *
  ***/
 
+use Bitmotion\Locate\Utility\LocateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class IP2Country extends AbstractFactProvider
@@ -22,25 +23,14 @@ class IP2Country extends AbstractFactProvider
      */
     public function process(array &$facts)
     {
-        $ip = GeneralUtility::getIndpEnv('REMOTE_ADDR');
-        $ipAsLong = $this->getNumericIp($ip);
+        $locateUtility = GeneralUtility::makeInstance(LocateUtility::class);
+        $ipAsLong = $locateUtility->getNumericIp();
 
         $factPropertyName = $this->getFactPropertyName('countryCode');
-        $iso2 = strtolower(\Bitmotion\Locate\Tools\IP2Country::getCountryIso2FromIP($ipAsLong));
+        $iso2 = $locateUtility->getCountryIso2FromIP();
         $facts[$factPropertyName][$iso2] = 1;
 
         $factPropertyName = $this->getFactPropertyName('IP2Dezimal');
         $facts[$factPropertyName][$ipAsLong] = 1;
-    }
-
-    protected function getNumericIp($ip): int
-    {
-        $binNum = '';
-
-        foreach (unpack('C*', inet_pton($ip)) as $byte) {
-            $binNum .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
-        }
-
-        return (int)base_convert(ltrim($binNum, '0'), 2, 10);
     }
 }
