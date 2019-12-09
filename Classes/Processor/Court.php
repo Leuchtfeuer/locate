@@ -50,7 +50,8 @@ class Court implements ProcessorInterface, LoggerAwareInterface
     {
         foreach ($this->configuration['facts'] as $key => $className) {
             if (!class_exists($className)) {
-                throw new Exception(sprintf('Class %s does not exist.', $className));
+                $this->logger->warning(sprintf('Class %s does not exist.', $className));
+                continue;
             }
 
             $this->logger->info(sprintf('Fact provider with key "%s" will be called.', $key));
@@ -78,7 +79,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
             if (!class_exists($value)) {
                 $this->logger->error(sprintf('Class %s does nost exist.', $value));
-                throw new Exception(sprintf('Judge %s does not exist.', $value));
+                continue;
             }
 
             /* @var $judge AbstractJudge */
