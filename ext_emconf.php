@@ -1,8 +1,8 @@
 <?php
 
-$EM_CONF[$_EXTKEY] = [
+$EM_CONF['locate'] = [
     'title' => 'Locate',
-    'description' => 'The users country and prefered language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages.  New functionality can be added easily.',
+    'description' => 'The users country and preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. New functionality can be added easily.',
     'version' => '10.0.0-dev',
     'category' => 'fe',
     'constraints' => [
