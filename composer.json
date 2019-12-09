@@ -26,8 +26,8 @@
     }
   ],
   "require": {
-    "sjbr/static-info-tables": "^6.7",
-    "typo3/cms-core": "^9.5"
+    "typo3/cms-core": "^9.5",
+    "typo3/cms-frontend": "^9.5"
   },
   "license": "GPL-2.0-or-later",
   "autoload": {

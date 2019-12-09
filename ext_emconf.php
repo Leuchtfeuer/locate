@@ -8,7 +8,6 @@ $EM_CONF['locate'] = [
     'constraints' => [
         'depends' => [
             'typo3' => '9.5.0-9.5.99',
-            'static_info_tables' => '',
         ],
         'conflicts' => [],
         'suggests' => [],
