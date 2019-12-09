@@ -11,11 +11,25 @@ class IP2Country extends AbstractFactProvider
      */
     public function process(array &$facts)
     {
-        $ipAsLong = (int)sprintf('%u', ip2long(GeneralUtility::getIndpEnv('REMOTE_ADDR')));
-        $factPropertyName = $this->GetFactPropertyName('countryCode');
-        $facts[$factPropertyName] = \Bitmotion\Locate\Tools\IP2Country::GetCountryIso2FromIP($ipAsLong);
+        $ip = GeneralUtility::getIndpEnv('REMOTE_ADDR');
+        $ipAsLong = $this->getNumericIp($ip);
 
-        $factPropertyName = $this->GetFactPropertyName('IP2Dezimal');
-        $facts[$factPropertyName] = $ipAsLong;
+        $factPropertyName = $this->getFactPropertyName('countryCode');
+        $iso2 = strtolower(\Bitmotion\Locate\Tools\IP2Country::getCountryIso2FromIP($ipAsLong));
+        $facts[$factPropertyName][$iso2] = 1;
+
+        $factPropertyName = $this->getFactPropertyName('IP2Dezimal');
+        $facts[$factPropertyName][$ipAsLong] = 1;
+    }
+
+    protected function getNumericIp($ip): int
+    {
+        $binNum = '';
+
+        foreach (unpack('C*', inet_pton($ip)) as $byte) {
+            $binNum .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
+        }
+
+        return (int)base_convert(ltrim($binNum, '0'), 2, 10);
     }
 }

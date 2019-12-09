@@ -15,15 +15,24 @@ abstract class IP2Country
      */
     public static function getCountryIso2FromIP(int $ip)
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_locate_ip2country');
+        $tableName = self::getTableNameForIp($ip);
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableName);
 
         return $queryBuilder
-            ->select('iso2')
-            ->from('static_ip2country')
-            ->where($queryBuilder->expr()->lte('ipfrom', $queryBuilder->createNamedParameter($ip)))
-            ->andWhere($queryBuilder->expr()->gte('ipto', $queryBuilder->createNamedParameter($ip)))
+            ->select('country_code')
+            ->from($tableName)
+            ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))
+            ->andWhere($queryBuilder->expr()->gte('ip_to', $queryBuilder->createNamedParameter($ip)))
             ->execute()
             ->fetchColumn(0);
+    }
+
+    protected static function getTableNameForIp(int $ip): string
+    {
+        if (strlen((string)$ip) > 10) {
+            return 'static_ip2country_v6';
+        }
+
+        return 'static_ip2country_v4';
     }
 }

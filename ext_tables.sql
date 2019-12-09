@@ -1,12 +1,17 @@
-#
-# Table structure for table 'static_ip2country'
-#
-CREATE TABLE static_ip2country (
-  uid int(10) unsigned NOT NULL auto_increment,
-  pid int(10) unsigned NOT NULL DEFAULT '0',
-  ipfrom int(10) unsigned NOT NULL DEFAULT '0',
-  ipto int(10) unsigned NOT NULL DEFAULT '0',
-  iso2 varchar(2)  NOT NULL DEFAULT '',
-  PRIMARY KEY (uid),
-  KEY parent (pid)
+CREATE TABLE static_ip2country_v4 (
+  ip_from int(10) unsigned DEFAULT NULL,
+  ip_to int(10) unsigned DEFAULT NULL,
+  country_code char(2) NOT NULL DEFAULT '',
+  KEY idx_ip_from (ip_from),
+  KEY idx_ip_to (ip_to),
+  KEY idx_ip_from_to (ip_from,ip_to)
+);
+
+CREATE TABLE static_ip2country_v6 (
+  ip_from decimal(39,0) unsigned DEFAULT NULL,
+  ip_to decimal(39,0) unsigned NOT NULL,
+  country_code char(2) NOT NULL DEFAULT '',
+  KEY idx_ip_from (ip_from),
+  KEY idx_ip_to (ip_to),
+  KEY idx_ip_from_to (ip_from,ip_to)
 );
