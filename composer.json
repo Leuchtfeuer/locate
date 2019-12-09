@@ -1,6 +1,5 @@
 {
   "name": "bitmotion/locate",
-  "type": "typo3-cms-extension",
   "description": "The users country and prefered language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages.  New functionality can be added easily.",
   "keywords": [
     "TYPO3",
@@ -8,28 +7,26 @@
     "locate",
     "IP2Country"
   ],
+  "type": "typo3-cms-extension",
+  "license": "GPL-2.0-or-later",
   "homepage": "https://www.bitmotion.de",
   "support": {
-    "issues": "https://github.com/bitmotion/locate/issues"
+    "email": "typo3-ext@bitmotion.de",
+    "issues": "https://github.com/bitmotion/locate/issues",
+    "source": "https://github.com/bitmotion/locate/"
   },
   "authors": [
     {
       "name": "Florian Wessels",
+      "email": "f.wessels@bitmotion.de",
       "role": "Developer",
-      "homepage": "https://www.bitmotion.de",
-      "email": "f.wessels@bitmotion.de"
-    },
-    {
-      "name": "René Fritz",
-      "role": "Developer",
-      "homepage": "https://www.colorcube.de"
+      "homepage": "https://www.bitmotion.de"
     }
   ],
   "require": {
-    "typo3/cms-core": "^9.5",
-    "typo3/cms-frontend": "^9.5"
+    "typo3/cms-core": "^9.5 || ^10.2",
+    "typo3/cms-frontend": "^9.5 || ^10.2"
   },
-  "license": "GPL-2.0-or-later",
   "autoload": {
     "psr-4": {
       "Bitmotion\\Locate\\": "Classes"
