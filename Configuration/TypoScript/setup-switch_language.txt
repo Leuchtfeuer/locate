@@ -52,7 +52,7 @@ config.tx_locate {
 
         30 = Bitmotion\Locate\Judge\Condition
         30.action = redirectToPageDK
-        30.match = env.HTTP_HOST = www.bitmotion.de
+        30.match = env.HTTP_HOST = www.Leuchtfeuer.com
 
         999 = Bitmotion\Locate\Judge\Fixed
         999.action = redirectToPageEN
