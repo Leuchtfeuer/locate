@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace Bitmotion\Locate\Utility;
 
 /***
@@ -37,7 +37,6 @@ class LocateUtility
             ->execute()
             ->fetchColumn(0);
     }
-
 
     public function getNumericIp(?string $ip = null): int
     {
