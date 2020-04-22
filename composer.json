@@ -9,18 +9,18 @@
   ],
   "type": "typo3-cms-extension",
   "license": "GPL-2.0-or-later",
-  "homepage": "https://www.bitmotion.de",
+  "homepage": "https://www.Leuchtfeuer.com",
   "support": {
-    "email": "typo3-ext@bitmotion.de",
-    "issues": "https://github.com/bitmotion/locate/issues",
-    "source": "https://github.com/bitmotion/locate/"
+    "email": "dev@Leuchtfeuer.com",
+    "issues": "https://github.com/Leuchtfeuer/locate/issues",
+    "source": "https://github.com/Leuchtfeuer/locate/"
   },
   "authors": [
     {
       "name": "Florian Wessels",
-      "email": "f.wessels@bitmotion.de",
+      "email": "f.wessels@Leuchtfeuer.com",
       "role": "Developer",
-      "homepage": "https://www.bitmotion.de"
+      "homepage": "https://www.Leuchtfeuer.com"
     }
   ],
   "require": {
