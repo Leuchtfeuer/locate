@@ -1,28 +1,28 @@
 # locate
 
-## Funktion
+## Function
 
-* „Weise sinnvolle Sprachversion beim ersten Zugriff zu!“
-* „Erlaube manuelle Umschaltung und merke Dir diese!“
+* "Assign useful language on first page access."
+* "Allow manual switching and remember the value."
 
-### Erster Zugriff
+### First Access
 
-Ziel: „Richtige Version“ der Website zuweisen Version: „L=<Sprachen / Länder / Mischmasch>“
+Goal: Assign "correct language version" of the website: "L=<Languages / Country / Mishmash>""
 
-Entscheidungskriterien
-* Browsersprache
+Decision criteria
+* Browser language
 * IP
-* andere
+* other
 
-Feinheit: Zugriff auf definierte Versions-Seite („/de/produkte“)
-* beibehalten? -> Extension nur auf der Startseite einbinden
-* übersteuern? -> Extension überall einbinden
+Fineness: Access to defined version page ("/en/products")
+* keep? -> Include extension only on the start page
+* override? -> Integrate extension everywhere
 
-Sprachwechsel... wohin?
-* auf die angeforderte Seite
-* auf eine definierte Ausgangsseite
+Change of language... to where?
+* to the requested page
+* to a specific page
 
-## Konzept
+## Concept
 
 „Judges trigger actions based on facts“
 
@@ -70,7 +70,7 @@ config.tx_locate.actions {
     }
 }
 ```
-* cookieHandling = 0 -> bedeutet Prüfung bei jedem Zugriff! (ok, falls nicht auf jeder Seite eingebunden)
+* cookieHandling = 0 -> means check at every access! (ok, if not included on every page)
 
 ### Facts
 ```
@@ -80,13 +80,13 @@ config.tx_locate.facts {
     env = Bitmotion\Locate\FactProvider\Environment
 }
 ```
-Facts = Klassen und symbolische Namen
+Facts = Classes and symbolic names
 
-Ausprägungen zu deren Verwendung in Judges:
+Characteristics for their use in judges:
 * countryByIP.countryCode = DE
 * countryByIP.IP2Dezimal = 1.2.3.4
-* browserAccepted.lang = fr oder browserAccepted.locale = de_DE
-* env.<Env.-Variable> = <value> z.B. env.HTTP_HOST = https://mysite.fr
+* browserAccepted.lang = fr or browserAccepted.locale = de_DE
+* env.<Env.-Variable> = <value> e.g. env.HTTP_HOST = https://mysite.fr
 
 ### Judges
 ```
@@ -100,7 +100,7 @@ config.tx_locate.judges {
 }
 ```
 
-### Sonstiges
+### Miscellaneous
 ```
 config.tx_locate.cookieName = bm_locate
 ```
@@ -120,6 +120,6 @@ config.tx_locate.httpResponseCode = HTTP/1.1 303 See Other
 Key: bm_locate (configurable)
 Value: Language ID
 ```
-* Wird beim ersten Zugriff gesetzt, falls im TS erlaubt
-* Wird auch gesetzt, wenn &setLang=1 übergeben wird -> Dies ins Sprachmenü aufnehmen!
-* Ist Cookie gesetzt, werden die Judges nicht ausgeführt
+* Set at first page call, if allowed in the TS
+* Is also set if &setLang=1 is passed -> Add this parameter to your language menu!
+* If a cookie is set, the judges are no longer executed
