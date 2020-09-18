@@ -33,7 +33,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
             $typoScript['config.']['tx_locate.'] = array_merge_recursive($typoScript['config.']['tx_locate.'] ?? [], $typoScript['plugin.']['tx_locate_pi1.']);
         }
 
-        if (isset($typoScript['config.']['tx_locate']) && isset($typoScript['config.']['tx_locate.'])) {
+        if ((int)$typoScript['config.']['tx_locate'] === 1 && !empty($typoScript['config.']['tx_locate.'] ?? [])) {
             $locateSetup = $typoScript['config.']['tx_locate.'];
 
             $config = [
