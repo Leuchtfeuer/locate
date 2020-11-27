@@ -123,3 +123,7 @@ Value: Language ID
 * Set at first page call, if allowed in the TS
 * Is also set if &setLang=1 is passed -> Add this parameter to your language menu!
 * If a cookie is set, the judges are no longer executed
+
+---
+
+This site or product includes IP2Location LITE data available from [https://lite.ip2location.com](https://lite.ip2location.com).
