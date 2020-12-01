@@ -1,0 +1,23 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 7.6.1 - 2017/05/23
+==========================
+
+This release contains bug fixes only.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/7.6.1>`__.
+
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2017-05-23 [RELEASE] Release of version 7.6.1 (Commit 6ccfbf0 by Florian Wessels)
+   2017-05-23 [TASK] Update composer.json (Commit 1d7fca0 by Florian Wessels)
+   2017-05-23 [TASK] Rename method (Commit 195551e by Florian Wessels)

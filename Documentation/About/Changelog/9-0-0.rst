@@ -1,0 +1,53 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 9.0.0 - 2019/05/13
+==========================
+
+This release is a new major release that contains breaking changes. The TypoScript configuration was moved from
+:typoscript:`plugin.tx_locate_pi1` to :typoscript:`config.tx_locate`. Also the support for TYPO3 v8 was dropped.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/9.0.0>`__.
+
+Added
+=====
+
+* PHP CS fixer
+* Member constants of class :php:`Redirect`: `COOKIE_NAME`, `OVERRIDE_PARAMETER`, `HTTP_RESPONSE_CODE`
+* Full support for PSR Logger
+* PHP strict mode
+* PSR Middleware for handling redirects
+
+Deprecations
+============
+
+* TypoScript was moved from :typoscript:`plugin.tx_locate_pi1` to :typoscript:`config.tx_locate`.
+
+Removed
+=======
+
+* Support for TYPO3 v8
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2019-05-13 [RELEASE] Release of version 9.0.0 (Commit f736b57 by Florian Wessels)
+   2019-05-13 [TASK] Enable TypoScript (Commit 2c2adad by Florian Wessels)
+   2019-05-06 [BREAKING] Use PSR-15 middleware and get rid of obsolete plugin and user funcs (Commit cfcc8a6 by Florian Wessels)
+   2019-05-06 [TASK] Update documentation (Commit af4cf24 by Florian Wessels)
+   2019-05-06 [TASK] Add logging and add return types (Commit aa9368d by Florian Wessels)
+   2019-05-06 [TASK] Refactor code and remove TYPO3 8 compatibility (Commit c75bb65 by Florian Wessels)
+   2019-05-06 [TASK] Update configuration example (Commit 3404261 by Florian Wessels)
+   2019-05-06 [TASK] Add check whether class exists (Commit a8f1dbc by Florian Wessels)
+   2019-05-06 [TASK] Remove reviewer (Commit b120a2c by Florian Wessels)
+   2019-05-06 [TASK] Add return types (Commit 12ded25 by Florian Wessels)
+   2019-05-06 [TASK] Use LoggerAwareTrait (Commit c0168cf by Florian Wessels)
+   2019-05-06 [BUGFIX] Use boolean (Commit de62232 by Florian Wessels)
+   2019-05-06 [TASK] Update dependencies (Commit 7d487ce by Florian Wessels)
+   2019-05-06 [TASK] Apply CS (Commit 4aa1ba4 by Florian Wessels)

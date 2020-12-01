@@ -1,0 +1,39 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 7.6.6 - 2018/04/13
+==========================
+
+This release contains mostly bug fixes and improvements regarding the code quality.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/7.6.6>`__.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2018-04-13 [RELEASE] Release of version 7.6.6 (Commit 46e1ba1 by Florian Wessels)
+   2018-04-13 [TASK] Update TCA (Commit 33ed9c5 by Florian Wessels)
+   2018-04-13 [TASK] Add Todo for further refactoring (Commit 30df351 by Florian Wessels)
+   2018-04-13 [TASK] Add missing php doc (Commit a55736d by Florian Wessels)
+   2018-04-13 [BUGFIX] Set proper cookie value if we are in cookie mode (Commit 2fe5b7d by Florian Wessels)
+   2018-04-13 [TASK] Rewrite condition (Commit fc9f8ff by Florian Wessels)
+   2018-04-13 [DOC] Add inline documentation (Commit 5ecfa30 by Florian Wessels)
+   2018-04-13 Merge pull request #4 from bitmotionAE/master (Commit 559b747 by Florian Wessels)
+   2018-04-12 [BUGFIX] Remove current pid from urls parameters when redirecting to specific page (Commit e89c15d by Andreas Engel)
+
+
+Contributors
+============
+
+Following people have contributed to this release:
+
+* Andreas Engel
+* Florian Wessels
+
+Thank you very much for your support. The next beer is on us! 🍻

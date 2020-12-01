@@ -1,0 +1,56 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 7.6.0 - 2017/05/23
+==========================
+
+This release is the first release for TYPO3 v7.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/7.6.0>`__.
+
+Added
+=====
+
+* Cookie mode for persisting language selection
+
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2017-05-23 [TASK] Add composer.json (Commit 618ca49 by Florian Wessels)
+   2017-05-23 [TASK] Remove module (Commit 8a9779c by Florian Wessels)
+   2017-05-23 [TASK] Use locate exception (Commit d7105da by Florian Wessels)
+   2017-05-23 [TASK] Remove TicTacToe action (Commit 1dcf7f9 by Florian Wessels)
+   2017-05-23 Merge branch 'BMIMPROVE-16' (Commit ec8f500 by Florian Wessels)
+   2017-05-23 [TASK] Add support for TYPO3 8 LTS (Commit e26c780 by Florian Wessels)
+   2017-04-24 [BUGFIX] Adding Path to setCookie due to error with realurl (Commit fc22d97 by Gerald Jelitto)
+   2017-04-19 getIndpEnv now using GeneralUtility (Commit c55e9f4 by Gerald Jelitto)
+   2017-04-19 Using namespace for :: (Commit 9f791c9 by Gerald Jelitto)
+   2017-02-08 Remove autoload.php (Commit 30286f8 by Florian Wessels)
+   2017-02-01 Fix array syntax (Commit 275eaf2 by Florian Wessels)
+   2017-02-01 Do not exclude page id and l param in url (Commit 22c3339 by Florian Wessels)
+   2017-01-31 Add existing GET parameters to the redirect url. [FIXES #20170130238115] (Commit f123684 by Oliver Heins)
+   2017-01-26 BMIMPROVE-16 - If no L-Parameter is set (default language) set cookie too (Commit 231908c by Daniel Koether)
+   2017-01-25 Fixed corrupt ext_emconf (Commit d98dbce by Daniel Koether)
+   2017-01-25 Fixed corrupt ext_emconf (Commit c223f65 by Daniel Koether)
+   2017-01-25 Implement feature from old 4.x version --> Cookie Handling (Commit 3ed911d by Florian Wessels)
+   2016-10-11 [TASK] Add compatibility for TYPO3 7 (Commit 1bcc446 by Florian Wessels)
+
+
+Contributors
+============
+
+Following people have contributed to this release:
+
+* Oliver Heins
+* Gerald Jelitto
+* Daniel Koether
+* Florian Wessels
+
+Thank you very much for your support. The next beer is on us! 🍻

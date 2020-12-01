@@ -1,0 +1,22 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 7.6.5 - 2018/04/06
+==========================
+
+This release contains bug fixes only.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/7.6.5>`__.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2018-04-06 [RELEASE] Release of version 7.6.5 (Commit 41b2a8f by Florian Wessels)
+   2018-04-06 [BUGFIX] Use array_merge instead of array_combine (Commit b852c9b by Florian Wessels)
+   2018-04-06 [TASK] Add requirements to composer.json (Commit f01545b by Florian Wessels)

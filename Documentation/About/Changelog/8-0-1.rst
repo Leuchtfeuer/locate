@@ -1,0 +1,21 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 8.0.1 - 2018/12/02
+==========================
+
+This release contains bug fixes only.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/8.0.1>`__.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2018-12-02 [RELEASE] Release of version 8.0.1 (Commit f26ee65 by Florian Wessels)
+   2018-12-02 [ BUGFIX ] Remove sql key (Commit 54df5f8 by Florian Wessels)

@@ -1,0 +1,30 @@
+﻿.. include:: ../../Includes.txt
+
+===========================
+Version 10.0.1 - 2020/06/02
+===========================
+
+This release provides an updated IP database.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/v10.0.1>`__.
+
+Changed
+=======
+
+* Composer package was changed from `bitmotion/locate` to `leuchtfeuer/locate`
+* IP database updated
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2020-06-02 [RELEASE] Release of version 10.0.1 (Commit d628cbe by Florian Wessels)
+   2020-06-02 [TASK] Update IP database (Commit 3d99cdb by Florian Wessels)
+   2020-06-02 [TASK] Update funding file (Commit 14c62ee by Florian Wessels)
+   2020-06-02 [TASK] Rename composer package (Commit a21a960 by Florian Wessels)
+   2020-06-02 [TASK] Raise version to 10.0.1-dev (Commit 5bcc514 by Florian Wessels)

@@ -1,0 +1,62 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 1.1.2 - 2017/01/25
+==========================
+
+This is the initial public relase of this extension.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/1.1.2>`__.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2017-01-25 Release Version 1.1.2 (Commit 7b0df01 by Florian Wessels)
+   2017-01-25 Use isset for condition (Commit 32adff8 by Florian Wessels)
+   2017-01-25 Finalize (Commit 5a30fc6 by Florian Wessels)
+   2017-01-25 BMIMPORVE-16 - TYPO3 4.5 Compatibility (Commit 773831f by Daniel Koether)
+   2017-01-25 Add possibility to force new language (Commit 99bdd88 by Florian Wessels)
+   2017-01-23 BMIMPROVE-16 - Added else case for redirect process" (Commit 2f37419 by Daniel Koether)
+   2017-01-20 Set version to 1.1.1 (Commit 793f655 by Daniel Koether)
+   2017-01-19 BMIMPROVE-16 - Added cookie and Language parameter handling by browser language" (Commit 2889db2 by Daniel Koether)
+   2015-11-17 Merge branch 'master' of ssh://git.bitmotion.de/projects/Extensions/locate (Commit e8dcdce by Oliver Heins)
+   2015-11-17 remove debugging statements (Commit 4d6e0b1 by Oliver Heins)
+   2015-06-03 Added some info in README. (Commit 9eac316 by Olle Haerstedt)
+   2014-11-19 changes for avt relaunch (Commit 34241ea by Oliver Heins)
+   2014-07-17 Outsourced the Ip2Country and Ip2Long function (Commit b5bbdcf by Florian Wessels)
+   2013-07-03 Add static sql data and disable csv import (Commit bdadd0c by Rene Fritz)
+   2013-07-03 Add _SERVER stuff to facts (Commit 8a61792 by Rene Fritz)
+   2013-07-01 Remove var_dump (Commit aba9556 by Rene Fritz)
+   2013-07-01 Fix PHPDoc (Commit 39b3c83 by Rene Fritz)
+   2013-07-01 Fix constructor problem with php 5.3.2 (Commit 65e6ff1 by Rene Fritz)
+   2013-07-01 Fix namespace (Commit 77008ec by Rene Fritz)
+   2013-07-01 add php version 5.3 dependency (Commit eade4bf by Rene Fritz)
+   2013-06-28 New Version (Commit eb7dd32 by Andreas Schütte)
+   2013-06-28 Fix namespaces (Commit e9a201a by Andreas Schütte)
+   2013-06-28 Use t3lib_utility_Debug::viewArray (Commit a551968 by Andreas Schütte)
+   2013-06-28 Use t3lib_div::getIndpEnv('REMOTE_ADDR') (Commit 8bcf511 by Andreas Schütte)
+   2013-06-26 Add Tic Tac Toe action (Commit b1c511e by Rene Fritz)
+   2013-06-26 First version but already working (Commit d047555 by Rene Fritz)
+   2013-04-01 Add gitignore file (Commit b0ef24a by Helmut Hummel)
+
+
+Contributors
+============
+
+Following people have contributed to this release:
+
+* Rene Fritz
+* Olle Haerstedt
+* Oliver Heins
+* Helmut Hummel
+* Daniel Koether
+* Andreas Schütte
+* Florian Wessels
+
+Thank you very much for your support. The next beer is on us! 🍻

@@ -1,0 +1,26 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 7.6.2 - 2017/05/31
+==========================
+
+This release contains bug fixes and improvements regarding the cookie handling only.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/7.6.2>`__.
+
+Changed
+=======
+
+* The type prefix was removed from variables.
+* Cookie handling was improved.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2017-05-31 [TASK] Refactor cookie use (Commit 54b3598 by Florian Wessels)

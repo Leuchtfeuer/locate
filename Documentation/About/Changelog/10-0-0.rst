@@ -1,0 +1,88 @@
+﻿.. include:: ../../Includes.txt
+
+===========================
+Version 10.0.0 - 2020/04/22
+===========================
+
+This release is a new major release. It contains breaking changes since it removes several classes and methods that were marked
+as deprecated in prio versions. Also it introduces support for TYPO3 v10 as well as support vor IPv6 addresses.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/v10.0.0>`__.
+
+Added
+=====
+
+* GitHub files
+* Cookie lifetime is now configurable in :typoscript:`config.tx_locate.cookieLifetime`
+* Class :php:`LocateUtility` that contains the used methods from former class :php:`IP`
+* Support for TYPO3 v10 LTS
+* Support for IPv6
+* Support for PHP 7.3 and 7.4
+
+Changed
+=======
+
+* README was translated to english language
+* Static tables for IPv4 was renamed from `static_ip2country` to `static_ip2country_v4`
+* The IP database was updated
+
+Deprecated
+==========
+
+* Class :php:`AndCondition` is now deprecated and will be removed with version 11. You should use class :php:`Condition` instead.
+
+Removed
+=======
+
+* Deprecations introduced with version 9.1.0
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2020-04-22 [RELEASE] Release of version 10.0.0 (Commit d1102ad by Florian Wessels)
+   2020-04-22 [TASK] Adapt example (Commit 7500905 by Florian Wessels)
+   2020-04-22 [TASK] Translate README (Commit 7f3e7e5 by Florian Wessels)
+   2020-04-22 [TASK] Add GitHub files (Commit 593eee6 by Florian Wessels)
+   2020-04-22 [TASK] Move repository from bitmotion to Leuchtfeuer (Commit 89b3958 by Florian Wessels)
+   2020-04-22 [TASK] Add license file (Commit 198f8c4 by Florian Wessels)
+   2020-04-22 [TASK] Apply cs (Commit 8fd1542 by Florian Wessels)
+   2019-12-09 [BREAKING] Use dedicated utility for retrieving IP address (Commit 3459927 by Florian Wessels)
+   2019-12-09 [DOC] Add example for handling IPs (Commit 7cd46a1 by Florian Wessels)
+   2019-12-09 [FOLLOW-UP] Fix spelling mistakes (Commit 74ea65e by Florian Wessels)
+   2019-12-09 [FEATURE] Introduce TYPO3 v10.2 compatibility (Commit bf8e9f0 by Florian Wessels)
+   2019-12-09 [TASK] Remove obsolete language file (Commit e65ffc7 by Florian Wessels)
+   2019-12-09 [TASK] Add introducing php docs (Commit 98ac24c by Florian Wessels)
+   2019-12-09 [TASK] Update dependencies (Commit 3515754 by Florian Wessels)
+   2019-12-09 [BUGFIX] Fix spelling mistakes (Commit df5e38c by Florian Wessels)
+   2019-12-09 [TASK] Apply CS (Commit 494b36e by Florian Wessels)
+   2019-12-09 [FEATURE] Support IPv6 (Commit d712d21 by Florian Wessels)
+   2019-12-09 [TASK] Continue when class does not exists (Commit 4c666b0 by Florian Wessels)
+   2019-12-09 [TASK] Call user function in ext_localconf.php file (Commit 25e85a8 by Florian Wessels)
+   2019-12-09 [TASK] Remove unused CSV file (Commit adda2d8 by Florian Wessels)
+   2019-12-09 [TASK] Remove obsolete TCA (Commit c993dcc by Florian Wessels)
+   2019-12-09 [TASK] Exchange extension icon (Commit 3ab4d7c by Florian Wessels)
+   2019-11-01 Fix wrong example typoscript condition "countrycode" (#18) (Commit 8a52555 by Daniel Koether)
+   2019-09-11 [FEATURE] Make cookie lifetime configurable (Commit e26e5d6 by Florian Wessels)
+   2019-09-11 [BUGFIX] Use proper class (Commit a29b85f by Florian Wessels)
+   2019-09-11 [TASK] Set version to 10.0.0-dev (Commit 504b4cd by Florian Wessels)
+   2019-09-11 [DOC] Update example (Commit 7363cee by Florian Wessels)
+   2019-09-11 [BREAKING] Refactor conditional handling (Commit 2d0077a by Florian Wessels)
+   2019-09-11 [FEATURE] Introduce priority for decisions (Commit dce6fba by Florian Wessels)
+   2019-09-11 [BREAKING] Get rid of deprecated classes, methods and properties (Commit 50b8323 by Florian Wessels)
+
+
+Contributors
+============
+
+Following people have contributed to this release:
+
+* Daniel Koether
+* Florian Wessels
+
+Thank you very much for your support. The next beer is on us! 🍻

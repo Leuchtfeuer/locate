@@ -1,0 +1,23 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 8.0.3 - 2019/07/12
+==========================
+
+This release is a regular maintenance release and contains bug fixes only.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/8.0.3>`__.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2019-07-12 [RELEASE] Release of version 8.0.3 (Commit ffbee55 by Florian Wessels)
+   2019-07-12 [BUGFIX] Return redirect language when no cookie value is set (Commit 3037720 by Florian Wessels)
+   2019-07-12 [TASK] Unset parameter only if set (Commit ae97160 by Florian Wessels)
+   2019-07-12 [TASK] Add logger notice (Commit b09c446 by Florian Wessels)

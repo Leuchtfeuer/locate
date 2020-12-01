@@ -1,0 +1,48 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 7.6.4 - 2018/02/08
+==========================
+
+This release contains improvements regarding the documentation.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/7.6.4>`__.
+
+Added
+=====
+
+* Brief documentation
+* Dedicated extension icon
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2018-02-08 [RELEASE] Release of version 7.6.4 (Commit d399c23 by Florian Wessels)
+   2018-02-08 [TASK] Replace GPL-2.0+ by GPL-2.0-or-later in composer.json (Commit 9ccc93c by Florian Wessels)
+   2018-02-08 [BUGFIX] Combine arrays only if exists (Commit ccae123 by Florian Wessels)
+   2018-02-08 [CLEAN-UP] Remove unnecessary use statement (Commit d56978b by Florian Wessels)
+   2017-12-28 [TASK] Exchange ext_icon (Commit 7d185a1 by Florian Wessels)
+   2017-09-26 [TASK] Set version to 7.6.4-dev (Commit 6cda97c by Florian Wessels)
+   2017-09-26 Merge pull request #1 from pniederlag/hotfix/ease-of-use (Commit 964dce9 by Florian Wessels)
+   2017-09-21 [TASK] improve documentation for installation/usage (Commit 347dc4b by Peter Niederlag)
+   2017-09-21 [TASK] no RediretcToPage  Action (Commit 177c388 by Peter Niederlag)
+   2017-09-21 [BUGFIX] SetCookie Action is gone, implemented by cookieHandling=1 (Commit f435770 by Peter Niederlag)
+   2017-09-21 [TASK] add proper userFunc to typoscript examples (Commit 9808973 by Peter Niederlag)
+   2017-09-21 [TASK] fix doc bug (Commit 9742be9 by Peter Niederlag)
+
+
+Contributors
+============
+
+Following people have contributed to this release:
+
+* Peter Niederlag
+* Florian Wessels
+
+Thank you very much for your support. The next beer is on us! 🍻

@@ -1,0 +1,60 @@
+.. include:: ../../Includes.txt
+
+==========================
+Version 8.0.0 - 2018/11/23
+==========================
+
+This release is the first release that supports TYPO3 v9.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/8.0.0>`__.
+
+Added
+=====
+
+* Support for TYPO3 v9
+
+Removed
+=======
+
+* Support for TYPO3 v7
+* Support for PHP < 7.2
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2018-11-23 [RELEASE] Release of version 8.0.0 (Commit cdefc87 by Florian Wessels)
+   2018-11-22 [TASK] Mark plugin as USER_INT (Commit 972beb9 by Florian Wessels)
+   2018-11-22 [TASK] Remove obsolete key from sql file (Commit 55bc475 by Florian Wessels)
+   2018-11-22 [TASK] Remove obsolete end of sql file (Commit b9b1702 by Florian Wessels)
+   2018-11-22 [TASK] Adapt redirect action for TYPO3 9 LTS (Commit f7cf015 by Florian Wessels)
+   2018-11-22 [TASK] Remove obsolete icon (Commit 39eee39 by Florian Wessels)
+   2018-11-22 [TASK] Add tt_content TCA overrides (Commit c63652c by Florian Wessels)
+   2018-11-22 [TASK] Make sql table static (Commit 9aac2b1 by Florian Wessels)
+   2018-11-22 [TASK] Rename TypoScript setup file (Commit 619901b by Florian Wessels)
+   2018-11-22 [TASK] Shorten expression and use utf8 by default (Commit 5c2486b by Florian Wessels)
+   2018-11-22 [TASK] Turn off logging by default (Commit ea259cc by Florian Wessels)
+   2018-11-22 [TASK] Use Context for getting language uid (Commit d72c417 by Florian Wessels)
+   2018-11-22 [TASK] Log critical instead of error (Commit d886674 by Florian Wessels)
+   2018-11-22 [TASK] Add autoload information to ext_emconf.php file (Commit 8ec7e59 by Florian Wessels)
+   2018-11-22 [TASK] Move extension icon (Commit 8a52ff7 by Florian Wessels)
+   2018-11-22 [TASK] Adapt dependencies and version number (Commit 8a410ff by Florian Wessels)
+   2018-07-20 Merge pull request #16 from majernik/hotfix/empty-http-get-vars (Commit 0071775 by Florian Wessels)
+   2018-05-17 [BUGFIX] Replace empty global HTTP_GET_VARS with GeneralUtility::_GET (Commit 500c5a0 by majernik)
+   2018-05-04 [TASK] Use XLF file for translations (Commit a3e7733 by Florian Wessels)
+   2018-05-04 [TASK] Drop PHP 5.x support (Commit c1d2ffc by Florian Wessels)
+   2018-05-04 [TASK] Use lowerCamelCase (Commit 3e023ce by Florian Wessels)
+   2018-05-04 [BUGFIX] Fix TypoScript (Commit 213bb18 by Florian Wessels)
+   2018-05-04 [TASK] Get rid of obsolete TYPO3_DB stuff (Commit a57d7f3 by Florian Wessels)
+   2018-05-04 [WIP] Drop PHP 5.x support (Commit 2fab734 by Florian Wessels)
+   2018-05-04 [TASK] Get rid of Zend Logger and use TYPO3 Logger instead (Commit 7da1787 by Florian Wessels)
+   2018-05-04 [TASK] Add description to composer.json and update information (Commit aaa2dfb by Florian Wessels)
+   2018-05-04 [TASK] Use proper decleration for category in ext_emconf.php (Commit db6a60f by Florian Wessels)
+   2018-05-04 [TASK] Remove obsolete comment from typoscript file (Commit f10d3ba by Florian Wessels)
+   2018-05-04 [TASK] Unify class descriptions (Commit 48420cd by Florian Wessels)
+   2018-05-04 [TASK] Add .htaccess file (Commit 81f487e by Florian Wessels)

@@ -1,0 +1,33 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 8.0.4 - 2019/09/11
+==========================
+
+This release is a regular maintenance release and contains bug fixes only.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/8.0.4>`__.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2019-09-11 [RELEASE] Release of version 8.0.4 (Commit 41ff4e8 by Florian Wessels)
+   2019-09-11 Merge pull request #17 from bitmotionAE/TYPO3_8 (Commit c997d03 by Florian Wessels)
+   2019-09-10 [BUGFIX] Fix handling of rules for language uid 0 when target page is current page (Commit 5a68c24 by Andreas Engel)
+
+
+Contributors
+============
+
+Following people have contributed to this release:
+
+* Andreas Engel
+* Florian Wessels
+
+Thank you very much for your support. The next beer is on us! 🍻

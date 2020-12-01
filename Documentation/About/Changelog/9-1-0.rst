@@ -1,0 +1,55 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 9.1.0 - 2019/09/11
+==========================
+
+This release contains bug fixes as well as improvements in documentation. It introduces also a bunch of deprecations which will
+be removed with version 10 of this extension.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/9.1.0>`__.
+
+Deprecations
+============
+
+* Class :php:`ActionInterface` was marked as deprecated since it is not used anymore
+* Class :php:`Action\Exception` was marked as deprecated since it is not used anymore
+* Class :php:`FactProvider\Constants` was marked as deprecated since it is not used anymore
+* Class :php:`FactProvider\Exception` was marked as deprecated since it is not used anymore
+* Class :php:`FactProviderInterface` was marked as deprecated since it is not used anymore
+* Class :php:`JudgeInterface` was marked as deprecated since it is not used anymore
+* Class :php:`IP` was marked as deprecated since it is not used anymore
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2019-09-11 [RELEASE] Release of version 9.1.0 (Commit c8f7c4b by Florian Wessels)
+   2019-09-11 [TASK] Remove server information from environment fact (Commit 293f550 by Florian Wessels)
+   2019-09-11 [DOC] Update documentation (Commit b215577 by Florian Wessels)
+   2019-09-11 [TASK] Mark getFacts() as deprecated as it is no longer in use (Commit a3a75a9 by Florian Wessels)
+   2019-09-11 [TASK] Use sprintf() (Commit 68e7419 by Florian Wessels)
+   2019-09-11 [TASK] Mark specification as deprecated as it is no longer in use (Commit 4c17a74 by Florian Wessels)
+   2019-09-11 [BUGFIX] Handle action name as string (Commit 1869dc8 by Florian Wessels)
+   2019-09-11 [CLEAN-UP] Remove obsolete comments, properties and methods (Commit 5ea4412 by Florian Wessels)
+   2019-09-11 [TASK] Use lowerCamelCase (Commit 9393ad6 by Florian Wessels)
+   2019-09-11 [CLEAN-UP] Remove obsolete comment (Commit 67487fe by Florian Wessels)
+   2019-09-11 [TASK] Mark constant provider as deprecated and remove it from doc (Commit b5b2f11 by Florian Wessels)
+   2019-09-11 [TASK] Do not use deprecated IP class (Commit b14ed26 by Florian Wessels)
+   2019-09-11 [TASK] Mark IP class as deprecated (Commit 37d37e7 by Florian Wessels)
+   2019-09-11 [TASK] Do not throw deprecated exceptions (Commit 71bacf9 by Florian Wessels)
+   2019-09-11 [TASK] Mark exceptions as deprecated (Commit 24b3ded by Florian Wessels)
+   2019-09-11 [BUGFIX] Use proper class (Commit 7e2022f by Florian Wessels)
+   2019-09-11 [TASK] Do not use deprecated interfaces (Commit eb4bcff by Florian Wessels)
+   2019-09-11 [TASK] Mark interfaces as deprecated (Commit c6a3733 by Florian Wessels)
+   2019-09-11 [CLEAN-UP] Remove unused constant (Commit d86855c by Florian Wessels)
+   2019-09-11 [TASK] Use proper icon file (Commit c41e4b9 by Florian Wessels)
+   2019-09-11 [BUGFIX] Respect dryRan parameter (Commit 0411356 by Florian Wessels)
+   2019-09-11 [CLEAN-UP] Remove obsolete PHP docs (Commit 78b73f1 by Florian Wessels)
+   2019-07-12 [BUGFIX] Use dynamic override param (Commit a967edd by Florian Wessels)
+   2019-07-12 [BUGFIX] Return redirect language when no cookie value is set (Commit 6b38893 by Florian Wessels)

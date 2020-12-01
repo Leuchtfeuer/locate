@@ -1,0 +1,26 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 7.6.3 - 2017/09/20
+==========================
+
+This release removes the dependency to EXT:static_info_tables which will be readded with version 10.1.0.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/7.6.3>`__.
+
+Removed
+=======
+
+* Dependency to EXT:static_info_tables
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+  2017-09-20 [RELEASE] Release of version 7.6.3 (Commit 4125066 by Florian Wessels)
+  2017-09-20 Initial commit (Commit badd587 by Florian Wessels)

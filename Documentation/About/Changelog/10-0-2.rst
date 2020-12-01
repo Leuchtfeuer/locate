@@ -1,0 +1,34 @@
+﻿.. include:: ../../Includes.txt
+
+===========================
+Version 10.0.2 - 2020/12/01
+===========================
+
+This release is regular maintenance release. It contains bug fixes and updates the IP database.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/v10.0.2>`__.
+
+Added
+=====
+
+* Dedicated command for updating IP data
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2020-12-01 [RELEASE] Release of version 10.0.2 (Commit 3a1bf72 by Florian Wessels)
+   2020-12-01 [TASK] Update php CS (Commit 1595344 by Florian Wessels)
+   2020-12-01 [TASK] Run court directly (Commit 2d8bead by Florian Wessels)
+   2020-12-01 [TASK] Update IP database (Commit 4f52b7e by Florian Wessels)
+   2020-12-01 [TASK] Introduce command for updating IP tables (Commit 73708ba by Florian Wessels)
+   2020-12-01 [TASK] Raise composer dependencies (Commit a98c1bb by Florian Wessels)
+   2020-12-01 [BUGFIX] Force TypoScript to be loaded (Commit b62338b by Florian Wessels)
+   2020-11-27 [TASK] Add link to ip2location.com (Commit 8eeda9d by Florian Wessels)
+   2020-09-18 [TASK] Use unique class names within svg files (Commit b08d211 by Florian Wessels)
+   2020-09-18 [BUGFIX] Prevent execution on every request (Commit 4bda346 by Florian Wessels)
