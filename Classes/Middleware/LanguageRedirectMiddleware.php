@@ -55,8 +55,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
                 ],
             ];
 
-            $court = GeneralUtility::makeInstance(Court::class, $config);
-            $court->run();
+            GeneralUtility::makeInstance(Court::class, $config)->run();
         }
 
         return $handler->handle($request);
