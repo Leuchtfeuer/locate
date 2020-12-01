@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Bitmotion\Locate\Command\UpdateIpDatabaseCommand:
+    tags:
+      - name: console.command
+        command: locate:update
+        schedulable: flase
