@@ -3,9 +3,9 @@
 declare(strict_types = 1);
 
 $temporaryColumns = [
-    'tx_locate_region' => [
+    'tx_locate_regions' => [
         'exclude' => true,
-        'label' => 'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_region',
+        'label' => 'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_regions',
         'config' => [
             'type' => 'select',
             'renderType' => 'selectMultipleSideBySide',
@@ -17,7 +17,7 @@ $temporaryColumns = [
             'multiple' => false,
             'items' => [
                 [
-                    'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_region.applyWhenNoMatch',
+                    'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_regions.applyWhenNoMatch',
                     -1,
                 ],
             ],
@@ -43,5 +43,5 @@ $temporaryColumns = [
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $temporaryColumns);
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'pages',
-    '--div--;LLL:EXT:locate/Resources/Private/Language/Database.xlf:tabs.locate,tx_locate_invert,tx_locate_region'
+    '--div--;LLL:EXT:locate/Resources/Private/Language/Database.xlf:tabs.locate,tx_locate_invert,tx_locate_regions'
 );

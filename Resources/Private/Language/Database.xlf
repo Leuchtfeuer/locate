@@ -26,7 +26,7 @@
 			<trans-unit id="pages.tx_locate_regions">
 				<source>Regions (Collection of countries)</source>
 			</trans-unit>
-			<trans-unit id="pages.tx_locate_region.applyWhenNoMatch">
+			<trans-unit id="pages.tx_locate_regions.applyWhenNoMatch">
 				<source>Apply when no IP matches</source>
 			</trans-unit>
 			<trans-unit id="pages.tx_locate_invert">

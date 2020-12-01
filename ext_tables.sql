@@ -40,6 +40,6 @@ CREATE TABLE tx_locate_domain_model_region (
 );
 
 CREATE TABLE pages (
-  tx_locate_region int DEFAULT 0 NOT NULL,
+  tx_locate_regions int DEFAULT 0 NOT NULL,
   tx_locate_invert smallint(2) DEFAULT 0 NOT NULL
 );

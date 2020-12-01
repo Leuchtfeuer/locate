@@ -42,7 +42,7 @@ class PageUnavailableMiddleware implements MiddlewareInterface
         $routing = $request->getAttribute('routing');
         $page = BackendUtility::getRecord('pages', $routing->getPageId());
 
-        if (($page['tx_locate_region'] ?? 0) > 0 && !$this->isPageAvailableInCurrentRegion($page)) {
+        if (($page['tx_locate_regions'] ?? 0) > 0 && !$this->isPageAvailableInCurrentRegion($page)) {
             $errorHandler = $this->getErrorHandlerFromSite($request, 451);
             $message = 'The requested page is not available in your country.';
 
