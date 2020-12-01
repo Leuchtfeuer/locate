@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-12-01T11:29:12Z"
+		  product-name="locate">
+		<header/>
+		<body>
+			<trans-unit id="tx_locate_domain_model_region">
+				<source>Region (Collection of countries)</source>
+			</trans-unit>
+			<trans-unit id="tx_locate_domain_model_region.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_locate_domain_model_region.countries">
+				<source>Countries</source>
+			</trans-unit>
+
+
+			<trans-unit id="tabs.basic">
+				<source>Basics</source>
+			</trans-unit>
+			<trans-unit id="tabs.locate">
+				<source>Country Behaviour</source>
+			</trans-unit>
+
+
+			<trans-unit id="pages.tx_locate_regions">
+				<source>Regions (Collection of countries)</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_locate_region.applyWhenNoMatch">
+				<source>Apply when no IP matches</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_locate_invert">
+				<source>Invert Selection</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_locate_invert.description">
+				<source>When this option is enabled, this page will not be available in the selected regions.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

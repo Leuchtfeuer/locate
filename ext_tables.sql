@@ -15,3 +15,31 @@ CREATE TABLE static_ip2country_v6 (
   KEY idx_ip_to (ip_to),
   KEY idx_ip_from_to (ip_from,ip_to)
 );
+
+CREATE TABLE tx_locate_region_country_mm (
+  uid_local int(11) DEFAULT '0' NOT NULL,
+  uid_foreign int(11) DEFAULT '0' NOT NULL,
+  sorting int(11) DEFAULT '0' NOT NULL,
+
+  KEY uid_local (uid_local),
+  KEY uid_foreign (uid_foreign)
+);
+
+CREATE TABLE tx_locate_page_region_mm (
+  uid_local int(11) DEFAULT '0' NOT NULL,
+  uid_foreign int(11) DEFAULT '0' NOT NULL,
+  sorting int(11) DEFAULT '0' NOT NULL,
+
+  KEY uid_local (uid_local),
+  KEY uid_foreign (uid_foreign)
+);
+
+CREATE TABLE tx_locate_domain_model_region (
+  title varchar(255) DEFAULT '' NOT NULL,
+  countries int(11) DEFAULT '0' NOT NULL
+);
+
+CREATE TABLE pages (
+  tx_locate_region int DEFAULT 0 NOT NULL,
+  tx_locate_invert smallint(2) DEFAULT 0 NOT NULL
+);

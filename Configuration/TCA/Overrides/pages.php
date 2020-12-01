@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types = 1);
+
+$temporaryColumns = [
+    'tx_locate_region' => [
+        'exclude' => true,
+        'label' => 'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_region',
+        'config' => [
+            'type' => 'select',
+            'renderType' => 'selectMultipleSideBySide',
+            'foreign_table' => 'tx_locate_domain_model_region',
+            'foreign_table_where' => 'ORDER BY title',
+            'MM' => 'tx_locate_page_region_mm',
+            'size' => 10,
+            'autoSizeMax' => 30,
+            'multiple' => false,
+            'items' => [
+                [
+                    'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_region.applyWhenNoMatch',
+                    -1,
+                ],
+            ],
+        ],
+    ],
+    'tx_locate_invert' => [
+        'exclude' => true,
+        'label' => 'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_invert',
+        'description' => 'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_invert.description',
+        'config' => [
+            'type' => 'check',
+            'renderType' => 'checkboxToggle',
+            'items' => [
+                [
+                    0 => '',
+                    1 => '',
+                ],
+            ],
+        ],
+    ],
+];
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $temporaryColumns);
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+    'pages',
+    '--div--;LLL:EXT:locate/Resources/Private/Language/Database.xlf:tabs.locate,tx_locate_invert,tx_locate_region'
+);
