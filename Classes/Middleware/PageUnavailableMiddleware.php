@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Bitmotion\Locate\Middleware;
 
+use Bitmotion\Locate\Domain\Repository\RegionRepository;
 use Bitmotion\Locate\Utility\LocateUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,7 +21,6 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Controller\ErrorPageController;
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Error\PageErrorHandler\PageErrorHandlerInterface;
 use TYPO3\CMS\Core\Error\PageErrorHandler\PageErrorHandlerNotConfiguredException;
 use TYPO3\CMS\Core\Http\HtmlResponse;
@@ -59,50 +59,15 @@ class PageUnavailableMiddleware implements MiddlewareInterface
     private function isPageAvailableInCurrentRegion(array $page): bool
     {
         $countryCode = GeneralUtility::makeInstance(LocateUtility::class)->getCountryIso2FromIP();
-        $countries = $this->getCountriesForPage($page['uid']);
+        $regionRepository = GeneralUtility::makeInstance(RegionRepository::class);
+        $countries = $regionRepository->getCountriesForPage($page['uid']);
 
-        if (($countryCode === false || $countryCode === '-') && $this->pageIsAvailableWhenNoIpMatches($page['uid'])) {
+        if (($countryCode === false || $countryCode === '-') && $regionRepository->shouldApplyWhenNoIpMatches($page['uid'])) {
             $countryCode = '-';
-            $countries['-'] = true;
+            $countries[$countryCode] = true;
         }
 
         return (bool)$page['tx_locate_invert'] === false ? isset($countries[$countryCode]) : !isset($countries[$countryCode]);
-    }
-
-    private function getCountriesForPage(int $id): array
-    {
-        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_locate_page_region_mm');
-        $iso2Codes = [];
-
-        $results = $qb
-            ->select('c.cn_iso_2')
-            ->from('tx_locate_page_region_mm', 'pmm')
-            ->join('pmm', 'tx_locate_domain_model_region', 'r', 'r.uid = pmm.uid_foreign')
-            ->join('r', 'tx_locate_region_country_mm', 'rmm', 'rmm.uid_local = r.uid')
-            ->join('rmm', 'static_countries', 'c', 'c.uid = rmm.uid_foreign')
-            ->where($qb->expr()->eq('pmm.uid_local', $qb->createNamedParameter($id, \PDO::PARAM_INT)))
-            ->execute()
-            ->fetchAll();
-
-        foreach ($results as $result) {
-            $iso2Codes[$result['cn_iso_2']] = true;
-        }
-
-        return $iso2Codes;
-    }
-
-    private function pageIsAvailableWhenNoIpMatches(int $id): bool
-    {
-        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_locate_page_region_mm');
-        $results = $qb
-            ->select('*')
-            ->from('tx_locate_page_region_mm')
-            ->where($qb->expr()->eq('uid_local', $qb->createNamedParameter($id, \PDO::PARAM_INT)))
-            ->andWhere($qb->expr()->eq('uid_foreign', $qb->createNamedParameter(-1, \PDO::PARAM_INT)))
-            ->execute()
-            ->fetchAll();
-
-        return !empty($results);
     }
 
     /**
