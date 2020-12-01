@@ -35,6 +35,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
         $typoScript = $GLOBALS['TSFE']->tmpl->setup;
 
         if (isset($typoScript['plugin.']['tx_locate_pi1'])) {
+            error_log('The TypoScript configuration was moved to "config.tx_locate"', E_DEPRECATED);
             $typoScript['config.']['tx_locate'] = $typoScript['plugin.']['tx_locate_pi1'];
             $typoScript['config.']['tx_locate.'] = array_merge_recursive($typoScript['config.']['tx_locate.'] ?? [], $typoScript['plugin.']['tx_locate_pi1.']);
         }
