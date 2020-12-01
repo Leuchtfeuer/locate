@@ -19,6 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 
@@ -26,6 +27,11 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        if (!$GLOBALS['TSFE']->tmpl instanceof TemplateService || empty($GLOBALS['TSFE']->tmpl->setup)) {
+            $GLOBALS['TSFE']->forceTemplateParsing = true;
+            $GLOBALS['TSFE']->getConfigArray();
+        }
+
         $typoScript = $GLOBALS['TSFE']->tmpl->setup;
 
         if (isset($typoScript['plugin.']['tx_locate_pi1'])) {
