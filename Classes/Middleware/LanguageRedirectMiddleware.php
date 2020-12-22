@@ -11,17 +11,16 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\Middleware;
+namespace Leuchtfeuer\Locate\Middleware;
 
-use Bitmotion\Locate\Action\Redirect;
-use Bitmotion\Locate\Processor\Court;
+use Leuchtfeuer\Locate\Action\Redirect;
+use Leuchtfeuer\Locate\Processor\Court;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 
 class LanguageRedirectMiddleware implements MiddlewareInterface
 {
@@ -48,15 +47,14 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
                 'facts' => $locateSetup['facts.'] ?? [],
                 'judges' => $locateSetup['judges.'] ?? [],
                 'settings' => [
-                    'cookieName' => $locateSetup['cookieName'] ?? Redirect::COOKIE_NAME,
-                    'cookieLifetime' => isset($locateSetup['cookieLifetime']) ? (int)$locateSetup['cookieLifetime'] : Redirect::COOKIE_LIFETIME,
                     'dryRun' => isset($locateSetup['dryRun']) ? (bool)$locateSetup['dryRun'] : false,
                     'overrideParam' => $locateSetup['overrideParam'] ?? Redirect::OVERRIDE_PARAMETER,
-                    'responseCode' => $locateSetup['httpResponseCode'] ?? HttpUtility::HTTP_STATUS_301,
+                    'overrideCookie' => $locateSetup['overrideCookie'] ?? 0,
+                    'cookieHandling' => $locateSetup['cookieHandling'] ?? 0,
                 ],
             ];
 
-            GeneralUtility::makeInstance(Court::class, $config)->run();
+            return GeneralUtility::makeInstance(Court::class, $config)->run() ?? $handler->handle($request);
         }
 
         return $handler->handle($request);

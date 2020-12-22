@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the "Locate" extension for TYPO3 CMS.
  *
@@ -11,17 +9,8 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\Action;
+namespace Leuchtfeuer\Locate\Exception;
 
-use Bitmotion\Locate\Judge\Decision;
-
-class Dummy extends AbstractAction
+class IllegalFactProviderException extends \Exception
 {
-    /**
-     * Call the action module
-     */
-    public function process(array &$facts, Decision &$decision)
-    {
-        // nothing
-    }
 }

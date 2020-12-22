@@ -18,7 +18,7 @@ $temporaryColumns = [
             'items' => [
                 [
                     'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_regions.applyWhenNoMatch',
-                    \Bitmotion\Locate\Domain\Repository\RegionRepository::APPLY_WHEN_NO_IP_MATCHES,
+                    \Leuchtfeuer\Locate\Domain\Repository\RegionRepository::APPLY_WHEN_NO_IP_MATCHES,
                 ],
             ],
         ],

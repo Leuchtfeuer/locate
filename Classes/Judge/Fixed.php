@@ -11,22 +11,25 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\Judge;
+namespace Leuchtfeuer\Locate\Judge;
+
+use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
 
 class Fixed extends AbstractJudge
 {
     /**
-     * The judge decide if the case is true and therefore the configured action should be called
+     * @inheritDoc
      */
-    public function process(array $facts, int $priority = 999): ?Decision
+    public function adjudicate(?AbstractFactProvider $factProvider, int $priority = AbstractJudge::DEFAULT_PRIORITY): AbstractJudge
     {
-        $decision = new Decision();
-        $decision->setActionName($this->configuration['action']);
+        $this->decision = new Decision();
+        $this->decision->setActionName($this->configuration['action']);
+        $this->decision->setPriority($priority);
 
         if (isset($this->configuration['priority'])) {
-            $decision->setPriority((int)$this->configuration['priority']);
+            $this->decision->setPriority((int)$this->configuration['priority']);
         }
 
-        return $decision;
+        return $this;
     }
 }

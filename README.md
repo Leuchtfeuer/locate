@@ -49,20 +49,20 @@ Judges
 ```
 config.tx_locate.actions {
     redirectToPageDE {
-        20 = Bitmotion\Locate\Action\Redirect
+        20 = Leuchtfeuer\Locate\Action\Redirect
         20.sys_language = 1
         20.cookieHandling = 1
         20.overrideCookie = 1
     }
     redirectToPageEN {
-        20 = Bitmotion\Locate\Action\Redirect
+        20 = Leuchtfeuer\Locate\Action\Redirect
         20.page = 42
         20.sys_language = 0
         20.cookieHandling = 1
         20.overrideCookie = 1
     }
     default {
-        20 = Bitmotion\Locate\Action\Redirect
+        20 = Leuchtfeuer\Locate\Action\Redirect
         20.page = 43
         20.sys_language = 0
         20.cookieHandling = 1
@@ -75,9 +75,9 @@ config.tx_locate.actions {
 ### Facts
 ```
 config.tx_locate.facts {
-    browserAccepted = Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
-    countryByIP = Bitmotion\Locate\FactProvider\IP2Country
-    env = Bitmotion\Locate\FactProvider\Environment
+    browserAccepted = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
+    countryByIP = Leuchtfeuer\Locate\FactProvider\IP2Country
+    env = Leuchtfeuer\Locate\FactProvider\Environment
 }
 ```
 Facts = Classes and symbolic names
@@ -91,11 +91,11 @@ Characteristics for their use in judges:
 ### Judges
 ```
 config.tx_locate.judges {
-    20 = Bitmotion\Locate\Judge\Condition
+    20 = Leuchtfeuer\Locate\Judge\Condition
     20.action = redirectToPageDE
     20.match = browserAccepted.lang = de
 
-    999 = Bitmotion\Locate\Judge\Fixed
+    999 = Leuchtfeuer\Locate\Judge\Fixed
     999.action = default
 }
 ```

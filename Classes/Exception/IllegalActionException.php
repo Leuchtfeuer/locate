@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * This file is part of the "Locate" extension for TYPO3 CMS.
  *
@@ -11,8 +9,8 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Leuchtfeuer\Locate;
+namespace Leuchtfeuer\Locate\Exception;
 
-class Exception extends \Exception
+class IllegalActionException extends \Exception
 {
 }

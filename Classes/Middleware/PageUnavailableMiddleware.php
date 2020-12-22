@@ -11,10 +11,10 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\Middleware;
+namespace Leuchtfeuer\Locate\Middleware;
 
-use Bitmotion\Locate\Domain\Repository\RegionRepository;
-use Bitmotion\Locate\Utility\LocateUtility;
+use Leuchtfeuer\Locate\Domain\Repository\RegionRepository;
+use Leuchtfeuer\Locate\Utility\LocateUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;

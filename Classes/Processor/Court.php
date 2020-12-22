@@ -11,16 +11,20 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\Processor;
+namespace Leuchtfeuer\Locate\Processor;
 
-use Bitmotion\Locate\Action\AbstractAction;
-use Bitmotion\Locate\Exception;
-use Bitmotion\Locate\FactProvider\AbstractFactProvider;
-use Bitmotion\Locate\Judge\AbstractJudge;
-use Bitmotion\Locate\Judge\Decision;
+use Leuchtfeuer\Locate\Action\AbstractAction;
+use Leuchtfeuer\Locate\Exception\IllegalActionException;
+use Leuchtfeuer\Locate\Exception\IllegalFactProviderException;
+use Leuchtfeuer\Locate\Exception\IllegalJudgeException;
+use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
+use Leuchtfeuer\Locate\Judge\AbstractJudge;
+use Leuchtfeuer\Locate\Judge\Decision;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Exception\InvalidActionNameException;
 
 class Court implements ProcessorInterface, LoggerAwareInterface
 {
@@ -28,6 +32,9 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
     protected $configuration = [];
 
+    /**
+     * @var AbstractFactProvider[]
+     */
     protected $facts = [];
 
     /**
@@ -44,108 +51,148 @@ class Court implements ProcessorInterface, LoggerAwareInterface
     /**
      * Processes the configuration
      */
-    public function run(): void
+    public function run(): ?ResponseInterface
     {
         try {
             $this->processFacts();
-            $this->callAction($this->callJudges());
-        } catch (Exception $e) {
-            $this->logger->critical($e->getMessage());
+            $decision = $this->callJudges();
+
+            if ($decision === null || !$decision->hasAction()) {
+                throw new \Exception('No action should be called. This migth be a problem in you configuration', 1608653067);
+            }
+
+            return $this->enforceJudgement($decision->getActionName());
+        } catch (\Exception $exception) {
+            $this->logger->critical($exception->getMessage());
         }
     }
 
     /**
-     * @throws Exception
+     * @throws IllegalFactProviderException
      */
     protected function processFacts(): void
     {
-        foreach ($this->configuration['facts'] as $key => $className) {
+        foreach ($this->configuration['facts'] ?? [] as $key => $className) {
             if (!class_exists($className)) {
-                $this->logger->warning(sprintf('Class %s does not exist.', $className));
+                $this->logger->warning(sprintf('Class "%s" does not exist. Skip.', $className));
                 continue;
             }
 
-            $this->logger->info(sprintf('Fact provider with key "%s" will be called.', $key));
-
             /* @var $factProvider AbstractFactProvider */
-            $factProvider = GeneralUtility::makeInstance($className, $key, []);
-            $factProvider->process($this->facts);
+            $factProvider = GeneralUtility::makeInstance($className);
+
+            if (!$factProvider instanceof AbstractFactProvider) {
+                throw new IllegalFactProviderException(
+                    sprintf('Fact provider "%s" has to extend "%s".', $className, AbstractFactProvider::class),
+                    1608631752
+                );
+            }
+
+            $this->logger->info(sprintf('Fact provider with key "%s" will be called.', $key));
+            $this->facts[$key] = $factProvider->process();
         }
     }
 
     /**
-     * @throws Exception
+     * @throws IllegalJudgeException
      */
     protected function callJudges(): ?Decision
     {
-        $decisions = [];
+        $judgements = [];
+        $priorities = [];
 
-        foreach ($this->configuration['judges'] as $key => $value) {
-            // As we have an TypoScript array, skip every key which has sub properties
-            if (strpos((string)$key, '.') !== false) {
+        foreach ($this->configuration['judges'] ?? [] as $key => $className) {
+            // Since we have an TypoScript array, skip every key which has sub properties
+            if (!is_string($className)) {
                 continue;
             }
 
-            $this->logger->info(sprintf('Judge with key %s will be called: %s', $key, $value));
-
-            if (!class_exists($value)) {
-                $this->logger->error(sprintf('Class %s does nost exist.', $value));
+            if (!class_exists($className)) {
+                $this->logger->warning(sprintf('Class "%s" does not exist. Skip.', $className));
                 continue;
             }
 
             /* @var $judge AbstractJudge */
-            $judge = GeneralUtility::makeInstance($value, $this->configuration['judges'][$key . '.']);
-            $decision = $judge->process($this->facts, (int)$key);
+            $judge = GeneralUtility::makeInstance($className);
 
-            if ($decision instanceof Decision && !isset($decisions[$decision->getPriority()])) {
-                $decisions[$decision->getPriority()] = $decision;
+            if (!$judge instanceof AbstractJudge) {
+                throw new IllegalJudgeException(
+                    sprintf('Judge "%s" has to extend "%s".', $className, AbstractJudge::class),
+                    1608632285
+                );
             }
+
+            $configuration = $this->configuration['judges'][$key . '.'] ?? [];
+
+            if (empty($configuration)) {
+                $this->logger->warning('');
+                // TODO: Do something?
+            }
+
+            $this->logger->info(sprintf('Judge with key "%s" will be called.', $key));
+            $this->addJudgement($judgements, $configuration, $key, $judge, $priorities);
         }
 
-        if (empty($decisions)) {
-            return null;
-        }
-
-        ksort($decisions);
-
-        return array_shift($decisions);
+        return !empty($judgements) ? $this->getDecision($judgements) : null;
     }
 
-    /**
-     * @throws Exception
-     */
-    protected function callAction(?Decision $decision)
+    protected function addJudgement(array &$judgements, array $configuration, $key, AbstractJudge $judge, array &$priorities): void
     {
-        if ($decision === null || !$decision->hasAction()) {
-            throw new Exception('No action should be called. This migth be a problem in you configuration');
+        $fact = $this->facts[$configuration['fact']] ?? null;
+        $judge = $judge->withConfiguration($this->configuration['judges'][$key . '.'])->adjudicate($fact, (int)$key);
+
+        if ($judge->hasDecision() && !isset($decisions[$judge->getDecision()->getPriority()])) {
+            $decision = $judge->getDecision();
+            $priority = $decision->getPriority();
+
+            if ($fact instanceof AbstractFactProvider && $fact->isMultiple()) {
+                $priorities[$fact->getBasename()] = $priorities[$fact->getBasename()] ?? $priority;
+                $priority = $priorities[$fact->getBasename()];
+                $judgements[$priority][$fact->getPriority()] = $decision;
+            } else {
+                $judgements[$priority] = $decision;
+            }
+        }
+    }
+
+    protected function getDecision(array $judgements): Decision
+    {
+        ksort($judgements);
+        $judgement = array_shift($judgements);
+
+        if (is_array($judgement)) {
+            return $this->getDecision($judgement);
         }
 
-        $actionName = $decision->getActionName();
-        $actionConfigArray = $this->configuration['actions'][$actionName . '.'];
+        return $judgement;
+    }
 
-        if (!$actionConfigArray) {
-            throw new Exception(sprintf('Action with name "%s" should be called but is not configured!', $actionName));
+    protected function enforceJudgement(string $actionName): ?ResponseInterface
+    {
+        $className = $this->configuration['actions'][$actionName];
+
+        if (!class_exists($className)) {
+            throw new InvalidActionNameException(sprintf('Class "%s" does not exist. Skip.', $className), 1608652319);
+        }
+
+        $action = GeneralUtility::makeInstance($className);
+
+        if (!$action instanceof AbstractAction) {
+            throw new IllegalActionException(
+                sprintf('Action "%s" has to extend "%s".', $className, AbstractAction::class),
+                1608632285
+            );
         }
 
         $this->logger->info(sprintf('Action with name %s will be called', $actionName));
 
-        foreach ($actionConfigArray as $key => $value) {
-            // As we have an TypoScript array, skip every key which has sub properties
-            if (strpos((string)$key, '.') !== false) {
-                continue;
-            }
+        if ($this->dryRun === false) {
+            $configuration = array_merge($this->configuration['settings'], $this->configuration['actions'][$actionName . '.'] ?? []);
+            $action = $action->withConfiguration($configuration);
 
-            if ($this->dryRun) {
-                $this->logger->info(sprintf('Action part "%s.%s" would be called, but dryRun is set.', $key, $value));
-                continue;
-            }
-
-            $this->logger->info(sprintf('Action part "%s.%s" will be called.', $key, $value));
-            $configuration = array_merge($this->configuration['settings'], $actionConfigArray[$key . '.']);
-
-            /* @var $action AbstractAction */
-            $action = GeneralUtility::makeInstance($value, $configuration);
-            $action->process($this->facts, $decision);
+            return $action->execute();
         }
+
+        return null;
     }
 }

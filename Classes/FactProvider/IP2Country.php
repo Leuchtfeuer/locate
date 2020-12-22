@@ -11,26 +11,43 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\FactProvider;
+namespace Leuchtfeuer\Locate\FactProvider;
 
-use Bitmotion\Locate\Utility\LocateUtility;
+use Leuchtfeuer\Locate\Utility\LocateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class IP2Country extends AbstractFactProvider
 {
+    const PROVIDER_NAME = 'countrybyip';
+
     /**
-     * Call the fact module which might add some data to the factArray
+     * @inheritDoc
      */
-    public function process(array &$facts)
+    public function getBasename(): string
     {
-        $locateUtility = GeneralUtility::makeInstance(LocateUtility::class);
-        $ipAsLong = $locateUtility->getNumericIp();
+        return self::PROVIDER_NAME;
+    }
 
-        $factPropertyName = $this->getFactPropertyName('countryCode');
-        $iso2 = $locateUtility->getCountryIso2FromIP();
-        $facts[$factPropertyName][$iso2] = 1;
+    /**
+     * @inheritDoc
+     */
+    public function process(): self
+    {
+        $iso2 = GeneralUtility::makeInstance(LocateUtility::class)->getCountryIso2FromIP();
+        LocateUtility::mainstreamValue($iso2);
+        $this->facts[$this->getBasename()] = $iso2;
 
-        $factPropertyName = $this->getFactPropertyName('IP2Dezimal');
-        $facts[$factPropertyName][$ipAsLong] = 1;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isGuilty($prosecution): bool
+    {
+        $prosecution = (string)$prosecution;
+        LocateUtility::mainstreamValue($prosecution);
+
+        return $this->getSubject() === $prosecution;
     }
 }

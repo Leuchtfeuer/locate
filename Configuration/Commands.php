@@ -2,7 +2,7 @@
 
 return [
     'locate:update' => [
-        'class' => \Bitmotion\Locate\Command\UpdateIpDatabaseCommand::class,
+        'class' => \Leuchtfeuer\Locate\Command\UpdateIpDatabaseCommand::class,
         'schedulable' => false,
     ],
 ];

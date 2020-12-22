@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 return [
     'frontend' => [
-        'bitmotion/locate/language-redirect' => [
-            'target' => \Bitmotion\Locate\Middleware\LanguageRedirectMiddleware::class,
+        'leuchtfeuer/locate/language-redirect' => [
+            'target' => \Leuchtfeuer\Locate\Middleware\LanguageRedirectMiddleware::class,
             'after' => [
                 'typo3/cms-frontend/prepare-tsfe-rendering',
             ],
@@ -13,7 +13,7 @@ return [
             ],
         ],
         'leuchtfeuer/locate/page-unavailable' => [
-            'target' => \Bitmotion\Locate\Middleware\PageUnavailableMiddleware::class,
+            'target' => \Leuchtfeuer\Locate\Middleware\PageUnavailableMiddleware::class,
             'after' => [
                 'typo3/cms-frontend/page-resolver',
             ],

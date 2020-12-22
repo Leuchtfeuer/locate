@@ -25,16 +25,16 @@ We are currently supporting following TYPO3 versions:
         "8.x", "🙅‍♀️", "🙋‍♂️", "🙋‍♂️"
         "7.x", "🙅‍♀️", "🙅‍♀️", "🙋‍♂️"
 
-.. toctree::
-    :maxdepth: 3
-    :hidden:
-
-    Contributing/Index
-    Changelog/Index
-
 .. _about-ip-database:
 
 IP Database
 ===========
 
 This site or product includes IP2Location LITE data available from `https://lite.ip2location.com <https://lite.ip2location.com>`__.
+
+.. toctree::
+    :maxdepth: 3
+    :hidden:
+
+    Contributing/Index
+    Changelog/Index

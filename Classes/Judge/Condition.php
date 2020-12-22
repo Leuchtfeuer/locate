@@ -11,42 +11,28 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\Judge;
+namespace Leuchtfeuer\Locate\Judge;
+
+use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
 
 class Condition extends AbstractJudge
 {
     /**
-     * The judge decide if the case is true and therefore the configured action should be called
+     * @inheritDoc
      */
-    public function process(array $facts, int $priority = 999): ?Decision
+    public function adjudicate(AbstractFactProvider $factProvider, int $priority = AbstractJudge::DEFAULT_PRIORITY): AbstractJudge
     {
-        $match = $this->getMatch();
-        $decision = new Decision();
-        $decision->setActionName($this->configuration['action']);
+        $prosecution = $this->configuration['prosecution'] ?? $this->configuration['prosecution.'] ?? null;
 
-        if ($match !== null) {
-            $match = preg_replace('/\s+/', '', $match);
-            [$factIdentifier, $value] = explode('=', $match);
+        if ($prosecution !== null && $factProvider->isGuilty($prosecution)) {
+            $this->decision = (new Decision())->withActionName($this->configuration['action']);
+            $this->decision->setPriority($priority);
 
-            if (!isset($facts[$factIdentifier]) || !(isset($facts[$factIdentifier][$value]) || $facts[$factIdentifier] == $value)) {
-                return null;
-            }
-
-            if ($priority < $decision->getPriority()) {
-                $decision->setPriority((int)$priority);
+            if ($factProvider->isMultiple()) {
+                $this->decision->setInternalPriority($factProvider->getPriority());
             }
         }
 
-        return $decision;
-    }
-
-    protected function getMatch(): ?string
-    {
-        if (isset($this->configuration['matches'])) {
-            trigger_error('Using matches property is deprecated. Use match instead.', E_USER_DEPRECATED);
-            $this->configuration['match'] = trim($this->configuration['matches']);
-        }
-
-        return $this->configuration['match'] ?? null;
+        return $this;
     }
 }

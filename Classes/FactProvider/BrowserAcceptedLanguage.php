@@ -11,43 +11,60 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\FactProvider;
+namespace Leuchtfeuer\Locate\FactProvider;
+
+use Leuchtfeuer\Locate\Utility\LocateUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BrowserAcceptedLanguage extends AbstractFactProvider
 {
-    protected $locales = [];
+    const PROVIDER_NAME = 'browseracceptlanguage';
 
-    protected $languages = [];
+    protected $multiple = true;
 
     /**
-     * Call the fact module which might add some data to the factArray
+     * @inheritDoc
      */
-    public function process(array &$facts): void
+    public function getBasename(): string
     {
-        $this->getAcceptedLanguages();
-        $facts = [];
-
-        foreach ($this->locales as $priority => $locale) {
-            $facts[$this->getFactPropertyName('locale')][$locale] = $priority;
-        }
-
-        foreach ($this->languages as $priority => $language) {
-            $facts[$this->getFactPropertyName('lang')][$language] = $priority;
-        }
+        return self::PROVIDER_NAME;
     }
 
-    protected function getAcceptedLanguages(): void
+    /**
+     * @inheritDoc
+     */
+    public function process(): self
     {
-        $httpAcceptLanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '';
-        preg_match_all('/([a-z]{2})(?:-[a-zA-Z]{2})?/', $httpAcceptLanguage, $matches);
+        foreach ($this->getAcceptedLanguages() as $priority => $language) {
+            $this->facts[$language] = $priority;
+        }
 
-        list($locales, $languages) = $matches;
+        return $this;
+    }
 
-        array_walk($locales, function (&$locale) {
-            $locale = str_replace('-', '_', $locale);
-        });
+    /**
+     * @inheritDoc
+     */
+    public function isGuilty($prosecution): bool
+    {
+        LocateUtility::mainstreamValue($prosecution);
+        $this->priority = (int)($this->getSubject()[$prosecution] ?? 0);
 
-        $this->locales = $locales;
-        $this->languages = array_unique($languages);
+        return isset($this->getSubject()[$prosecution]);
+    }
+
+    protected function getAcceptedLanguages(): array
+    {
+        preg_match_all('/([a-z]{2})(?:-[a-zA-Z]{2})?/', (GeneralUtility::getIndpEnv('HTTP_ACCEPT_LANGUAGE') ?? ''), $matches);
+        [$locales, $languages] = $matches;
+
+        // ensure that all language codes are present in locales array
+        $languages = array_merge($locales, $languages);
+        $languages = array_unique($languages);
+        $languages = array_values($languages);
+
+        array_walk($languages, [LocateUtility::class, 'mainstreamValue']);
+
+        return $languages;
     }
 }

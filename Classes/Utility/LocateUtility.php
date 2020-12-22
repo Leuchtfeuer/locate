@@ -11,7 +11,7 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\Utility;
+namespace Leuchtfeuer\Locate\Utility;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -49,12 +49,13 @@ class LocateUtility
         return (int)base_convert(ltrim($binNum, '0'), 2, 10);
     }
 
+    public static function mainstreamValue(string &$value)
+    {
+        $value = mb_strtolower(str_replace('-', '_', $value));
+    }
+
     protected function getTableNameForIp(int $ip): string
     {
-        if (strlen((string)$ip) > 10) {
-            return 'static_ip2country_v6';
-        }
-
-        return 'static_ip2country_v4';
+        return strlen((string)$ip) > 10 ? 'static_ip2country_v6' : 'static_ip2country_v4';
     }
 }

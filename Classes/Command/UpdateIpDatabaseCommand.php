@@ -11,7 +11,7 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\Command;
+namespace Leuchtfeuer\Locate\Command;
 
 use Doctrine\DBAL\DBALException;
 use Symfony\Component\Console\Command\Command;

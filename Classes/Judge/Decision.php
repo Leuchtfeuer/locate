@@ -11,13 +11,15 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\Judge;
+namespace Leuchtfeuer\Locate\Judge;
 
 class Decision
 {
     protected $actionName = '';
 
-    protected $priority = 999;
+    protected $priority = AbstractJudge::DEFAULT_PRIORITY;
+
+    protected $internalPriority = 0;
 
     public function hasAction(): bool
     {
@@ -34,6 +36,14 @@ class Decision
         $this->actionName = $actionName;
     }
 
+    public function withActionName(string $actionName): self
+    {
+        $clonedObject = clone $this;
+        $clonedObject->actionName = $actionName;
+
+        return $clonedObject;
+    }
+
     public function getPriority(): int
     {
         return $this->priority;
@@ -42,5 +52,15 @@ class Decision
     public function setPriority(int $priority): void
     {
         $this->priority = $priority;
+    }
+
+    public function getInternalPriority(): int
+    {
+        return $this->internalPriority;
+    }
+
+    public function setInternalPriority(int $internalPriority): void
+    {
+        $this->internalPriority = $internalPriority;
     }
 }

@@ -11,23 +11,45 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\FactProvider;
+namespace Leuchtfeuer\Locate\FactProvider;
 
+use Leuchtfeuer\Locate\Utility\LocateUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Environment extends AbstractFactProvider
 {
-    /**
-     * Call the fact module which might add some data to the factArray
-     */
-    public function process(array &$facts)
-    {
-        /** @var array $envFactArray */
-        $envFactArray = GeneralUtility::getIndpEnv('_ARRAY');
+    const PROVIDER_NAME = 'env';
 
-        foreach ($envFactArray as $key => $value) {
-            $factPropertyName = $this->getFactPropertyName($key);
-            $facts[$factPropertyName] = $value;
+    /**
+     * @inheritDoc
+     */
+    public function getBasename(): string
+    {
+        return self::PROVIDER_NAME;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function process(): self
+    {
+        foreach (GeneralUtility::getIndpEnv('_ARRAY') as $key => $value) {
+            $this->facts[$this->getFactPropertyName($key)] = $value;
         }
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isGuilty($prosecution): bool
+    {
+        $subject = array_keys($prosecution);
+        $subject = array_shift($subject);
+        $value = $prosecution[$subject];
+        LocateUtility::mainstreamValue($subject);
+
+        return ($this->getSubject()[$subject] ?? false) == $value;
     }
 }

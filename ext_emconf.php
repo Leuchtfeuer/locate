@@ -3,11 +3,11 @@
 $EM_CONF['locate'] = [
     'title' => 'Locate',
     'description' => 'The users country and preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. It is also possible to deny access to configurable pages for configurable countries.',
-    'version' => '10.1.0-dev',
+    'version' => '11.0.0-dev',
     'category' => 'fe',
     'constraints' => [
         'depends' => [
-            'typo3' => '9.5.0-10.4.99',
+            'typo3' => '10.4.0-10.4.99',
             'static_info_tables' => '',
         ],
         'conflicts' => [],
@@ -22,7 +22,7 @@ $EM_CONF['locate'] = [
     'author_company' => 'Leuchtfeuer Digital Marketing',
     'autoload' => [
         'psr-4' => [
-            'Bitmotion\\Locate\\' => 'Classes',
+            'Leuchtfeuer\\Locate\\' => 'Classes',
         ],
     ],
 ];

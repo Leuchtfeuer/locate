@@ -11,47 +11,67 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\FactProvider;
-
-use Bitmotion\Locate\Exception;
+namespace Leuchtfeuer\Locate\FactProvider;
 
 abstract class AbstractFactProvider
 {
-    /**
-     * @var string
-     */
-    protected $baseName = '';
+    protected $basename = '';
 
-    /**
-     * @var array
-     */
     protected $configuration = [];
 
+    protected $multiple = false;
+
+    protected $facts = [];
+
+    protected $priority = 0;
+
     /**
-     * @param string $baseName The basename for the factsArray. This name comes from configuration.
-     * @param array $configuration TypoScript configuration array for this fact provider
+     * @param string $basename The basename for the factsArray. This name comes from configuration.
      */
-    public function __construct(string $baseName, array $configuration)
+    public function __construct(string $basename = '')
     {
-        $this->baseName = $baseName;
-        $this->configuration = $configuration;
+        $this->basename = $basename;
     }
+
+    public function isMultiple(): bool
+    {
+        return $this->multiple;
+    }
+
+    /**
+     * @return string The base name of the actual fact provider
+     */
+    abstract public function getBasename(): string;
 
     /**
      * Call the fact module which might add some data to the factArray
-     *
-     * @throws Exception
      */
-    public function process(array &$facts)
-    {
-        throw new Exception('Process not implemented in ' . __CLASS__);
-    }
+    abstract public function process();
+
+    abstract public function isGuilty($prosecution): bool;
 
     /**
      * Adds a prefix to the factArray property name
      */
     protected function getFactPropertyName(string $property): string
     {
-        return $this->baseName . '.' . $property;
+        return mb_strtolower($property);
+    }
+
+    public function getSubject()
+    {
+        if (count($this->facts) > 1) {
+            return $this->facts;
+        }
+
+        return array_shift($this->facts);
+    }
+
+    /**
+     * Priority is only set if there are multiple facts (e.g. for browser accept languages)
+     */
+    public function getPriority(): int
+    {
+        return $this->priority;
     }
 }

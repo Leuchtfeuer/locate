@@ -11,10 +11,9 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Bitmotion\Locate\Action;
+namespace Leuchtfeuer\Locate\Action;
 
-use Bitmotion\Locate\Exception;
-use Bitmotion\Locate\Judge\Decision;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
@@ -22,26 +21,18 @@ abstract class AbstractAction implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var array
-     */
     protected $configuration = [];
 
-    /**
-     * @param array $configuration TypoScript configuration array for this action
-     */
-    public function __construct(array $configuration)
+    public function withConfiguration(array $configuration): self
     {
-        $this->configuration = $configuration;
+        $clonedObject = clone $this;
+        $clonedObject->configuration = $configuration;
+
+        return $clonedObject;
     }
 
     /**
      * Call the action module
-     *
-     * @throws Exception
      */
-    public function process(array &$facts, Decision &$decision)
-    {
-        throw new Exception('Process not implemented in ' . __CLASS__);
-    }
+    abstract public function execute(): ?ResponseInterface;
 }

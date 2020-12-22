@@ -1,60 +1,77 @@
 config.tx_locate = 1
 config.tx_locate {
     dryRun = 0
-    cookieName = bm_locate
-    cookieLifetime = 30
     overrideParam = setLang
-    httpResponseCode = HTTP/1.1 303 See Other
 
     actions {
+        redirectToPageEN = Leuchtfeuer\Locate\Action\Redirect
         redirectToPageEN {
-            20 = Bitmotion\Locate\Action\Redirect
-            20 {
-                sys_language = 0
-                cookieHandling = 1
-                overrideCookie = 1
-            }
+            sys_language = 0
+            cookieHandling = 1
+            overrideCookie = 1
         }
 
+        redirectToPageDE = Leuchtfeuer\Locate\Action\Redirect
         redirectToPageDE {
-            20 = Bitmotion\Locate\Action\Redirect
-            20 {
-                sys_language = 1
-                cookieHandling = 1
-                overrideCookie = 1
-            }
+            sys_language = 1
+            cookieHandling = 1
+            overrideCookie = 1
         }
 
+        redirectToPageZH = Leuchtfeuer\Locate\Action\Redirect
         redirectToPageZH {
-            20 = Bitmotion\Locate\Action\Redirect
-            20 {
-                sys_language = 2
-                cookieHandling = 1
-                overrideCookie = 1
-            }
+            sys_language = 2
+            cookieHandling = 1
+            overrideCookie = 1
         }
     }
 
     facts {
-        browserAccepted = Bitmotion\Locate\FactProvider\BrowserAcceptedLanguage
-        countryByIP = Bitmotion\Locate\FactProvider\IP2Country
-        env = Bitmotion\Locate\FactProvider\Environment
+        browserAccepted = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
+        countryByIP = Leuchtfeuer\Locate\FactProvider\IP2Country
+        env = Leuchtfeuer\Locate\FactProvider\Environment
     }
 
     judges {
-        10 = Bitmotion\Locate\Judge\Condition
-        10.action = redirectToPageDE
-        10.match = countryByIP.countryCode = de
+        100 = Leuchtfeuer\Locate\Judge\Condition
+        100 {
+            action = redirectToPageDE
+            fact = countryByIP
+#            prosecution = -
+            prosecution = de
+        }
 
-        20 = Bitmotion\Locate\Judge\Condition
-        20.action = redirectToPageZH
-        20.match = browserAccepted.lang = zh
+        200 = Leuchtfeuer\Locate\Judge\Condition
+        200 {
+            action = redirectToPageZH
+            fact = env
+            prosecution {
+                HTTP_HOST = www.Leuchtfeuer.com
+            }
+        }
 
-        30 = Bitmotion\Locate\Judge\Condition
-        30.action = redirectToPageDK
-        30.match = env.HTTP_HOST = www.Leuchtfeuer.com
+        300 = Leuchtfeuer\Locate\Judge\Condition
+        300 {
+            action = redirectToPageDE
+            fact = browserAccepted
+            prosecution = de-DE
+        }
 
-        999 = Bitmotion\Locate\Judge\Fixed
+        310 = Leuchtfeuer\Locate\Judge\Condition
+        310 {
+            action = redirectToPageZH
+            fact = browserAccepted
+            prosecution = zh
+        }
+
+        320 = Leuchtfeuer\Locate\Judge\Condition
+        320 {
+            action = redirectToPageEN
+            fact = browserAccepted
+            prosecution = en
+        }
+
+        999 = Leuchtfeuer\Locate\Judge\Fixed
         999.action = redirectToPageEN
     }
 }
