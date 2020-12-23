@@ -51,6 +51,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
                     'overrideParam' => $locateSetup['overrideParam'] ?? Redirect::OVERRIDE_PARAMETER,
                     'overrideCookie' => $locateSetup['overrideCookie'] ?? 0,
                     'cookieHandling' => $locateSetup['cookieHandling'] ?? 0,
+                    'excludeBots' => $locateSetup['excludeBots'] ?? 1,
                 ],
             ];
 

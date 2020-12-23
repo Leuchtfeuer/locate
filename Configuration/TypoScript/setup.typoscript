@@ -9,6 +9,7 @@ config.tx_locate {
 
     cookieHandling = 0
     overrideCookie = 0
+    excludeBots = 1
 
     # See example file for configuration
     actions {

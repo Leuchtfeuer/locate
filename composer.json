@@ -29,6 +29,9 @@
     "symfony/console": "^4.4 || ^5.0",
     "sjbr/static-info-tables": "*"
   },
+  "suggest": {
+    "jaybizzle/crawler-detect": "If you do not want to redirect bots."
+  },
   "autoload": {
     "psr-4": {
       "Leuchtfeuer\\Locate\\": "Classes"

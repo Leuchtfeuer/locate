@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Processor;
 
+use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Leuchtfeuer\Locate\Action\AbstractAction;
 use Leuchtfeuer\Locate\Exception\IllegalActionException;
 use Leuchtfeuer\Locate\Exception\IllegalFactProviderException;
@@ -53,18 +54,32 @@ class Court implements ProcessorInterface, LoggerAwareInterface
      */
     public function run(): ?ResponseInterface
     {
+        // Exclude bots from redirects
+        if ((bool)($this->configuration['settings']['excludeBots'] ?? false) && class_exists('Jaybizzle\CrawlerDetect\CrawlerDetect')) {
+            $crawlerDetect = new CrawlerDetect(
+                $GLOBALS['TYPO3_REQUEST']->getHeaders(),
+                GeneralUtility::getIndpEnv('HTTP_USER_AGENT')
+            );
+
+            if ($crawlerDetect->isCrawler()) {
+                return null;
+            }
+        }
+
         try {
             $this->processFacts();
             $decision = $this->callJudges();
 
             if ($decision === null || !$decision->hasAction()) {
-                throw new \Exception('No action should be called. This migth be a problem in you configuration', 1608653067);
+                throw new \Exception('No action should be called. This might be a problem in you configuration', 1608653067);
             }
 
             return $this->enforceJudgement($decision->getActionName());
         } catch (\Exception $exception) {
             $this->logger->critical($exception->getMessage());
         }
+
+        return null;
     }
 
     /**
