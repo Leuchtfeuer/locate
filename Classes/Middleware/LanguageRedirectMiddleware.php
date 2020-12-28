@@ -53,7 +53,6 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
     protected function getTypoScriptSetup(): array
     {
         if (!$GLOBALS['TSFE']->tmpl instanceof TemplateService || empty($GLOBALS['TSFE']->tmpl->setup)) {
-            $GLOBALS['TSFE']->forceTemplateParsing = true;
             $GLOBALS['TSFE']->getConfigArray();
         }
 
