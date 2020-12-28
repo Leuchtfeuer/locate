@@ -26,18 +26,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (!$GLOBALS['TSFE']->tmpl instanceof TemplateService || empty($GLOBALS['TSFE']->tmpl->setup)) {
-            $GLOBALS['TSFE']->forceTemplateParsing = true;
-            $GLOBALS['TSFE']->getConfigArray();
-        }
-
-        $typoScript = $GLOBALS['TSFE']->tmpl->setup;
-
-        if (isset($typoScript['plugin.']['tx_locate_pi1'])) {
-            error_log('The TypoScript configuration was moved to "config.tx_locate"', E_DEPRECATED);
-            $typoScript['config.']['tx_locate'] = $typoScript['plugin.']['tx_locate_pi1'];
-            $typoScript['config.']['tx_locate.'] = array_merge_recursive($typoScript['config.']['tx_locate.'] ?? [], $typoScript['plugin.']['tx_locate_pi1.']);
-        }
+        $typoScript = $this->getTypoScriptSetup();
 
         if ((int)$typoScript['config.']['tx_locate'] === 1 && !empty($typoScript['config.']['tx_locate.'] ?? [])) {
             $locateSetup = $typoScript['config.']['tx_locate.'];
@@ -47,11 +36,11 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
                 'facts' => $locateSetup['facts.'] ?? [],
                 'judges' => $locateSetup['judges.'] ?? [],
                 'settings' => [
-                    'dryRun' => isset($locateSetup['dryRun']) ? (bool)$locateSetup['dryRun'] : false,
+                    'dryRun' => (bool)($locateSetup['dryRun'] ?? false),
                     'overrideParam' => $locateSetup['overrideParam'] ?? Redirect::OVERRIDE_PARAMETER,
-                    'overrideCookie' => $locateSetup['overrideCookie'] ?? 0,
-                    'cookieHandling' => $locateSetup['cookieHandling'] ?? 0,
-                    'excludeBots' => $locateSetup['excludeBots'] ?? 1,
+                    'overrideCookie' => (bool)($locateSetup['overrideCookie'] ?? 0),
+                    'cookieHandling' => (bool)($locateSetup['cookieHandling'] ?? 0),
+                    'excludeBots' => (bool)($locateSetup['excludeBots'] ?? 1),
                 ],
             ];
 
@@ -59,5 +48,15 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
         }
 
         return $handler->handle($request);
+    }
+
+    protected function getTypoScriptSetup(): array
+    {
+        if (!$GLOBALS['TSFE']->tmpl instanceof TemplateService || empty($GLOBALS['TSFE']->tmpl->setup)) {
+            $GLOBALS['TSFE']->forceTemplateParsing = true;
+            $GLOBALS['TSFE']->getConfigArray();
+        }
+
+        return $GLOBALS['TSFE']->tmpl->setup;
     }
 }
