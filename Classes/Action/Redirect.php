@@ -45,8 +45,6 @@ class Redirect extends AbstractAction
      */
     public function execute(): ?ResponseInterface
     {
-        dump($this->configuration);
-        die;
         $this->redirectLanguageUid = (int)$this->configuration['sys_language'];
         $this->requestedLanguageUid = GeneralUtility::makeInstance(Context::class)->getAspect('language')->getId();
         $this->frontendUserAuthentication = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.user');
