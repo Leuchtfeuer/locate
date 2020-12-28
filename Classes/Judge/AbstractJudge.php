@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Judge;
 
-use Leuchtfeuer\Locate\Exception\IllegalJudgeException;
 use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
 
 abstract class AbstractJudge
@@ -57,7 +56,9 @@ abstract class AbstractJudge
     /**
      * Call the fact module which might add some data to the factArray
      *
-     * @throws IllegalJudgeException
+     * @param AbstractFactProvider $factProvider
+     * @param int $priority
+     * @return AbstractJudge
      */
     abstract public function adjudicate(AbstractFactProvider $factProvider, int $priority = self::DEFAULT_PRIORITY): AbstractJudge;
 }

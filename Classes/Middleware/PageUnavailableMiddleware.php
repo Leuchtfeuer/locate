@@ -76,6 +76,8 @@ class PageUnavailableMiddleware implements MiddlewareInterface
      * @param ServerRequestInterface $request
      * @param int $statusCode
      * @return PageErrorHandlerInterface|null
+     *
+     * @throws InvalidPageErrorHandlerException
      */
     protected function getErrorHandlerFromSite(ServerRequestInterface $request, int $statusCode): ?PageErrorHandlerInterface
     {

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Command;
 
-use Doctrine\DBAL\DBALException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -101,9 +100,6 @@ class UpdateIpDatabaseCommand extends Command
         return true;
     }
 
-    /**
-     * @throws DBALException
-     */
     private function truncateTable(): void
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);

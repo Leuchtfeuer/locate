@@ -213,6 +213,9 @@ class Redirect extends AbstractAction
     /**
      * This will redirect the user to a new web location. This can be a relative or absolute web path, or it
      * can be an entire URL.
+     *
+     * @param string $location
+     * @return RedirectResponse|null
      */
     public function redirectToUrl(string $location): ?RedirectResponse
     {

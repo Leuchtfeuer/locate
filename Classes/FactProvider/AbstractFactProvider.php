@@ -48,16 +48,26 @@ abstract class AbstractFactProvider
      */
     abstract public function process();
 
+    /**
+     * @param $prosecution
+     * @return bool
+     */
     abstract public function isGuilty($prosecution): bool;
 
     /**
      * Adds a prefix to the factArray property name
+     *
+     * @param string $property
+     * @return string
      */
     protected function getFactPropertyName(string $property): string
     {
         return mb_strtolower($property);
     }
 
+    /**
+     * @return array|mixed
+     */
     public function getSubject()
     {
         if (count($this->facts) > 1) {

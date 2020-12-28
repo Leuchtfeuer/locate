@@ -21,6 +21,7 @@ class LocateUtility
     /**
      * Check the IP in the geoip table and returns iso 2 code for the current remote address
      *
+     * @param string|null $ip
      * @return bool|string
      */
     public function getCountryIso2FromIP(?string $ip = null)
