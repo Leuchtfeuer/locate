@@ -30,7 +30,8 @@
     "sjbr/static-info-tables": "*"
   },
   "suggest": {
-    "jaybizzle/crawler-detect": "If you do not want to redirect bots."
+    "jaybizzle/crawler-detect": "If you do not want to redirect bots.",
+    "sjbr/static-info-tables": "If you want to use IP based data."
   },
   "autoload": {
     "psr-4": {

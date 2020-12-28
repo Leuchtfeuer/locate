@@ -11,7 +11,9 @@ $EM_CONF['locate'] = [
             'static_info_tables' => '',
         ],
         'conflicts' => [],
-        'suggests' => [],
+        'suggests' => [
+            'static_info_tables' => '',
+        ],
     ],
     'state' => 'stable',
     'uploadfolder' => false,
