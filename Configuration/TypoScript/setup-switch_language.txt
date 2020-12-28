@@ -2,6 +2,8 @@ config.tx_locate = 1
 config.tx_locate {
     dryRun = 0
     overrideParam = setLang
+    cookieHandling = 0
+    overrideCookie = 0
 
     actions {
         redirectToPageEN = Leuchtfeuer\Locate\Action\Redirect

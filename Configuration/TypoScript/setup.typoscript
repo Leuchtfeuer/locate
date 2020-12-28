@@ -17,7 +17,9 @@ config.tx_locate {
     }
 
     facts {
-
+        browserAccepted = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
+        countryByIP = Leuchtfeuer\Locate\FactProvider\IP2Country
+        env = Leuchtfeuer\Locate\FactProvider\Environment
     }
 
     judges {
