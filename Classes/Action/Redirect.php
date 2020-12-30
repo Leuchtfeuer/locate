@@ -24,7 +24,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Redirect extends AbstractAction
 {
-    const SESSION_KEY = 'bm_locate';
+    const SESSION_KEY = 'language';
     const OVERRIDE_PARAMETER = 'setLang';
 
     private $cookieMode = false;
