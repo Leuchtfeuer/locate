@@ -1,4 +1,14 @@
-# locate
+Language Utilities for TYPO3
+============================
+
+[![Latest Stable Version](https://poser.pugx.org/leuchtfeuer/locate/v/stable)](https://packagist.org/packages/leuchtfeuer/locate)
+[![Build Status](https://github.com/Leuchtfeuer/locate/workflows/Continous%20Integration/badge.svg)](https://github.com/Leuchtfeuer/locate)
+[![Total Downloads](https://poser.pugx.org/leuchtfeuer/locate/downloads)](https://packagist.org/leuchtfeuer/locate)
+[![Latest Unstable Version](https://poser.pugx.org/leuchtfeuer/locate/v/unstable)](https://packagist.org/leuchtfeuer/locate)
+[![Code Climate](https://codeclimate.com/github/Leuchtfeuer/locate/badges/gpa.svg)](https://codeclimate.com/github/Leuchtfeuer/locate)
+[![codecov](https://codecov.io/gh/Leuchtfeuer/locate/branch/master/graph/badge.svg?token=0GcE422Ms1)](https://codecov.io/gh/Leuchtfeuer/locate)
+[![License](https://poser.pugx.org/leuchtfeuer/locate/license)](https://packagist.org/packages/leuchtfeuer/locate)
+
 
 ## Function
 
