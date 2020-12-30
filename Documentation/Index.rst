@@ -67,5 +67,6 @@ To figure out which extension version is supported by your TYPO3 instance, take 
     :maxdepth: 3
     :hidden:
 
+    Functions/Index
     About/Index
     Sitemap
