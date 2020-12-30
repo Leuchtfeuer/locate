@@ -169,19 +169,22 @@ class Redirect extends AbstractAction
         $page = BackendUtility::getRecord('pages', $pageId, '*', '', false);
 
         // Page is in current language - no redirect necessary
-        if ($page['sys_language_uid'] === $targetLanguageId) {
+        if (($page['sys_language_uid'] === $targetLanguageId && $targetLanguageId !== 0) || $this->requestedLanguageUid === $targetLanguageId) {
             $this->logger->info('Target language equals current language. No redirect.');
 
             return null;
         }
 
-        $page = GeneralUtility::makeInstance(PageRepository::class)->getPageOverlay($page, $targetLanguageId);
+        // Overlay page record for languages other than the default one
+        if ($targetLanguageId !== 0) {
+            $page = GeneralUtility::makeInstance(PageRepository::class)->getPageOverlay($page, $targetLanguageId);
 
-        // Overlay record does not exist
-        if (!isset($page['_PAGES_OVERLAY_UID'])) {
-            $this->logger->info(sprintf('There is no page overlay for page %d and language %d', $page['uid'], $targetLanguageId));
+            // Overlay record does not exist
+            if (!isset($page['_PAGES_OVERLAY_UID'])) {
+                $this->logger->info(sprintf('There is no page overlay for page %d and language %d', $page['uid'], $targetLanguageId));
 
-            return null;
+                return null;
+            }
         }
 
         /** @var Site $site */
