@@ -36,7 +36,6 @@
     }
   },
   "replace": {
-    "locate": "self.version",
     "typo3-ter/locate": "self.version",
     "bitmotion/locate": "self.version"
   }
