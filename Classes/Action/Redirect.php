@@ -21,7 +21,6 @@ use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 class Redirect extends AbstractAction
 {
@@ -35,11 +34,6 @@ class Redirect extends AbstractAction
     private $requestedLanguageUid = 0;
 
     /**
-     * @var FrontendUserAuthentication
-     */
-    private $frontendUserAuthentication;
-
-    /**
      * @return ResponseInterface|null
      * @throws AspectNotFoundException
      */
@@ -47,7 +41,6 @@ class Redirect extends AbstractAction
     {
         $this->redirectLanguageUid = (int)$this->configuration['sys_language'];
         $this->requestedLanguageUid = GeneralUtility::makeInstance(Context::class)->getAspect('language')->getId();
-        $this->frontendUserAuthentication = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.user');
 
         // Initialize Cookie mode if necessary and prepare everything for possible redirects
         $this->initializeCookieMode();
@@ -143,12 +136,12 @@ class Redirect extends AbstractAction
             $value = (int)$this->configuration['sys_language'];
         }
 
-        $this->frontendUserAuthentication->setKey('ses', self::SESSION_KEY, $value);
+        $this->session->set(self::SESSION_KEY, $value);
     }
 
     private function getCookieValue(): ?int
     {
-        return $this->frontendUserAuthentication->getKey('ses', self::SESSION_KEY);
+        return $this->session->get(self::SESSION_KEY);
     }
 
     private function shouldRedirect(): bool

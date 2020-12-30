@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Action;
 
+use Leuchtfeuer\Locate\Store\SessionStore;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -22,6 +23,13 @@ abstract class AbstractAction implements LoggerAwareInterface
     use LoggerAwareTrait;
 
     protected $configuration = [];
+
+    protected $session;
+
+    public function __construct()
+    {
+        $this->session = new SessionStore();
+    }
 
     public function withConfiguration(array $configuration): self
     {
