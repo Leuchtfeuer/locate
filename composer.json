@@ -13,7 +13,8 @@
   "support": {
     "email": "dev@Leuchtfeuer.com",
     "issues": "https://github.com/Leuchtfeuer/locate/issues",
-    "source": "https://github.com/Leuchtfeuer/locate/"
+    "source": "https://github.com/Leuchtfeuer/locate/",
+    "docs": "https://docs.typo3.org/p/leuchtfeuer/locate/master/en-us/"
   },
   "authors": [
     {
@@ -32,13 +33,36 @@
     "jaybizzle/crawler-detect": "If you do not want to redirect bots.",
     "sjbr/static-info-tables": "If you want to use IP based data."
   },
+  "replace": {
+    "typo3-ter/locate": "self.version",
+    "bitmotion/locate": "self.version"
+  },
   "autoload": {
     "psr-4": {
       "Leuchtfeuer\\Locate\\": "Classes"
     }
   },
-  "replace": {
-    "typo3-ter/locate": "self.version",
-    "bitmotion/locate": "self.version"
+  "autoload-dev": {
+    "psr-4": {
+      "Leuchtfeuer\\Locate\\Tests\\": "Tests"
+    }
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare",
+      "mkdir -p .Build/web/typo3conf/ext/",
+      "[ -L .Build/web/typo3conf/ext/locate ] || ln -snvf ../../../../. .Build/web/typo3conf/ext/locate"
+    ]
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/web",
+      "extension-key": "auth0"
+    }
   }
 }
