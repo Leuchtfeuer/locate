@@ -92,3 +92,23 @@ backend as shown below.
    :class: with-shadow
 
    You can update your local IP tables via the Extension Manager module.
+
+.. _admin-enablingExtension:
+
+Enabling this Extension
+=======================
+
+If you want to activate the :ref:`language assignment <functions-assignLanguage>`, you have to add the following TypoScript
+line after you have installed locate and included the TypoScript. This function is disabled by default.
+
+.. code-block:: typoscript
+
+   config.tx_locate = 1
+
+If you do not want to activate the language assignment on every page, you can simply put the activation into a condition.
+
+.. code-block:: typoscript
+
+   [page["uid"] == 1]
+       config.tx_locate = 1
+   [end]

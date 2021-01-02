@@ -6,10 +6,10 @@
 For Developers
 ==============
 
-.. _developing-addNewFact:
+.. _developing-addFact:
 
-Add a New Fact
-==============
+Add a Fact
+==========
 
 This example will show you how to add a custom fact that looks up some environment variables.
 
@@ -80,10 +80,10 @@ This example will show you how to add a custom fact that looks up some environme
           }
       }
 
-.. _developing-addNewVerdict:
+.. _developing-addVerdict:
 
-Add a New Verdict
-=================
+Add a Verdict
+=============
 
 This example will show you how to add a custom verdict that adds some data to the user session.
 

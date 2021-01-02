@@ -20,10 +20,11 @@ We are currently supporting following TYPO3 versions:
    :header: "Extension Version", "TYPO3 v10 Support", "TYPO3 v9 Support", "TYPO3 v8 Support"
    :align: center
 
-        "10.x", "🙋‍♂️", "🙋‍♂️", "🙅‍♀️"
-        "9.x", "🙅‍♀️️", "🙋‍♂️", "🙅‍♀️"
-        "8.x", "🙅‍♀️", "🙋‍♂️", "🙋‍♂️"
-        "7.x", "🙅‍♀️", "🙅‍♀️", "🙋‍♂️"
+        "11.x", "🙋️", "🙅️", "🙅️️"
+        "10.x", "🙋️", "🙋️", "🙅️️"
+        "9.x", "🙅️️️", "🙋", "🙅️️"
+        "8.x", "🙅️️", "🙋", "🙋️"
+        "7.x", "🙅️️", "🙅️️", "🙋️"
 
 .. _about-ip-database:
 
@@ -31,6 +32,7 @@ IP Database
 ===========
 
 This site or product includes IP2Location LITE data available from `https://lite.ip2location.com <https://lite.ip2location.com>`__.
+
 
 .. toctree::
     :maxdepth: 3

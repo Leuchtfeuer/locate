@@ -29,8 +29,8 @@ Locate - Identify users by IP and/or browser language
    `CC BY-NC-SA 4.0 <https://creativecommons.org/licenses/by-nc-sa/4.0/>`__ (Creative Commons)
    license.
 
-The users country and preferred language and other facts will be detected. Depending on configurable rules the user can be
-redirected to other languages or pages. It is also possible to deny access to configurable pages for configurable countries.
+The users country, preferred language and other facts will be detected. Depending on configurable rules the user can be
+redirected to other languages or pages. Locate also provides geo blocking for configurable pages in configurable countries.
 
 To figure out which extension version is supported by your TYPO3 instance, take a quick look at our
 :ref:`version matrix <about-compatibility>`.
@@ -67,7 +67,7 @@ To figure out which extension version is supported by your TYPO3 instance, take 
     :maxdepth: 3
     :hidden:
 
-    Installation/Index
+    Admin/Index
     Functions/Index
     Developing/Index
     About/Index
