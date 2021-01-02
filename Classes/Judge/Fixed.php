@@ -23,7 +23,7 @@ class Fixed extends AbstractJudge
     public function adjudicate(?AbstractFactProvider $factProvider, int $priority = AbstractJudge::DEFAULT_PRIORITY): AbstractJudge
     {
         $this->decision = new Decision();
-        $this->decision->setActionName($this->configuration['action']);
+        $this->decision->setVerdictName($this->configuration['verdict']);
         $this->decision->setPriority($priority);
 
         if (isset($this->configuration['priority'])) {

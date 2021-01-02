@@ -11,14 +11,14 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Leuchtfeuer\Locate\Action;
+namespace Leuchtfeuer\Locate\Verdict;
 
 use Leuchtfeuer\Locate\Store\SessionStore;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
-abstract class AbstractAction implements LoggerAwareInterface
+abstract class AbstractVerdict implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 

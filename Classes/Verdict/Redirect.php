@@ -11,7 +11,7 @@ declare(strict_types=1);
  * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
-namespace Leuchtfeuer\Locate\Action;
+namespace Leuchtfeuer\Locate\Verdict;
 
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -22,7 +22,7 @@ use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class Redirect extends AbstractAction
+class Redirect extends AbstractVerdict
 {
     const SESSION_KEY = 'language';
     const OVERRIDE_PARAMETER = 'setLang';

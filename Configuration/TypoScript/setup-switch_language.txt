@@ -5,7 +5,7 @@ config.tx_locate {
     cookieHandling = 0
     overrideCookie = 0
 
-    actions {
+    verdicts {
         redirectToPageEN = Leuchtfeuer\Locate\Action\Redirect
         redirectToPageEN {
             sys_language = 0
@@ -29,52 +29,42 @@ config.tx_locate {
     }
 
     facts {
-        browserAccepted = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
+        browserAcceptLanguage = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
         countryByIP = Leuchtfeuer\Locate\FactProvider\IP2Country
-        env = Leuchtfeuer\Locate\FactProvider\Environment
     }
 
     judges {
         100 = Leuchtfeuer\Locate\Judge\Condition
         100 {
-            action = redirectToPageDE
+            verdict = redirectToPageDE
             fact = countryByIP
 #            prosecution = -
             prosecution = de
         }
 
-        200 = Leuchtfeuer\Locate\Judge\Condition
-        200 {
-            action = redirectToPageZH
-            fact = env
-            prosecution {
-                HTTP_HOST = www.Leuchtfeuer.com
-            }
-        }
-
         300 = Leuchtfeuer\Locate\Judge\Condition
         300 {
-            action = redirectToPageDE
-            fact = browserAccepted
+            verdict = redirectToPageDE
+            fact = browserAcceptLanguage
             prosecution = de-DE
         }
 
         310 = Leuchtfeuer\Locate\Judge\Condition
         310 {
-            action = redirectToPageZH
-            fact = browserAccepted
+            verdict = redirectToPageZH
+            fact = browserAcceptLanguage
             prosecution = zh
         }
 
         320 = Leuchtfeuer\Locate\Judge\Condition
         320 {
-            action = redirectToPageEN
-            fact = browserAccepted
+            verdict = redirectToPageEN
+            fact = browserAcceptLanguage
             prosecution = en
         }
 
         999 = Leuchtfeuer\Locate\Judge\Fixed
-        999.action = redirectToPageEN
+        999.verdict = redirectToPageEN
     }
 }
 

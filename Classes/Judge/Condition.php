@@ -25,7 +25,7 @@ class Condition extends AbstractJudge
         $prosecution = $this->configuration['prosecution'] ?? $this->configuration['prosecution.'] ?? null;
 
         if ($prosecution !== null && $factProvider->isGuilty($prosecution)) {
-            $this->decision = (new Decision())->withActionName($this->configuration['action']);
+            $this->decision = (new Decision())->withVerdictName($this->configuration['verdict']);
             $this->decision->setPriority($priority);
 
             if ($factProvider->isMultiple()) {

@@ -15,31 +15,31 @@ namespace Leuchtfeuer\Locate\Judge;
 
 class Decision
 {
-    protected $actionName = '';
+    protected $verdictName = '';
 
     protected $priority = AbstractJudge::DEFAULT_PRIORITY;
 
     protected $internalPriority = 0;
 
-    public function hasAction(): bool
+    public function hasVerdict(): bool
     {
-        return !empty($this->actionName);
+        return !empty($this->verdictName);
     }
 
-    public function getActionName(): string
+    public function getVerdictName(): string
     {
-        return $this->actionName;
+        return $this->verdictName;
     }
 
-    public function setActionName(string $actionName): void
+    public function setVerdictName(string $verdictName): void
     {
-        $this->actionName = $actionName;
+        $this->verdictName = $verdictName;
     }
 
-    public function withActionName(string $actionName): self
+    public function withVerdictName(string $verdictName): self
     {
         $clonedObject = clone $this;
-        $clonedObject->actionName = $actionName;
+        $clonedObject->verdictName = $verdictName;
 
         return $clonedObject;
     }

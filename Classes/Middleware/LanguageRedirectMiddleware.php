@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Middleware;
 
-use Leuchtfeuer\Locate\Action\Redirect;
 use Leuchtfeuer\Locate\Processor\Court;
+use Leuchtfeuer\Locate\Verdict\Redirect;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -32,7 +32,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
             $locateSetup = $typoScript['config.']['tx_locate.'];
 
             $config = [
-                'actions' => $locateSetup['actions.'] ?? [],
+                'verdicts' => $locateSetup['verdicts.'] ?? [],
                 'facts' => $locateSetup['facts.'] ?? [],
                 'judges' => $locateSetup['judges.'] ?? [],
                 'settings' => [

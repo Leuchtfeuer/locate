@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Locate\Processor;
 
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
-use Leuchtfeuer\Locate\Action\AbstractAction;
 use Leuchtfeuer\Locate\Exception\IllegalActionException;
 use Leuchtfeuer\Locate\Exception\IllegalFactProviderException;
 use Leuchtfeuer\Locate\Exception\IllegalJudgeException;
 use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
 use Leuchtfeuer\Locate\Judge\AbstractJudge;
 use Leuchtfeuer\Locate\Judge\Decision;
+use Leuchtfeuer\Locate\Verdict\AbstractVerdict;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -70,11 +70,11 @@ class Court implements ProcessorInterface, LoggerAwareInterface
             $this->processFacts();
             $decision = $this->callJudges();
 
-            if ($decision === null || !$decision->hasAction()) {
-                throw new \Exception('No action should be called. This might be a problem in you configuration', 1608653067);
+            if ($decision === null || !$decision->hasVerdict()) {
+                throw new \Exception('No verdict should be delivered. This might be a problem in you configuration', 1608653067);
             }
 
-            return $this->enforceJudgement($decision->getActionName());
+            return $this->enforceJudgement($decision->getVerdictName());
         } catch (\Exception $exception) {
             $this->logger->critical($exception->getMessage());
         }
@@ -184,28 +184,28 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
     protected function enforceJudgement(string $actionName): ?ResponseInterface
     {
-        $className = $this->configuration['actions'][$actionName];
+        $className = $this->configuration['verdicts'][$actionName];
 
         if (!class_exists($className)) {
             throw new InvalidActionNameException(sprintf('Class "%s" does not exist. Skip.', $className), 1608652319);
         }
 
-        $action = GeneralUtility::makeInstance($className);
+        $verdict = GeneralUtility::makeInstance($className);
 
-        if (!$action instanceof AbstractAction) {
+        if (!$verdict instanceof AbstractVerdict) {
             throw new IllegalActionException(
-                sprintf('Action "%s" has to extend "%s".', $className, AbstractAction::class),
+                sprintf('Verdict "%s" has to extend "%s".', $className, AbstractVerdict::class),
                 1608632285
             );
         }
 
-        $this->logger->info(sprintf('Action with name %s will be called', $actionName));
+        $this->logger->info(sprintf('Verdict with name %s will be delivered', $actionName));
 
         if ($this->dryRun === false) {
-            $configuration = array_merge($this->configuration['settings'], $this->configuration['actions'][$actionName . '.'] ?? []);
-            $action = $action->withConfiguration($configuration);
+            $configuration = array_merge($this->configuration['settings'], $this->configuration['verdicts'][$actionName . '.'] ?? []);
+            $verdict = $verdict->withConfiguration($configuration);
 
-            return $action->execute();
+            return $verdict->execute();
         }
 
         return null;
