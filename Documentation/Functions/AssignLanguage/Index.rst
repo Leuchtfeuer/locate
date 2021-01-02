@@ -8,7 +8,7 @@ Assign Website Version
 
 .. note::
 
-   Please note that this function is disabled by default. :ref:`Learn how to enabling it <admin-enablingExtension>`.
+   Please note that this function is disabled by default. :ref:`Learn how to enable it <admin-enablingExtension>`.
 
 .. _functions-assignLanguage-howThisExtensionWorks:
 
@@ -267,3 +267,13 @@ Judges
          extension provides two different types of judges by default: The
          :ref:`conditional judge <functions-assignLanguage-judges-conditional>` and the
          :ref:`fixed judge <functions-assignLanguage-judges-fixed>`.
+
+
+.. toctree::
+    :maxdepth: 3
+    :hidden:
+
+    Examples/Index
+    Judges/Conditional
+    Judges/Fixed
+    Verdicts/Redirect
