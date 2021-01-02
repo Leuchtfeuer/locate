@@ -7,7 +7,7 @@ Contributing
 ============
 
 You can contribute by making a **pull request** to the
-`master branch <https://github.com/Leuchtfeuerlocate/tree/master>`__ of the extension repository on GitHub. Or just send us some
+`master branch <https://github.com/Leuchtfeuer/locate/tree/master>`__ of the extension repository on GitHub. Or just send us some
 **beers** 🍻...
 
 .. _about-contributing-documentation:

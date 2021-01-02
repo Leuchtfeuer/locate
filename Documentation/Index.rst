@@ -69,5 +69,6 @@ To figure out which extension version is supported by your TYPO3 instance, take 
 
     Installation/Index
     Functions/Index
+    Developing/Index
     About/Index
     Sitemap

@@ -6,21 +6,21 @@ config.tx_locate {
     overrideCookie = 0
 
     verdicts {
-        redirectToPageEN = Leuchtfeuer\Locate\Action\Redirect
+        redirectToPageEN = Leuchtfeuer\Locate\Verdict\Redirect
         redirectToPageEN {
             sys_language = 0
             cookieHandling = 1
             overrideCookie = 1
         }
 
-        redirectToPageDE = Leuchtfeuer\Locate\Action\Redirect
+        redirectToPageDE = Leuchtfeuer\Locate\Verdict\Redirect
         redirectToPageDE {
             sys_language = 1
             cookieHandling = 1
             overrideCookie = 1
         }
 
-        redirectToPageZH = Leuchtfeuer\Locate\Action\Redirect
+        redirectToPageZH = Leuchtfeuer\Locate\Verdict\Redirect
         redirectToPageZH {
             sys_language = 2
             cookieHandling = 1

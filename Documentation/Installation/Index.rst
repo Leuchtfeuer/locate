@@ -51,14 +51,24 @@ and upload the zip file to the extension manager of your TYPO3 instance and acti
 Additional Packages
 ===================
 
+.. _admin-additionalPackages-staticInfoTables:
+
+Static Info Tables
+------------------
+
 If you want to use the geo blocking feature for your pages, you need to to install the
-`static info tables extension <https://extensions.typo3.org/extension/static_info_tables/>`__ as well. It is enough to install
+`static info tables <https://extensions.typo3.org/extension/static_info_tables/>`__ extension as well. It is enough to install
 just the basic version. Additional country-specific versions are not required by this extension. If you are using a composer setup
 you can execute following command:
 
 .. code-block:: bash
 
    composer req sjbr/static-info-tables
+
+.. _admin-additionalPackages-detectCrawler:
+
+Detect Crawler
+--------------
 
 If you want to exclude bots such as the Google search bot from being assigned specific website versions, you must require the
 composer package `jaybizzle/crawler-detect <https://github.com/JayBizzle/Crawler-Detect>`__. This feature is only available in
