@@ -37,9 +37,9 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
                 'judges' => $locateSetup['judges.'] ?? [],
                 'settings' => [
                     'dryRun' => (bool)($locateSetup['dryRun'] ?? false),
-                    'overrideParam' => $locateSetup['overrideParam'] ?? Redirect::OVERRIDE_PARAMETER,
-                    'overrideCookie' => (bool)($locateSetup['overrideCookie'] ?? 0),
-                    'cookieHandling' => (bool)($locateSetup['cookieHandling'] ?? 0),
+                    'overrideQueryParameter' => $locateSetup['overrideQueryParameter'] ?? Redirect::OVERRIDE_PARAMETER,
+                    'overrideSessionValue' => (bool)($locateSetup['overrideSessionValue'] ?? 0),
+                    'sessionHandling' => (bool)($locateSetup['sessionHandling'] ?? 0),
                     'excludeBots' => (bool)($locateSetup['excludeBots'] ?? 1),
                 ],
             ];

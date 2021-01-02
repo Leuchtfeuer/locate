@@ -1,6 +1,6 @@
 {
   "name": "leuchtfeuer/locate",
-  "description": "The users country and preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. New functionality can be added easily.",
+  "description": "The users country, preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. Locate also provides geo blocking for configurable pages in configurable countries.",
   "keywords": [
     "TYPO3",
     "extension",

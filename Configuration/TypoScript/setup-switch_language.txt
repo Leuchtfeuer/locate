@@ -1,31 +1,39 @@
+# Enable language redirect
 config.tx_locate = 1
 config.tx_locate {
+    # Set this param if you do not want to execute the redirect
     dryRun = 0
-    overrideParam = setLang
-    cookieHandling = 0
-    overrideCookie = 0
+
+    # Whether bots should be excluded from the behavior of the extension.
+    excludeBots = 1
+
+    # If this option is enabled, the verdict will be saved in a session and will not be evaluated again.
+    sessionHandling = 1
+
+    # If this option is enabled, it is possible to overwrite the verdict stored in the session.
+    overrideSessionValue = 1
+
+    # URL Parameter which has to be true when overrideCookie is allowed within action and cookieHandling is enabled
+    overrideQueryParameter = setLang
 
     verdicts {
-        redirectToPageEN = Leuchtfeuer\Locate\Verdict\Redirect
-        redirectToPageEN {
-            sys_language = 0
-            cookieHandling = 1
-            overrideCookie = 1
+        redirectToMainlandChina = Leuchtfeuer\Locate\Verdict\Redirect
+        redirectToMainlandChina.url = https://www.example.cn
+
+        redirectToUS = Leuchtfeuer\Locate\Verdict\Redirect
+        redirectToUS.sys_language = 12
+
+        redirectToDE = Leuchtfeuer\Locate\Verdict\Redirect
+        redirectToDE.sys_language = 29
+
+        redirectToPageFR = Leuchtfeuer\Locate\Verdict\Redirect
+        redirectToPageFR {
+            sys_language = 19
+            page = 89
         }
 
-        redirectToPageDE = Leuchtfeuer\Locate\Verdict\Redirect
-        redirectToPageDE {
-            sys_language = 1
-            cookieHandling = 1
-            overrideCookie = 1
-        }
-
-        redirectToPageZH = Leuchtfeuer\Locate\Verdict\Redirect
-        redirectToPageZH {
-            sys_language = 2
-            cookieHandling = 1
-            overrideCookie = 1
-        }
+        redirectToEN = Leuchtfeuer\Locate\Verdict\Redirect
+        redirectToEN.sys_language = 0
     }
 
     facts {
@@ -34,37 +42,40 @@ config.tx_locate {
     }
 
     judges {
+        # Users from mainland China should be redirected to a specific URL.
         100 = Leuchtfeuer\Locate\Judge\Condition
         100 {
-            verdict = redirectToPageDE
+            verdict = redirectToMainlandChina
             fact = countryByIP
-#            prosecution = -
+            prosecution = cn
+        }
+
+        # Users with the American English browser language should be redirected to a specific language version of the current page.
+        200 = Leuchtfeuer\Locate\Judge\Condition
+        200 {
+            verdict = redirectToUS
+            fact = browserAcceptLanguage
+            prosecution = en-us
+        }
+
+        # Users with the browser language German shall be redirected to the German language version of the current page.
+        300 = Leuchtfeuer\Locate\Judge\Condition
+        300 {
+            verdict = redirectToDE
+            fact = browserAcceptLanguage
             prosecution = de
         }
 
+        # Users with the French browser language should be redirected to the French language version of another page.
         300 = Leuchtfeuer\Locate\Judge\Condition
         300 {
-            verdict = redirectToPageDE
+            verdict = redirectToPageFR
             fact = browserAcceptLanguage
-            prosecution = de-DE
+            prosecution = fr
         }
 
-        310 = Leuchtfeuer\Locate\Judge\Condition
-        310 {
-            verdict = redirectToPageZH
-            fact = browserAcceptLanguage
-            prosecution = zh
-        }
-
-        320 = Leuchtfeuer\Locate\Judge\Condition
-        320 {
-            verdict = redirectToPageEN
-            fact = browserAcceptLanguage
-            prosecution = en
-        }
-
-        999 = Leuchtfeuer\Locate\Judge\Fixed
-        999.verdict = redirectToPageEN
+        # All other users should be redirected to the English language version of the current page.
+        999999 = Leuchtfeuer\Locate\Judge\Fixed
+        999999.verdict = redirectToEN
     }
 }
-

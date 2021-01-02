@@ -65,11 +65,11 @@ class Redirect extends AbstractVerdict
     }
 
     /**
-     * Set CookeMode Param to true if cookieHandling is enables
+     * Set CookeMode Param to true if sessionHandling is enables
      */
     private function initializeCookieMode(): void
     {
-        if ((bool)($this->configuration['cookieHandling'] ?? false) === true) {
+        if ((bool)($this->configuration['sessionHandling'] ?? false) === true) {
             $this->logger->info('Cookie Handling is set.');
             $this->cookieMode = true;
         }
@@ -83,7 +83,7 @@ class Redirect extends AbstractVerdict
             // Cookie is not in current language
             $this->logger->info('Cookie is set.');
 
-            if ($this->isCookieInCurrentLanguage() === false && $this->shouldOverrideCookie() === true) {
+            if ($this->isCookieInCurrentLanguage() === false && $this->shouldOverrideSessionValue() === true) {
                 // Override cookie
                 $this->logger->info('Cookie is not in current language, so we override it.');
                 $this->redirectLanguageUid = $currentLanguageUid;
@@ -121,10 +121,10 @@ class Redirect extends AbstractVerdict
         return $this->requestedLanguageUid === $this->getCookieValue();
     }
 
-    private function shouldOverrideCookie(): bool
+    private function shouldOverrideSessionValue(): bool
     {
-        if ((bool)($this->configuration['overrideCookie'] ?? false) === true) {
-            return isset($GLOBALS['TYPO3_REQUEST']->getQueryParams()[$this->configuration['overrideParam'] ?? self::OVERRIDE_PARAMETER]);
+        if ((bool)($this->configuration['overrideSessionValue'] ?? false) === true) {
+            return isset($GLOBALS['TYPO3_REQUEST']->getQueryParams()[$this->configuration['overrideQueryParameter'] ?? self::OVERRIDE_PARAMETER]);
         }
 
         return false;
@@ -190,7 +190,7 @@ class Redirect extends AbstractVerdict
         /** @var Site $site */
         $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
         $queryParams = $GLOBALS['TYPO3_REQUEST']->getQueryParams();
-        unset($queryParams[$this->configuration['overrideParam'] ?? self::OVERRIDE_PARAMETER]);
+        unset($queryParams[$this->configuration['overrideQueryParameter'] ?? self::OVERRIDE_PARAMETER]);
 
         $uri = $site->getRouter()->generateUri(
             $page['uid'],

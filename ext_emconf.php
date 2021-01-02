@@ -2,7 +2,7 @@
 
 $EM_CONF['locate'] = [
     'title' => 'Locate',
-    'description' => 'The users country and preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. It is also possible to deny access to configurable pages for configurable countries.',
+    'description' => 'The users country, preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. Locate also provides geo blocking for configurable pages in configurable countries.',
     'version' => '11.0.0-dev',
     'category' => 'fe',
     'constraints' => [

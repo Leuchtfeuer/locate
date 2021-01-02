@@ -1,28 +1,31 @@
 # Enable language redirect
-config.tx_locate = 1
+config.tx_locate = 0
 config.tx_locate {
     # Set this param if you do not want to execute the redirect
-    dryRun = 1
+    dryRun = 0
 
-    # URL Parameter which has to be true when overrideCookie is allowed within action and cookieHandling is enabled
-    overrideParam = setLang
-
-    cookieHandling = 0
-    overrideCookie = 0
+    # Whether bots should be excluded from the behavior of the extension.
     excludeBots = 1
 
-    # See example file for configuration
-    actions {
+    # If this option is enabled, the verdict will be saved in a session and will not be evaluated again.
+    sessionHandling = 0
 
+    # If this option is enabled, it is possible to overwrite the verdict stored in the session.
+    overrideSessionValue = 0
+
+    # URL Parameter which has to be true when overrideCookie is allowed within action and cookieHandling is enabled
+    overrideQueryParameter = setLang
+
+    # See example file for configuration
+    verdicts {
     }
 
     facts {
-        browserAccepted = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
+        browserAcceptLanguage = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
         countryByIP = Leuchtfeuer\Locate\FactProvider\IP2Country
-        env = Leuchtfeuer\Locate\FactProvider\Environment
     }
 
+    # See example file for configuration
     judges {
-
     }
 }
