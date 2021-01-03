@@ -46,6 +46,12 @@ and upload the zip file to the extension manager of your TYPO3 instance and acti
 
    Please make sure to include all TypoScript files.
 
+.. important::
+
+   For an more accurate IPv6 support, your PHP needs to support either :code:`gmp` or :code:`bcmath`. It also has to be compiled
+   without the :code:`--disable-ipv6` option. The determination of IP addresses is also possible without these packages, but it
+   is less precise.
+
 .. _admin-additionalPackages:
 
 Additional Packages

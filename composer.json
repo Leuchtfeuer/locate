@@ -31,7 +31,9 @@
   },
   "suggest": {
     "jaybizzle/crawler-detect": "If you do not want to redirect bots.",
-    "sjbr/static-info-tables": "If you want to use IP based data."
+    "sjbr/static-info-tables": "If you want to use IP based data.",
+    "ext-gmp": "Recommended for an accurate IPv6 calculation.",
+    "ext-bcmath": "Alternative for an accurate IPv6 calculation. Not needed if you have gmp installed."
   },
   "replace": {
     "typo3-ter/locate": "self.version",

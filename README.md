@@ -27,6 +27,11 @@ We are currently supporting following TYPO3 versions:<br><br>
 
 _Beta support for TYPO3 v11.0 is available since version 11.0.0._
 
+### IPv6 Support
+
+For an accurate IPv6 support, your PHP needs to support either `gmp` or `bcmath`. It also has to be compiled  without the 
+`--disable-ipv6` option. The determination of IP addresses is also possible without these packages, but it is less precise.
+
 ## Contributing
 
 You can contribute by making a **pull request** to the master branch of this repository. Or just send us some **beers**...
