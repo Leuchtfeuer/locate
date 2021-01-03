@@ -19,9 +19,6 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  */
 class SessionStoreTest extends FunctionalTestCase
 {
-    /**
-     * @var SessionStore
-     */
     protected $subject;
 
     protected $testExtensionsToLoad = [
@@ -38,9 +35,39 @@ class SessionStoreTest extends FunctionalTestCase
     /**
      * @test
      */
+    public function getSessionKeyTest()
+    {
+        $sessionKeyName = $this->subject->getSessionKeyName('foo');
+        self::assertSame(SessionStore::SESSION_BASE_NAME . 'foo', $sessionKeyName);
+    }
+
+    /**
+     * @test
+     */
     public function storeDataTest()
     {
         $this->subject->set('foo', 'bar');
         self::assertSame('bar', $this->subject->get('foo'));
+    }
+
+    /**
+     * @test
+     */
+    public function deleteDataTest()
+    {
+        $this->subject->set('foo', 'bar');
+        $this->subject->delete('foo');
+        self::assertNull($this->subject->get('foo'));
+        self::assertSame('biz', $this->subject->get('foo', 'biz'));
+    }
+
+    /**
+     * @test
+     */
+    public function createNewStoreTest()
+    {
+        $sessionBaseName = 'test_key_';
+        $sessionKeyName = (new SessionStore($sessionBaseName))->getSessionKeyName('foo');
+        self::assertSame($sessionBaseName . 'foo', $sessionKeyName);
     }
 }
