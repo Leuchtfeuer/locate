@@ -39,7 +39,7 @@ class LocateUtility
             ->fetchColumn(0);
     }
 
-    public function getNumericIp(?string $ip = null): int
+    public function getNumericIp(?string $ip = null): string
     {
         $binNum = '';
 
@@ -47,7 +47,7 @@ class LocateUtility
             $binNum .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
         }
 
-        return (int)base_convert(ltrim($binNum, '0'), 2, 10);
+        return base_convert(ltrim($binNum, '0'), 2, 10);
     }
 
     public static function mainstreamValue(string &$value)
@@ -55,8 +55,8 @@ class LocateUtility
         $value = mb_strtolower(str_replace('-', '_', $value));
     }
 
-    protected function getTableNameForIp(int $ip): string
+    protected function getTableNameForIp(string $ip): string
     {
-        return strlen((string)$ip) > 10 ? 'static_ip2country_v6' : 'static_ip2country_v4';
+        return strlen($ip) > 10 ? 'static_ip2country_v6' : 'static_ip2country_v4';
     }
 }
