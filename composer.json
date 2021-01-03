@@ -4,8 +4,10 @@
   "keywords": [
     "TYPO3",
     "extension",
+    "language",
     "locate",
-    "IP2Country"
+    "IP2Country",
+    "Geo blocking"
   ],
   "type": "typo3-cms-extension",
   "license": "GPL-2.0-or-later",
