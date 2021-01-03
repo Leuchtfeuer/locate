@@ -43,7 +43,7 @@ class LocateUtility
     {
         $ip = $ip ?? GeneralUtility::getIndpEnv('REMOTE_ADDR');
 
-        return strpos($ip, '.') ? $this->convertIpv6($ip) : (string)ip2long($ip);
+        return strpos($ip, '.') !== false ? (string)ip2long($ip) : $this->convertIpv6($ip);
     }
 
     private function convertIpv6(string $ip): string
