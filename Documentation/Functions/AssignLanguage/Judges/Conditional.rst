@@ -69,7 +69,6 @@ Example
 .. code-block:: typoscript
 
    config.tx_locate.judges {
-
        100 = Leuchtfeuer\Locate\Judge\Condition
        100 {
            verdict = redirectToPageDE

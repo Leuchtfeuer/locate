@@ -16,7 +16,6 @@ This is a complete example that redirects the user according to the following cr
 
 .. code-block:: typoscript
 
-# Enable language redirect
    config.tx_locate = 1
    config.tx_locate {
        excludeBots = 1

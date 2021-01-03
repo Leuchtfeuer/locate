@@ -10,7 +10,7 @@ Language Utilities for TYPO3
 [![License](https://poser.pugx.org/leuchtfeuer/locate/license)](https://packagist.org/packages/leuchtfeuer/locate)
 
 This TYPO3 extension provides some functions to **assign a suitable language** version of your website to the website user or to 
-**deny access to configurable pages** in configurable countries (HTTP status code 451).
+**deny access to configurable pages** in configurable countries (geo blocking).
 
 The full documentation for the latest releases can be found [here](https://docs.typo3.org/p/leuchtfeuer/locate/master/en-us/).
 
@@ -20,6 +20,7 @@ We are currently supporting following TYPO3 versions:<br><br>
 
 | Extension Version | TYPO3 v10 Support | TYPO3 v9 Support | TYPO3 v8 Support |
 | :-: | :-: | :-: | :-: |
+| 11.x              | x                 | -                | -                |
 | 10.x              | x                 | x                | -                |
 | 9.x               | -                 | x                | -                |
 | 8.x               | -                 | x                | x                |

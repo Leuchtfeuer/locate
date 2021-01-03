@@ -273,7 +273,7 @@ Judges
     :maxdepth: 3
     :hidden:
 
-    Examples/Index
     Judges/Conditional
     Judges/Fixed
     Verdicts/Redirect
+    Examples/Index

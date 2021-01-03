@@ -122,38 +122,38 @@ Override Query Parameter
 
 Example
 =======
-   .. code-block:: typoscript
+.. code-block:: typoscript
 
-      config.tx_locate {
-          sessionHandling = 1
-          overrideSessionValue = 1
+   config.tx_locate {
+       sessionHandling = 1
+       overrideSessionValue = 1
 
-          verdicts {
-              # Redirect the user to the default language version of the current page
-              redirectToPageEN = Leuchtfeuer\Locate\Verdict\Redirect
-              redirectToPageEN {
-                  sys_language = 0
-              }
+       verdicts {
+           # Redirect the user to the default language version of the current page
+           redirectToPageEN = Leuchtfeuer\Locate\Verdict\Redirect
+           redirectToPageEN {
+               sys_language = 0
+           }
 
-              # Redirect the user to the default language version of page 29
-              redirectToPageUS = Leuchtfeuer\Locate\Verdict\Redirect
-              redirectToPageUS {
-                  sys_language = 0
-                  page = 29
-              }
+           # Redirect the user to the default language version of page 29
+           redirectToPageUS = Leuchtfeuer\Locate\Verdict\Redirect
+           redirectToPageUS {
+               sys_language = 0
+               page = 29
+           }
 
-              # Redirect the user to the default language version of page 29 and disable session handling
-              redirectToPageUSNC = Leuchtfeuer\Locate\Verdict\Redirect
-              redirectToPageUSNC {
-                  sys_language = 0
-                  page = 29
-                  sessionHandling = 0
-              }
+           # Redirect the user to the default language version of page 29 and disable session handling
+           redirectToPageUSNC = Leuchtfeuer\Locate\Verdict\Redirect
+           redirectToPageUSNC {
+               sys_language = 0
+               page = 29
+               sessionHandling = 0
+           }
 
-              # Redirect the user to a specific URL
-              redirectToPageXX = Leuchtfeuer\Locate\Verdict\Redirect
-              redirectToPageXX {
-                  url = https://www.Leuchtfeuer.com
-              }
-          }
-      }
+           # Redirect the user to a specific URL
+           redirectToPageXX = Leuchtfeuer\Locate\Verdict\Redirect
+           redirectToPageXX {
+               url = https://www.Leuchtfeuer.com
+           }
+       }
+   }

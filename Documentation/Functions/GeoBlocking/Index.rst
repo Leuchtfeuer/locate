@@ -33,7 +33,8 @@ Assign Regions
 ==============
 
 After you have created the regions you need, you can assign these regions to a page (or a page translation). This web page will
-then be blocked for accesses from the regions and a 451 HTTP status code will be returned, which you can process e.g. via a site
+then be available in the defined regions only. The access to the page from all other countries will be restricted and a 451 HTTP
+status code will be returned, which you can process e.g. via a site
 `error handler <https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/SiteHandling/ErrorHandling.html>`__.
 
 .. figure:: ../../Images/pagetree-country.png
@@ -44,4 +45,12 @@ then be blocked for accesses from the regions and a 451 HTTP status code will be
 
 .. tip::
 
-   You can invert the selection. If you do this, the page will be available in the specified regions only.
+   You can invert the selection. If you do this, the page will be unavailable in the specified regions.
+
+.. _functions-geoBlocking-assignRegions-outlier:
+
+Outlier
+-------
+
+You can also assign the value "Apply when no IP matches" to the selection. This case occurs when the IP address cannot be
+determined or is not stored in the IP database.
