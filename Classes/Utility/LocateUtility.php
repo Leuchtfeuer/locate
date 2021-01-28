@@ -38,23 +38,52 @@ class LocateUtility
             ->fetchColumn(0);
     }
 
-    public function getNumericIp(?string $ip = null): int
+    public function getNumericIp(?string $ip = null): string
     {
-        $binNum = '';
+        $ip = $ip ?? GeneralUtility::getIndpEnv('REMOTE_ADDR');
 
-        foreach (unpack('C*', inet_pton($ip ?? GeneralUtility::getIndpEnv('REMOTE_ADDR'))) as $byte) {
-            $binNum .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
-        }
-
-        return (int)base_convert(ltrim($binNum, '0'), 2, 10);
+        return strpos($ip, '.') !== false ? (string)ip2long($ip) : $this->convertIpv6($ip);
     }
 
-    protected function getTableNameForIp(int $ip): string
+    private function convertIpv6(string $ip): string
     {
-        if (strlen((string)$ip) > 10) {
-            return 'static_ip2country_v6';
+        $decimalIp = '0';
+        $bin = '';
+        $binNum = '';
+
+        if (($ip = inet_pton($ip)) === false) {
+            return $decimalIp;
         }
 
-        return 'static_ip2country_v4';
+        for ($bit = strlen($ip) - 1; $bit >= 0; $bit--) {
+            $bin = sprintf('%08b', ord($ip[$bit])) . $bin;
+        }
+
+        switch (true) {
+            case function_exists('gmp_init'):
+                $decimalIp = gmp_strval(gmp_init($bin, 2), 10);
+                break;
+
+            case function_exists('bcadd'):
+                for ($i = 0; $i < strlen($bin); $i++) {
+                    $decimalIp = bcmul($decimalIp, '2');
+                    $decimalIp = bcadd($decimalIp, $bin[$i]);
+                }
+                break;
+
+            default:
+                foreach (unpack('C*', $ip) as $byte) {
+                    $binNum .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
+                }
+
+                $decimalIp = base_convert(ltrim($binNum, '0'), 2, 10);
+        }
+
+        return $decimalIp;
+    }
+
+    protected function getTableNameForIp(string $ip): string
+    {
+        return strlen($ip) > 10 ? 'static_ip2country_v6' : 'static_ip2country_v4';
     }
 }
