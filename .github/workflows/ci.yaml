@@ -20,9 +20,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          tools: php-cs-fixer:2.17.1
+          tools: php-cs-fixer:3.0.0
       - name: Check PHP CS
-        run: php-cs-fixer fix --config .php_cs --dry-run --using-cache false --show-progress dots -v
+        run: php-cs-fixer fix --config php-cs-fixer.php --dry-run --using-cache no --show-progress dots -vvv
 
   phpunit:
     needs: integration
