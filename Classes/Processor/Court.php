@@ -154,18 +154,21 @@ class Court implements ProcessorInterface, LoggerAwareInterface
     protected function addJudgement(array &$judgements, array $configuration, $key, AbstractJudge $judge, array &$priorities): void
     {
         $fact = $this->facts[$configuration['fact']] ?? null;
-        $judge = $judge->withConfiguration($this->configuration['judges'][$key . '.'])->adjudicate($fact, (int)$key);
 
-        if ($judge->hasDecision() && !isset($decisions[$judge->getDecision()->getPriority()])) {
-            $decision = $judge->getDecision();
-            $priority = $decision->getPriority();
+        if ($fact instanceof AbstractFactProvider) {
+            $judge = $judge->withConfiguration($this->configuration['judges'][$key . '.'])->adjudicate($fact, (int)$key);
 
-            if ($fact instanceof AbstractFactProvider && $fact->isMultiple()) {
-                $priorities[$fact->getBasename()] = $priorities[$fact->getBasename()] ?? $priority;
-                $priority = $priorities[$fact->getBasename()];
-                $judgements[$priority][$fact->getPriority()] = $decision;
-            } else {
-                $judgements[$priority] = $decision;
+            if ($judge->hasDecision() && !isset($decisions[$judge->getDecision()->getPriority()])) {
+                $decision = $judge->getDecision();
+                $priority = $decision->getPriority();
+
+                if ($fact instanceof AbstractFactProvider && $fact->isMultiple()) {
+                    $priorities[$fact->getBasename()] = $priorities[$fact->getBasename()] ?? $priority;
+                    $priority = $priorities[$fact->getBasename()];
+                    $judgements[$priority][$fact->getPriority()] = $decision;
+                } else {
+                    $judgements[$priority] = $decision;
+                }
             }
         }
     }
