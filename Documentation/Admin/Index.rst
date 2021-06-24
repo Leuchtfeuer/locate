@@ -118,3 +118,28 @@ If you do not want to activate the language assignment on every page, you can si
    [page["uid"] == 1]
        config.tx_locate = 1
    [end]
+
+
+.. _admin-logging:
+
+Logging
+=======
+
+All critical errors will be logged into a dedicated logfile which is located in the TYPO3 log directory (e.g. `var/logs`) and
+contains the phrase locate in its name. If you want to increase the loglevel, you must overwrite the log configuration, for
+example like this:
+
+.. code-block:: php
+
+   $GLOBALS['TYPO3_CONF_VARS']['LOG']['Leuchtfeuer']['Locate'] = [
+       'writerConfiguration' => [
+           \TYPO3\CMS\Core\Log\LogLevel::DEBUG => [
+               \TYPO3\CMS\Core\Log\Writer\FileWriter::class => [
+                   'logFileInfix' => 'locate',
+               ],
+           ],
+       ],
+   ];
+
+For further configuration options and more examples take a look at the official TYPO3
+`documentation <https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Logging/Configuration/Index.html>`__.
