@@ -151,6 +151,11 @@ class Redirect extends AbstractVerdict
             return true;
         }
 
+        // Redirect when URL is set and URL does not match actual URL
+        if (isset($this->configuration['url']) && strpos((string)$GLOBALS['TYPO3_REQUEST']->getUri(), $this->configuration['url']) === false) {
+            return true;
+        }
+
         // Do not redirect, when cookie is set and cookie value matches given language id
         if ($this->isCookieInCurrentLanguage()) {
             return false;
