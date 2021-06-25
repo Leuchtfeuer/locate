@@ -163,7 +163,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
                 $decision = $judge->getDecision();
                 $priority = $decision->getPriority();
 
-                if ($fact instanceof AbstractFactProvider && $fact->isMultiple()) {
+                if ($fact->isMultiple()) {
                     $priorities[$fact->getBasename()] = $priorities[$fact->getBasename()] ?? $priority;
                     $priority = $priorities[$fact->getBasename()];
                     $judgements[$priority][$fact->getPriority()] = $decision;
