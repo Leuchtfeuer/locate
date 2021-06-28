@@ -19,6 +19,7 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\RedirectResponse;
+use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -152,8 +153,13 @@ class Redirect extends AbstractVerdict
         }
 
         // Redirect when URL is set and URL does not match actual URL
-        if (isset($this->configuration['url']) && strpos((string)$GLOBALS['TYPO3_REQUEST']->getUri(), $this->configuration['url']) === false) {
-            return true;
+        if (isset($this->configuration['url'])) {
+            $configUri = new Uri($this->configuration['url']);
+            $typo3Uri = $GLOBALS['TYPO3_REQUEST']->getUri();
+
+            if ($configUri->getHost() !== $typo3Uri->getHost() || $configUri->getScheme() !== $typo3Uri->getScheme() || $configUri->getPath() !== $typo3Uri->getPath()) {
+                return true;
+            }
         }
 
         // Do not redirect, when cookie is set and cookie value matches given language id
