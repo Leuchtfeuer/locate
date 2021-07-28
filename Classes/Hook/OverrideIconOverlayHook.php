@@ -18,7 +18,7 @@ class OverrideIconOverlayHook
 {
     public function postOverlayPriorityLookup(string $table, array $row, array $status, string $iconName): string
     {
-        if ($table === 'pages' && !empty($row)) {
+        if ($table === 'pages' && !empty($row) && strpos((string)$row['uid'], 'NEW') === false) {
             // since tx_locate_regions is not included in the row array (PageTreeRepository is initialized with empty additionalFields)
             // we need to get the necessary information on our own
             $regions = $this->countRegions($table, $row);
