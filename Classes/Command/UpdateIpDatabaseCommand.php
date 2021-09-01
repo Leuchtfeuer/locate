@@ -44,7 +44,7 @@ class UpdateIpDatabaseCommand extends Command
     {
         $this
             ->setDescription('Imports and updates the static IP tables')
-            ->setHelp('This command is a helber command to update the static IP tables' . LF . 'and should only used by developers.')
+            ->setHelp('This command is a helper command to update the static IP tables' . LF . 'and should only used by developers.')
             ->addArgument('source', InputArgument::REQUIRED, 'The path to the IP source CSV file')
             ->addArgument('table', InputArgument::OPTIONAL, 'The data table to update', 'static_ip2country_v4');
     }
