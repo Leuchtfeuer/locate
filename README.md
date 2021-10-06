@@ -35,5 +35,5 @@ For an accurate IPv6 support, your PHP needs to support either `gmp` or `bcmath`
 You can contribute by making a **pull request** to the master branch of this repository. Or just send us some **beers**...
 
 ---
-This site or product includes IP2Location LITE data available from [https://lite.ip2location.com/](https://lite.ip2location.com/).
+This site or product includes IP2Location LITE data available from [https://lite.ip2location.com](https://lite.ip2location.com).
 

@@ -4,4 +4,82 @@
 Version 11.0.0 - TBA
 ==========================
 
-This release is a future release
+This is a feature release. It's the first stable version for TYPO3 v11 and drops support for TYPO3 v9.
+
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/v11.0.0>`__.
+
+Added
+=====
+*
+
+Removed
+=======
+*
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2021-09-01 [TASK] Remove obsolete showRecordFieldList from TCA (Commit 9f7c5a1 by Max Rösch)
+    2021-09-01 [DOC] Fix typo in documentation (Commit 5cff7a5 by Max Rösch)
+    2021-08-30 [TASK] Add TER release script (Commit d4eadb5 by Max Rösch)
+    2021-07-28 Merge pull request #25 from flossels/bugfix/24 (Commit e88e218 by Max Rösch)
+    2021-07-27 [BUGFIX] Check whether page has expected identifier (Commit 792f45a by Florian Wessels)
+    2021-06-28 [TASK] Soften URI check (Commit 0b9e1df by Florian Wessels)
+    2021-06-25 [TASK] Remove obsolete condition (Commit 3ef19dc by Florian Wessels)
+    2021-06-25 [TASK] Introduce static fact provider (Commit c81da30 by Florian Wessels)
+    2021-06-24 [TASK] Force redirect when target is of type URL (Commit 437084b by Florian Wessels)
+    2021-06-24 [TASK] Force template parsing (Commit c114ab2 by Florian Wessels)
+    2021-06-24 [DOC] Add information about logging (Commit 018a982 by Florian Wessels)
+    2021-06-17 [TASK] Add check for existing verdict (Commit bbbf716 by Florian Wessels)
+    2021-06-17 [TASK] Update php-cs-fixer to version 3 (Commit 69558ac by Florian Wessels)
+    2021-01-03 [TASK] Update composer keywords (Commit 5cee1c2 by Florian Wessels)
+    2021-01-03 [TASK] Update .gitattributes file (Commit c7707d5 by Florian Wessels)
+    2021-01-03 [TASK] Move test (Commit 200f544 by Florian Wessels)
+    2021-01-03 [BUGFIX] Return proper decimals (Commit a9c8407 by Florian Wessels)
+    2021-01-03 [FEATURE] Use gmp or bcmath for a more accurate IPv6 determination (Commit 76c5df9 by Florian Wessels)
+    2021-01-03 [BUGFIX] Use IP as string due to limits on the size of int (Commit 3425684 by Florian Wessels)
+    2021-01-03 [TASK] Add more tests (Commit 826efca by Florian Wessels)
+    2021-01-03 [DOC] Update documentation (Commit 6c2a159 by Florian Wessels)
+    2021-01-02 [DOC] Add references (Commit 4d28cbc by Florian Wessels)
+    2021-01-02 [TASK] Rename parameters (Commit 6c03c35 by Florian Wessels)
+    2021-01-02 [DOC] Update documentation (Commit 6c2898e by Florian Wessels)
+    2021-01-02 [DOC] Add documentation for developers (Commit d95b60c by Florian Wessels)
+    2021-01-02 [DOC] Add documentation for installation (Commit e3ba9f9 by Florian Wessels)
+    2021-01-02 [TASK] Rename action to verdict (Commit 261b832 by Florian Wessels)
+    2021-01-02 [BUGFIX] Use proper extension key (Commit 4443f91 by Florian Wessels)
+    2020-12-30 [BUGFIX] Update doc (Commit b2a21d0 by Florian Wessels)
+    2020-12-30 [TASK] Kickstart functional tests (Commit c87d971 by Florian Wessels)
+    2020-12-30 [DOC] Update documentation (Commit 81388ac by Florian Wessels)
+    2020-12-30 [TASK] Run tests on ubuntu 18.04 and reduce debug output (Commit 671c471 by Florian Wessels)
+    2020-12-30 [FEATURE] Overlay page icon when access is restricted (Commit 148806c by Florian Wessels)
+    2020-12-30 [TASK] Remove obsolete command registration (Commit b37c568 by Florian Wessels)
+    2020-12-30 [COD] Add badges (Commit feabf02 by Florian Wessels)
+    2020-12-30 [TASK] Update git(hub) files (Commit 21e05d8 by Florian Wessels)
+    2020-12-30 [DOC] Update version in documentation (Commit 668e917 by Florian Wessels)
+    2020-12-30 [BUGFIX] Execute redirects when target language equals 0 (Commit 620fbbd by Florian Wessels)
+    2020-12-30 [TASK] Rename session key (Commit 0c80a72 by Florian Wessels)
+    2020-12-30 [BUGFIX] Do not store data in TYPO3s user session as data may be deleted (Commit d1448b8 by Florian Wessels)
+    2020-12-28 [TASK] Remove obsolete (and deprecated) code (Commit b59d5f0 by Florian Wessels)
+    2020-12-28 [TASK] Declare some defaults (Commit 8acfbcb by Florian Wessels)
+    2020-12-28 [FEATURE] Introduce compatibility for TYPO3 v11.0 (Commit e4d88fe by Florian Wessels)
+    2020-12-28 [TASK] Do not require EXT:static_info_tables by default (Commit 1897513 by Florian Wessels)
+    2020-12-28 [TASK] Move TypoScript initialization into dedicated method (Commit ade51f5 by Florian Wessels)
+    2020-12-28 [TASK] Update php docs (Commit aa3958b by Florian Wessels)
+    2020-12-28 [TASK] Remove die fragment (Commit c0f3ec1 by Florian Wessels)
+    2020-12-23 [FEATURE] Allow to exclude bots from redirects (Commit d7f5339 by Florian Wessels)
+    2020-12-22 [BREAKING] Refactor extension (Commit 7011376 by Florian Wessels)
+    2020-12-01 [TASK] Update description (Commit 534453c by Florian Wessels)
+    2020-12-01 [TASK] Mark TypoScript plugin.tx_locate_pi1 as deprecated (Commit c8b59bc by Florian Wessels)
+    2020-12-01 [DOC] Kickstart documentation (Commit 35efb05 by Florian Wessels)
+    2020-12-01 [TASK] Add EXT:static_info_tables as dependency (Commit 558444b by Florian Wessels)
+    2020-12-01 [TASK] Introduce dedicated repository for regions (Commit 7238257 by Florian Wessels)
+    2020-12-01 [TASK] Use plural for regions (Commit 972e572 by Florian Wessels)
+    2020-12-01 [FEATURE] Allow to deny access to pages based on the current country (Commit 8b6e320 by Florian Wessels)
+    2020-12-01 [TASK] Set version to 10.1.0-dev (Commit bd74730 by Florian Wessels)
