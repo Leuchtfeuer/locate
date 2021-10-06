@@ -18,14 +18,12 @@ The full documentation for the latest releases can be found [here](https://docs.
 
 We are currently supporting following TYPO3 versions:<br><br>
 
-| Extension Version | TYPO3 v10 Support | TYPO3 v9 Support | TYPO3 v8 Support |
-| :-: | :-: | :-: | :-: |
-| 11.x              | x                 | -                | -                |
-| 10.x              | x                 | x                | -                |
-| 9.x               | -                 | x                | -                |
-| 8.x               | -                 | x                | x                |
-
-_Beta support for TYPO3 v11.0 is available since version 11.0.0._
+| Extension Version | TYPO3 v11 Support | TYPO3 v10 Support | TYPO3 v9 Support | TYPO3 v8 Support |
+| :-: | :-: | :-: | :-: | :-: |
+| 11.x              | x                 | x                | -                | -                |
+| 10.x              | -                 | x                | x                | -                |
+| 9.x               | -                 | -                | x                | x
+| 8.x               | -                 | -                | -                | x
 
 ### IPv6 Support
 
@@ -37,5 +35,5 @@ For an accurate IPv6 support, your PHP needs to support either `gmp` or `bcmath`
 You can contribute by making a **pull request** to the master branch of this repository. Or just send us some **beers**...
 
 ---
-This site or product includes IP2Location LITE data available from [https://lite.ip2location.com](https://lite.ip2location.com>).
+This site or product includes IP2Location LITE data available from [https://lite.ip2location.com/](https://lite.ip2location.com/).
 
