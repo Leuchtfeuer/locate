@@ -70,7 +70,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: fileinfo, gd, zip, zlib, openssl, intl, PDO, json, pcre, session, xml, filter, hash, mbstring, SPL, standard, mysqli
-          ini-values: max_execution_time=240,memory_limit=256M
+          ini-values: max_execution_time=240,memory_limit=512m
           tools: composer:v2
 
       - name: Get composer cache directory
