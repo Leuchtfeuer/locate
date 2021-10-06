@@ -76,6 +76,6 @@
     }
   },
   "require-dev": {
-    "typo3/testing-framework": "^6.11",
+    "typo3/testing-framework": "^6.11"
   }
 }
