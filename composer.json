@@ -24,11 +24,17 @@
       "email": "f.wessels@Leuchtfeuer.com",
       "role": "Developer",
       "homepage": "https://www.Leuchtfeuer.com"
+    },
+    {
+      "name": "Max Rösch",
+      "email": "m.roesch@Leuchtfeuer.com",
+      "role": "Developer",
+      "homepage": "https://www.Leuchtfeuer.com"
     }
   ],
   "require": {
-    "typo3/cms-core": "^10.4.10 || ^11.0.0",
-    "typo3/cms-frontend": "^10.4.10 || ^11.0.0",
+    "typo3/cms-core": "^10.4.11 || ^11.0.0",
+    "typo3/cms-frontend": "^10.4.11 || ^11.0.0",
     "symfony/console": "^4.4 || ^5.0"
   },
   "suggest": {
@@ -38,8 +44,8 @@
     "ext-bcmath": "Alternative for an accurate IPv6 calculation. Not needed if you have gmp installed."
   },
   "replace": {
-    "typo3-ter/locate": "self.version",
-    "bitmotion/locate": "self.version"
+    "bitmotion/locate": "self.version",
+    "typo3-ter/locate": "self.version"
   },
   "autoload": {
     "psr-4": {
@@ -68,5 +74,8 @@
       "web-dir": ".Build/web",
       "extension-key": "locate"
     }
+  },
+  "require-dev": {
+    "typo3/testing-framework": "^6.11",
   }
 }
