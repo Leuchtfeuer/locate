@@ -96,9 +96,10 @@ jobs:
           composer req typo3/testing-framework typo3/cms-core:"${{ matrix.typo3-version }}" typo3/cms-backend:"${{ matrix.typo3-version }}" typo3/cms-extbase:"${{ matrix.typo3-version }}" typo3/cms-extensionmanager:"${{ matrix.typo3-version }}" typo3/cms-fluid:"${{ matrix.typo3-version }}" typo3/cms-frontend:"${{ matrix.typo3-version }}"
           export TYPO3_PATH_WEB=$PWD/.Build/web
 
-      - name: Run PHP Unit
+      - name: Run PHPUnit
         run: |
-          .Build/bin/phpunit --colors --configuration Tests/Build/FunctionalTests.xml Tests/Functional --bootstrap .Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php --coverage-clover=coverage.xml
+          .Build/bin/phpunit --configuration Tests/Build/FunctionalTests.xml --coverage-clover=coverage.xml
+          .Build/bin/phpunit --configuration Tests/Build/UnitTests.xml
 
           if [[ "${{ matrix.php-version }}" == "7.4" ]] && [[ "${{ matrix.typo3-version }}" == "^10.4"  ]]; then
             bash <(curl -s https://codecov.io/bash)
