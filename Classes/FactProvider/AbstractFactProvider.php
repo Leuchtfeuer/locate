@@ -70,11 +70,14 @@ abstract class AbstractFactProvider
      */
     public function getSubject()
     {
+        if ($this->facts === []) {
+            return null;
+        }
         if (count($this->facts) > 1) {
             return $this->facts;
         }
 
-        return array_shift($this->facts);
+        return $this->facts[key($this->facts)];
     }
 
     /**
