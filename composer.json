@@ -32,6 +32,10 @@
         "typo3/cms-frontend": "^10.4.10 || ^11.0.0",
         "symfony/console": "^4.4 || ^5.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5.21",
+        "typo3/testing-framework": "^6.11"
+    },
     "suggest": {
         "jaybizzle/crawler-detect": "If you do not want to redirect bots.",
         "sjbr/static-info-tables": "If you want to use IP based data.",
