@@ -14,20 +14,23 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Locate\Tests\Unit\FactProvider;
 
 use Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage;
-use PHPUnit\Framework\TestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-class BrowserAcceptedLanguageTest extends TestCase
+class BrowserAcceptedLanguageTest extends UnitTestCase
 {
     /**
      * @test
      */
     public function askingForIsGuiltyTwiceReturnsCorrectState(): void
     {
-        $subject = new BrowserAcceptedLanguage('dummy');
-        $classReflection = new \ReflectionClass($subject);
-        $reflectionProperty = $classReflection->getProperty('facts');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($subject, [
+        $subject = $this->getAccessibleMock(
+            BrowserAcceptedLanguage::class,
+            ['dummy'],
+            [],
+            '',
+            false
+        );
+        $subject->_set('facts', [
             'en' => 1,
         ]);
 
@@ -40,11 +43,14 @@ class BrowserAcceptedLanguageTest extends TestCase
      */
     public function askingForIsGuiltyThreeTimesForMultipleLanguagesReturnsCorrectState(): void
     {
-        $subject = new BrowserAcceptedLanguage('dummy');
-        $classReflection = new \ReflectionClass($subject);
-        $reflectionProperty = $classReflection->getProperty('facts');
-        $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($subject, [
+        $subject = $this->getAccessibleMock(
+            BrowserAcceptedLanguage::class,
+            ['dummy'],
+            [],
+            '',
+            false
+        );
+        $subject->_set('facts', [
             'de' => 12,
             'en' => 1,
         ]);
