@@ -62,14 +62,11 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare",
-            "mkdir -p .Build/web/typo3conf/ext/",
-            "[ -L .Build/web/typo3conf/ext/locate ] || ln -snvf ../../../../. .Build/web/typo3conf/ext/locate"
+            "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
         ]
     },
     "extra": {
         "typo3/cms": {
-            "cms-package-dir": "{$vendor-dir}/typo3/cms",
             "web-dir": ".Build/web",
             "extension-key": "locate"
         }
