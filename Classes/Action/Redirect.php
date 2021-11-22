@@ -56,7 +56,7 @@ class Redirect extends AbstractAction
             return;
         }
 
-        $this->httpStatus = $this->configuration['httpResponseCode'] ? (int)$this->configuration['httpResponseCode'] : HttpUtility::HTTP_STATUS_301;
+        $this->httpStatus = $this->configuration['httpResponseCode'] ?? HttpUtility::HTTP_STATUS_301;
 
         // Try to redirect to page (if not set, it will be the current page) on configured language
         if ($this->configuration['page'] || isset($this->configuration['sys_language'])) {
