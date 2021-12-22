@@ -56,7 +56,7 @@ class Redirect extends AbstractAction
             return;
         }
 
-        $this->httpStatus = $this->configuration['httpResponseCode'] ? (int)$this->configuration['httpResponseCode'] : HttpUtility::HTTP_STATUS_301;
+        $this->httpStatus = $this->configuration['httpResponseCode'] ?? HttpUtility::HTTP_STATUS_301;
 
         // Try to redirect to page (if not set, it will be the current page) on configured language
         if ($this->configuration['page'] || isset($this->configuration['sys_language'])) {
@@ -65,9 +65,7 @@ class Redirect extends AbstractAction
         }
 
         // Try to redirect by configured URL (and language, if configured)
-        if ($this->configuration['url'] && $this->configuration['sys_language']) {
-            $this->redirectToUrl($this->configuration['url']);
-        } elseif ($this->configuration['url']) {
+        if ($this->configuration['url']) {
             $this->redirectToUrl($this->configuration['url']);
         }
     }
@@ -174,7 +172,6 @@ class Redirect extends AbstractAction
 
     /**
      * Redirect to a page
-     * @throws Exception
      */
     private function redirectToPid(int $page, int $language): void
     {
@@ -183,26 +180,19 @@ class Redirect extends AbstractAction
 
         $contentObjectRenderer = !empty($GLOBALS['TSFE']->cObj) ? $GLOBALS['TSFE']->cObj : new ContentObjectRenderer($GLOBALS['TSFE']);
 
-        if ($page > 0) {
-            if ($page === $GLOBALS['TSFE']->id) {
-                $this->logger->info('Target page matches current page. No redirect.');
+        $page = ($page > 0) ? $page : $GLOBALS['TSFE']->id;
 
-                return;
-            }
+        if ($language >= 0) {
+            $urlParameters['L'] = $language;
+        }
 
+        if ($page !== $GLOBALS['TSFE']->id || $language >= 0) {
             $url = $contentObjectRenderer->getTypoLink_URL($page, $urlParameters);
             $url = $GLOBALS['TSFE']->baseUrlWrap($url);
             $url = GeneralUtility::locationHeaderURL($url);
-        } elseif ($language >= 0) {
-            $urlParameters['L'] = $language;
-            $url = $contentObjectRenderer->getTypoLink_URL($GLOBALS['TSFE']->id, $urlParameters);
-            $url = $GLOBALS['TSFE']->baseUrlWrap($url);
-            $url = GeneralUtility::locationHeaderURL($url);
-        } else {
-            throw new Exception(__CLASS__ . ' the configured redirect page is not an integer');
-        }
 
-        $this->redirectToUrl($url);
+            $this->redirectToUrl($url);
+        }
     }
 
     private function getAdditionalUrlParams(array &$urlParameters): void

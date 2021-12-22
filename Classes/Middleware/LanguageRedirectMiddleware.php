@@ -51,7 +51,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
                     'cookieLifetime' => isset($locateSetup['cookieLifetime']) ? (int)$locateSetup['cookieLifetime'] : Redirect::COOKIE_LIFETIME,
                     'dryRun' => isset($locateSetup['dryRun']) ? (bool)$locateSetup['dryRun'] : false,
                     'overrideParam' => $locateSetup['overrideParam'] ?? Redirect::OVERRIDE_PARAMETER,
-                    'responseCode' => $locateSetup['httpResponseCode'] ?? HttpUtility::HTTP_STATUS_301,
+                    'httpResponseCode' => $locateSetup['httpResponseCode'] ?? HttpUtility::HTTP_STATUS_301,
                 ],
             ];
 
