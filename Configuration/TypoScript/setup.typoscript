@@ -16,6 +16,8 @@ config.tx_locate {
     # Default http status code send on redirects
     httpResponseCode = HTTP/1.1 303 See Other
 
+    # Simulate your IP address for countryByIP fact provider (for test purposes only)
+    simulateIp =
 
     # See example files for configuration
     actions {
