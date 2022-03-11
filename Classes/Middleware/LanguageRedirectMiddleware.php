@@ -52,6 +52,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
                     'dryRun' => isset($locateSetup['dryRun']) ? (bool)$locateSetup['dryRun'] : false,
                     'overrideParam' => $locateSetup['overrideParam'] ?? Redirect::OVERRIDE_PARAMETER,
                     'httpResponseCode' => $locateSetup['httpResponseCode'] ?? HttpUtility::HTTP_STATUS_301,
+                    'simulateIp' => !empty($locateSetup['simulateIp']) ? $locateSetup['simulateIp'] : null,
                 ],
             ];
 

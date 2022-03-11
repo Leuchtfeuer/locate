@@ -5,6 +5,7 @@ config.tx_locate {
     cookieLifetime = 30
     overrideParam = setLang
     httpResponseCode = HTTP/1.1 303 See Other
+    simulateIp = 217.91.35.16
 
     actions {
         redirectToPageEN {
@@ -44,7 +45,7 @@ config.tx_locate {
     judges {
         10 = Bitmotion\Locate\Judge\Condition
         10.action = redirectToPageDE
-        10.match = countryByIP.countryCode = de
+        10.match = countryByIP.countryCode = DE
 
         20 = Bitmotion\Locate\Judge\Condition
         20.action = redirectToPageZH

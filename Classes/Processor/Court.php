@@ -68,7 +68,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
             $this->logger->info(sprintf('Fact provider with key "%s" will be called.', $key));
 
             /* @var $factProvider AbstractFactProvider */
-            $factProvider = GeneralUtility::makeInstance($className, $key, []);
+            $factProvider = GeneralUtility::makeInstance($className, $key, $this->configuration['settings']);
             $factProvider->process($this->facts);
         }
     }

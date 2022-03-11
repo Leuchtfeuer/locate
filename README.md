@@ -113,6 +113,10 @@ config.tx_locate.cookieLifetime = 30
 config.tx_locate.httpResponseCode = HTTP/1.1 303 See Other
 ```
 * HTTP response code for redirects.
+```
+config.tx_locate.simulateIp = 217.91.35.16
+```
+* Simulate your IP address for countryByIP fact provider (for test purposes only)
 
 ## Cookies
 

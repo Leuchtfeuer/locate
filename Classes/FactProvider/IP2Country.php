@@ -23,11 +23,13 @@ class IP2Country extends AbstractFactProvider
      */
     public function process(array &$facts)
     {
+        $simulateIp = $this->configuration['simulateIp'] ?? null;
+
         $locateUtility = GeneralUtility::makeInstance(LocateUtility::class);
-        $ipAsLong = $locateUtility->getNumericIp();
+        $ipAsLong = $locateUtility->getNumericIp($simulateIp);
 
         $factPropertyName = $this->getFactPropertyName('countryCode');
-        $iso2 = $locateUtility->getCountryIso2FromIP();
+        $iso2 = $locateUtility->getCountryIso2FromIP($simulateIp);
         $facts[$factPropertyName][$iso2] = 1;
 
         $factPropertyName = $this->getFactPropertyName('IP2Dezimal');
