@@ -14,4 +14,4 @@ jobs:
           php-version: 7.2
           tools: php-cs-fixer:3.4
       - name: Check PHP CS
-        run: php-cs-fixer fix --config ./app/Build/config/php-cs/.php-cs-fixer.php --dry-run --using-cache no --show-progress dots -vvv
+        run: php-cs-fixer fix --config .php-cs-fixer.php --dry-run --using-cache no --show-progress dots -vvv
