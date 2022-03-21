@@ -15,19 +15,19 @@ LICENSE.txt file that was distributed with this source code.
 Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
 COMMENT;
 
-
 $finder = PhpCsFixer\Finder::create()
     ->name('*.php')
     ->in(__DIR__)
     ->exclude('Configuration')
     ->exclude('Libraries')
     ->exclude('Resources')
-    ->notName('ext_emconf.php')
-    ->notName('ext_tables.php')
-    ->notName('ext_localconf.php');
+    ->notPath('ext_emconf.php')
+    ->notPath('ext_tables.php')
+    ->notPath('ext_localconf.php');
 
-return PhpCsFixer\Config::create()
-    ->setRiskyAllowed(true)
+$config = new PhpCsFixer\Config();
+
+return $config->setRiskyAllowed(true)
     ->setRules([
         '@DoctrineAnnotation' => true,
         '@PSR2' => true,
@@ -40,7 +40,6 @@ return PhpCsFixer\Config::create()
         'declare_equal_normalize' => ['space' => 'none'],
         'dir_constant' => true,
         'function_typehint_space' => true,
-        'hash_to_slash_comment' => true,
         'header_comment' => [
             'header' => $headerComment,
             'comment_type' => 'comment',
@@ -56,7 +55,7 @@ return PhpCsFixer\Config::create()
         'no_blank_lines_after_phpdoc' => true,
         'no_empty_phpdoc' => true,
         'no_empty_statement' => true,
-        'no_extra_consecutive_blank_lines' => true,
+        'no_extra_blank_lines' => true,
         'no_leading_import_slash' => true,
         'no_leading_namespace_whitespace' => true,
         'no_null_property_initialization' => true,
@@ -69,7 +68,7 @@ return PhpCsFixer\Config::create()
         'no_useless_else' => true,
         'no_whitespace_in_blank_line' => true,
         'ordered_imports' => true,
-        'php_unit_construct' => ['assertEquals', 'assertSame', 'assertNotEquals', 'assertNotSame'],
+        'php_unit_construct' => ['assertions' => ['assertEquals', 'assertSame', 'assertNotEquals', 'assertNotSame']],
         'php_unit_mock_short_will_return' => true,
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'phpdoc_no_access' => true,
@@ -81,7 +80,9 @@ return PhpCsFixer\Config::create()
         'phpdoc_types_order' => ['null_adjustment' => 'always_last', 'sort_algorithm' => 'none'],
         'return_type_declaration' => ['space_before' => 'none'],
         'single_quote' => true,
+        'single_line_comment_style' => ['comment_types' => ['hash']],
         'single_trait_insert_per_statement' => true,
+        'trailing_comma_in_multiline' => ['elements' => ['arrays']],
         'whitespace_after_comma_in_array' => true,
     ])
     ->setFinder($finder);

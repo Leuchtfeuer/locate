@@ -1,0 +1,17 @@
+name: Continous Integration
+on: push
+
+jobs:
+  integration:
+    name: Codestyle tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP Environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.2
+          tools: php-cs-fixer:3.4
+      - name: Check PHP CS
+        run: php-cs-fixer fix --config ./app/Build/config/php-cs/.php-cs-fixer.php --dry-run --using-cache no --show-progress dots -vvv
