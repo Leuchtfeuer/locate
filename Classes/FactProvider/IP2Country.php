@@ -33,7 +33,7 @@ class IP2Country extends AbstractFactProvider
      */
     public function process(): self
     {
-        $iso2 = GeneralUtility::makeInstance(LocateUtility::class)->getCountryIso2FromIP();
+        $iso2 = GeneralUtility::makeInstance(LocateUtility::class)->getCountryIso2FromIP() ?? '';
         LocateUtility::mainstreamValue($iso2);
         $this->facts[$this->getBasename()] = $iso2;
 
