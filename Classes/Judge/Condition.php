@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Locate\Judge;
 
 use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 class Condition extends AbstractJudge
 {
@@ -24,11 +23,6 @@ class Condition extends AbstractJudge
     public function adjudicate(AbstractFactProvider $factProvider, int $priority = AbstractJudge::DEFAULT_PRIORITY): AbstractJudge
     {
         $prosecution = $this->configuration['prosecution'] ?? $this->configuration['prosecution.'] ?? null;
-
-        DebuggerUtility::var_dump($prosecution);
-        DebuggerUtility::var_dump($factProvider);
-        DebuggerUtility::var_dump($priority);
-        die;
 
         if ($prosecution !== null && $factProvider->isGuilty($prosecution) && isset($this->configuration['verdict'])) {
             $this->decision = (new Decision())->withVerdictName($this->configuration['verdict']);

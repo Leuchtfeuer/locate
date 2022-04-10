@@ -141,8 +141,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
             $configuration = $this->configuration['judges'][$key . '.'] ?? [];
 
             if (empty($configuration)) {
-                $this->logger->warning('');
-                // TODO: Do something?
+                $this->logger->warning('No judges are configured.');
             }
 
             $this->logger->info(sprintf('Judge with key "%s" will be called.', $key));

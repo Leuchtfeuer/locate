@@ -28,7 +28,7 @@ class Redirect extends AbstractVerdict
     const SESSION_KEY = 'language';
     const OVERRIDE_PARAMETER = 'setLang';
 
-    private $cookieMode = false;
+    private $sessionMode = false;
 
     private $redirectLanguageUid = 0;
 
@@ -43,9 +43,9 @@ class Redirect extends AbstractVerdict
         $this->redirectLanguageUid = (int)$this->configuration['sys_language'];
         $this->requestedLanguageUid = GeneralUtility::makeInstance(Context::class)->getAspect('language')->getId();
 
-        // Initialize Cookie mode if necessary and prepare everything for possible redirects
-        $this->initializeCookieMode();
-        $this->handleCookieStuff();
+        // Initialize Session mode if necessary and prepare everything for possible redirects
+        $this->initializeSessionMode();
+        $this->handleSessionStuff();
 
         // Skip if no redirect is necessary
         if (!$this->shouldRedirect()) {
@@ -66,60 +66,60 @@ class Redirect extends AbstractVerdict
     }
 
     /**
-     * Set CookeMode Param to true if sessionHandling is enables
+     * Set sessionMode Param to true if sessionHandling is enables
      */
-    private function initializeCookieMode(): void
+    private function initializeSessionMode(): void
     {
         if ((bool)($this->configuration['sessionHandling'] ?? false) === true) {
-            $this->logger->info('Cookie Handling is set.');
-            $this->cookieMode = true;
+            $this->logger->info('Session Handling is set.');
+            $this->sessionMode = true;
         }
     }
 
-    private function handleCookieStuff()
+    private function handleSessionStuff()
     {
         $currentLanguageUid = $this->requestedLanguageUid;
 
-        if ($this->isCookieSet()) {
-            // Cookie is not in current language
-            $this->logger->info('Cookie is set.');
+        if ($this->isSessionValueSet()) {
+            // Session is not in current language
+            $this->logger->info('Session value is set.');
 
-            if ($this->isCookieInCurrentLanguage() === false && $this->shouldOverrideSessionValue() === true) {
-                // Override cookie
-                $this->logger->info('Cookie is not in current language, so we override it.');
+            if ($this->isSessionInCurrentLanguage() === false && $this->shouldOverrideSessionValue() === true) {
+                // Override session
+                $this->logger->info('Session is not in current language, so we override it.');
                 $this->redirectLanguageUid = $currentLanguageUid;
-                $this->setCookie($currentLanguageUid);
-            } elseif ($this->isCookieInCurrentLanguage()) {
-                // Cookie is in current language
-                $this->logger->info('Cookie is in current language.');
+                $this->setSessionValue($currentLanguageUid);
+            } elseif ($this->isSessionInCurrentLanguage()) {
+                // Session is in current language
+                $this->logger->info('Session is in current language.');
                 $this->redirectLanguageUid = $currentLanguageUid;
             } else {
-                // Override config array by cookie value
-                $this->logger->info('Cookie is not in current language and overriding is not allowed.');
-                $this->redirectLanguageUid = $this->getCookieValue();
-                $this->configuration['sys_language'] = $this->getCookieValue();
+                // Override config array by session value
+                $this->logger->info('Session is not in current language and overriding is not allowed.');
+                $this->redirectLanguageUid = $this->getSessionValue();
+                $this->configuration['sys_language'] = $this->getSessionValue();
             }
-        } elseif ($this->cookieMode === true) {
-            $this->logger->info('Cookie is not set, but we are in cookie mode.');
+        } elseif ($this->sessionMode === true) {
+            $this->logger->info('Session is not set, but we are in session mode.');
 
             if ($currentLanguageUid !== $this->redirectLanguageUid) {
-                // Set cookie value to target language
-                $this->setCookie($this->redirectLanguageUid);
+                // Set session value to target language
+                $this->setSessionValue($this->redirectLanguageUid);
             } else {
-                // Set cookie value to current language
-                $this->setCookie($currentLanguageUid);
+                // Set session value to current language
+                $this->setSessionValue($currentLanguageUid);
             }
         }
     }
 
-    private function isCookieSet(): bool
+    private function isSessionValueSet(): bool
     {
-        return $this->getCookieValue() !== null;
+        return $this->getSessionValue() !== null;
     }
 
-    private function isCookieInCurrentLanguage(): bool
+    private function isSessionInCurrentLanguage(): bool
     {
-        return $this->requestedLanguageUid === $this->getCookieValue();
+        return $this->requestedLanguageUid === $this->getSessionValue();
     }
 
     private function shouldOverrideSessionValue(): bool
@@ -131,7 +131,7 @@ class Redirect extends AbstractVerdict
         return false;
     }
 
-    private function setCookie(?int $value)
+    private function setSessionValue(?int $value)
     {
         if ($value === null) {
             $value = (int)$this->configuration['sys_language'];
@@ -140,15 +140,15 @@ class Redirect extends AbstractVerdict
         $this->session->set(self::SESSION_KEY, $value);
     }
 
-    private function getCookieValue(): ?int
+    private function getSessionValue(): ?int
     {
         return $this->session->get(self::SESSION_KEY);
     }
 
     private function shouldRedirect(): bool
     {
-        // Always redirect when we are not in cookie mode
-        if ($this->cookieMode === false) {
+        // Always redirect when we are not in session mode
+        if ($this->sessionMode === false) {
             return true;
         }
 
@@ -162,8 +162,8 @@ class Redirect extends AbstractVerdict
             }
         }
 
-        // Do not redirect, when cookie is set and cookie value matches given language id
-        if ($this->isCookieInCurrentLanguage()) {
+        // Do not redirect, when session is set and session value matches given language id
+        if ($this->isSessionInCurrentLanguage()) {
             return false;
         }
 
