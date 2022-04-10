@@ -16,6 +16,9 @@ config.tx_locate {
     # URL Parameter which has to be true when overrideCookie is allowed within action and cookieHandling is enabled
     overrideQueryParameter = setLang
 
+    # Simulate your IP address for countryByIP fact provider (for test purposes only), 109.10.163.98 is a french IP address
+    simulateIp = 109.10.163.98
+
     verdicts {
         redirectToMainlandChina = Leuchtfeuer\Locate\Verdict\Redirect
         redirectToMainlandChina.url = https://www.example.cn

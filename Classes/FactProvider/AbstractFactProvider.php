@@ -27,10 +27,12 @@ abstract class AbstractFactProvider
 
     /**
      * @param string $basename The basename for the factsArray. This name comes from configuration.
+     * @param array $configuration TypoScript configuration array for this fact provider
      */
-    public function __construct(string $basename = '')
+    public function __construct(string $basename = '', array $configuration = [])
     {
         $this->basename = $basename;
+        $this->configuration = $configuration;
     }
 
     public function isMultiple(): bool
@@ -63,18 +65,6 @@ abstract class AbstractFactProvider
     protected function getFactPropertyName(string $property): string
     {
         return mb_strtolower($property);
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function getSubject()
-    {
-        if (count($this->facts) > 1) {
-            return $this->facts;
-        }
-
-        return array_shift($this->facts);
     }
 
     /**

@@ -16,13 +16,16 @@ config.tx_locate {
     # URL Parameter which has to be true when overrideCookie is allowed within action and cookieHandling is enabled
     overrideQueryParameter = setLang
 
+    # Simulate your IP address for countryByIP fact provider (for test purposes only)
+    simulateIp =
+
     # See example file for configuration
     verdicts {
     }
 
     facts {
-        browserAcceptLanguage = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
-        countryByIP = Leuchtfeuer\Locate\FactProvider\IP2Country
+        #browserAcceptLanguage = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
+        #countryByIP = Leuchtfeuer\Locate\FactProvider\IP2Country
     }
 
     # See example file for configuration

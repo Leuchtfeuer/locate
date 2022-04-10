@@ -48,9 +48,9 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
     public function isGuilty($prosecution): bool
     {
         LocateUtility::mainstreamValue($prosecution);
-        $this->priority = (int)($this->getSubject()[$prosecution] ?? 0);
+        $this->priority = (int)($this->facts[$prosecution] ?? 0);
 
-        return isset($this->getSubject()[$prosecution]);
+        return isset($this->facts[$prosecution]);
     }
 
     protected function getAcceptedLanguages(): array

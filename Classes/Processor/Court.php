@@ -95,7 +95,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
             }
 
             /* @var $factProvider AbstractFactProvider */
-            $factProvider = GeneralUtility::makeInstance($className);
+            $factProvider = GeneralUtility::makeInstance($className, $key, $this->configuration);
 
             if (!$factProvider instanceof AbstractFactProvider) {
                 throw new IllegalFactProviderException(
