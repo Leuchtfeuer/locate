@@ -33,7 +33,7 @@ class RegionRepository
             ->join('rmm', 'static_countries', 'c', 'c.uid = rmm.uid_foreign')
             ->where($qb->expr()->eq('pmm.uid_local', $qb->createNamedParameter($id, \PDO::PARAM_INT)))
             ->execute()
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         foreach ($results as $result) {
             $iso2Codes[$result['cn_iso_2']] = true;
@@ -52,7 +52,7 @@ class RegionRepository
             ->where($qb->expr()->eq('uid_local', $qb->createNamedParameter($id, \PDO::PARAM_INT)))
             ->andWhere($qb->expr()->eq('uid_foreign', $qb->createNamedParameter(self::APPLY_WHEN_NO_IP_MATCHES, \PDO::PARAM_INT)))
             ->execute()
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         return !empty($results);
     }

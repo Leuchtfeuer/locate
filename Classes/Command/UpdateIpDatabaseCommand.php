@@ -103,7 +103,10 @@ class UpdateIpDatabaseCommand extends Command
     private function truncateTable(): void
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);
-        $connection->executeUpdate($connection->getDatabasePlatform()->getTruncateTableSQL($this->table, true));
+        $databasePlatform = $connection->getDatabasePlatform();
+        if ($databasePlatform) {
+            $connection->executeStatement($databasePlatform->getTruncateTableSQL($this->table, true));
+        }
     }
 
     /**

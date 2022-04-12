@@ -7,7 +7,7 @@ $EM_CONF['locate'] = [
     'category' => 'fe',
     'constraints' => [
         'depends' => [
-            'typo3' => '10.4.0-11.0.99',
+            'typo3' => '10.4.0-11.5.99',
         ],
         'conflicts' => [],
         'suggests' => [

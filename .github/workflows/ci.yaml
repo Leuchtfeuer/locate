@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        php-version: [7.2, 7.3, 7.4]
+        php-version: [7.2, 7.3, 7.4, 8.0]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -32,7 +32,7 @@ jobs:
     strategy:
       matrix:
         experimental: [false]
-        php-version: [7.2, 7.3, 7.4]
+        php-version: [7.4]
         typo3-version: [^10.4]
         include:
           - php-version: 7.4
@@ -40,10 +40,22 @@ jobs:
             experimental: true
 
           - php-version: 7.4
-            typo3-version: ^11.0
+            typo3-version: ^11.5
             experimental: false
 
           - php-version: 7.4
+            typo3-version: dev-master
+            experimental: true
+
+          - php-version: 8.0
+            typo3-version: 11.5.x-dev
+            experimental: true
+
+          - php-version: 8.0
+            typo3-version: ^11.5
+            experimental: false
+
+          - php-version: 8.0
             typo3-version: dev-master
             experimental: true
     env:
@@ -96,9 +108,10 @@ jobs:
           composer req typo3/testing-framework typo3/cms-core:"${{ matrix.typo3-version }}" typo3/cms-backend:"${{ matrix.typo3-version }}" typo3/cms-extbase:"${{ matrix.typo3-version }}" typo3/cms-extensionmanager:"${{ matrix.typo3-version }}" typo3/cms-fluid:"${{ matrix.typo3-version }}" typo3/cms-frontend:"${{ matrix.typo3-version }}"
           export TYPO3_PATH_WEB=$PWD/.Build/web
 
-      - name: Run PHP Unit
+      - name: Run PHPUnit
         run: |
-          .Build/bin/phpunit --colors --configuration Tests/Build/FunctionalTests.xml Tests/Functional --bootstrap .Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php --coverage-clover=coverage.xml
+          .Build/bin/phpunit --configuration Tests/Build/FunctionalTests.xml --coverage-clover=coverage.xml
+          .Build/bin/phpunit --configuration Tests/Build/UnitTests.xml
 
           if [[ "${{ matrix.php-version }}" == "7.4" ]] && [[ "${{ matrix.typo3-version }}" == "^10.4"  ]]; then
             bash <(curl -s https://codecov.io/bash)

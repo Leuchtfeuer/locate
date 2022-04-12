@@ -52,6 +52,6 @@ class OverrideIconOverlayHook
             ->from($table)
             ->where($qb->expr()->eq('uid', $row['uid']))
             ->execute()
-            ->fetchColumn(0);
+            ->fetchOne();
     }
 }
