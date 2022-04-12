@@ -41,6 +41,10 @@ class OverrideIconOverlayHook
 
     private function countRegions(string $table, array $row): int
     {
+        if (empty($row['uid'])) {
+            return 0;
+        }
+
         $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
 
         return (int)$qb
