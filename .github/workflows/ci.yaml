@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        php-version: [7.2, 7.3, 7.4, 8.0, 8.1]
+        php-version: [7.2, 7.3, 7.4, 8.0]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -56,18 +56,6 @@ jobs:
             experimental: false
 
           - php-version: 8.0
-            typo3-version: dev-master
-            experimental: true
-
-          - php-version: 8.1
-            typo3-version: 11.5.x-dev
-            experimental: true
-
-          - php-version: 8.1
-            typo3-version: ^11.5
-            experimental: false
-
-          - php-version: 8.1
             typo3-version: dev-master
             experimental: true
     env:
