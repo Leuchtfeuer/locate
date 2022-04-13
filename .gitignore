@@ -1,3 +1,5 @@
+/.Build
+.phpunit.result.cache
+/composer.lock
+/var
 .idea
-.Build
-composer.lock
