@@ -66,18 +66,6 @@ abstract class AbstractFactProvider
     }
 
     /**
-     * @return array|mixed
-     */
-    public function getSubject()
-    {
-        if (count($this->facts) > 1) {
-            return $this->facts;
-        }
-
-        return array_shift($this->facts);
-    }
-
-    /**
      * Priority is only set if there are multiple facts (e.g. for browser accept languages)
      */
     public function getPriority(): int

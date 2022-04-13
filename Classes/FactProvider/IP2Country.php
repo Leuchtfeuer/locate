@@ -48,6 +48,6 @@ class IP2Country extends AbstractFactProvider
         $prosecution = (string)$prosecution;
         LocateUtility::mainstreamValue($prosecution);
 
-        return $this->getSubject() === $prosecution;
+        return $this->facts[$this->getBasename()] === $prosecution;
     }
 }
