@@ -8,4 +8,4 @@ services:
     tags:
       - name: console.command
         command: locate:update
-        schedulable: flase
+        schedulable: false
