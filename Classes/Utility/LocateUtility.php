@@ -27,7 +27,7 @@ class LocateUtility
     public function getCountryIso2FromIP(?string $ip = null)
     {
         $ip = $this->getNumericIp($ip);
-        $tableName = self::getTableNameForIp($ip);
+        $tableName = $this->getTableNameForIp($ip);
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableName);
 
         return $queryBuilder
@@ -36,12 +36,12 @@ class LocateUtility
             ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))
             ->andWhere($queryBuilder->expr()->gte('ip_to', $queryBuilder->createNamedParameter($ip)))
             ->execute()
-            ->fetchColumn(0);
+            ->fetchOne();
     }
 
     public function getNumericIp(?string $ip = null): string
     {
-        $ip = $ip ?? GeneralUtility::getIndpEnv('REMOTE_ADDR');
+        $ip = $ip ?? (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
 
         return strpos($ip, '.') !== false ? (string)ip2long($ip) : $this->convertIpv6($ip);
     }
@@ -63,7 +63,8 @@ class LocateUtility
                 break;
 
             case function_exists('bcadd'):
-                for ($i = 0; $i < strlen($bin); $i++) {
+                $max = strlen($bin);
+                for ($i = 0; $i < $max; $i++) {
                     $decimalIp = bcmul($decimalIp, '2');
                     $decimalIp = bcadd($decimalIp, $bin[$i]);
                 }
@@ -80,7 +81,7 @@ class LocateUtility
         return $decimalIp;
     }
 
-    public static function mainstreamValue(string &$value)
+    public static function mainstreamValue(string &$value): void
     {
         $value = mb_strtolower(str_replace('-', '_', $value));
     }

@@ -214,6 +214,22 @@ Exclude Bots
          Whether bots should be excluded from the behavior of the extension. This option only takes effect if the
          :ref:`corresponding Composer package <admin-additionalPackages-detectCrawler>` has been installed.
 
+.. _functions-assignLanguage-configuration-simulateIp:
+
+Simulate IP Address
+~~~~~~~~~~~~
+.. container:: table-row
+
+   Property
+         config.tx_locate.simulateIp
+   Data type
+         string
+   Default
+         empty
+   Description
+         Simulate an IP address for countryByIP fact provider. This is meant to be for test purposes only.
+         It works with IPv4 and IPv6 addresses.
+
 .. _functions-assignLanguage-configuration-verdicts:
 
 Verdicts

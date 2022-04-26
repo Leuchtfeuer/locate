@@ -27,10 +27,12 @@ abstract class AbstractFactProvider
 
     /**
      * @param string $basename The basename for the factsArray. This name comes from configuration.
+     * @param array $configuration TypoScript configuration array for this fact provider
      */
-    public function __construct(string $basename = '')
+    public function __construct(string $basename = '', array $configuration = [])
     {
         $this->basename = $basename;
+        $this->configuration = $configuration;
     }
 
     public function isMultiple(): bool

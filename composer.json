@@ -1,74 +1,83 @@
 {
-    "name": "leuchtfeuer/locate",
-    "description": "The users country, preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. Locate also provides geo blocking for configurable pages in configurable countries.",
-    "keywords": [
-        "TYPO3",
-        "extension",
-        "language",
-        "locate",
-        "IP2Country",
-        "Geo blocking"
-    ],
-    "type": "typo3-cms-extension",
-    "license": "GPL-2.0-or-later",
-    "homepage": "https://www.Leuchtfeuer.com",
-    "support": {
-        "email": "dev@Leuchtfeuer.com",
-        "issues": "https://github.com/Leuchtfeuer/locate/issues",
-        "source": "https://github.com/Leuchtfeuer/locate/",
-        "docs": "https://docs.typo3.org/p/leuchtfeuer/locate/master/en-us/"
-    },
-    "authors": [
-        {
-            "name": "Florian Wessels",
-            "email": "f.wessels@Leuchtfeuer.com",
-            "role": "Developer",
-            "homepage": "https://www.Leuchtfeuer.com"
-        }
-    ],
-    "require": {
-        "php": ">=7.2",
-        "typo3/cms-core": "^10.4.10 || ^11.0.0",
-        "typo3/cms-frontend": "^10.4.10 || ^11.0.0",
-        "symfony/console": "^4.4 || ^5.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^8.5.21",
-        "typo3/testing-framework": "^6.11"
-    },
-    "suggest": {
-        "jaybizzle/crawler-detect": "If you do not want to redirect bots.",
-        "sjbr/static-info-tables": "If you want to use IP based data.",
-        "ext-gmp": "Recommended for an accurate IPv6 calculation.",
-        "ext-bcmath": "Alternative for an accurate IPv6 calculation. Not needed if you have gmp installed."
-    },
-    "replace": {
-        "typo3-ter/locate": "self.version",
-        "bitmotion/locate": "self.version"
-    },
-    "autoload": {
-        "psr-4": {
-            "Leuchtfeuer\\Locate\\": "Classes"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Leuchtfeuer\\Locate\\Tests\\": "Tests"
-        }
-    },
-    "config": {
-        "vendor-dir": ".Build/vendor",
-        "bin-dir": ".Build/bin"
-    },
-    "scripts": {
-        "post-autoload-dump": [
-            "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-        ]
-    },
-    "extra": {
-        "typo3/cms": {
-            "web-dir": ".Build/web",
-            "extension-key": "locate"
-        }
+  "name": "leuchtfeuer/locate",
+  "description": "The users country, preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. Locate also provides geo blocking for configurable pages in configurable countries.",
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "language",
+    "locate",
+    "IP2Country",
+    "Geo blocking"
+  ],
+  "type": "typo3-cms-extension",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://www.Leuchtfeuer.com",
+  "support": {
+    "email": "dev@Leuchtfeuer.com",
+    "issues": "https://github.com/Leuchtfeuer/locate/issues",
+    "source": "https://github.com/Leuchtfeuer/locate/",
+    "docs": "https://docs.typo3.org/p/leuchtfeuer/locate/master/en-us/"
+  },
+  "authors": [
+    {
+      "name": "Florian Wessels",
+      "email": "f.wessels@Leuchtfeuer.com",
+      "role": "Developer",
+      "homepage": "https://www.Leuchtfeuer.com"
     }
+  ],
+  "require": {
+    "php": ">=7.4 || >=8.0",
+    "typo3/cms-backend": "^10.4 || ^11.5",
+    "typo3/cms-core": "^10.4 || ^11.5",
+    "typo3/cms-extbase": "^10.4 || ^11.5",
+    "typo3/cms-frontend": "^10.4 || ^11.5",
+    "symfony/console": "^4.4 || ^5.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5.20",
+    "typo3/testing-framework": "^6.16"
+  },
+  "suggest": {
+    "jaybizzle/crawler-detect": "If you do not want to redirect bots.",
+    "sjbr/static-info-tables": "If you want to use IP based data.",
+    "ext-gmp": "Recommended for an accurate IPv6 calculation.",
+    "ext-bcmath": "Alternative for an accurate IPv6 calculation. Not needed if you have gmp installed."
+  },
+  "replace": {
+    "typo3-ter/locate": "self.version",
+    "bitmotion/locate": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "Leuchtfeuer\\Locate\\": "Classes"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Leuchtfeuer\\Locate\\Tests\\": "Tests"
+    }
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin",
+    "allow-plugins": {
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare",
+      "mkdir -p .Build/web/typo3conf/ext/",
+      "[ -L .Build/web/typo3conf/ext/locate ] || ln -snvf ../../../../. .Build/web/typo3conf/ext/locate"
+    ]
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/web",
+      "extension-key": "locate"
+    }
+  }
 }
