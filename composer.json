@@ -35,8 +35,8 @@
     "symfony/console": "^4.4 || ^5.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^8.5.21",
-    "typo3/testing-framework": "^6.11"
+    "phpunit/phpunit": "^9.5.20",
+    "typo3/testing-framework": "^6.16"
   },
   "suggest": {
     "jaybizzle/crawler-detect": "If you do not want to redirect bots.",
