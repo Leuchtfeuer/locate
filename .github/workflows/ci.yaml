@@ -31,25 +31,22 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-#        experimental: [false]
-#        php-version: [7.4, 8.0, 8.1]
-#        typo3-version: [^10.4, ^11.5, dev-main]
         include:
           - php-version: 7.4
-            typo3-version: 10.4.x-dev
-            experimental: true
+            typo3-version: ^10.4
+            experimental: false
 
           - php-version: 7.4
+            typo3-version: ^11.5
+            experimental: false
+
+          - php-version: 8.0
             typo3-version: ^11.5
             experimental: false
 
           - php-version: 8.0
             typo3-version: 11.5.x-dev
             experimental: true
-
-          - php-version: 8.0
-            typo3-version: ^11.5
-            experimental: false
 
           - php-version: 8.1
             typo3-version: dev-main
