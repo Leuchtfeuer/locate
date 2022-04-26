@@ -1,7 +1,59 @@
 ﻿.. include:: ../../Includes.txt
 
 ==========================
-Version 11.0.0 - TBA
+Version 11.0.0 - 2022/04/26
 ==========================
 
-This release is a future release
+This release is a major release. We added support for TYPO3 v11 and PHP 8.0 & 8.1 and dropped support for TYPO3 v9.
+
+Added
+=====
+
+* Support for TYPO3 v11 and PHP 8.0 & 8.1
+* Added support for testing IP adresses (config.tx_locate.simulateIp)
+
+All Changes
+===========
+
+2022-04-26 [TASK] Update ci pipeline parameters (Commit 767d81c by Max Rösch)
+2022-04-22 [TASK] Add documentation for simulating IP address (Commit 0bbf121 by kranz)
+2022-04-12 [TASK] Adapt git workflow config (Commit 546394d by kranz)
+2022-04-10 [TASK] Add PHP version to require constraint (Commit 0a6c48a by kranz)
+2022-04-10 [TASK] Add option to simulate IP address for test purposes, bugfix for multiple IP judges (Commit 30f830a by kranz)
+2022-04-10 [TASK] Change "cookie" namings to "session" (Commit 6465cd8 by kranz)
+2022-03-30 [TASK] Deprecated functions replaced, minor code style changes, README changes (Commit 008e24e by kranz)
+2022-03-28 [TASK] Initial commit for TYPO3 11 development branch (Commit e9faf29 by kranz)
+2021-11-03 [BUGFIX] Select on empty UID returns 0 (Commit 44a0344 by Max Rösch)
+2021-11-03 [TASK] Add PHPStorm folder to gitignore (Commit 3d3e7d0 by Max Rösch)
+2021-10-13 [TASK] Add frontend functional tests (Commit 06475d2 by Helmut Hummel)
+2021-10-12 [TASK] Use UnitTestCase::getAccessibleMock for setting internal state (Commit 008e459 by Helmut Hummel)
+2021-10-12 [TASK] Remove now unused and previously only internally used method (Commit 6909c5d by Helmut Hummel)
+2021-10-12 [TASK] Add unit tests to CI workflow and streamline CI and testing config (Commit 2fd2de7 by Helmut Hummel)
+2021-10-12 [BUGFIX] Fix BrowserAcceptedLanguage and add tests (Commit d46c8ca by Helmut Hummel)
+2021-10-12 [BUGFIX] Fix IP2Country facts provider and add test (Commit 03fb63b by Helmut Hummel)
+2021-10-12 [TASK] Add dev dependencies (Commit d0d3971 by Helmut Hummel)
+2021-10-12 [TASK] Add PHP version constraint (Commit 869baf7 by Helmut Hummel)
+2021-10-12 [TASK] Reformat composer.json (Commit 549a396 by Helmut Hummel)
+2021-10-12 [TASK] Add .gitignore (again) (Commit 44fa953 by Helmut Hummel)
+2021-09-01 [TASK] Remove obsolete showRecordFieldList from TCA (Commit 9f7c5a1 by Max Rösch)
+2021-09-01 [DOC] Fix typo in documentation (Commit 5cff7a5 by Max Rösch)
+2021-08-30 [TASK] Add TER release script (Commit d4eadb5 by Max Rösch)
+2021-07-27 [BUGFIX] Check whether page has expected identifier (Commit 792f45a by Florian Wessels)
+2021-06-28 [TASK] Soften URI check (Commit 0b9e1df by Florian Wessels)
+2021-06-25 [TASK] Remove obsolete condition (Commit 3ef19dc by Florian Wessels)
+2021-06-25 [TASK] Introduce static fact provider (Commit c81da30 by Florian Wessels)
+2021-06-24 [TASK] Force redirect when target is of type URL (Commit 437084b by Florian Wessels)
+2021-06-24 [TASK] Force template parsing (Commit c114ab2 by Florian Wessels)
+2021-06-24 [DOC] Add information about logging (Commit 018a982 by Florian Wessels)
+
+Contributors
+============
+
+Following people have contributed to this release:
+
+* David Kranz
+* Florian Wessels
+* Helmut Hummel
+* Max Rösch
+
+Thank you very much for your support.
