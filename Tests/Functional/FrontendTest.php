@@ -20,7 +20,7 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class FrontendTest extends FunctionalTestCase
 {
-    protected array $testExtensionsToLoad = [
+    protected $testExtensionsToLoad = [
         'typo3conf/ext/locate'
     ];
 

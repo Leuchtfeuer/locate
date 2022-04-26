@@ -21,7 +21,7 @@ class LocateUtilityTest extends FunctionalTestCase
 {
     protected $subject;
 
-    protected array $testExtensionsToLoad = [
+    protected $testExtensionsToLoad = [
         'typo3conf/ext/locate'
     ];
 
