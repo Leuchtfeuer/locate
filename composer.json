@@ -32,7 +32,8 @@
     "typo3/cms-core": "^10.4 || ^11.5",
     "typo3/cms-extbase": "^10.4 || ^11.5",
     "typo3/cms-frontend": "^10.4 || ^11.5",
-    "symfony/console": "^4.4 || ^5.0"
+    "symfony/console": "^4.4 || ^5.0",
+    "doctrine/dbal": "^2.13.1|^3.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5.20",
