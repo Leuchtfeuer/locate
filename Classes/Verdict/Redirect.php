@@ -55,7 +55,7 @@ class Redirect extends AbstractVerdict
         }
 
         // Try to redirect to page (if not set, it will be the current page) on configured language
-        if ($this->configuration['page'] || isset($this->configuration['sys_language'])) {
+        if ((isset($this->configuration['page']) && !empty($this->configuration['page'])) || isset($this->configuration['sys_language'])) {
             $this->logger->info('Try to redirect to page');
 
             return $this->redirectToPage();

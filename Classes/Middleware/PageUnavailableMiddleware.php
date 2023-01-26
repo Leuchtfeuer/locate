@@ -36,7 +36,7 @@ class PageUnavailableMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         // Not responsible if backend user is logged in or EXT:static_info_tables is not loaded.
-        if (($GLOBALS['BE_USER']->user !== null && $GLOBALS['BE_USER']->user['uid'] > 0) || ExtensionManagementUtility::isLoaded('static_info_tables') === false) {
+        if (($GLOBALS['BE_USER'] !== null && $GLOBALS['BE_USER']->user !== null && $GLOBALS['BE_USER']->user['uid'] > 0) || ExtensionManagementUtility::isLoaded('static_info_tables') === false) {
             return $handler->handle($request);
         }
 

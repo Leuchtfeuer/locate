@@ -30,7 +30,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
     {
         $typoScript = $this->getTypoScriptSetup();
 
-        if ((int)$typoScript['config.']['tx_locate'] === 1 && !empty($typoScript['config.']['tx_locate.'] ?? [])) {
+        if (isset($typoScript['config.']) && isset($typoScript['config.']['tx_locate']) && (int)$typoScript['config.']['tx_locate'] === 1) {
             $locateSetup = $typoScript['config.']['tx_locate.'];
 
             $config = [

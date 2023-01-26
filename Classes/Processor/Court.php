@@ -153,7 +153,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
     protected function addJudgement(array &$judgements, array $configuration, $key, AbstractJudge $judge, array &$priorities): void
     {
-        $fact = $this->facts[$configuration['fact']] ?? new StaticFactProvider();
+        $fact = (isset($configuration['fact']) && isset($this->facts[$configuration['fact']])) ? $this->facts[$configuration['fact']] : new StaticFactProvider();
 
         if ($fact instanceof AbstractFactProvider) {
             $judge = $judge->withConfiguration($this->configuration['judges'][$key . '.'])->adjudicate($fact, (int)$key);
