@@ -43,7 +43,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
                     'overrideSessionValue' => (bool)($locateSetup['overrideSessionValue'] ?? 0),
                     'sessionHandling' => (bool)($locateSetup['sessionHandling'] ?? 0),
                     'excludeBots' => (bool)($locateSetup['excludeBots'] ?? 1),
-                    'simulateIp' => $locateSetup['simulateIp'] ? : null,
+                    'simulateIp' => (string)($locateSetup['simulateIp'] ?? ''),
                 ],
             ];
 
