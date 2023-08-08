@@ -21,6 +21,8 @@ This is a complete example that redirects the user according to the following cr
        excludeBots = 1
        sessionHandling = 1
        overrideSessionValue = 1
+       # Simulate your IP address for countryByIP fact provider (for test purposes only), e.g. 109.10.163.98 is a french IP address
+       simulateIp =
 
        verdicts {
            redirectToMainlandChina = Leuchtfeuer\Locate\Verdict\Redirect
