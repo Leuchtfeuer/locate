@@ -1,20 +1,8 @@
-<phpunit
-	backupGlobals="true"
-	colors="true"
-	convertErrorsToExceptions="true"
-	convertWarningsToExceptions="true"
-	forceCoversAnnotation="false"
-	processIsolation="false"
-	stopOnError="false"
-	stopOnFailure="false"
-	stopOnIncomplete="false"
-	stopOnSkipped="false"
-	verbose="false"
-	beStrictAboutTestsThatDoNotTestAnything="false"
->
-	<testsuites>
-		<testsuite name="EXT:locate tests">
-			<directory>../Unit/</directory>
-		</testsuite>
-	</testsuites>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="true" colors="true" processIsolation="false" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" beStrictAboutTestsThatDoNotTestAnything="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd" cacheDirectory=".phpunit.cache" requireCoverageMetadata="false">
+  <testsuites>
+    <testsuite name="EXT:locate tests">
+      <directory>../Unit/</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

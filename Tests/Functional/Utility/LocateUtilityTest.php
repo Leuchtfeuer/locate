@@ -19,9 +19,9 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  */
 class LocateUtilityTest extends FunctionalTestCase
 {
-    protected $subject;
+    protected LocateUtility $subject;
 
-    protected $testExtensionsToLoad = [
+    protected array $testExtensionsToLoad = [
         'typo3conf/ext/locate'
     ];
 

@@ -19,9 +19,9 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  */
 class SessionStoreTest extends FunctionalTestCase
 {
-    protected $subject;
+    protected SessionStore $subject;
 
-    protected $testExtensionsToLoad = [
+    protected array $testExtensionsToLoad = [
         'typo3conf/ext/locate'
     ];
 
