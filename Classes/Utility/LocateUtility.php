@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Utility;
 
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -23,8 +24,9 @@ class LocateUtility
      *
      * @param string|null $ip
      * @return bool|string
+     * @throws Exception
      */
-    public function getCountryIso2FromIP(?string $ip = null)
+    public function getCountryIso2FromIP(?string $ip = null): bool|string
     {
         $ip = $this->getNumericIp($ip);
         $tableName = $this->getTableNameForIp($ip);
@@ -33,9 +35,7 @@ class LocateUtility
         return $queryBuilder
             ->select('country_code')
             ->from($tableName)
-            ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))
-            ->andWhere($queryBuilder->expr()->gte('ip_to', $queryBuilder->createNamedParameter($ip)))
-            ->execute()
+            ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))->andWhere($queryBuilder->expr()->gte('ip_to', $queryBuilder->createNamedParameter($ip)))->executeQuery()
             ->fetchOne();
     }
 
@@ -43,7 +43,7 @@ class LocateUtility
     {
         $ip = $ip ?? (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
 
-        return strpos($ip, '.') !== false ? (string)ip2long($ip) : $this->convertIpv6($ip);
+        return str_contains($ip, '.') ? (string)ip2long($ip) : $this->convertIpv6($ip);
     }
 
     private function convertIpv6(string $ip): string

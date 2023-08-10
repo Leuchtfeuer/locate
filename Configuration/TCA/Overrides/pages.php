@@ -19,8 +19,8 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_ta
                 'multiple' => false,
                 'items' => [
                     [
-                        'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_regions.applyWhenNoMatch',
-                        \Leuchtfeuer\Locate\Domain\Repository\RegionRepository::APPLY_WHEN_NO_IP_MATCHES,
+                        'label' => 'LLL:EXT:locate/Resources/Private/Language/Database.xlf:pages.tx_locate_regions.applyWhenNoMatch',
+                        'value' => \Leuchtfeuer\Locate\Domain\Repository\RegionRepository::APPLY_WHEN_NO_IP_MATCHES,
                     ],
                 ],
             ],
@@ -34,7 +34,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_ta
                 'renderType' => 'checkboxToggle',
                 'items' => [
                     [
-                        0 => '',
+                        'label' => '',
                         1 => '',
                     ],
                 ],

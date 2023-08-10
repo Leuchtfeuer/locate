@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Middleware;
 
+use Doctrine\DBAL\Exception;
 use Leuchtfeuer\Locate\Domain\Repository\RegionRepository;
 use Leuchtfeuer\Locate\Utility\LocateUtility;
 use Psr\Http\Message\ResponseInterface;
@@ -33,6 +34,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PageUnavailableMiddleware implements MiddlewareInterface
 {
+    /**
+     * @throws InvalidPageErrorHandlerException|Exception
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         // Not responsible if backend user is logged in or EXT:static_info_tables is not loaded.
@@ -58,6 +62,9 @@ class PageUnavailableMiddleware implements MiddlewareInterface
         return $handler->handle($request);
     }
 
+    /**
+     * @throws Exception
+     */
     private function isPageAvailableInCurrentRegion(array $page): bool
     {
         $countryCode = GeneralUtility::makeInstance(LocateUtility::class)->getCountryIso2FromIP();
@@ -104,7 +111,7 @@ class PageUnavailableMiddleware implements MiddlewareInterface
      */
     protected function handleDefaultError(ServerRequestInterface $request, int $statusCode, string $reason = ''): ResponseInterface
     {
-        if (strpos($request->getHeaderLine('Accept'), 'application/json') !== false) {
+        if (str_contains($request->getHeaderLine('Accept'), 'application/json')) {
             return new JsonResponse(['reason' => $reason], $statusCode);
         }
         $content = GeneralUtility::makeInstance(ErrorPageController::class)->errorAction(

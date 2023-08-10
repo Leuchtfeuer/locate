@@ -15,7 +15,7 @@ class SessionStore
 {
     const SESSION_BASE_NAME = 'tx_locate_';
 
-    protected $sessionBaseName;
+    protected string $sessionBaseName;
 
     public function __construct(string $sessionBaseName = self::SESSION_BASE_NAME)
     {

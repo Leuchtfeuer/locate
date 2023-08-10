@@ -28,11 +28,11 @@ class Redirect extends AbstractVerdict
     const SESSION_KEY = 'language';
     const OVERRIDE_PARAMETER = 'setLang';
 
-    private $sessionMode = false;
+    private bool $sessionMode = false;
 
-    private $redirectLanguageUid = 0;
+    private int $redirectLanguageUid = 0;
 
-    private $requestedLanguageUid = 0;
+    private int $requestedLanguageUid = 0;
 
     /**
      * @return ResponseInterface|null
@@ -76,7 +76,7 @@ class Redirect extends AbstractVerdict
         }
     }
 
-    private function handleSessionStuff()
+    private function handleSessionStuff(): void
     {
         $currentLanguageUid = $this->requestedLanguageUid;
 
@@ -131,7 +131,7 @@ class Redirect extends AbstractVerdict
         return false;
     }
 
-    private function setSessionValue(?int $value)
+    private function setSessionValue(?int $value): void
     {
         if ($value === null) {
             $value = (int)$this->configuration['sys_language'];

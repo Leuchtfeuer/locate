@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Command;
 
+use Doctrine\DBAL\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,14 +32,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class UpdateIpDatabaseCommand extends Command
 {
-    /**
-     * @var SymfonyStyle
-     */
-    protected $io;
+    protected SymfonyStyle $io;
 
-    protected $table = '';
+    protected string $table = '';
 
-    protected $source = '';
+    protected string $source = '';
 
     protected function configure(): void
     {
@@ -100,6 +98,9 @@ class UpdateIpDatabaseCommand extends Command
         return true;
     }
 
+    /**
+     * @throws Exception
+     */
     private function truncateTable(): void
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);
@@ -141,9 +142,7 @@ class UpdateIpDatabaseCommand extends Command
 
         foreach ($data as $row) {
             $connection->getQueryBuilderForTable($this->table)
-                ->insert($this->table)
-                ->values($row)
-                ->execute();
+                ->insert($this->table)->values($row)->executeStatement();
             $progressBar->advance();
         }
 

@@ -32,17 +32,17 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    protected $configuration = [];
+    protected array $configuration = [];
 
     /**
      * @var AbstractFactProvider[]
      */
-    protected $facts = [];
+    protected array $facts = [];
 
     /**
      * If set the action won't be executed
      */
-    protected $dryRun = false;
+    protected bool $dryRun = false;
 
     public function __construct(array $configuration)
     {

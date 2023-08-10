@@ -15,15 +15,15 @@ namespace Leuchtfeuer\Locate\FactProvider;
 
 abstract class AbstractFactProvider
 {
-    protected $basename = '';
+    protected string $basename = '';
 
-    protected $configuration = [];
+    protected array $configuration = [];
 
-    protected $multiple = false;
+    protected bool $multiple = false;
 
-    protected $facts = [];
+    protected array $facts = [];
 
-    protected $priority = 0;
+    protected int $priority = 0;
 
     /**
      * @param string $basename The basename for the factsArray. This name comes from configuration.
