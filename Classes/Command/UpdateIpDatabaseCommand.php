@@ -124,7 +124,7 @@ class UpdateIpDatabaseCommand extends Command
             $data[] = [
                 'ip_from' => $row[0],
                 'ip_to' => $row[1],
-                'country_code' => $row[2]
+                'country_code' => $row[2],
             ];
         }
 

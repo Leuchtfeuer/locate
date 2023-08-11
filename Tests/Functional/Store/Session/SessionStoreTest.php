@@ -22,7 +22,7 @@ class SessionStoreTest extends FunctionalTestCase
     protected $subject;
 
     protected array $testExtensionsToLoad = [
-        'typo3conf/ext/locate'
+        'typo3conf/ext/locate',
     ];
 
     protected function setUp(): void

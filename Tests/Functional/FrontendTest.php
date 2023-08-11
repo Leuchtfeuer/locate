@@ -21,7 +21,7 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 class FrontendTest extends FunctionalTestCase
 {
     protected array $testExtensionsToLoad = [
-        'typo3conf/ext/locate'
+        'typo3conf/ext/locate',
     ];
 
     protected function setUp(): void

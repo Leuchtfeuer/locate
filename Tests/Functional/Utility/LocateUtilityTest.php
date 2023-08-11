@@ -22,7 +22,7 @@ class LocateUtilityTest extends FunctionalTestCase
     protected $subject;
 
     protected array $testExtensionsToLoad = [
-        'typo3conf/ext/locate'
+        'typo3conf/ext/locate',
     ];
 
     protected function setUp(): void
@@ -57,7 +57,7 @@ class LocateUtilityTest extends FunctionalTestCase
             'de-DE',
             'de_DE',
             'de_de',
-            'de-de'
+            'de-de',
         ];
 
         foreach ($values as $value) {
