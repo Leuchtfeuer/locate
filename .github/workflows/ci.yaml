@@ -95,7 +95,7 @@ jobs:
             composer config minimum-stability dev
           fi
 
-          composer req typo3/testing-framework:^7.0 typo3/cms-core:"${{ matrix.typo3-version }}" typo3/cms-backend:"${{ matrix.typo3-version }}" typo3/cms-extbase:"${{ matrix.typo3-version }}" typo3/cms-extensionmanager:"${{ matrix.typo3-version }}" typo3/cms-fluid:"${{ matrix.typo3-version }}" typo3/cms-frontend:"${{ matrix.typo3-version }}"
+          composer req typo3/testing-framework typo3/cms-core:"${{ matrix.typo3-version }}" typo3/cms-backend:"${{ matrix.typo3-version }}" typo3/cms-extbase:"${{ matrix.typo3-version }}" typo3/cms-extensionmanager:"${{ matrix.typo3-version }}" typo3/cms-fluid:"${{ matrix.typo3-version }}" typo3/cms-frontend:"${{ matrix.typo3-version }}"
           export TYPO3_PATH_WEB=$PWD/.Build/web
 
       - name: Run PHPUnit
