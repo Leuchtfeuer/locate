@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-20.04
     continue-on-error: ${{ matrix.experimental }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - php-version: 7.4
