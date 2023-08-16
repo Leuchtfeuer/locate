@@ -62,7 +62,7 @@ return (new PhpCsFixer\Config())
         'no_short_bool_cast' => true,
         'no_singleline_whitespace_before_semicolons' => true,
         'no_superfluous_elseif' => true,
-        'no_trailing_comma_in_singleline_array' => true,
+        'no_trailing_comma_in_singleline' => true,
         'no_unneeded_control_parentheses' => true,
         'no_unused_imports' => true,
         'no_useless_else' => true,
@@ -82,6 +82,7 @@ return (new PhpCsFixer\Config())
         'single_quote' => true,
         'single_line_comment_style' => ['comment_types' => ['hash']],
         'single_trait_insert_per_statement' => true,
+        'trailing_comma_in_multiline' => ['elements' => ['arrays']],
         'whitespace_after_comma_in_array' => true,
     ])
     ->setFinder($finder);
