@@ -30,9 +30,9 @@ class OverrideIconOverlayHook
             if ($regions > 0) {
                 switch ($iconName) {
                     // TODO: Support this case and add dedicated overlay icon (also for other overlay icons)
-//                    case 'overlay-restricted':
-//                        $iconName = 'apps-pagetree-page-frontend-user-root';
-//                        break;
+                    //                    case 'overlay-restricted':
+                    //                        $iconName = 'apps-pagetree-page-frontend-user-root';
+                    //                        break;
 
                     default:
                         $iconName = 'overlay-translated';

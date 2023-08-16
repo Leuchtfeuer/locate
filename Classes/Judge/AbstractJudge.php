@@ -21,7 +21,7 @@ abstract class AbstractJudge
 
     protected array $configuration = [];
 
-    protected ?Decision $decision;
+    protected ?Decision $decision = null;
 
     /**
      * @param array $configuration TypoScript configuration array for this judge

@@ -8,7 +8,18 @@
 	TYPO3 CMS functional test suite also needs phpunit bootstrap code, the
 	file is located next to this .xml as FunctionalTestsBootstrap.php
 -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="true" bootstrap="../../.Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php" colors="true" stopOnError="false" stopOnFailure="false" stopOnIncomplete="false" stopOnSkipped="false" beStrictAboutTestsThatDoNotTestAnything="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd" cacheDirectory=".phpunit.cache" requireCoverageMetadata="true">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         backupGlobals="true"
+         bootstrap="../../.Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php"
+         colors="true"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
+         cacheDirectory=".phpunit.cache"
+         requireCoverageMetadata="true">
   <coverage/>
   <testsuites>
     <testsuite name="EXT:locate tests">

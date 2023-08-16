@@ -29,6 +29,9 @@ class LocateUtility
     public function getCountryIso2FromIP(?string $ip = null): bool|string
     {
         $ip = $this->getNumericIp($ip);
+        if ($ip === false) {
+            return false;
+        }
         $tableName = $this->getTableNameForIp($ip);
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableName);
 
@@ -39,19 +42,23 @@ class LocateUtility
             ->fetchOne();
     }
 
-    public function getNumericIp(?string $ip = null): string
+    public function getNumericIp(?string $ip = null): string|bool
     {
         $ip = $ip ?? (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
 
         return str_contains($ip, '.') ? (string)ip2long($ip) : $this->convertIpv6($ip);
     }
 
-    private function convertIpv6(string $ip): string
+    private function convertIpv6(string $ip): string|bool
     {
         $ip = inet_pton($ip);
         $bin = '';
         $binNum = '';
         $decimalIp = '0';
+
+        if (is_bool($ip)) {
+            return false;
+        }
 
         for ($bit = strlen($ip) - 1; $bit >= 0; $bit--) {
             $bin = sprintf('%08b', ord($ip[$bit])) . $bin;
