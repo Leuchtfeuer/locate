@@ -25,7 +25,7 @@ class IP2CountryTest extends UnitTestCase
     {
         $subject = $this->getAccessibleMock(
             IP2Country::class,
-            ['dummy'],
+            null,
             [],
             '',
             false
