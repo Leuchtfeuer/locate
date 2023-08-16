@@ -53,7 +53,7 @@ class LanguageRedirectMiddleware implements MiddlewareInterface
 
     protected function getTypoScriptSetup(): array
     {
-        $backendConfigurationManager = GeneralUtility::makeInstance( BackendConfigurationManager::class);
+        $backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
         return $backendConfigurationManager->getTypoScriptSetup();
     }
 }
