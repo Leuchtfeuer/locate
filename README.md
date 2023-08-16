@@ -1,8 +1,7 @@
 Language Utilities for TYPO3
 ============================
 
-[![TYPO3 10](https://img.shields.io/badge/TYPO3-10-orange.svg)](https://get.typo3.org/version/10)
-[![TYPO3 11](https://img.shields.io/badge/TYPO3-11-orange.svg)](https://get.typo3.org/version/11)
+[![TYPO3 12](https://img.shields.io/badge/TYPO3-12-orange.svg)](https://get.typo3.org/version/12)
 [![Latest Stable Version](https://poser.pugx.org/leuchtfeuer/locate/v/stable)](https://packagist.org/packages/leuchtfeuer/locate)
 [![Build Status](https://github.com/Leuchtfeuer/locate/workflows/Continous%20Integration/badge.svg)](https://github.com/Leuchtfeuer/locate/actions)
 [![Total Downloads](https://poser.pugx.org/leuchtfeuer/locate/downloads)](https://packagist.org/leuchtfeuer/locate)
@@ -19,13 +18,11 @@ The full documentation for the latest releases can be found [here](https://docs.
 
 We are currently supporting following TYPO3 versions:<br><br>
 
-| Extension Version | TYPO3 v11 Support | TYPO3 v10 Support | TYPO3 v9 Support | TYPO3 v8 Support |
-|-------------------|-------------------|-------------------|------------------|------------------|
-| 11.x              | x                 | x                 | -                | -                |
-| 10.x              | -                 | x                 | x                | -                |
-| 9.x               | -                 | x                 | -                | -                |
-| 8.x               | -                 | x                 | x                | -                |
-| 7.x               | -                 | -                 | -                | 8                |
+| Extension Version | TYPO3 v12 Support | TYPO3 v11 Support | TYPO3 v10 Support | TYPO3 v9 Support |
+|-------------------|-------------------|-------------------|-------------------|------------------|
+| 12.x              | x                 | -                 | -                 | -                |
+| 11.x              | -                 | x                 | x                 | -                |
+| 10.x              | -                 | -                 | x                 | x                |
 
 ### IPv6 Support
 
