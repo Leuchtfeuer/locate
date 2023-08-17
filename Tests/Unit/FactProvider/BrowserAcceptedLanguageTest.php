@@ -25,7 +25,7 @@ class BrowserAcceptedLanguageTest extends UnitTestCase
     {
         $subject = $this->getAccessibleMock(
             BrowserAcceptedLanguage::class,
-            ['dummy'],
+            null,
             [],
             '',
             false
@@ -45,7 +45,7 @@ class BrowserAcceptedLanguageTest extends UnitTestCase
     {
         $subject = $this->getAccessibleMock(
             BrowserAcceptedLanguage::class,
-            ['dummy'],
+            null,
             [],
             '',
             false

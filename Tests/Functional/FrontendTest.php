@@ -20,18 +20,18 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class FrontendTest extends FunctionalTestCase
 {
-    protected $testExtensionsToLoad = [
-        'typo3conf/ext/locate'
-    ];
-
     protected function setUp(): void
     {
+        $this->testExtensionsToLoad = [
+            'typo3conf/ext/locate',
+        ];
         parent::setUp();
         $this->importDataSet(__DIR__ . '/Fixtures/redirect-scenario.xml');
     }
 
     /**
      * @test
+     * @covers \Leuchtfeuer\Locate\Processor\Court
      */
     public function redirectToMainlandChinaFromIpAddress(): void
     {
