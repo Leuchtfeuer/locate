@@ -157,7 +157,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
         $fact = (isset($configuration['fact']) && isset($this->facts[$configuration['fact']])) ? $this->facts[$configuration['fact']] : new StaticFactProvider();
 
         if ($fact instanceof AbstractFactProvider) {
-            $judge = $judge->withConfiguration($this->configuration['judges'][$key . '.'])->adjudicate($fact, (int)$key);
+            $judge = $judge->withConfiguration($this->configuration['judges'][$key . '.'] ?? [])->adjudicate($fact, (int)$key);
 
             if ($judge->hasDecision() && !isset($decisions[$judge->getDecision()->getPriority()])) {
                 $decision = $judge->getDecision();
