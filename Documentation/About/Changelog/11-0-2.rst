@@ -1,0 +1,32 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 11.0.2 - 2023/08/18
+==========================
+
+This release is regular maintenance release. Contains some fixes and updated tests.
+
+All Changes
+===========
+
+2023-01-26 [BUGFIX] Fix PHP warnings on undefined array keys (Commit 776a781 by David Kranz)
+2023-01-26 [TASK] Add composer requirement for newer doctrine/dbal versions (Commit b2d7d78 by David Kranz)
+2023-03-05 [BUGFIX] Avoid exception cause of nautice (Commit 62cc3fb by Georg Ringer)
+2023-05-15 [TASK] Allow empty decision in Court (Commit b5f2f05 by Stefan Neufeind)
+2023-05-15 [TASK] Allow judge without additional configuration (Commit 6e9a83a by Stefan Neufeind)
+2023-08-08 [DOC] Add missing information for simulateIp configuration (Commit e9c4bbe by David Kranz)
+2023-08-11 [TASK] Update GitHub CI workflow for correct php-cs-fixer version, code style fixes (Commit d6ae2fb by David Kranz)
+2023-08-11 [TASK] Add separate function test config for DDEV, changes for GitHub CI workflow (Commit e9a5474 by David Kranz)
+2023-08-11 [TASK] Changes for GitHub CI workflow (Commit a34109a by David Kranz)
+2023-08-11 [TASK] Fix typo3/testing-framework version for GitHub CI workflow (Commit bf6d711 by David Kranz)
+2023-08-16 [BUGFIX] Fix unit tests (Commit c23a0fb by David Kranz)
+
+Contributors
+============
+
+Following people have contributed to this release:
+
+* Stefan Neufeind (`neufeind <https://github.com/neufeind>`__)
+* Georg Ringer (`georgringer <https://github.com/georgringer>`__)
+
+Thank you very much for your support.

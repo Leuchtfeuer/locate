@@ -1,0 +1,21 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 11.0.1 - 2022/04/26
+==========================
+
+This release is regular maintenance release.
+
+All Changes
+===========
+
+2022-04-26 [RELEASE] Release version 11.0.1 (Commit 776a781 by Max Rösch)
+
+Contributors
+============
+
+Following people have contributed to this release:
+
+* Max Rösch
+
+Thank you very much for your support.
