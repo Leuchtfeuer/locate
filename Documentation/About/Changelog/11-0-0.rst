@@ -10,7 +10,7 @@ Added
 =====
 
 * Support for TYPO3 v11 and PHP 8.0 & 8.1
-* Added support for testing IP adresses (config.tx_locate.simulateIp)
+* Added support for testing IP addresses (config.tx_locate.simulateIp)
 
 All Changes
 ===========
