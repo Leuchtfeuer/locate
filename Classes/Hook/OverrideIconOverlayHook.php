@@ -11,14 +11,18 @@
 
 namespace Leuchtfeuer\Locate\Hook;
 
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class OverrideIconOverlayHook
 {
+    /**
+     * @throws Exception
+     */
     public function postOverlayPriorityLookup(string $table, array $row, array $status, string $iconName): string
     {
-        if ($table === 'pages' && !empty($row) && strpos((string)$row['uid'], 'NEW') === false) {
+        if ($table === 'pages' && !empty($row) && !str_contains((string)$row['uid'], 'NEW')) {
             // since tx_locate_regions is not included in the row array (PageTreeRepository is initialized with empty additionalFields)
             // we need to get the necessary information on our own
             $regions = $this->countRegions($table, $row);
@@ -26,9 +30,9 @@ class OverrideIconOverlayHook
             if ($regions > 0) {
                 switch ($iconName) {
                     // TODO: Support this case and add dedicated overlay icon (also for other overlay icons)
-//                    case 'overlay-restricted':
-//                        $iconName = 'apps-pagetree-page-frontend-user-root';
-//                        break;
+                    //                    case 'overlay-restricted':
+                    //                        $iconName = 'apps-pagetree-page-frontend-user-root';
+                    //                        break;
 
                     default:
                         $iconName = 'overlay-translated';
@@ -39,6 +43,9 @@ class OverrideIconOverlayHook
         return $iconName;
     }
 
+    /**
+     * @throws Exception
+     */
     private function countRegions(string $table, array $row): int
     {
         if (empty($row['uid'])) {
@@ -49,9 +56,7 @@ class OverrideIconOverlayHook
 
         return (int)$qb
             ->select('tx_locate_regions')
-            ->from($table)
-            ->where($qb->expr()->eq('uid', $row['uid']))
-            ->execute()
+            ->from($table)->where($qb->expr()->eq('uid', $row['uid']))->executeQuery()
             ->fetchOne();
     }
 }

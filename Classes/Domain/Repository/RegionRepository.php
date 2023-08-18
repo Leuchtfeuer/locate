@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Domain\Repository;
 
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -20,6 +21,9 @@ class RegionRepository
 {
     const APPLY_WHEN_NO_IP_MATCHES = -1;
 
+    /**
+     * @throws Exception
+     */
     public function getCountriesForPage(int $id): array
     {
         $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_locate_page_region_mm');
@@ -30,9 +34,7 @@ class RegionRepository
             ->from('tx_locate_page_region_mm', 'pmm')
             ->join('pmm', 'tx_locate_domain_model_region', 'r', 'r.uid = pmm.uid_foreign')
             ->join('r', 'tx_locate_region_country_mm', 'rmm', 'rmm.uid_local = r.uid')
-            ->join('rmm', 'static_countries', 'c', 'c.uid = rmm.uid_foreign')
-            ->where($qb->expr()->eq('pmm.uid_local', $qb->createNamedParameter($id, \PDO::PARAM_INT)))
-            ->execute()
+            ->join('rmm', 'static_countries', 'c', 'c.uid = rmm.uid_foreign')->where($qb->expr()->eq('pmm.uid_local', $qb->createNamedParameter($id, \PDO::PARAM_INT)))->executeQuery()
             ->fetchAllAssociative();
 
         foreach ($results as $result) {
@@ -42,6 +44,9 @@ class RegionRepository
         return $iso2Codes;
     }
 
+    /**
+     * @throws Exception
+     */
     public function shouldApplyWhenNoIpMatches(int $id): bool
     {
         $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_locate_page_region_mm');
@@ -49,9 +54,7 @@ class RegionRepository
         $results = $qb
             ->select('*')
             ->from('tx_locate_page_region_mm')
-            ->where($qb->expr()->eq('uid_local', $qb->createNamedParameter($id, \PDO::PARAM_INT)))
-            ->andWhere($qb->expr()->eq('uid_foreign', $qb->createNamedParameter(self::APPLY_WHEN_NO_IP_MATCHES, \PDO::PARAM_INT)))
-            ->execute()
+            ->where($qb->expr()->eq('uid_local', $qb->createNamedParameter($id, \PDO::PARAM_INT)))->andWhere($qb->expr()->eq('uid_foreign', $qb->createNamedParameter(self::APPLY_WHEN_NO_IP_MATCHES, \PDO::PARAM_INT)))->executeQuery()
             ->fetchAllAssociative();
 
         return !empty($results);

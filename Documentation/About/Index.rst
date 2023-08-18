@@ -17,14 +17,12 @@ Compatibility
 We are currently supporting following TYPO3 versions:
 
 .. csv-table:: Version Matrix
-   :header: "Extension Version", "TYPO3 v10 Support", "TYPO3 v9 Support", "TYPO3 v8 Support"
+   :header: "Extension Version", "TYPO3 v12 Support", "TYPO3 v11 Support", "TYPO3 v10 Support", "TYPO3 v9 Support"
    :align: center
 
-        "11.x", "🙋️", "🙅️", "🙅️️"
-        "10.x", "🙋️", "🙋️", "🙅️️"
-        "9.x", "🙅️️️", "🙋", "🙅️️"
-        "8.x", "🙅️️", "🙋", "🙋️"
-        "7.x", "🙅️️", "🙅️️", "🙋️"
+        "12.x", "🙋️", "🙅️", "🙅️️", "🙅️️"
+        "11.x", "🙅️️", "🙋️", "🙋️", "🙅️️"
+        "10.x", "🙅️️", "🙅️️", "🙋️", "🙋️"
 
 .. _about-ip-database:
 

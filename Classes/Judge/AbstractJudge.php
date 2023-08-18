@@ -19,9 +19,9 @@ abstract class AbstractJudge
 {
     const DEFAULT_PRIORITY = 999;
 
-    protected $configuration = [];
+    protected array $configuration = [];
 
-    protected $decision;
+    protected ?Decision $decision = null;
 
     /**
      * @param array $configuration TypoScript configuration array for this judge

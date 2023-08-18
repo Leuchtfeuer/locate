@@ -13,7 +13,6 @@ return [
         'label' => 'title',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'versioningWS' => false,
         'delete' => 'deleted',
         'enablecolumns' => [
@@ -35,7 +34,7 @@ return [
                 'renderType' => 'checkboxToggle',
                 'items' => [
                     [
-                        0 => '',
+                        'label' => '',
                         1 => '',
                         'invertStateDisplay' => true,
                     ],
@@ -48,7 +47,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim,required',
+                'eval' => 'trim',
+                'required' => true,
             ],
         ],
         'countries' => [

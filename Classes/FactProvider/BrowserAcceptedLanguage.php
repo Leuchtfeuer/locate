@@ -20,7 +20,7 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
 {
     const PROVIDER_NAME = 'browseracceptlanguage';
 
-    protected $multiple = true;
+    protected bool $multiple = true;
 
     /**
      * @inheritDoc

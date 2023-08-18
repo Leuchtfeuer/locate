@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Utility;
 
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -23,35 +24,41 @@ class LocateUtility
      *
      * @param string|null $ip
      * @return bool|string
+     * @throws Exception
      */
-    public function getCountryIso2FromIP(?string $ip = null)
+    public function getCountryIso2FromIP(?string $ip = null): bool|string
     {
         $ip = $this->getNumericIp($ip);
+        if ($ip === false) {
+            return false;
+        }
         $tableName = $this->getTableNameForIp($ip);
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableName);
 
         return $queryBuilder
             ->select('country_code')
             ->from($tableName)
-            ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))
-            ->andWhere($queryBuilder->expr()->gte('ip_to', $queryBuilder->createNamedParameter($ip)))
-            ->execute()
+            ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))->andWhere($queryBuilder->expr()->gte('ip_to', $queryBuilder->createNamedParameter($ip)))->executeQuery()
             ->fetchOne();
     }
 
-    public function getNumericIp(?string $ip = null): string
+    public function getNumericIp(?string $ip = null): string|bool
     {
         $ip = $ip ?? (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
 
-        return strpos($ip, '.') !== false ? (string)ip2long($ip) : $this->convertIpv6($ip);
+        return str_contains($ip, '.') ? (string)ip2long($ip) : $this->convertIpv6($ip);
     }
 
-    private function convertIpv6(string $ip): string
+    private function convertIpv6(string $ip): string|bool
     {
         $ip = inet_pton($ip);
         $bin = '';
         $binNum = '';
         $decimalIp = '0';
+
+        if (is_bool($ip)) {
+            return false;
+        }
 
         for ($bit = strlen($ip) - 1; $bit >= 0; $bit--) {
             $bin = sprintf('%08b', ord($ip[$bit])) . $bin;

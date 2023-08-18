@@ -28,11 +28,11 @@ class Redirect extends AbstractVerdict
     const SESSION_KEY = 'language';
     const OVERRIDE_PARAMETER = 'setLang';
 
-    private $sessionMode = false;
+    private bool $sessionMode = false;
 
-    private $redirectLanguageUid = 0;
+    private int $redirectLanguageUid = 0;
 
-    private $requestedLanguageUid = 0;
+    private int $requestedLanguageUid = 0;
 
     /**
      * @return ResponseInterface|null
@@ -40,7 +40,7 @@ class Redirect extends AbstractVerdict
      */
     public function execute(): ?ResponseInterface
     {
-        $this->redirectLanguageUid = (int)$this->configuration['sys_language'];
+        $this->redirectLanguageUid = isset($this->configuration['sys_language']) ? (int)$this->configuration['sys_language'] : 0;
         $this->requestedLanguageUid = GeneralUtility::makeInstance(Context::class)->getAspect('language')->getId();
 
         // Initialize Session mode if necessary and prepare everything for possible redirects
@@ -76,7 +76,7 @@ class Redirect extends AbstractVerdict
         }
     }
 
-    private function handleSessionStuff()
+    private function handleSessionStuff(): void
     {
         $currentLanguageUid = $this->requestedLanguageUid;
 
@@ -131,7 +131,7 @@ class Redirect extends AbstractVerdict
         return false;
     }
 
-    private function setSessionValue(?int $value)
+    private function setSessionValue(?int $value): void
     {
         if ($value === null) {
             $value = (int)$this->configuration['sys_language'];
@@ -176,7 +176,7 @@ class Redirect extends AbstractVerdict
     private function redirectToPage(): ?RedirectResponse
     {
         $pageId = (int)($this->configuration['page'] ?? $GLOBALS['TYPO3_REQUEST']->getAttribute('routing')->getPageId());
-        $targetLanguageId = (int)$this->configuration['sys_language'];
+        $targetLanguageId = isset($this->configuration['sys_language']) ? (int)$this->configuration['sys_language'] : 0;
         $page = BackendUtility::getRecord('pages', $pageId, '*', '', false);
 
         // Page is in current language - no redirect necessary

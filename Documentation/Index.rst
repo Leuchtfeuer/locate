@@ -16,10 +16,10 @@ Locate - Identify users by IP and/or browser language
    en
 
 :Copyright:
-   2013-2020
+   2013-2023
 
 :Authors:
-   Florian Wessels, Leuchtfeuer Digital Marketing
+   Devs @ Leuchtfeuer Digital Marketing
 
 :Email:
    dev@Leuchtfeuer.com

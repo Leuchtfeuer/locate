@@ -34,8 +34,11 @@ class IP2Country extends AbstractFactProvider
     public function process(): self
     {
         $simulateIp = $this->configuration['settings']['simulateIp'] ? : null;
+        $iso2 = GeneralUtility::makeInstance(LocateUtility::class)->getCountryIso2FromIP($simulateIp);
+        if ($iso2 === false) {
+            $iso2 = '';
+        }
 
-        $iso2 = GeneralUtility::makeInstance(LocateUtility::class)->getCountryIso2FromIP($simulateIp) ?? '';
         LocateUtility::mainstreamValue($iso2);
         $this->facts[$this->getBasename()] = $iso2;
 

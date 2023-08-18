@@ -15,11 +15,11 @@ namespace Leuchtfeuer\Locate\Judge;
 
 class Decision
 {
-    protected $verdictName = '';
+    protected string $verdictName = '';
 
-    protected $priority = AbstractJudge::DEFAULT_PRIORITY;
+    protected int $priority = AbstractJudge::DEFAULT_PRIORITY;
 
-    protected $internalPriority = 0;
+    protected int $internalPriority = 0;
 
     public function hasVerdict(): bool
     {

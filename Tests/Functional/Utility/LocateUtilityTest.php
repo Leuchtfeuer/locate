@@ -19,7 +19,7 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  */
 class LocateUtilityTest extends FunctionalTestCase
 {
-    protected $subject;
+    protected LocateUtility $subject;
 
     protected function setUp(): void
     {

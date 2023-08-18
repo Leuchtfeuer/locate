@@ -22,9 +22,9 @@ abstract class AbstractVerdict implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    protected $configuration = [];
+    protected array $configuration = [];
 
-    protected $session;
+    protected SessionStore $session;
 
     public function __construct()
     {

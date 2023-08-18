@@ -19,7 +19,7 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  */
 class SessionStoreTest extends FunctionalTestCase
 {
-    protected $subject;
+    protected SessionStore $subject;
 
     protected function setUp(): void
     {

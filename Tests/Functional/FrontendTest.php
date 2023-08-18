@@ -15,7 +15,6 @@ use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalRequest;
-use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalRequestContext;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 class FrontendTest extends FunctionalTestCase
@@ -26,7 +25,7 @@ class FrontendTest extends FunctionalTestCase
             'typo3conf/ext/locate',
         ];
         parent::setUp();
-        $this->importDataSet(__DIR__ . '/Fixtures/redirect-scenario.xml');
+        $this->importCSVDataSet(__DIR__ . '/Fixtures/redirect-scenario.csv');
     }
 
     /**
@@ -40,15 +39,13 @@ class FrontendTest extends FunctionalTestCase
             ['setup' => ['EXT:locate/Tests/Functional/Fixtures/TypoScript/setup.typoscript']]
         );
         $this->setUpFrontendSite(1);
-        $response = $this->executeFrontendRequest(
+        $response = $this->executeFrontendSubRequest(
             (new InternalRequest())
                 ->withPageId(1)
-                ->withHeader('Accept-Language', 'en-GB,en-US;q=0.9,en;q=0.8'),
-            (new InternalRequestContext())->withGlobalSettings([
-                '_SERVER' => [
+                ->withHeader('Accept-Language', 'en-GB,en-US;q=0.9,en;q=0.8')
+                ->withServerParams([
                     'REMOTE_ADDR' => '1.207.255.250',
-                ],
-            ])
+                ])
         );
         self::assertSame('Hello World', (string)$response->getBody());
     }

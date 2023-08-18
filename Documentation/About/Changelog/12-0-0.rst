@@ -1,0 +1,24 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 12.0.0 - 2023/08/18
+==========================
+
+This release is a major release. We added support for TYPO3 v12 and PHP 8.1 & 8.2 and dropped support for TYPO3 v11.
+
+Added
+===========
+
+* Support for TYPO3 v12 and PHP 8.1 & 8.2
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2023-08-16 [TASK] Update documentation (Commit 207a5f1 by dkranz)
+   2023-08-16 [TASK] Update method to get typoscript settings (Commit 075ddec by dkranz)
+   2023-08-16 [TASK] Update method to get typoscript settings (Commit 3864b1d by dkranz)
+   2023-08-16 [TASK] Update README.md (Commit 1b9a15e by dkranz)
+   2023-08-16 [TASK] Update tests and fix errors and warnings (Commit f5c2ea6 by dkranz)
+   2023-08-10 [TASK] Updates for TYPO3 12 and PHP 8.1 (Commit a1657de by dkranz)
