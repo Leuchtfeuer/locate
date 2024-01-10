@@ -29,7 +29,9 @@ class Condition extends AbstractJudge
             [$factIdentifier, $value] = explode('=', $match);
 
             if (!isset($facts[$factIdentifier]) || !(isset($facts[$factIdentifier][$value]) || $facts[$factIdentifier] == $value)) {
-                return null;
+                if (!isset($facts['browserAccepted.locale']) || !(isset($facts['browserAccepted.locale'][$value]) || $facts['browserAccepted.locale'] == $value)) {
+                    return null;
+                }
             }
 
             if ($priority < $decision->getPriority()) {

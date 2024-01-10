@@ -44,7 +44,7 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
         list($locales, $languages) = $matches;
 
         array_walk($locales, function (&$locale) {
-            $locale = str_replace('-', '_', $locale);
+            //$locale = str_replace('-', '_', $locale);
         });
 
         $this->locales = $locales;
