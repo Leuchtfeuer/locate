@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 // Feature is not available if EXT:static_info_tables is not loaded
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables') === false) {
-    return [];
+    return;
 }
 
 return [
