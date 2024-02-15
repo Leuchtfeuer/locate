@@ -44,9 +44,24 @@ class LocateUtility
 
     public function getNumericIp(?string $ip = null): string|bool
     {
-        $ip = $ip ?? (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
+        $ip = $ip ?? $this->getRemoteAddress();
 
         return str_contains($ip, '.') ? (string)ip2long($ip) : $this->convertIpv6($ip);
+    }
+
+    protected function getRemoteAddress(): ?string
+    {
+        $remoteAddr = $this->getHeader('X-Forwarded-For');
+        if (!empty($remoteAddr)) {
+            return $remoteAddr;
+        }
+        return (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
+    }
+
+    protected function getHeader(string $headerName): ?string
+    {
+        $headers = getallheaders();
+        return $headers[$headerName] ?? null;
     }
 
     private function convertIpv6(string $ip): string|bool
