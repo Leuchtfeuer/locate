@@ -9,3 +9,6 @@ services:
       - name: console.command
         command: locate:update
         schedulable: false
+
+  Leuchtfeuer\Locate\Middleware\LanguageRedirectMiddleware:
+    public: true

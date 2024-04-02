@@ -21,39 +21,76 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
+use TYPO3\CMS\Core\LinkHandling\LinkService;
 
-class LanguageRedirectMiddleware implements MiddlewareInterface
+final class LanguageRedirectMiddleware implements MiddlewareInterface
 {
+    public function __construct(
+        private readonly BackendConfigurationManager $backendConfigurationManager,
+        private readonly LinkService $link
+    ) {
+    }
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $typoScript = $this->getTypoScriptSetup();
+        if (!$this->isErrorPage($request)) {
+            $typoScript = $this->backendConfigurationManager->getTypoScriptSetup();
 
-        if (isset($typoScript['config.']['tx_locate']) && (int)$typoScript['config.']['tx_locate'] === 1) {
-            $locateSetup = $typoScript['config.']['tx_locate.'];
+            if (isset($typoScript['config.']['tx_locate']) && (int)$typoScript['config.']['tx_locate'] === 1) {
 
-            $config = [
-                'verdicts' => $locateSetup['verdicts.'] ?? [],
-                'facts' => $locateSetup['facts.'] ?? [],
-                'judges' => $locateSetup['judges.'] ?? [],
-                'settings' => [
-                    'dryRun' => (bool)($locateSetup['dryRun'] ?? false),
-                    'overrideQueryParameter' => $locateSetup['overrideQueryParameter'] ?? Redirect::OVERRIDE_PARAMETER,
-                    'overrideSessionValue' => (bool)($locateSetup['overrideSessionValue'] ?? 0),
-                    'sessionHandling' => (bool)($locateSetup['sessionHandling'] ?? 0),
-                    'excludeBots' => (bool)($locateSetup['excludeBots'] ?? 1),
-                    'simulateIp' => (string)($locateSetup['simulateIp'] ?? ''),
-                ],
-            ];
+                $locateSetup = $typoScript['config.']['tx_locate.'];
 
-            return GeneralUtility::makeInstance(Court::class, $config)->run() ?? $handler->handle($request);
+                $config = [
+                    'verdicts' => $locateSetup['verdicts.'] ?? [],
+                    'facts' => $locateSetup['facts.'] ?? [],
+                    'judges' => $locateSetup['judges.'] ?? [],
+                    'settings' => [
+                        'dryRun' => (bool)($locateSetup['dryRun'] ?? false),
+                        'overrideQueryParameter' => $locateSetup['overrideQueryParameter'] ?? Redirect::OVERRIDE_PARAMETER,
+                        'overrideSessionValue' => (bool)($locateSetup['overrideSessionValue'] ?? 0),
+                        'sessionHandling' => (bool)($locateSetup['sessionHandling'] ?? 0),
+                        'excludeBots' => (bool)($locateSetup['excludeBots'] ?? 1),
+                        'simulateIp' => (string)($locateSetup['simulateIp'] ?? ''),
+                    ],
+                ];
+
+                return GeneralUtility::makeInstance(Court::class, $config)->run() ?? $handler->handle($request);
+            }
         }
 
         return $handler->handle($request);
     }
 
-    protected function getTypoScriptSetup(): array
+    private function isErrorPage(ServerRequestInterface $request): bool
     {
-        $backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
-        return $backendConfigurationManager->getTypoScriptSetup();
+        $siteConfig = $request->getAttribute('site')->getConfiguration();
+        $routing = $request->getAttribute('routing');
+
+        if ($routing && is_array($siteConfig['errorHandling'] ?? null)) {
+            $errorHandlers = $siteConfig['errorHandling'];
+            $requestPageUid = $routing->getPageId();
+
+            if (in_array($requestPageUid, $this->getErrorPageUids($errorHandlers))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function getErrorPageUids(array $errorHandlers): array
+    {
+        $errorPageUids = [];
+
+        foreach ($errorHandlers as $errorHandler) {
+            if (isset($errorHandler['errorContentSource'])) {
+                $pageUid = $this->link->resolve($errorHandler['errorContentSource'])['pageuid'] ?? null;
+                if ($pageUid) {
+                    $errorPageUids[] = $pageUid;
+                }
+            }
+        }
+
+        return $errorPageUids;
     }
 }
