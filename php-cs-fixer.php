@@ -12,7 +12,7 @@ This file is part of the "Locate" extension for TYPO3 CMS.
 For the full copyright and license information, please read the
 LICENSE.txt file that was distributed with this source code.
 
-Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
+Team YD <dev@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
 COMMENT;
 
 $finder = (new PhpCsFixer\Finder())
@@ -30,6 +30,7 @@ return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@DoctrineAnnotation' => true,
+        '@PER' => true,
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
         'blank_line_after_opening_tag' => true,
@@ -39,6 +40,7 @@ return (new PhpCsFixer\Config())
         'concat_space' => ['spacing' => 'one'],
         'declare_equal_normalize' => ['space' => 'none'],
         'dir_constant' => true,
+        'function_to_constant' => ['functions' => ['get_called_class', 'get_class', 'get_class_this', 'php_sapi_name', 'phpversion', 'pi']],
         'function_typehint_space' => true,
         'header_comment' => [
             'header' => $headerComment,
@@ -48,6 +50,7 @@ return (new PhpCsFixer\Config())
         ],
         'lowercase_cast' => true,
         'method_argument_space' => ['on_multiline' => 'ensure_fully_multiline'],
+        'modernize_strpos' => true,
         'modernize_types_casting' => true,
         'native_function_casing' => true,
         'new_with_braces' => true,
@@ -66,6 +69,7 @@ return (new PhpCsFixer\Config())
         'no_unneeded_control_parentheses' => true,
         'no_unused_imports' => true,
         'no_useless_else' => true,
+        'no_useless_nullsafe_operator' => true,
         'no_whitespace_in_blank_line' => true,
         'ordered_imports' => true,
         'php_unit_construct' => ['assertions' => ['assertEquals', 'assertSame', 'assertNotEquals', 'assertNotSame']],
@@ -83,6 +87,7 @@ return (new PhpCsFixer\Config())
         'single_line_comment_style' => ['comment_types' => ['hash']],
         'single_trait_insert_per_statement' => true,
         'trailing_comma_in_multiline' => ['elements' => ['arrays']],
-        'whitespace_after_comma_in_array' => true,
+        'whitespace_after_comma_in_array' => ['ensure_single_space' => true],
+        'yoda_style' => ['equal' => false, 'identical' => false, 'less_and_greater' => false],
     ])
     ->setFinder($finder);
