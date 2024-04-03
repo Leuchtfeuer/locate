@@ -11,6 +11,4 @@
 
 namespace Leuchtfeuer\Locate\Exception;
 
-class IllegalFactProviderException extends \Exception
-{
-}
+class IllegalFactProviderException extends \Exception {}

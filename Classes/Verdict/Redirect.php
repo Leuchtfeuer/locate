@@ -25,8 +25,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Redirect extends AbstractVerdict
 {
-    const SESSION_KEY = 'language';
-    const OVERRIDE_PARAMETER = 'setLang';
+    public const SESSION_KEY = 'language';
+    public const OVERRIDE_PARAMETER = 'setLang';
 
     private bool $sessionMode = false;
 

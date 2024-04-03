@@ -11,6 +11,4 @@
 
 namespace Leuchtfeuer\Locate\Exception;
 
-class IllegalActionException extends \Exception
-{
-}
+class IllegalActionException extends \Exception {}

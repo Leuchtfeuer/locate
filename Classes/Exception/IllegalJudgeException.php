@@ -11,6 +11,4 @@
 
 namespace Leuchtfeuer\Locate\Exception;
 
-class IllegalJudgeException extends \Exception
-{
-}
+class IllegalJudgeException extends \Exception {}

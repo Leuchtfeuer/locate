@@ -11,6 +11,4 @@
 
 namespace Leuchtfeuer\Locate\Exception;
 
-class InvalidActionName extends \Exception
-{
-}
+class InvalidActionName extends \Exception {}

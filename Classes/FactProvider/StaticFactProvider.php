@@ -13,7 +13,7 @@ namespace Leuchtfeuer\Locate\FactProvider;
 
 class StaticFactProvider extends AbstractFactProvider
 {
-    const PROVIDER_NAME = 'static';
+    public const PROVIDER_NAME = 'static';
 
     public function getBasename(): string
     {

@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class RegionRepository
 {
-    const APPLY_WHEN_NO_IP_MATCHES = -1;
+    public const APPLY_WHEN_NO_IP_MATCHES = -1;
 
     /**
      * @throws Exception

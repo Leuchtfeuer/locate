@@ -13,7 +13,7 @@ namespace Leuchtfeuer\Locate\Store;
 
 class SessionStore
 {
-    const SESSION_BASE_NAME = 'tx_locate_';
+    public const SESSION_BASE_NAME = 'tx_locate_';
 
     protected string $sessionBaseName;
 
