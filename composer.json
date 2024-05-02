@@ -69,14 +69,6 @@
       "typo3/cms-composer-installers": true
     }
   },
-  "scripts": {
-    "post-autoload-dump": [
-      "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare",
-      "mkdir -p .Build/public/typo3conf/ext/",
-      "[ -L .Build/public/typo3conf/ext/locate ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/locate"
-    ],
-    "cs-fix": ".Build/bin/php-cs-fixer fix --config php-cs-fixer.php --using-cache no --show-progress dots -v"
-  },
   "extra": {
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
