@@ -1,7 +1,6 @@
 {
   "name": "leuchtfeuer/locate",
   "description": "The users country, preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. Locate also provides geo blocking for configurable pages in configurable countries.",
-  "version": "12.0.3",
   "keywords": [
     "TYPO3",
     "extension",
@@ -72,8 +71,8 @@
   "scripts": {
     "post-autoload-dump": [
       "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare",
-      "mkdir -p .Build/packages/",
-      "[ -L .Build/packages/locate ] || ln -snvf ../../../../. .Build/packages/locate"
+      "mkdir -p .Build/public/typo3conf/ext/",
+      "[ -L .Build/public/typo3conf/ext/locate ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/locate"
     ],
     "cs-fix": ".Build/bin/php-cs-fixer fix --config php-cs-fixer.php --using-cache no --show-progress dots -v"
   },
