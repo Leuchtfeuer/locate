@@ -21,19 +21,25 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 final class LanguageRedirectMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly BackendConfigurationManager $backendConfigurationManager,
         private readonly LinkService $link
-    ) {}
+    ) {
+    }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (!$this->isErrorPage($request)) {
-            $typoScript = $this->backendConfigurationManager->getTypoScriptSetup();
+            /** @var ConfigurationManager $configurationManager */
+            $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
+            $typoScript = $configurationManager->getConfiguration(
+                ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT,
+                'sitepackage'
+            );
 
             if (isset($typoScript['config.']['tx_locate']) && (int)$typoScript['config.']['tx_locate'] === 1) {
                 $locateSetup = $typoScript['config.']['tx_locate.'];
