@@ -19,24 +19,34 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Core\LinkHandling\Exception\UnknownLinkHandlerException;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
 final class LanguageRedirectMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly BackendConfigurationManager $backendConfigurationManager,
+        private readonly ConfigurationManager $configurationManager,
         private readonly LinkService $link
-    ) {}
+    ) {
+    }
 
+    /**
+     * @throws UnknownLinkHandlerException
+     * @throws InvalidConfigurationTypeException
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (!$this->isErrorPage($request)) {
-            $typoScript = $this->backendConfigurationManager->getTypoScriptSetup();
+            $typoScript = $this->configurationManager->getConfiguration(
+                ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT,
+            );
 
             if (isset($typoScript['config.']['tx_locate']) && (int)$typoScript['config.']['tx_locate'] === 1) {
-                $locateSetup = $typoScript['config.']['tx_locate.'];
+                $locateSetup = $typoScript['config.']['tx_locate.'] ?? [];
 
                 $config = [
                     'verdicts' => $locateSetup['verdicts.'] ?? [],
@@ -59,6 +69,9 @@ final class LanguageRedirectMiddleware implements MiddlewareInterface
         return $handler->handle($request);
     }
 
+    /**
+     * @throws UnknownLinkHandlerException
+     */
     private function isErrorPage(ServerRequestInterface $request): bool
     {
         $siteConfig = $request->getAttribute('site')->getConfiguration();
@@ -76,6 +89,9 @@ final class LanguageRedirectMiddleware implements MiddlewareInterface
         return false;
     }
 
+    /**
+     * @throws UnknownLinkHandlerException
+     */
     private function getErrorPageUids(array $errorHandlers): array
     {
         $errorPageUids = [];
