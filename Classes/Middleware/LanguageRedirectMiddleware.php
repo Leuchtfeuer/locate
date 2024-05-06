@@ -31,8 +31,7 @@ final class LanguageRedirectMiddleware implements MiddlewareInterface
     public function __construct(
         private readonly ConfigurationManager $configurationManager,
         private readonly LinkService $link
-    ) {
-    }
+    ) {}
 
     /**
      * @throws UnknownLinkHandlerException

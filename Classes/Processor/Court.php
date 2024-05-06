@@ -73,8 +73,10 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
             if ($decision !== null) {
                 if (!$decision->hasVerdict()) {
-                    throw new \Exception('No verdict should be delivered. This might be a problem in you configuration',
-                        1608653067);
+                    throw new \Exception(
+                        'No verdict should be delivered. This might be a problem in you configuration',
+                        1608653067
+                    );
                 }
                 return $this->enforceJudgement($decision->getVerdictName());
             }
