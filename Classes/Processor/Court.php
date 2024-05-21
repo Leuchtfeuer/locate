@@ -56,7 +56,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
     public function run(): ?ResponseInterface
     {
         // Exclude bots from redirects
-        if ((bool)($this->configuration['settings']['excludeBots'] ?? false) && class_exists('Jaybizzle\CrawlerDetect\CrawlerDetect')) {
+        if (((bool)$this->configuration['settings']['excludeBots'] ?? false) && class_exists('Jaybizzle\CrawlerDetect\CrawlerDetect')) {
             $crawlerDetect = new CrawlerDetect(
                 $GLOBALS['TYPO3_REQUEST']->getHeaders(),
                 GeneralUtility::getIndpEnv('HTTP_USER_AGENT')
@@ -73,7 +73,10 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
             if ($decision !== null) {
                 if (!$decision->hasVerdict()) {
-                    throw new \Exception('No verdict should be delivered. This might be a problem in you configuration', 1608653067);
+                    throw new \Exception(
+                        'No verdict should be delivered. This might be a problem in you configuration',
+                        1608653067
+                    );
                 }
                 return $this->enforceJudgement($decision->getVerdictName());
             }
@@ -89,7 +92,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
      */
     protected function processFacts(): void
     {
-        foreach ($this->configuration['facts'] ?? [] as $key => $className) {
+        foreach (($this->configuration['facts'] ?? []) as $key => $className) {
             if (!class_exists($className)) {
                 $this->logger->warning(sprintf('Class "%s" does not exist. Skip.', $className));
                 continue;
@@ -118,7 +121,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
         $judgements = [];
         $priorities = [];
 
-        foreach ($this->configuration['judges'] ?? [] as $key => $className) {
+        foreach (($this->configuration['judges'] ?? []) as $key => $className) {
             // Since we have an TypoScript array, skip every key which has sub properties
             if (!is_string($className)) {
                 continue;
@@ -152,12 +155,21 @@ class Court implements ProcessorInterface, LoggerAwareInterface
         return !empty($judgements) ? $this->getDecision($judgements) : null;
     }
 
-    protected function addJudgement(array &$judgements, array $configuration, $key, AbstractJudge $judge, array &$priorities): void
-    {
-        $fact = (isset($configuration['fact']) && isset($this->facts[$configuration['fact']])) ? $this->facts[$configuration['fact']] : new StaticFactProvider();
+    protected function addJudgement(
+        array &$judgements,
+        array $configuration,
+        $key,
+        AbstractJudge $judge,
+        array &$priorities
+    ): void {
+        $fact = isset($configuration['fact'], $this->facts[$configuration['fact']])
+            ? $this->facts[$configuration['fact']]
+            : new StaticFactProvider();
 
         if ($fact instanceof AbstractFactProvider) {
-            $judge = $judge->withConfiguration($this->configuration['judges'][$key . '.'] ?? [])->adjudicate($fact, (int)$key);
+            $judge = $judge->withConfiguration(
+                $this->configuration['judges'][$key . '.'] ?? []
+            )->adjudicate($fact, (int)$key);
 
             if ($judge->hasDecision() && !isset($decisions[$judge->getDecision()->getPriority()])) {
                 $decision = $judge->getDecision();
@@ -206,7 +218,10 @@ class Court implements ProcessorInterface, LoggerAwareInterface
         $this->logger->info(sprintf('Verdict with name %s will be delivered', $actionName));
 
         if ($this->dryRun === false) {
-            $configuration = array_merge($this->configuration['settings'], $this->configuration['verdicts'][$actionName . '.'] ?? []);
+            $configuration = array_merge(
+                $this->configuration['settings'],
+                $this->configuration['verdicts'][$actionName . '.'] ?? []
+            );
             $verdict = $verdict->withConfiguration($configuration);
 
             return $verdict->execute();
