@@ -12,3 +12,6 @@ services:
 
   Leuchtfeuer\Locate\Middleware\LanguageRedirectMiddleware:
     public: true
+
+  Leuchtfeuer\Locate\Utility\LocateUtility:
+    public: true
