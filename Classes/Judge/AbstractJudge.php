@@ -17,14 +17,15 @@ use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
 
 abstract class AbstractJudge
 {
-    public const DEFAULT_PRIORITY = 999;
+    public const int DEFAULT_PRIORITY = 999;
 
-    protected array $configuration = [];
+    /** @var array<string, mixed> */
+    protected array $configuration;
 
     protected ?Decision $decision = null;
 
     /**
-     * @param array $configuration TypoScript configuration array for this judge
+     * @param array<string, mixed> $configuration TypoScript configuration array for this judge
      */
     public function __construct(array $configuration = [])
     {
@@ -32,7 +33,7 @@ abstract class AbstractJudge
     }
 
     /**
-     * @param array $configuration TypoScript configuration array for this judge
+     * @param array<string, mixed> $configuration TypoScript configuration array for this judge
      * @return $this
      */
     public function withConfiguration(array $configuration): self

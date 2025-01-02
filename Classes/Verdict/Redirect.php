@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Verdict;
 
+use Leuchtfeuer\Locate\Utility\TypeCaster;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
@@ -25,8 +26,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Redirect extends AbstractVerdict
 {
-    public const SESSION_KEY = 'language';
-    public const OVERRIDE_PARAMETER = 'setLang';
+    public const string SESSION_KEY = 'language';
+    public const string OVERRIDE_PARAMETER = 'setLang';
 
     private bool $sessionMode = false;
 
@@ -40,7 +41,7 @@ class Redirect extends AbstractVerdict
      */
     public function execute(): ?ResponseInterface
     {
-        $this->redirectLanguageUid = isset($this->configuration['sys_language']) ? (int)$this->configuration['sys_language'] : 0;
+        $this->redirectLanguageUid = isset($this->configuration['sys_language']) ? TypeCaster::toInt($this->configuration['sys_language']) : 0;
         $this->requestedLanguageUid = GeneralUtility::makeInstance(Context::class)->getAspect('language')->getId();
 
         // Initialize Session mode if necessary and prepare everything for possible redirects
@@ -62,11 +63,11 @@ class Redirect extends AbstractVerdict
         }
 
         // Try to redirect by configured URL
-        return $this->configuration['url'] ? $this->redirectToUrl($this->configuration['url']) : null;
+        return $this->configuration['url'] ? $this->redirectToUrl(TypeCaster::toString($this->configuration['url'])) : null;
     }
 
     /**
-     * Set sessionMode Param to true if sessionHandling is enables
+     * Set sessionMode Param to true if sessionHandling is enabled
      */
     private function initializeSessionMode(): void
     {
@@ -96,7 +97,7 @@ class Redirect extends AbstractVerdict
             } else {
                 // Override config array by session value
                 $this->logger->info('Session is not in current language and overriding is not allowed.');
-                $this->redirectLanguageUid = $this->getSessionValue();
+                $this->redirectLanguageUid = $this->getSessionValue() ?? 0;
                 $this->configuration['sys_language'] = $this->getSessionValue();
             }
         } elseif ($this->sessionMode === true) {
@@ -134,7 +135,7 @@ class Redirect extends AbstractVerdict
     private function setSessionValue(?int $value): void
     {
         if ($value === null) {
-            $value = (int)$this->configuration['sys_language'];
+            $value = TypeCaster::toInt($this->configuration['sys_language']);
         }
 
         $this->session->set(self::SESSION_KEY, $value);
@@ -142,7 +143,11 @@ class Redirect extends AbstractVerdict
 
     private function getSessionValue(): ?int
     {
-        return $this->session->get(self::SESSION_KEY);
+        $value = $this->session->get(self::SESSION_KEY);
+        if ($value === null) {
+            return null;
+        }
+        return TypeCaster::toInt($value);
     }
 
     private function shouldRedirect(): bool
@@ -154,7 +159,7 @@ class Redirect extends AbstractVerdict
 
         // Redirect when URL is set and URL does not match actual URL
         if (isset($this->configuration['url'])) {
-            $configUri = new Uri($this->configuration['url']);
+            $configUri = new Uri(TypeCaster::toString($this->configuration['url']));
             $typo3Uri = $GLOBALS['TYPO3_REQUEST']->getUri();
 
             if ($configUri->getHost() !== $typo3Uri->getHost() || $configUri->getScheme() !== $typo3Uri->getScheme() || $configUri->getPath() !== $typo3Uri->getPath()) {
@@ -176,8 +181,14 @@ class Redirect extends AbstractVerdict
     private function redirectToPage(): ?RedirectResponse
     {
         $pageId = (int)($this->configuration['page'] ?? $GLOBALS['TYPO3_REQUEST']->getAttribute('routing')->getPageId());
-        $targetLanguageId = isset($this->configuration['sys_language']) ? (int)$this->configuration['sys_language'] : 0;
+        $targetLanguageId = isset($this->configuration['sys_language']) ? TypeCaster::toInt($this->configuration['sys_language']) : 0;
         $page = BackendUtility::getRecord('pages', $pageId, '*', '', false);
+
+        if ($page === null) {
+            $this->logger->info('Target page not found. No redirect.');
+
+            return null;
+        }
 
         // Page is in current language - no redirect necessary
         if (($page['sys_language_uid'] === $targetLanguageId && $targetLanguageId !== 0) || $this->requestedLanguageUid === $targetLanguageId) {

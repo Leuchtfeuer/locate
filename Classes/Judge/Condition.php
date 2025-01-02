@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Locate\Judge;
 
 use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
+use Leuchtfeuer\Locate\Utility\TypeCaster;
 
 class Condition extends AbstractJudge
 {
@@ -22,10 +23,10 @@ class Condition extends AbstractJudge
      */
     public function adjudicate(AbstractFactProvider $factProvider, int $priority = AbstractJudge::DEFAULT_PRIORITY): AbstractJudge
     {
-        $prosecution = $this->configuration['prosecution'] ?? $this->configuration['prosecution.'] ?? null;
+        $prosecution = $this->configuration['prosecution'] ?? null;
 
-        if ($prosecution !== null && isset($this->configuration['verdict']) && $factProvider->isGuilty($prosecution)) {
-            $this->decision = (new Decision())->withVerdictName($this->configuration['verdict']);
+        if ($prosecution !== null && $factProvider->isGuilty(TypeCaster::toString($prosecution))) {
+            $this->decision = (new Decision())->withVerdictName(TypeCaster::toString($this->configuration['verdict']));
             $this->decision->setPriority($priority);
 
             if ($factProvider->isMultiple()) {

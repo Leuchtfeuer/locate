@@ -15,22 +15,27 @@ namespace Leuchtfeuer\Locate\Verdict;
 
 use Leuchtfeuer\Locate\Store\SessionStore;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 
-abstract class AbstractVerdict implements LoggerAwareInterface
+abstract class AbstractVerdict
 {
-    use LoggerAwareTrait;
-
-    protected array $configuration = [];
+    /**
+     * @var array<string, mixed>
+     */
+    protected array $configuration;
 
     protected SessionStore $session;
 
-    public function __construct()
+    public function __construct(
+        protected readonly LoggerInterface $logger,
+    )
     {
         $this->session = new SessionStore();
     }
 
+    /**
+     * @param array<string, mixed> $configuration
+     */
     public function withConfiguration(array $configuration): self
     {
         $clonedObject = clone $this;

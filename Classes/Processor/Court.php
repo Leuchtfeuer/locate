@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Locate\Processor;
 
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
+use Leuchtfeuer\Locate\Domain\DTO\Configuration;
 use Leuchtfeuer\Locate\Exception\IllegalActionException;
 use Leuchtfeuer\Locate\Exception\IllegalFactProviderException;
 use Leuchtfeuer\Locate\Exception\IllegalJudgeException;
@@ -21,33 +22,31 @@ use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
 use Leuchtfeuer\Locate\FactProvider\StaticFactProvider;
 use Leuchtfeuer\Locate\Judge\AbstractJudge;
 use Leuchtfeuer\Locate\Judge\Decision;
+use Leuchtfeuer\Locate\Utility\TypeCaster;
 use Leuchtfeuer\Locate\Verdict\AbstractVerdict;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidActionNameException;
 
-class Court implements ProcessorInterface, LoggerAwareInterface
+class Court implements ProcessorInterface
 {
-    use LoggerAwareTrait;
-
-    protected array $configuration = [];
+    protected Configuration $configuration;
 
     /**
      * @var AbstractFactProvider[]
      */
     protected array $facts = [];
 
-    /**
-     * If set the action won't be executed
-     */
-    protected bool $dryRun = false;
+    public function __construct(private readonly LoggerInterface $logger)
+    {
 
-    public function __construct(array $configuration)
+    }
+
+    public function withConfiguration(Configuration $configuration): self
     {
         $this->configuration = $configuration;
-        $this->dryRun = (bool)$configuration['settings']['dryRun'];
+        return $this;
     }
 
     /**
@@ -56,7 +55,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
     public function run(): ?ResponseInterface
     {
         // Exclude bots from redirects
-        if (((bool)$this->configuration['settings']['excludeBots'] ?? false) && class_exists('Jaybizzle\CrawlerDetect\CrawlerDetect')) {
+        if ($this->configuration->isExcludeBots() && class_exists('Jaybizzle\CrawlerDetect\CrawlerDetect')) {
             $crawlerDetect = new CrawlerDetect(
                 $GLOBALS['TYPO3_REQUEST']->getHeaders(),
                 GeneralUtility::getIndpEnv('HTTP_USER_AGENT')
@@ -92,7 +91,11 @@ class Court implements ProcessorInterface, LoggerAwareInterface
      */
     protected function processFacts(): void
     {
-        foreach (($this->configuration['facts'] ?? []) as $key => $className) {
+        foreach ($this->configuration->getFacts() as $key => $className) {
+            if (!is_string($className)) {
+                $this->logger->warning('$className is not a string. Skip.');
+                continue;
+            }
             if (!class_exists($className)) {
                 $this->logger->warning(sprintf('Class "%s" does not exist. Skip.', $className));
                 continue;
@@ -120,8 +123,9 @@ class Court implements ProcessorInterface, LoggerAwareInterface
     {
         $judgements = [];
         $priorities = [];
+        $judges = $this->configuration->getJudges();
 
-        foreach (($this->configuration['judges'] ?? []) as $key => $className) {
+        foreach ($judges as $key => $className) {
             // Since we have an TypoScript array, skip every key which has sub properties
             if (!is_string($className)) {
                 continue;
@@ -142,7 +146,7 @@ class Court implements ProcessorInterface, LoggerAwareInterface
                 );
             }
 
-            $configuration = $this->configuration['judges'][$key . '.'] ?? [];
+            $configuration = TypeCaster::limitToArray($judges[$key . '.'] ?? []);
 
             if (empty($configuration)) {
                 $this->logger->warning('No judges are configured.');
@@ -155,10 +159,15 @@ class Court implements ProcessorInterface, LoggerAwareInterface
         return !empty($judgements) ? $this->getDecision($judgements) : null;
     }
 
+    /**
+     * @param array{} $judgements
+     * @param array<int|string, mixed> $configuration
+     * @param array<string, int> $priorities
+     */
     protected function addJudgement(
         array &$judgements,
         array $configuration,
-        $key,
+        string $key,
         AbstractJudge $judge,
         array &$priorities
     ): void {
@@ -167,12 +176,10 @@ class Court implements ProcessorInterface, LoggerAwareInterface
             : new StaticFactProvider();
 
         if ($fact instanceof AbstractFactProvider) {
-            $judge = $judge->withConfiguration(
-                $this->configuration['judges'][$key . '.'] ?? []
-            )->adjudicate($fact, (int)$key);
+            $judge = $judge->withConfiguration($configuration)->adjudicate($fact, (int)$key);
+            $decision = $judge->getDecision();
 
-            if ($judge->hasDecision() && !isset($decisions[$judge->getDecision()->getPriority()])) {
-                $decision = $judge->getDecision();
+            if ($decision instanceof Decision) {
                 $priority = $decision->getPriority();
 
                 if ($fact->isMultiple()) {
@@ -186,9 +193,13 @@ class Court implements ProcessorInterface, LoggerAwareInterface
         }
     }
 
+    /**
+     * @param array<int, Decision>|array<int, array<int, Decision>> $judgements
+     */
     protected function getDecision(array $judgements): Decision
     {
         ksort($judgements);
+        /** @var Decision|array<int, Decision> $judgement */
         $judgement = array_shift($judgements);
 
         if (is_array($judgement)) {
@@ -200,8 +211,12 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
     protected function enforceJudgement(string $actionName): ?ResponseInterface
     {
-        $className = $this->configuration['verdicts'][$actionName];
+        $verdicts = $this->configuration->getVerdicts();
+        $className = $verdicts[$actionName] ?? null;
 
+        if (!is_string($className)) {
+            throw new InvalidActionNameException('$className is not a string. Skip.', 1608652320);
+        }
         if (!class_exists($className)) {
             throw new InvalidActionNameException(sprintf('Class "%s" does not exist. Skip.', $className), 1608652319);
         }
@@ -217,11 +232,13 @@ class Court implements ProcessorInterface, LoggerAwareInterface
 
         $this->logger->info(sprintf('Verdict with name %s will be delivered', $actionName));
 
-        if ($this->dryRun === false) {
+        if ($this->configuration->isDryRun() === false) {
+            $verdictSettings = is_array($verdicts[$actionName . '.']) ? $verdicts[$actionName . '.'] : [];
             $configuration = array_merge(
-                $this->configuration['settings'],
-                $this->configuration['verdicts'][$actionName . '.'] ?? []
+                $this->configuration->getSettings(),
+                $verdictSettings
             );
+
             $verdict = $verdict->withConfiguration($configuration);
 
             return $verdict->execute();

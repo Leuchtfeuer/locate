@@ -19,9 +19,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class RegionRepository
 {
-    public const APPLY_WHEN_NO_IP_MATCHES = -1;
+    public const int APPLY_WHEN_NO_IP_MATCHES = -1;
 
     /**
+     * @return array<null>|array<string, bool>
      * @throws Exception
      */
     public function getCountriesForPage(int $id): array
@@ -34,7 +35,7 @@ class RegionRepository
             ->from('tx_locate_page_region_mm', 'pmm')
             ->join('pmm', 'tx_locate_domain_model_region', 'r', 'r.uid = pmm.uid_foreign')
             ->join('r', 'tx_locate_region_country_mm', 'rmm', 'rmm.uid_local = r.uid')
-            ->join('rmm', 'static_countries', 'c', 'c.uid = rmm.uid_foreign')->where($qb->expr()->eq('pmm.uid_local', $qb->createNamedParameter($id, \PDO::PARAM_INT)))->executeQuery()
+            ->join('rmm', 'static_countries', 'c', 'c.uid = rmm.uid_foreign')->where($qb->expr()->eq('pmm.uid_local', $id))->executeQuery()
             ->fetchAllAssociative();
 
         foreach ($results as $result) {
@@ -54,7 +55,7 @@ class RegionRepository
         $results = $qb
             ->select('*')
             ->from('tx_locate_page_region_mm')
-            ->where($qb->expr()->eq('uid_local', $qb->createNamedParameter($id, \PDO::PARAM_INT)))->andWhere($qb->expr()->eq('uid_foreign', $qb->createNamedParameter(self::APPLY_WHEN_NO_IP_MATCHES, \PDO::PARAM_INT)))->executeQuery()
+            ->where($qb->expr()->eq('uid_local', $id))->andWhere($qb->expr()->eq('uid_foreign',self::APPLY_WHEN_NO_IP_MATCHES))->executeQuery()
             ->fetchAllAssociative();
 
         return !empty($results);

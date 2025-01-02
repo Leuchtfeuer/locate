@@ -13,29 +13,33 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Middleware;
 
+use Leuchtfeuer\Locate\Domain\DTO\Configuration;
 use Leuchtfeuer\Locate\Processor\Court;
 use Leuchtfeuer\Locate\Verdict\Redirect;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use TYPO3\CMS\Backend\Routing\RouteResult;
 use TYPO3\CMS\Core\LinkHandling\Exception\UnknownLinkHandlerException;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
+use TYPO3\CMS\Core\Routing\PageArguments;
+use TYPO3\CMS\Core\Routing\SiteRouteResult;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 
 final class LanguageRedirectMiddleware implements MiddlewareInterface
 {
     public function __construct(
         private readonly ConfigurationManager $configurationManager,
-        private readonly LinkService $link
+        private readonly LinkService $link,
+        private readonly Court $court,
     ) {}
 
     /**
      * @throws UnknownLinkHandlerException
-     * @throws InvalidConfigurationTypeException
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
@@ -47,21 +51,18 @@ final class LanguageRedirectMiddleware implements MiddlewareInterface
             if (isset($typoScript['config.']['tx_locate']) && (int)$typoScript['config.']['tx_locate'] === 1) {
                 $locateSetup = $typoScript['config.']['tx_locate.'] ?? [];
 
-                $config = [
-                    'verdicts' => $locateSetup['verdicts.'] ?? [],
-                    'facts' => $locateSetup['facts.'] ?? [],
-                    'judges' => $locateSetup['judges.'] ?? [],
-                    'settings' => [
-                        'dryRun' => (bool)($locateSetup['dryRun'] ?? false),
-                        'overrideQueryParameter' => $locateSetup['overrideQueryParameter'] ?? Redirect::OVERRIDE_PARAMETER,
-                        'overrideSessionValue' => (bool)($locateSetup['overrideSessionValue'] ?? 0),
-                        'sessionHandling' => (bool)($locateSetup['sessionHandling'] ?? 0),
-                        'excludeBots' => (bool)($locateSetup['excludeBots'] ?? 1),
-                        'simulateIp' => (string)($locateSetup['simulateIp'] ?? ''),
-                    ],
-                ];
+                $config = new Configuration();
+                $config->setDryRun((bool)($locateSetup['dryRun'] ?? false));
+                $config->setOverrideQueryParameter($locateSetup['overrideQueryParameter'] ?? Configuration::OVERRIDE_PARAMETER);
+                $config->setOverrideSessionValue((bool)($locateSetup['overrideSessionValue'] ?? 0));
+                $config->setSessionHandling((bool)($locateSetup['sessionHandling'] ?? 0));
+                $config->setExcludeBots((bool)($locateSetup['excludeBots'] ?? 1));
+                $config->setSimulateIp((string)($locateSetup['simulateIp'] ?? ''));
+                $config->setJudges($locateSetup['judges.'] ?? []);
+                $config->setFacts( $locateSetup['facts.'] ?? []);
+                $config->setVerdicts( $locateSetup['verdicts.'] ?? []);
 
-                return GeneralUtility::makeInstance(Court::class, $config)->run() ?? $handler->handle($request);
+                return $this->court->withConfiguration($config)->run() ?? $handler->handle($request);
             }
         }
 
@@ -73,15 +74,18 @@ final class LanguageRedirectMiddleware implements MiddlewareInterface
      */
     private function isErrorPage(ServerRequestInterface $request): bool
     {
-        $siteConfig = $request->getAttribute('site')->getConfiguration();
-        $routing = $request->getAttribute('routing');
+        $site = $request->getAttribute('site');
+        if ($site instanceof Site) {
+            $siteConfig = $site->getConfiguration();
+            $routing = $request->getAttribute('routing');
 
-        if ($routing && is_array($siteConfig['errorHandling'] ?? null)) {
-            $errorHandlers = $siteConfig['errorHandling'];
-            $requestPageUid = $routing->getPageId();
+            if ($routing instanceof PageArguments && is_array($siteConfig['errorHandling'] ?? null)) {
+                $errorHandlers = $siteConfig['errorHandling'];
+                $requestPageUid = $routing->getPageId();
 
-            if (in_array($requestPageUid, $this->getErrorPageUids($errorHandlers))) {
-                return true;
+                if (in_array($requestPageUid, $this->getErrorPageUids($errorHandlers))) {
+                    return true;
+                }
             }
         }
 
@@ -89,6 +93,8 @@ final class LanguageRedirectMiddleware implements MiddlewareInterface
     }
 
     /**
+     * @param array<int, array<string, string>> $errorHandlers
+     * @return array<int>
      * @throws UnknownLinkHandlerException
      */
     private function getErrorPageUids(array $errorHandlers): array
@@ -99,7 +105,7 @@ final class LanguageRedirectMiddleware implements MiddlewareInterface
             if (isset($errorHandler['errorContentSource'])) {
                 $pageUid = $this->link->resolve($errorHandler['errorContentSource'])['pageuid'] ?? null;
                 if ($pageUid) {
-                    $errorPageUids[] = $pageUid;
+                    $errorPageUids[] = (int)$pageUid;
                 }
             }
         }

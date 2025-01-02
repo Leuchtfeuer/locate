@@ -13,15 +13,19 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Processor;
 
+use Leuchtfeuer\Locate\Domain\DTO\Configuration;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
+
 interface ProcessorInterface
 {
-    /**
-     * @param array $configuration TypoScript config array
-     */
-    public function __construct(array $configuration);
+
+    public function __construct(LoggerInterface $logger);
+
+    public function withConfiguration(Configuration $configuration): self;
 
     /**
      * Processes the configuration
      */
-    public function run();
+    public function run(): ?ResponseInterface;
 }

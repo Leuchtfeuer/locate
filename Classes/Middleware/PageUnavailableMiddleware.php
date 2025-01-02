@@ -16,6 +16,7 @@ namespace Leuchtfeuer\Locate\Middleware;
 use Doctrine\DBAL\Exception;
 use Leuchtfeuer\Locate\Domain\Repository\RegionRepository;
 use Leuchtfeuer\Locate\Utility\LocateUtility;
+use Leuchtfeuer\Locate\Utility\TypeCaster;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -63,20 +64,23 @@ class PageUnavailableMiddleware implements MiddlewareInterface
     }
 
     /**
+     * @param array<string, mixed> $page
      * @throws Exception
      */
     private function isPageAvailableInCurrentRegion(array $page): bool
     {
+        $pageUid = TypeCaster::toInt($page['uid']);
+        $locateInvert = TypeCaster::toBool($page['tx_locate_invert']);
         $countryCode = GeneralUtility::makeInstance(LocateUtility::class)->getCountryIso2FromIP();
         $regionRepository = GeneralUtility::makeInstance(RegionRepository::class);
-        $countries = $regionRepository->getCountriesForPage($page['uid']);
+        $countries = $regionRepository->getCountriesForPage($pageUid);
 
-        if (($countryCode === false || $countryCode === '-') && $regionRepository->shouldApplyWhenNoIpMatches($page['uid'])) {
+        if (($countryCode === false || $countryCode === '-') && $regionRepository->shouldApplyWhenNoIpMatches($pageUid)) {
             $countryCode = '-';
             $countries[$countryCode] = true;
         }
 
-        return (bool)$page['tx_locate_invert'] === false ? isset($countries[$countryCode]) : !isset($countries[$countryCode]);
+        return $locateInvert === false ? isset($countries[$countryCode]) : !isset($countries[$countryCode]);
     }
 
     /**
