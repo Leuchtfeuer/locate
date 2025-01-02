@@ -55,7 +55,7 @@ class RegionRepository
         $results = $qb
             ->select('*')
             ->from('tx_locate_page_region_mm')
-            ->where($qb->expr()->eq('uid_local', $id))->andWhere($qb->expr()->eq('uid_foreign',self::APPLY_WHEN_NO_IP_MATCHES))->executeQuery()
+            ->where($qb->expr()->eq('uid_local', $id))->andWhere($qb->expr()->eq('uid_foreign', self::APPLY_WHEN_NO_IP_MATCHES))->executeQuery()
             ->fetchAllAssociative();
 
         return !empty($results);
