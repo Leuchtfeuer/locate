@@ -38,10 +38,7 @@ class Court implements ProcessorInterface
      */
     protected array $facts = [];
 
-    public function __construct(private readonly LoggerInterface $logger)
-    {
-
-    }
+    public function __construct(private readonly LoggerInterface $logger) {}
 
     public function withConfiguration(Configuration $configuration): self
     {

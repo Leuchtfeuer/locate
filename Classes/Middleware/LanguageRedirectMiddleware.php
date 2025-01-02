@@ -15,18 +15,14 @@ namespace Leuchtfeuer\Locate\Middleware;
 
 use Leuchtfeuer\Locate\Domain\DTO\Configuration;
 use Leuchtfeuer\Locate\Processor\Court;
-use Leuchtfeuer\Locate\Verdict\Redirect;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use TYPO3\CMS\Backend\Routing\RouteResult;
 use TYPO3\CMS\Core\LinkHandling\Exception\UnknownLinkHandlerException;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Routing\PageArguments;
-use TYPO3\CMS\Core\Routing\SiteRouteResult;
 use TYPO3\CMS\Core\Site\Entity\Site;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
@@ -59,8 +55,8 @@ final class LanguageRedirectMiddleware implements MiddlewareInterface
                 $config->setExcludeBots((bool)($locateSetup['excludeBots'] ?? 1));
                 $config->setSimulateIp((string)($locateSetup['simulateIp'] ?? ''));
                 $config->setJudges($locateSetup['judges.'] ?? []);
-                $config->setFacts( $locateSetup['facts.'] ?? []);
-                $config->setVerdicts( $locateSetup['verdicts.'] ?? []);
+                $config->setFacts($locateSetup['facts.'] ?? []);
+                $config->setVerdicts($locateSetup['verdicts.'] ?? []);
 
                 return $this->court->withConfiguration($config)->run() ?? $handler->handle($request);
             }

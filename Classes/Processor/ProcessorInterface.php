@@ -19,7 +19,6 @@ use Psr\Log\LoggerInterface;
 
 interface ProcessorInterface
 {
-
     public function __construct(LoggerInterface $logger);
 
     public function withConfiguration(Configuration $configuration): self;

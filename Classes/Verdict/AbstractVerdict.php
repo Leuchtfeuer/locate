@@ -28,8 +28,7 @@ abstract class AbstractVerdict
 
     public function __construct(
         protected readonly LoggerInterface $logger,
-    )
-    {
+    ) {
         $this->session = new SessionStore();
     }
 

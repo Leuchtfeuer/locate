@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the "Locate" extension for TYPO3 CMS.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * Team YD <dev@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
+ */
+
 use Rector\Config\RectorConfig;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 use Ssch\TYPO3Rector\Set\Typo3LevelSetList;
@@ -16,7 +25,7 @@ return RectorConfig::configure()
     )
     ->withPhpSets(php83: true)
     ->withRules([
-        TypedPropertyFromStrictConstructorRector::class
+        TypedPropertyFromStrictConstructorRector::class,
     ])
     ->withSets([
         Typo3SetList::CODE_QUALITY,
