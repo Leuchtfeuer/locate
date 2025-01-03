@@ -19,17 +19,13 @@ abstract class AbstractJudge
 {
     public const int DEFAULT_PRIORITY = 999;
 
-    /** @var array<string, mixed> */
-    protected array $configuration;
-
     protected ?Decision $decision = null;
 
     /**
      * @param array<string, mixed> $configuration TypoScript configuration array for this judge
      */
-    public function __construct(array $configuration = [])
+    public function __construct(protected array $configuration = [])
     {
-        $this->configuration = $configuration;
     }
 
     /**
@@ -56,10 +52,6 @@ abstract class AbstractJudge
 
     /**
      * Call the fact module which might add some data to the factArray
-     *
-     * @param AbstractFactProvider $factProvider
-     * @param int $priority
-     * @return AbstractJudge
      */
     abstract public function adjudicate(AbstractFactProvider $factProvider, int $priority = self::DEFAULT_PRIORITY): AbstractJudge;
 }

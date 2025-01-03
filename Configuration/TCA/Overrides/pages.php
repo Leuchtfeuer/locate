@@ -3,7 +3,7 @@
 declare(strict_types = 1);
 
 // Feature is not available if EXT:static_info_tables is not loaded
-if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables') === true) {
+if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables')) {
     $temporaryColumns = [
         'tx_locate_regions' => [
             'exclude' => true,
@@ -32,12 +32,6 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_ta
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
-                'items' => [
-                    [
-                        'label' => '',
-                        1 => '',
-                    ],
-                ],
             ],
         ],
     ];

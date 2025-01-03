@@ -39,7 +39,7 @@ class TypeCaster
             return (string)$value;
         }
         if (is_object($value) && !method_exists($value, '__toString')) {
-            throw new \Exception(sprintf('Object of type "%s" is not stringable.', get_class($value)), 1727337280);
+            throw new \Exception(sprintf('Object of type "%s" is not stringable.', $value::class), 1727337280);
         }
 
         throw new \Exception(sprintf('Value of type "%s" can not be casted to string.', gettype($value)), 1727337295);
@@ -70,7 +70,7 @@ class TypeCaster
         }
 
         if (gettype($value) === 'object') {
-            throw new \Exception(sprintf('Object of type "%s" is not instance of "%s"', get_class($value), $className), 1727337297);
+            throw new \Exception(sprintf('Object of type "%s" is not instance of "%s"', $value::class, $className), 1727337297);
         }
         throw new \Exception(sprintf('Value of type "%s" is not instance of "%s"', gettype($value), $className), 1727337298);
     }

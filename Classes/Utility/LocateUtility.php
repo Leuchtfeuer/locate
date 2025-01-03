@@ -22,8 +22,6 @@ class LocateUtility
     /**
      * Check the IP in the geoip table and returns iso 2 code for the current remote address
      *
-     * @param string|null $ip
-     * @return bool|string
      * @throws Exception
      */
     public function getCountryIso2FromIP(?string $ip = null): bool|string
@@ -50,7 +48,7 @@ class LocateUtility
 
     public function getNumericIp(?string $ip = null): string|bool
     {
-        $ip = $ip ?? $this->getRemoteAddress();
+        $ip ??= $this->getRemoteAddress();
         if ($ip === null) {
             return false;
         }
@@ -61,7 +59,7 @@ class LocateUtility
     protected function getRemoteAddress(): ?string
     {
         $remoteAddr = $this->getHeader('X-Forwarded-For');
-        if (!empty($remoteAddr)) {
+        if ($remoteAddr !== null && $remoteAddr !== '' && $remoteAddr !== '0') {
             return $remoteAddr;
         }
         return (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');

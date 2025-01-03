@@ -36,7 +36,6 @@ class Redirect extends AbstractVerdict
     private int $requestedLanguageUid = 0;
 
     /**
-     * @return ResponseInterface|null
      * @throws AspectNotFoundException
      */
     public function execute(): ?ResponseInterface
@@ -71,7 +70,7 @@ class Redirect extends AbstractVerdict
      */
     private function initializeSessionMode(): void
     {
-        if ((bool)($this->configuration['sessionHandling'] ?? false) === true) {
+        if ($this->configuration['sessionHandling'] ?? false) {
             $this->logger->info('Session Handling is set.');
             $this->sessionMode = true;
         }
@@ -85,7 +84,7 @@ class Redirect extends AbstractVerdict
             // Session is not in current language
             $this->logger->info('Session value is set.');
 
-            if ($this->isSessionInCurrentLanguage() === false && $this->shouldOverrideSessionValue() === true) {
+            if ($this->isSessionInCurrentLanguage() === false && $this->shouldOverrideSessionValue()) {
                 // Override session
                 $this->logger->info('Session is not in current language, so we override it.');
                 $this->redirectLanguageUid = $currentLanguageUid;
@@ -100,7 +99,7 @@ class Redirect extends AbstractVerdict
                 $this->redirectLanguageUid = $this->getSessionValue() ?? 0;
                 $this->configuration['sys_language'] = $this->getSessionValue();
             }
-        } elseif ($this->sessionMode === true) {
+        } elseif ($this->sessionMode) {
             $this->logger->info('Session is not set, but we are in session mode.');
 
             if ($currentLanguageUid !== $this->redirectLanguageUid) {
@@ -125,7 +124,7 @@ class Redirect extends AbstractVerdict
 
     private function shouldOverrideSessionValue(): bool
     {
-        if ((bool)($this->configuration['overrideSessionValue'] ?? false) === true) {
+        if ($this->configuration['overrideSessionValue'] ?? false) {
             return isset($GLOBALS['TYPO3_REQUEST']->getQueryParams()[$this->configuration['overrideQueryParameter'] ?? self::OVERRIDE_PARAMETER]);
         }
 
@@ -166,13 +165,8 @@ class Redirect extends AbstractVerdict
                 return true;
             }
         }
-
         // Do not redirect, when session is set and session value matches given language id
-        if ($this->isSessionInCurrentLanguage()) {
-            return false;
-        }
-
-        return true;
+        return !$this->isSessionInCurrentLanguage();
     }
 
     /**
@@ -231,14 +225,11 @@ class Redirect extends AbstractVerdict
     /**
      * This will redirect the user to a new web location. This can be a relative or absolute web path, or it
      * can be an entire URL.
-     *
-     * @param string $location
-     * @return RedirectResponse|null
      */
     public function redirectToUrl(string $location): ?RedirectResponse
     {
         if (GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL') !== $location) {
-            $this->logger->info(sprintf('%s will redirect to %s.', __CLASS__, $location));
+            $this->logger->info(sprintf('%s will redirect to %s.', self::class, $location));
 
             return new RedirectResponse($location, 307);
         }

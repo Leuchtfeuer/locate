@@ -67,7 +67,7 @@ class Court implements ProcessorInterface
             $this->processFacts();
             $decision = $this->callJudges();
 
-            if ($decision !== null) {
+            if ($decision instanceof \Leuchtfeuer\Locate\Judge\Decision) {
                 if (!$decision->hasVerdict()) {
                     throw new \Exception(
                         'No verdict should be delivered. This might be a problem in you configuration',
@@ -145,7 +145,7 @@ class Court implements ProcessorInterface
 
             $configuration = TypeCaster::limitToArray($judges[$key . '.'] ?? []);
 
-            if (empty($configuration)) {
+            if ($configuration === []) {
                 $this->logger->warning('No judges are configured.');
             }
 
@@ -153,7 +153,7 @@ class Court implements ProcessorInterface
             $this->addJudgement($judgements, $configuration, $key, $judge, $priorities);
         }
 
-        return !empty($judgements) ? $this->getDecision($judgements) : null;
+        return empty($judgements) ? null : $this->getDecision($judgements);
     }
 
     /**
@@ -180,7 +180,7 @@ class Court implements ProcessorInterface
                 $priority = $decision->getPriority();
 
                 if ($fact->isMultiple()) {
-                    $priorities[$fact->getBasename()] = $priorities[$fact->getBasename()] ?? $priority;
+                    $priorities[$fact->getBasename()] ??= $priority;
                     $priority = $priorities[$fact->getBasename()];
                     $judgements[$priority][$fact->getPriority()] = $decision;
                 } else {

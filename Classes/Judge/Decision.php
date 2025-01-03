@@ -23,7 +23,7 @@ class Decision
 
     public function hasVerdict(): bool
     {
-        return !empty($this->verdictName);
+        return $this->verdictName !== '' && $this->verdictName !== '0';
     }
 
     public function getVerdictName(): string

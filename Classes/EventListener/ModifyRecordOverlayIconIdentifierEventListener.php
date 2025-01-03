@@ -33,7 +33,7 @@ final readonly class ModifyRecordOverlayIconIdentifierEventListener
         $row = $event->getRow();
         $iconName = $event->getOverlayIconIdentifier();
 
-        if ($table === 'pages' && !empty($row) && !str_contains((string)$row['uid'], 'NEW')) {
+        if ($table === 'pages' && $row !== [] && !str_contains((string)$row['uid'], 'NEW')) {
             // since tx_locate_regions is not included in the row array (PageTreeRepository is initialized with empty additionalFields)
             // we need to get the necessary information on our own
             $regions = $this->countRegions($table, $row);

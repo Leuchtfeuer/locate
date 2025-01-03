@@ -17,10 +17,6 @@ use Leuchtfeuer\Locate\Domain\DTO\Configuration;
 
 abstract class AbstractFactProvider
 {
-    protected string $basename = '';
-
-    protected Configuration $configuration;
-
     protected bool $multiple = false;
 
     /** @var array<string, mixed> */
@@ -32,10 +28,8 @@ abstract class AbstractFactProvider
      * @param string $basename The basename for the factsArray. This name comes from configuration.
      * @param Configuration $configuration TypoScript configuration array for this fact provider
      */
-    public function __construct(string $basename = '', Configuration $configuration = new Configuration())
+    public function __construct(protected string $basename = '', protected Configuration $configuration = new Configuration())
     {
-        $this->basename = $basename;
-        $this->configuration = $configuration;
     }
 
     public function isMultiple(): bool
@@ -53,17 +47,10 @@ abstract class AbstractFactProvider
      */
     abstract public function process(): self;
 
-    /**
-     * @param string $prosecution
-     * @return bool
-     */
     abstract public function isGuilty(string $prosecution): bool;
 
     /**
      * Adds a prefix to the factArray property name
-     *
-     * @param string $property
-     * @return string
      */
     protected function getFactPropertyName(string $property): string
     {

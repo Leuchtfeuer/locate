@@ -35,7 +35,7 @@ class SessionStoreTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function getSessionKeyTest()
+    public function getSessionKeyTest(): void
     {
         $sessionKeyName = $this->subject->getSessionKeyName('foo');
         self::assertSame(SessionStore::SESSION_BASE_NAME . 'foo', $sessionKeyName);
@@ -44,7 +44,7 @@ class SessionStoreTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function storeDataTest()
+    public function storeDataTest(): void
     {
         $this->subject->set('foo', 'bar');
         self::assertSame('bar', $this->subject->get('foo'));
@@ -53,7 +53,7 @@ class SessionStoreTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function deleteDataTest()
+    public function deleteDataTest(): void
     {
         $this->subject->set('foo', 'bar');
         $this->subject->delete('foo');
@@ -64,7 +64,7 @@ class SessionStoreTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function createNewStoreTest()
+    public function createNewStoreTest(): void
     {
         $sessionBaseName = 'test_key_';
         $sessionKeyName = (new SessionStore($sessionBaseName))->getSessionKeyName('foo');

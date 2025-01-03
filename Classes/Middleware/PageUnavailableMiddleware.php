@@ -86,9 +86,6 @@ class PageUnavailableMiddleware implements MiddlewareInterface
     /**
      * Checks if a site is configured, and an error handler is configured for this specific status code.
      *
-     * @param ServerRequestInterface $request
-     * @param int $statusCode
-     * @return PageErrorHandlerInterface|null
      *
      * @throws InvalidPageErrorHandlerException
      */
@@ -98,7 +95,7 @@ class PageUnavailableMiddleware implements MiddlewareInterface
         if ($site instanceof Site) {
             try {
                 return $site->getErrorHandler($statusCode);
-            } catch (PageErrorHandlerNotConfiguredException $e) {
+            } catch (PageErrorHandlerNotConfiguredException) {
                 // No error handler found, so fallback back to the generic TYPO3 error handler.
             }
         }
@@ -107,11 +104,6 @@ class PageUnavailableMiddleware implements MiddlewareInterface
 
     /**
      * Ensures that a response object is created as a "fallback" when no error handler is configured.
-     *
-     * @param ServerRequestInterface $request
-     * @param int $statusCode
-     * @param string $reason
-     * @return ResponseInterface
      */
     protected function handleDefaultError(ServerRequestInterface $request, int $statusCode, string $reason = ''): ResponseInterface
     {
@@ -120,7 +112,7 @@ class PageUnavailableMiddleware implements MiddlewareInterface
         }
         $content = GeneralUtility::makeInstance(ErrorPageController::class)->errorAction(
             'Page Not Found',
-            'The page did not exist or was inaccessible.' . ($reason ? ' Reason: ' . $reason : '')
+            'The page did not exist or was inaccessible.' . ($reason !== '' && $reason !== '0' ? ' Reason: ' . $reason : '')
         );
         return new HtmlResponse($content, $statusCode);
     }

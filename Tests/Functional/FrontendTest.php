@@ -56,9 +56,6 @@ class FrontendTest extends FunctionalTestCase
      *
      * Create a simple site config for the tests that
      * call a frontend page.
-     *
-     * @param int $pageId
-     * @param array $additionalLanguages
      */
     protected function setUpFrontendSite(int $pageId, array $additionalLanguages = []): void
     {
