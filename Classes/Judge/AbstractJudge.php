@@ -24,9 +24,7 @@ abstract class AbstractJudge
     /**
      * @param array<string, mixed> $configuration TypoScript configuration array for this judge
      */
-    public function __construct(protected array $configuration = [])
-    {
-    }
+    public function __construct(protected array $configuration = []) {}
 
     /**
      * @param array<string, mixed> $configuration TypoScript configuration array for this judge
