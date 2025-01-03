@@ -23,13 +23,11 @@ use TYPO3\CMS\Core\LinkHandling\Exception\UnknownLinkHandlerException;
 use TYPO3\CMS\Core\LinkHandling\LinkService;
 use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Site\Entity\Site;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Core\TypoScript\FrontendTypoScript;
 
 final class LanguageRedirectMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly ConfigurationManager $configurationManager,
         private readonly LinkService $link,
         private readonly Court $court,
     ) {}
@@ -40,25 +38,27 @@ final class LanguageRedirectMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (!$this->isErrorPage($request)) {
-            $typoScript = $this->configurationManager->getConfiguration(
-                ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT,
-            );
+            $frontendTyposcript = $request->getAttribute('frontend.typoscript');
 
-            if (isset($typoScript['config.']['tx_locate']) && (int)$typoScript['config.']['tx_locate'] === 1) {
-                $locateSetup = $typoScript['config.']['tx_locate.'] ?? [];
+            if ($frontendTyposcript instanceof FrontendTypoScript) {
+                $typoScript = $frontendTyposcript->getConfigArray();
 
-                $config = new Configuration();
-                $config->setDryRun((bool)($locateSetup['dryRun'] ?? false));
-                $config->setOverrideQueryParameter($locateSetup['overrideQueryParameter'] ?? Configuration::OVERRIDE_PARAMETER);
-                $config->setOverrideSessionValue((bool)($locateSetup['overrideSessionValue'] ?? 0));
-                $config->setSessionHandling((bool)($locateSetup['sessionHandling'] ?? 0));
-                $config->setExcludeBots((bool)($locateSetup['excludeBots'] ?? 1));
-                $config->setSimulateIp((string)($locateSetup['simulateIp'] ?? ''));
-                $config->setJudges($locateSetup['judges.'] ?? []);
-                $config->setFacts($locateSetup['facts.'] ?? []);
-                $config->setVerdicts($locateSetup['verdicts.'] ?? []);
+                if (isset($typoScript['tx_locate']) && (int)$typoScript['tx_locate'] === 1) {
+                    $locateSetup = $typoScript['tx_locate.'] ?? [];
 
-                return $this->court->withConfiguration($config)->run() ?? $handler->handle($request);
+                    $config = new Configuration();
+                    $config->setDryRun((bool)($locateSetup['dryRun'] ?? false));
+                    $config->setOverrideQueryParameter($locateSetup['overrideQueryParameter'] ?? Configuration::OVERRIDE_PARAMETER);
+                    $config->setOverrideSessionValue((bool)($locateSetup['overrideSessionValue'] ?? 0));
+                    $config->setSessionHandling((bool)($locateSetup['sessionHandling'] ?? 0));
+                    $config->setExcludeBots((bool)($locateSetup['excludeBots'] ?? 1));
+                    $config->setSimulateIp((string)($locateSetup['simulateIp'] ?? ''));
+                    $config->setJudges($locateSetup['judges.'] ?? []);
+                    $config->setFacts($locateSetup['facts.'] ?? []);
+                    $config->setVerdicts($locateSetup['verdicts.'] ?? []);
+
+                    return $this->court->withConfiguration($config)->run() ?? $handler->handle($request);
+                }
             }
         }
 

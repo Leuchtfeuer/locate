@@ -67,7 +67,7 @@ class Court implements ProcessorInterface
             $this->processFacts();
             $decision = $this->callJudges();
 
-            if ($decision instanceof \Leuchtfeuer\Locate\Judge\Decision) {
+            if ($decision instanceof Decision) {
                 if (!$decision->hasVerdict()) {
                     throw new \Exception(
                         'No verdict should be delivered. This might be a problem in you configuration',
@@ -150,7 +150,7 @@ class Court implements ProcessorInterface
             }
 
             $this->logger->info(sprintf('Judge with key "%s" will be called.', $key));
-            $this->addJudgement($judgements, $configuration, $key, $judge, $priorities);
+            $this->addJudgement($judgements, $configuration, (int)$key, $judge, $priorities);
         }
 
         return empty($judgements) ? null : $this->getDecision($judgements);
@@ -164,7 +164,7 @@ class Court implements ProcessorInterface
     protected function addJudgement(
         array &$judgements,
         array $configuration,
-        string $key,
+        int $key,
         AbstractJudge $judge,
         array &$priorities
     ): void {
@@ -173,7 +173,7 @@ class Court implements ProcessorInterface
             : new StaticFactProvider();
 
         if ($fact instanceof AbstractFactProvider) {
-            $judge = $judge->withConfiguration($configuration)->adjudicate($fact, (int)$key);
+            $judge = $judge->withConfiguration($configuration)->adjudicate($fact, $key);
             $decision = $judge->getDecision();
 
             if ($decision instanceof Decision) {
@@ -218,7 +218,7 @@ class Court implements ProcessorInterface
             throw new InvalidActionNameException(sprintf('Class "%s" does not exist. Skip.', $className), 1608652319);
         }
 
-        $verdict = GeneralUtility::makeInstance($className);
+        $verdict = GeneralUtility::makeInstance($className, $this->logger);
 
         if (!$verdict instanceof AbstractVerdict) {
             throw new IllegalActionException(

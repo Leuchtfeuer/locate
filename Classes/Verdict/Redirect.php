@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Leuchtfeuer\Locate\Verdict;
 
+use Leuchtfeuer\Locate\Domain\DTO\Configuration;
 use Leuchtfeuer\Locate\Utility\TypeCaster;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -27,7 +28,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Redirect extends AbstractVerdict
 {
     public const string SESSION_KEY = 'language';
-    public const string OVERRIDE_PARAMETER = 'setLang';
 
     private bool $sessionMode = false;
 
@@ -125,7 +125,7 @@ class Redirect extends AbstractVerdict
     private function shouldOverrideSessionValue(): bool
     {
         if ($this->configuration['overrideSessionValue'] ?? false) {
-            return isset($GLOBALS['TYPO3_REQUEST']->getQueryParams()[$this->configuration['overrideQueryParameter'] ?? self::OVERRIDE_PARAMETER]);
+            return isset($GLOBALS['TYPO3_REQUEST']->getQueryParams()[$this->configuration['overrideQueryParameter'] ?? Configuration::OVERRIDE_PARAMETER]);
         }
 
         return false;
@@ -196,7 +196,7 @@ class Redirect extends AbstractVerdict
             $page = GeneralUtility::makeInstance(PageRepository::class)->getPageOverlay($page, $targetLanguageId);
 
             // Overlay record does not exist
-            if (!isset($page['_PAGES_OVERLAY_UID'])) {
+            if (!isset($page['_LOCALIZED_UID'])) {
                 $this->logger->info(sprintf('There is no page overlay for page %d and language %d', $page['uid'], $targetLanguageId));
 
                 return null;
@@ -206,7 +206,7 @@ class Redirect extends AbstractVerdict
         /** @var Site $site */
         $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
         $queryParams = $GLOBALS['TYPO3_REQUEST']->getQueryParams();
-        unset($queryParams[$this->configuration['overrideQueryParameter'] ?? self::OVERRIDE_PARAMETER]);
+        unset($queryParams[$this->configuration['overrideQueryParameter'] ?? Configuration::OVERRIDE_PARAMETER]);
 
         $uri = $site->getRouter()->generateUri(
             $page['uid'],
