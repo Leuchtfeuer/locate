@@ -21,6 +21,8 @@ This is a complete example that redirects the user according to the following cr
        excludeBots = 1
        sessionHandling = 1
        overrideSessionValue = 1
+       # URL Parameter which has to be true when overrideSessionValue is allowed within action and sessionHandling is enabled
+       overrideQueryParameter = setLang
        # Simulate your IP address for countryByIP fact provider (for test purposes only), e.g. 109.10.163.98 is a french IP address
        simulateIp =
 
@@ -70,8 +72,8 @@ This is a complete example that redirects the user according to the following cr
            }
 
            # Users with the French browser language should be redirected to the French language version of another page.
-           300 = Leuchtfeuer\Locate\Judge\Condition
-           300 {
+           400 = Leuchtfeuer\Locate\Judge\Condition
+           400 {
                verdict = redirectToPageFR
                fact = browserAcceptLanguage
                prosecution = fr
@@ -83,6 +85,8 @@ This is a complete example that redirects the user according to the following cr
        }
    }
 
+..
+
 .. tip::
 
-   The full example is available at `GitHub <https://github.com/Leuchtfeuer/locate/blob/master/Configuration/TypoScript/setup-switch_language.txt>`__.
+   The full example is available at `GitHub <https://github.com/Leuchtfeuer/locate/blob/master/Configuration/TypoScript/example_setup.typoscript>`__.
