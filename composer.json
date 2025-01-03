@@ -33,7 +33,8 @@
     "typo3/cms-extbase": "^13.4",
     "typo3/cms-frontend": "^13.4",
     "symfony/console": "^7.1",
-    "doctrine/dbal": "^4.2"
+    "doctrine/dbal": "^4.2",
+    "ext-zip": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^10.0",

@@ -7,8 +7,8 @@ services:
   Leuchtfeuer\Locate\Command\UpdateIpDatabaseCommand:
     tags:
       - name: console.command
-        command: locate:update
-        schedulable: false
+        command: locate:updateIpDatabase
+        schedulable: true
 
   Leuchtfeuer\Locate\Middleware\LanguageRedirectMiddleware:
     public: true
