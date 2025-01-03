@@ -71,19 +71,6 @@ you can execute following command:
 
    composer req sjbr/static-info-tables
 
-.. _admin-additionalPackages-detectCrawler:
-
-Detect Crawler
---------------
-
-If you want to exclude bots such as the Google search bot from being assigned specific website versions, you must require the
-composer package `jaybizzle/crawler-detect <https://github.com/JayBizzle/Crawler-Detect>`__. This feature is only available in
-composer setups. If your TYPO3 is not running in composer mode, you have to provide this functions on your own.
-
-.. code-block:: bash
-
-   composer req jaybizzle/crawler-detect
-
 .. _admin-updatingIPDatabase:
 
 Updating the IP Database

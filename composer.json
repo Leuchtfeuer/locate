@@ -33,7 +33,8 @@
     "typo3/cms-extbase": "^13.4",
     "typo3/cms-frontend": "^13.4",
     "symfony/console": "^7.1",
-    "doctrine/dbal": "^4.2"
+    "doctrine/dbal": "^4.2",
+    "jaybizzle/crawler-detect": "^1.3"
   },
   "require-dev": {
     "phpunit/phpunit": "^10.0",
@@ -45,7 +46,6 @@
     "a9f/typo3-fractor": "^0.4"
   },
   "suggest": {
-    "jaybizzle/crawler-detect": "If you do not want to redirect bots.",
     "sjbr/static-info-tables": "If you want to use IP based data.",
     "ext-gmp": "Recommended for an accurate IPv6 calculation.",
     "ext-bcmath": "Alternative for an accurate IPv6 calculation. Not needed if you have gmp installed."

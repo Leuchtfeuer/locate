@@ -52,7 +52,7 @@ class Court implements ProcessorInterface
     public function run(): ?ResponseInterface
     {
         // Exclude bots from redirects
-        if ($this->configuration->isExcludeBots() && class_exists('Jaybizzle\CrawlerDetect\CrawlerDetect')) {
+        if ($this->configuration->isExcludeBots()) {
             $crawlerDetect = new CrawlerDetect(
                 $GLOBALS['TYPO3_REQUEST']->getHeaders(),
                 GeneralUtility::getIndpEnv('HTTP_USER_AGENT')
