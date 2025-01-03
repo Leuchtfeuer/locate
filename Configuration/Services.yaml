@@ -16,5 +16,8 @@ services:
   Leuchtfeuer\Locate\Utility\LocateUtility:
     public: true
 
+  Leuchtfeuer\Locate\Utility\CountryHelper:
+    public: true
+
   Leuchtfeuer\Locate\Processor\Court:
     public: true

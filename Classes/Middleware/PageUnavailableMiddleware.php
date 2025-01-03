@@ -21,8 +21,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Controller\ErrorPageController;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Error\PageErrorHandler\InvalidPageErrorHandlerException;
 use TYPO3\CMS\Core\Error\PageErrorHandler\PageErrorHandlerInterface;
 use TYPO3\CMS\Core\Error\PageErrorHandler\PageErrorHandlerNotConfiguredException;
@@ -30,7 +30,7 @@ use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Site\Entity\Site;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PageUnavailableMiddleware implements MiddlewareInterface
@@ -40,14 +40,26 @@ class PageUnavailableMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        // Not responsible if backend user is logged in or EXT:static_info_tables is not loaded.
-        if (($GLOBALS['BE_USER'] !== null && $GLOBALS['BE_USER']->user !== null && $GLOBALS['BE_USER']->user['uid'] > 0) || ExtensionManagementUtility::isLoaded('static_info_tables') === false) {
+        // Not responsible if backend user is logged in.
+        if (($GLOBALS['BE_USER'] !== null && $GLOBALS['BE_USER']->user !== null && $GLOBALS['BE_USER']->user['uid'] > 0)) {
             return $handler->handle($request);
         }
 
+        /** @var SiteLanguage $language */
+        $language = $request->getAttribute('language');
+        $languageId = $language->getLanguageId();
+        /** @var PageRepository $pageRepository */
+        $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         /** @var PageArguments $routing */
         $routing = $request->getAttribute('routing');
-        $page = BackendUtility::getRecord('pages', $routing->getPageId());
+        if ($languageId > 0) {
+            $page = $pageRepository->getPageOverlay($routing->getPageId(), $languageId);
+            if (isset($page['_LOCALIZED_UID'])) {
+                $page['uid'] = $page['_LOCALIZED_UID'];
+            }
+        } else {
+            $page = $pageRepository->getPage($routing->getPageId());
+        }
 
         if (($page['tx_locate_regions'] ?? 0) > 0 && !$this->isPageAvailableInCurrentRegion($page)) {
             $errorHandler = $this->getErrorHandlerFromSite($request, 451);

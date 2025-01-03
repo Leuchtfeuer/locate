@@ -56,12 +56,11 @@ return [
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
+                'itemsProcFunc' => \Leuchtfeuer\Locate\Utility\CountryHelper::class . '->selectItemsTCA',
                 'minitems' => 1,
                 'size' => 10,
                 'autoSizeMax' => 30,
                 'multiple' => false,
-                'foreign_table' => 'static_countries',
-                'MM' => 'tx_locate_region_country_mm',
             ],
         ],
     ],
