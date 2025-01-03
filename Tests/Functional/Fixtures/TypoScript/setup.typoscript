@@ -35,7 +35,7 @@ config.tx_locate {
     }
 
     facts {
-#        browserAcceptLanguage = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
+        #        browserAcceptLanguage = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
         countryByIP = Leuchtfeuer\Locate\FactProvider\IP2Country
     }
 
