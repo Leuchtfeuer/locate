@@ -71,14 +71,12 @@ class UpdateIpDatabaseCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->io = new SymfonyStyle($input, $output);
-        $this->token = TypeCaster::toString($input->getArgument('token'));
-        $this->table = TypeCaster::toString($input->getArgument('table'));
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!$this->validateArguments()) {
+        if (!$this->validateArguments($input)) {
             return 1;
         }
 
@@ -108,8 +106,11 @@ class UpdateIpDatabaseCommand extends Command
         return self::SUCCESS;
     }
 
-    private function validateArguments(): bool
+    private function validateArguments(InputInterface $input): bool
     {
+        $this->token = TypeCaster::toString($input->getArgument('token'));
+        $this->table = TypeCaster::toString($input->getArgument('table'));
+
         if ($this->token === '') {
             /** @extensionScannerIgnoreLine */
             $this->io->error(sprintf('Download Token %s is required. Exit.', $this->token));
