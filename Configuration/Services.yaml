@@ -4,6 +4,13 @@ services:
     autoconfigure: true
     public: false
 
+  Leuchtfeuer\Locate\EventListener\ModifyRecordOverlayIconIdentifierEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'locate/modify-record-overlay-icon-identifier'
+        event: TYPO3\CMS\Core\Imaging\Event\ModifyRecordOverlayIconIdentifierEvent
+    public: true
+
   Leuchtfeuer\Locate\Command\UpdateIpDatabaseCommand:
     tags:
       - name: console.command
