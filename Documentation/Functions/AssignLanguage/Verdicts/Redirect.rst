@@ -118,6 +118,23 @@ Override Query Parameter
          directed to the German language version of the page e.g. by clicking in the language menu. The language menu must then
          generate all links with the query parameter attached (:code:`/de/?setLang`). The value of the parameter does not matter.
 
+.. _functions-assignLanguage-verdicts-redirect-configuration-allowFallback:
+
+Allow Fallback
+~~~~~~~~~~~~~~~~~~~~~~
+.. container:: table-row
+
+   Property
+         config.tx_locate.verdicts.[name].allowFallback
+   Data type
+         integer
+   Default
+         :code:`0`
+   Description
+         If the option is enabled, redirection to a non-localized page is allowed. In this case, the page is accessed under the
+         corresponding language URL, even if it does not exist. The displayed content corresponds to the defined fallback page
+         of your site configuration.
+
 .. _functions-assignLanguage-verdicts-redirect-example:
 
 Example
