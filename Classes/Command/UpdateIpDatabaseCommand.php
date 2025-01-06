@@ -123,6 +123,9 @@ class UpdateIpDatabaseCommand extends Command
         }
 
         $this->path = Environment::getVarPath() . '/transient';
+        if (!is_dir($this->path)) {
+            mkdir($this->path, 0775);
+        }
         if (is_writable($this->path)) {
             if ($this->table === 'static_ip2country_v4') {
                 $this->databaseCode = 'DB1LITECSV';

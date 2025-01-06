@@ -89,7 +89,7 @@ composer setups. If your TYPO3 is not running in composer mode, you have to prov
 Updating the IP Database
 ========================
 
-We try to update the supplied IP database every quarter. For this update we provide a new patchlevel release of this extension.
+We try to update the supplied IP database at least every major update.
 After this new version has been installed, you can update your local database via the Extension Manager module in your TYPO3
 backend as shown below.
 
@@ -98,6 +98,49 @@ backend as shown below.
    :class: with-shadow
 
    You can update your local IP tables via the Extension Manager module.
+
+You also can update the IP database automatically via console command or scheduler task.
+
+.. _admin-updatingIPDatabase-token:
+
+Get Download-Token from ip2location.com
+---------------------------------------
+
+To update the IP database automatically, you have to generate a Download-Token from https://lite.ip2location.com/.
+Frist, sign up at https://lite.ip2location.com/sign-up. After creating an account, you can login and access the page
+https://lite.ip2location.com/database-download. There you can find the Download-Token.
+
+.. figure:: ../Images/download-token.png
+   :alt: Download-Token from ip2location.com
+   :class: with-shadow
+
+.. _admin-updatingIPDatabase-command:
+
+Update database via console command
+-----------------------------------
+
+You can update the IP database via console command.
+
+.. code-block:: bash
+
+   vendor/bin/typo3 locate:updateIpDatabase TOKEN [static_ip2country_v4|static_ip2country_v6]
+
+Replace "TOKEN" with your own Download-Token and choose a database table you want to update. You can choose between
+"static_ip2country_v4" for IPv4 or "static_ip2country_v6" for IPv6.
+
+.. _admin-updatingIPDatabase-scheduler:
+
+Update database via scheduler task
+----------------------------------
+
+You also can add a scheduler task to update the IP database periodically. Add a scheduler task in the TYPO3 backend:
+
+.. figure:: ../Images/scheduler-task.png
+   :alt: Add Scheduler Task
+   :class: with-shadow
+
+Set "token" with your own Download-Token and choose a database "table" you want to update. You can choose between
+"static_ip2country_v4" for IPv4 or "static_ip2country_v6" for IPv6.
 
 .. _admin-enablingExtension:
 
