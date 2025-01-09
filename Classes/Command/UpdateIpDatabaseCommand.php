@@ -51,13 +51,11 @@ class UpdateIpDatabaseCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->io = new SymfonyStyle($input, $output);
-        $this->table = TypeCaster::toString($input->getArgument('table'));
-        $this->source = TypeCaster::toString($input->getArgument('source'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!$this->validateArguments()) {
+        if (!$this->validateArguments($input)) {
             return 1;
         }
 
@@ -82,8 +80,11 @@ class UpdateIpDatabaseCommand extends Command
         return 0;
     }
 
-    private function validateArguments(): bool
+    private function validateArguments(InputInterface $input): bool
     {
+        $this->table = TypeCaster::toString($input->getArgument('table'));
+        $this->source = TypeCaster::toString($input->getArgument('source'));
+
         if (@file_exists($this->source) === false) {
             $this->io->error(sprintf('Could not find source in "%s". Exit.', $this->source));
 

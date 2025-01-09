@@ -15,6 +15,7 @@ namespace Leuchtfeuer\Locate\Processor;
 
 use Leuchtfeuer\Locate\Domain\DTO\Configuration;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 interface ProcessorInterface
@@ -26,5 +27,5 @@ interface ProcessorInterface
     /**
      * Processes the configuration
      */
-    public function run(): ?ResponseInterface;
+    public function run(ServerRequestInterface $request): ?ResponseInterface;
 }

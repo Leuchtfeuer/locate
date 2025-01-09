@@ -57,7 +57,7 @@ final class LanguageRedirectMiddleware implements MiddlewareInterface
                     $config->setFacts($locateSetup['facts.'] ?? []);
                     $config->setVerdicts($locateSetup['verdicts.'] ?? []);
 
-                    return $this->court->withConfiguration($config)->run() ?? $handler->handle($request);
+                    return $this->court->withConfiguration($config)->run($request) ?? $handler->handle($request);
                 }
             }
         }
