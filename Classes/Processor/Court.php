@@ -25,6 +25,7 @@ use Leuchtfeuer\Locate\Judge\Decision;
 use Leuchtfeuer\Locate\Utility\TypeCaster;
 use Leuchtfeuer\Locate\Verdict\AbstractVerdict;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidActionNameException;
@@ -49,12 +50,12 @@ class Court implements ProcessorInterface
     /**
      * Processes the configuration
      */
-    public function run(): ?ResponseInterface
+    public function run(ServerRequestInterface $request): ?ResponseInterface
     {
         // Exclude bots from redirects
-        if ($this->configuration->isExcludeBots() && class_exists('Jaybizzle\CrawlerDetect\CrawlerDetect')) {
+        if ($this->configuration->isExcludeBots()) {
             $crawlerDetect = new CrawlerDetect(
-                $GLOBALS['TYPO3_REQUEST']->getHeaders(),
+                $request->getHeaders(),
                 GeneralUtility::getIndpEnv('HTTP_USER_AGENT')
             );
 
@@ -143,14 +144,14 @@ class Court implements ProcessorInterface
                 );
             }
 
-            $configuration = TypeCaster::limitToArray($judges[$key . '.'] ?? []);
+            $judgeConfig = TypeCaster::limitToArray($judges[$key . '.'] ?? []);
 
-            if ($configuration === []) {
+            if ($judgeConfig === []) {
                 $this->logger->warning('No judges are configured.');
             }
 
             $this->logger->info(sprintf('Judge with key "%s" will be called.', $key));
-            $this->addJudgement($judgements, $configuration, (int)$key, $judge, $priorities);
+            $this->addJudgement($judgements, $judgeConfig, (int)$key, $judge, $priorities);
         }
 
         return empty($judgements) ? null : $this->getDecision($judgements);
@@ -158,22 +159,22 @@ class Court implements ProcessorInterface
 
     /**
      * @param array{} $judgements
-     * @param array<int|string, mixed> $configuration
+     * @param array<int|string, mixed> $judgeConfig
      * @param array<string, int> $priorities
      */
     protected function addJudgement(
         array &$judgements,
-        array $configuration,
+        array $judgeConfig,
         int $key,
         AbstractJudge $judge,
         array &$priorities
     ): void {
-        $fact = isset($configuration['fact'], $this->facts[$configuration['fact']])
-            ? $this->facts[$configuration['fact']]
+        $fact = isset($judgeConfig['fact'], $this->facts[$judgeConfig['fact']])
+            ? $this->facts[$judgeConfig['fact']]
             : new StaticFactProvider();
 
         if ($fact instanceof AbstractFactProvider) {
-            $judge = $judge->withConfiguration($configuration)->adjudicate($fact, $key);
+            $judge = $judge->withConfiguration($judgeConfig)->adjudicate($fact, $key);
             $decision = $judge->getDecision();
 
             if ($decision instanceof Decision) {

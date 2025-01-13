@@ -31,15 +31,20 @@ class RegionRepository
         $iso2Codes = [];
 
         $results = $qb
-            ->select('c.cn_iso_2')
+            ->select('r.countries')
             ->from('tx_locate_page_region_mm', 'pmm')
             ->join('pmm', 'tx_locate_domain_model_region', 'r', 'r.uid = pmm.uid_foreign')
-            ->join('r', 'tx_locate_region_country_mm', 'rmm', 'rmm.uid_local = r.uid')
-            ->join('rmm', 'static_countries', 'c', 'c.uid = rmm.uid_foreign')->where($qb->expr()->eq('pmm.uid_local', $id))->executeQuery()
+            ->where($qb->expr()->eq('pmm.uid_local', $id))
+            ->executeQuery()
             ->fetchAllAssociative();
 
         foreach ($results as $result) {
-            $iso2Codes[$result['cn_iso_2']] = true;
+            if (is_string($result['countries'])) {
+                $countries = explode(',', $result['countries']);
+                foreach ($countries as $countryIso2Code) {
+                    $iso2Codes[$countryIso2Code] = true;
+                }
+            }
         }
 
         return $iso2Codes;

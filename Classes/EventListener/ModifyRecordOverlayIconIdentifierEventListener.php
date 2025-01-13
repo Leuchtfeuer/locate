@@ -25,7 +25,6 @@ final readonly class ModifyRecordOverlayIconIdentifierEventListener
      */
     #[AsEventListener(
         identifier: 'locate/modify-record-overlay-icon-identifier',
-        event: ModifyRecordOverlayIconIdentifierEvent::class
     )]
     public function __invoke(ModifyRecordOverlayIconIdentifierEvent $event): void
     {
@@ -39,15 +38,7 @@ final readonly class ModifyRecordOverlayIconIdentifierEventListener
             $regions = $this->countRegions($table, $row);
 
             if ($regions > 0) {
-                switch ($iconName) {
-                    // TODO: Support this case and add dedicated overlay icon (also for other overlay icons)
-                    //                    case 'overlay-restricted':
-                    //                        $iconName = 'apps-pagetree-page-frontend-user-root';
-                    //                        break;
-
-                    default:
-                        $iconName = 'overlay-translated';
-                }
+                $iconName = 'tx-locate-overlay-geo-blocking';
             }
         }
 
