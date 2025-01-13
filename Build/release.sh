@@ -35,6 +35,10 @@ if [ -d "$DIR" ]; then
   zip -r "../locate_${1}.zip" ./* -x \*.git\* Build/\* Documentation/\* Tests/\* php-cs-fixer.php codecov.yml LICENSE.txt README.md
   echo "Done."
 
+  echo "Create changelog..."
+  git log $(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))..HEAD --pretty=format:"%as %s (Commit %h by %an)" > changes_for_changelog.txt
+  echo "Done."
+
   echo "Please add and push the git tag: gp --tags"
 else
   echo "This script has to be executed from the git root directory!"

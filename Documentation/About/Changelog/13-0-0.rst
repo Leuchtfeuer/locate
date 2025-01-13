@@ -1,0 +1,54 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 13.0.0 - 2025/01/13
+==========================
+
+This release is a major release. We added support for TYPO3 v13 and PHP >=8.3 and dropped support for TYPO3 v12.
+
+Added
+=====
+
+* Support for TYPO3 v13 and PHP >=8.3
+* Add console command to update IP database automatically
+* Use TYPO3 Country API for geo-blocking functionality
+* Add jaybizzle/crawler-detect as requirement to exclude bots and crawler from language detection
+* Add config 'allowFallback' allowing redirect to a site that will cause a language fallback (thanks to `Andreas Sommer <https://github.com/Andreas-Sommer>`__)
+
+Updates
+=======
+
+* Initial IP database updated
+
+Removed
+=======
+
+* Drop support for TYPO3 v12 and PHP <8.3
+* Drop usage of EXT:static-info-tables
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2025-01-09 [TASK] Move parameter assignment out of initialize method, use request object in Court class (Commit 2585192 by dkranz)
+    2025-01-09 [TASK] Update version matrix (Commit 69e55ec by dkranz)
+    2025-01-06 [TASK] Move argument assignment out of initialize method (Commit 5d84514 by dkranz)
+    2025-01-06 [TASK] Add own overlay icon for geo-blocked pages (Commit d49168c by dkranz)
+    2025-01-06 [TASK] Adapt command for updating IP database automatically to create transient directory if not existing, update static IP database SQL file, update documentation (Commit b201b29 by dkranz)
+    2025-01-03 [TASK] Change command for updating IP database automatically by downloading new IP tables from ip2location.com (Commit 3e0e446 by dkranz)
+    2025-01-03 [BREAKING] Remove static-info-tables usage for geo-blocking and use TYPO3 country API instead (Commit 8365c02 by dkranz)
+    2025-01-03 [TASK] Introduce jaybizzle/crawler-detect as required package to detect crawler by default (Commit ab0e326 by dkranz)
+    2025-01-03 [TASK] Update test configs and ci workflow, add composer scripts to run tests (Commit c3b0da8 by dkranz)
+    2025-01-03 [TASK] Move excludedParameters config to ext_localconf.php, update documentation and TypoScript, format ext_tables.sql (Commit fe8fa18 by dkranz)
+    2025-01-03 [TASK] Change the way to fetch TypoScript due to caching problems, fix some errors (Commit 42548e0 by dkranz)
+    2025-01-03 [TASK] Code style fixes (Commit ae20e8a by dkranz)
+    2025-01-03 [TASK] Changes by fractor (Commit be03411 by dkranz)
+    2025-01-03 [TASK] Changes by rector (Commit 68e89b3 by dkranz)
+    2025-01-02 [TASK] Code style fixes (Commit d3373d8 by dkranz)
+    2025-01-02 [TASK] Replace deprecated hook with event listener, code style fixes (Commit 20683ae by dkranz)
+    2025-01-02 [TASK] Fix PHPStan errors on level 9, updates for PHP 8.3 and TYPO3 13 (Commit 0e51e4b by dkranz)
+    2024-12-29 Change parameter name redirectEvenInFallbackMode to allowFallback and update documentation (Commit 89c5aa2 by Andreas Sommer)
+    2024-12-27 [TASK] Introduce phpstan, rector and fractor, adapt php-cs-fixer configs, update composer.json and ext_emconf.php for TYPO3 13 (Commit e3383db by dkranz)
+    2024-12-09 Add config redirectEvenInFallbackMode allowing redirect to a site that will cause a language fallback (Commit 370db8d by Andreas Sommer)
+    2024-11-20 Make LocateUtility publicly available (for constructor injection) [BDU-63] (Commit bc04e3d by bmheins)
