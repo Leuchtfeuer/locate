@@ -217,7 +217,7 @@ Exclude Bots
 .. _functions-assignLanguage-configuration-simulateIp:
 
 Simulate IP Address
-~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 .. container:: table-row
 
    Property
@@ -229,6 +229,27 @@ Simulate IP Address
    Description
          Simulate an IP address for countryByIP fact provider. This is meant to be for test purposes only.
          It works with IPv4 and IPv6 addresses.
+
+.. _functions-assignLanguage-configuration-overrideQueryParameter:
+
+Override Query Parameter
+~~~~~~~~~~~~~~~~~~~~~~~~
+.. container:: table-row
+
+   Property
+         config.tx_locate.overrideQueryParameter
+   Data type
+         string
+   Default
+         setLang
+   Description
+         URL Parameter which has to be true when overrideSessionValue is allowed within action and sessionHandling is enabled.
+         If you change the overrideQueryParameter from its default value, you need to add the query parameter to excludedParameters
+         to make it work. For example in your ext_localconf.php of your site extension:
+
+         .. code-block:: php
+
+            $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = 'yourQueryParameter';
 
 .. _functions-assignLanguage-configuration-verdicts:
 
@@ -257,14 +278,17 @@ Facts
    Data type
          array
    Default
+         unset
+   Description
+         This array contains the facts. The key is the name of the fact used in the judges section and the value is the php class
+         that should take care about the trial. Example:
+
          .. code-block:: typoscript
+
             {
                 browserAcceptLanguage = Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage
                 countryByIP = Leuchtfeuer\Locate\FactProvider\IP2Country
             }
-   Description
-         This array contains the facts. The key is the name of the fact used in the judges section and the value is the php class
-         that should take care about the trial.
 
 .. _functions-assignLanguage-configuration-judges:
 

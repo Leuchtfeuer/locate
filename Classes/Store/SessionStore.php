@@ -13,7 +13,7 @@ namespace Leuchtfeuer\Locate\Store;
 
 class SessionStore
 {
-    public const SESSION_BASE_NAME = 'tx_locate_';
+    public const string SESSION_BASE_NAME = 'tx_locate_';
 
     protected string $sessionBaseName;
 
@@ -22,14 +22,14 @@ class SessionStore
         $this->sessionBaseName = $sessionBaseName === '' ? self::SESSION_BASE_NAME : $sessionBaseName;
     }
 
-    public function get(string $key, $default = null)
+    public function get(string $key, mixed $default = null): mixed
     {
         $this->initSession();
 
         return $_SESSION[$this->getSessionKeyName($key)] ?? $default;
     }
 
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         $this->initSession();
         $_SESSION[$this->getSessionKeyName($key)] = $value;

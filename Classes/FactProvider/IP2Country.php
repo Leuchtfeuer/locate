@@ -18,7 +18,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class IP2Country extends AbstractFactProvider
 {
-    public const PROVIDER_NAME = 'countrybyip';
+    public const string PROVIDER_NAME = 'countrybyip';
 
     /**
      * @inheritDoc
@@ -33,7 +33,7 @@ class IP2Country extends AbstractFactProvider
      */
     public function process(): self
     {
-        $simulateIp = $this->configuration['settings']['simulateIp'] ?: null;
+        $simulateIp = $this->configuration->getSimulateIp() ?: null;
         $iso2 = GeneralUtility::makeInstance(LocateUtility::class)->getCountryIso2FromIP($simulateIp);
         if ($iso2 === false) {
             $iso2 = '';
@@ -48,9 +48,8 @@ class IP2Country extends AbstractFactProvider
     /**
      * @inheritDoc
      */
-    public function isGuilty($prosecution): bool
+    public function isGuilty(string $prosecution): bool
     {
-        $prosecution = (string)$prosecution;
         LocateUtility::mainstreamValue($prosecution);
 
         return $this->facts[$this->getBasename()] === $prosecution;

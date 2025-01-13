@@ -14,11 +14,12 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Locate\FactProvider;
 
 use Leuchtfeuer\Locate\Utility\LocateUtility;
+use Leuchtfeuer\Locate\Utility\TypeCaster;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BrowserAcceptedLanguage extends AbstractFactProvider
 {
-    public const PROVIDER_NAME = 'browseracceptlanguage';
+    public const string PROVIDER_NAME = 'browseracceptlanguage';
 
     protected bool $multiple = true;
 
@@ -45,17 +46,20 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
     /**
      * @inheritDoc
      */
-    public function isGuilty($prosecution): bool
+    public function isGuilty(string $prosecution): bool
     {
         LocateUtility::mainstreamValue($prosecution);
-        $this->priority = (int)($this->facts[$prosecution] ?? 0);
+        $this->priority = TypeCaster::toInt($this->facts[$prosecution] ?? 0);
 
         return isset($this->facts[$prosecution]);
     }
 
+    /**
+     * @return array<int, string>
+     */
     protected function getAcceptedLanguages(): array
     {
-        preg_match_all('/([a-z]{2})(?:-[a-zA-Z]{2})?/', (GeneralUtility::getIndpEnv('HTTP_ACCEPT_LANGUAGE') ?? ''), $matches);
+        preg_match_all('/([a-z]{2})(?:-[a-zA-Z]{2})?/', GeneralUtility::getIndpEnv('HTTP_ACCEPT_LANGUAGE'), $matches);
         [$locales, $languages] = $matches;
 
         // ensure that all language codes are present in locales array

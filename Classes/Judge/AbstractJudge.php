@@ -17,22 +17,17 @@ use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
 
 abstract class AbstractJudge
 {
-    public const DEFAULT_PRIORITY = 999;
-
-    protected array $configuration = [];
+    public const int DEFAULT_PRIORITY = 999;
 
     protected ?Decision $decision = null;
 
     /**
-     * @param array $configuration TypoScript configuration array for this judge
+     * @param array<string, mixed> $configuration TypoScript configuration array for this judge
      */
-    public function __construct(array $configuration = [])
-    {
-        $this->configuration = $configuration;
-    }
+    public function __construct(protected array $configuration = []) {}
 
     /**
-     * @param array $configuration TypoScript configuration array for this judge
+     * @param array<string, mixed> $configuration TypoScript configuration array for this judge
      * @return $this
      */
     public function withConfiguration(array $configuration): self
@@ -55,10 +50,6 @@ abstract class AbstractJudge
 
     /**
      * Call the fact module which might add some data to the factArray
-     *
-     * @param AbstractFactProvider $factProvider
-     * @param int $priority
-     * @return AbstractJudge
      */
     abstract public function adjudicate(AbstractFactProvider $factProvider, int $priority = self::DEFAULT_PRIORITY): AbstractJudge;
 }

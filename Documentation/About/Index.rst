@@ -17,12 +17,17 @@ Compatibility
 We are currently supporting following TYPO3 versions:
 
 .. csv-table:: Version Matrix
-   :header: "Extension Version", "TYPO3 v12 Support", "TYPO3 v11 Support", "TYPO3 v10 Support", "TYPO3 v9 Support"
+   :header: "Extension Version", "TYPO3 v13 Support", "TYPO3 v12 Support"
    :align: center
 
-        "12.x", "🙋️", "🙅️", "🙅️️", "🙅️️"
-        "11.x", "🙅️️", "🙋️", "🙋️", "🙅️️"
-        "10.x", "🙅️️", "🙅️️", "🙋️", "🙋️"
+        "13.x", "yes", "no"
+        "12.x", "no", "yes"
+
+.. _about-compatibility-outdatedVersions:
+
+Outdated Versions
+-----------------
+For all other versions no more free bug fixes and new features will be provided by the authors.
 
 .. _about-ip-database:
 

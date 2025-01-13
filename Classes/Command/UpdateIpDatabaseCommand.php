@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Locate\Command;
 
 use Doctrine\DBAL\Exception;
+use Leuchtfeuer\Locate\Utility\TypeCaster;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,13 +51,11 @@ class UpdateIpDatabaseCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->io = new SymfonyStyle($input, $output);
-        $this->table = $input->getArgument('table');
-        $this->source = $input->getArgument('source');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!$this->validateArguments()) {
+        if (!$this->validateArguments($input)) {
             return 1;
         }
 
@@ -81,8 +80,11 @@ class UpdateIpDatabaseCommand extends Command
         return 0;
     }
 
-    private function validateArguments(): bool
+    private function validateArguments(InputInterface $input): bool
     {
+        $this->table = TypeCaster::toString($input->getArgument('table'));
+        $this->source = TypeCaster::toString($input->getArgument('source'));
+
         if (@file_exists($this->source) === false) {
             $this->io->error(sprintf('Could not find source in "%s". Exit.', $this->source));
 
@@ -105,13 +107,11 @@ class UpdateIpDatabaseCommand extends Command
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable($this->table);
         $databasePlatform = $connection->getDatabasePlatform();
-        if ($databasePlatform) {
-            $connection->executeStatement($databasePlatform->getTruncateTableSQL($this->table, true));
-        }
+        $connection->executeStatement($databasePlatform->getTruncateTableSQL($this->table, true));
     }
 
     /**
-     * @throws \RuntimeException
+     * @return array<int, array<string, string>>
      */
     private function loadCsv(): array
     {
@@ -134,6 +134,9 @@ class UpdateIpDatabaseCommand extends Command
         return $data;
     }
 
+    /**
+     * @param array<int, array<string, string>> $data
+     */
     private function importData(array $data): void
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class);

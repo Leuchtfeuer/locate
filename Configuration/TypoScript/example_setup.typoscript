@@ -13,11 +13,11 @@ config.tx_locate {
     # If this option is enabled, it is possible to overwrite the verdict stored in the session.
     overrideSessionValue = 1
 
-    # URL Parameter which has to be true when overrideCookie is allowed within action and cookieHandling is enabled
+    # URL Parameter which has to be true when overrideSessionValue is allowed within action and sessionHandling is enabled
     overrideQueryParameter = setLang
 
     # Simulate your IP address for countryByIP fact provider (for test purposes only), 109.10.163.98 is a french IP address
-    simulateIp = 109.10.163.98
+    simulateIp =
 
     verdicts {
         redirectToMainlandChina = Leuchtfeuer\Locate\Verdict\Redirect
@@ -70,8 +70,8 @@ config.tx_locate {
         }
 
         # Users with the French browser language should be redirected to the French language version of another page.
-        300 = Leuchtfeuer\Locate\Judge\Condition
-        300 {
+        400 = Leuchtfeuer\Locate\Judge\Condition
+        400 {
             verdict = redirectToPageFR
             fact = browserAcceptLanguage
             prosecution = fr

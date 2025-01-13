@@ -35,7 +35,7 @@ class LocateUtilityTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function getNumericIPTest()
+    public function getNumericIPTest(): void
     {
         $ips = [
             '2A02:8108:8400:23D8:5C6C:DA81:E68D:5CAF' => '55840577522199898067217455099144920239',
@@ -51,7 +51,7 @@ class LocateUtilityTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function transformValuesTest()
+    public function transformValuesTest(): void
     {
         $values = [
             'de-DE',

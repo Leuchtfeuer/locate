@@ -35,7 +35,6 @@ return [
                 'items' => [
                     [
                         'label' => '',
-                        1 => '',
                         'invertStateDisplay' => true,
                     ],
                 ],

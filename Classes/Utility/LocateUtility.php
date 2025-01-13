@@ -22,29 +22,36 @@ class LocateUtility
     /**
      * Check the IP in the geoip table and returns iso 2 code for the current remote address
      *
-     * @param string|null $ip
-     * @return bool|string
      * @throws Exception
      */
     public function getCountryIso2FromIP(?string $ip = null): bool|string
     {
         $ip = $this->getNumericIp($ip);
-        if ($ip === false) {
+        if (!is_string($ip)) {
             return false;
         }
         $tableName = $this->getTableNameForIp($ip);
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableName);
 
-        return $queryBuilder
+        $countryCode = $queryBuilder
             ->select('country_code')
             ->from($tableName)
             ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))->andWhere($queryBuilder->expr()->gte('ip_to', $queryBuilder->createNamedParameter($ip)))->executeQuery()
             ->fetchOne();
+
+        if ($countryCode !== false) {
+            return TypeCaster::toString($countryCode);
+        }
+
+        return false;
     }
 
     public function getNumericIp(?string $ip = null): string|bool
     {
-        $ip = $ip ?? $this->getRemoteAddress();
+        $ip ??= $this->getRemoteAddress();
+        if ($ip === null) {
+            return false;
+        }
 
         return str_contains($ip, '.') ? (string)ip2long($ip) : $this->convertIpv6($ip);
     }
@@ -52,7 +59,7 @@ class LocateUtility
     protected function getRemoteAddress(): ?string
     {
         $remoteAddr = $this->getHeader('X-Forwarded-For');
-        if (!empty($remoteAddr)) {
+        if ($remoteAddr !== null && $remoteAddr !== '' && $remoteAddr !== '0') {
             return $remoteAddr;
         }
         return (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
@@ -93,7 +100,11 @@ class LocateUtility
                 break;
 
             default:
-                foreach (unpack('C*', $ip) as $byte) {
+                $data = unpack('C*', $ip);
+                if ($data === false) {
+                    return false;
+                }
+                foreach ($data as $byte) {
                     $binNum .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
                 }
 

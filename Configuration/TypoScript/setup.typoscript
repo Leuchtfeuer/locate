@@ -13,7 +13,7 @@ config.tx_locate {
     # If this option is enabled, it is possible to overwrite the verdict stored in the session.
     overrideSessionValue = 0
 
-    # URL Parameter which has to be true when overrideCookie is allowed within action and cookieHandling is enabled
+    # URL Parameter which has to be true when overrideSessionValue is allowed within action and sessionHandling is enabled
     overrideQueryParameter = setLang
 
     # Simulate your IP address for countryByIP fact provider (for test purposes only)

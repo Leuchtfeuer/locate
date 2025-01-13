@@ -47,6 +47,10 @@ status code will be returned, which you can process e.g. via a site
 
    You can invert the selection. If you do this, the page will be unavailable in the specified regions.
 
+.. note::
+
+   Not take action if you logged in as backend user or EXT:static_info_tables is not loaded.
+
 .. _functions-geoBlocking-assignRegions-outlier:
 
 Outlier
