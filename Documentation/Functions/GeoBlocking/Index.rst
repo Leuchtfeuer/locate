@@ -8,11 +8,6 @@ Geo Blocking
 
 You can block pages (and page translations) for access from certain countries.
 
-.. note::
-
-   You need to to install the `static info tables <https://extensions.typo3.org/extension/static_info_tables/>`__ extension to use
-   the geo blocking feature.
-
 .. _functions-geoBlocking-regions:
 
 Regions
@@ -46,10 +41,6 @@ status code will be returned, which you can process e.g. via a site
 .. tip::
 
    You can invert the selection. If you do this, the page will be unavailable in the specified regions.
-
-.. note::
-
-   Not take action if you logged in as backend user or EXT:static_info_tables is not loaded.
 
 .. _functions-geoBlocking-assignRegions-outlier:
 

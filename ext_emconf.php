@@ -10,9 +10,7 @@ $EM_CONF['locate'] = [
             'typo3' => '13.4.0-13.4.99',
         ],
         'conflicts' => [],
-        'suggests' => [
-            'static_info_tables' => '',
-        ],
+        'suggests' => [],
     ],
     'state' => 'stable',
     'author' => 'Dev Leuchtfeuer',
