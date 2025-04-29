@@ -1,0 +1,19 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 12.0.4 - 2025/04/29
+==========================
+
+This release is regular maintenance release.
+
+Changed
+===========
+
+* Update required packages
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+   2025-04-29 [TASK] Update required version of symfony/console (Commit 72b952b by dkranz)
