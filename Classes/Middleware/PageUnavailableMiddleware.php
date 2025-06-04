@@ -47,6 +47,7 @@ class PageUnavailableMiddleware implements MiddlewareInterface
 
         /** @var SiteLanguage $language */
         $language = $request->getAttribute('language');
+        // @extensionScannerIgnoreLine
         $languageId = $language->getLanguageId();
         /** @var PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
