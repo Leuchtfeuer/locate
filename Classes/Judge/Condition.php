@@ -30,6 +30,7 @@ class Condition extends AbstractJudge
             $this->decision->setPriority($priority);
 
             if ($factProvider->isMultiple()) {
+                // @extensionScannerIgnoreLine
                 $this->decision->setInternalPriority($factProvider->getPriority());
             }
         }

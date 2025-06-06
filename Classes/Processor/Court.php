@@ -178,11 +178,13 @@ class Court implements ProcessorInterface
             $decision = $judge->getDecision();
 
             if ($decision instanceof Decision) {
+                // @extensionScannerIgnoreLine
                 $priority = $decision->getPriority();
 
                 if ($fact->isMultiple()) {
                     $priorities[$fact->getBasename()] ??= $priority;
                     $priority = $priorities[$fact->getBasename()];
+                    // @extensionScannerIgnoreLine
                     $judgements[$priority][$fact->getPriority()] = $decision;
                 } else {
                     $judgements[$priority] = $decision;
