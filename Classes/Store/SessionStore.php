@@ -48,7 +48,13 @@ class SessionStore
 
     private function initSession(): void
     {
-        if (session_id() === '') {
+        if (session_status() !== \PHP_SESSION_ACTIVE) {
+            $sessionId = $_COOKIE[session_name()] ?? null;
+            if ($sessionId !== null && !preg_match('/^[a-zA-Z0-9,-]{22,250}$/', $sessionId)) {
+                // The session ID in the header is invalid, create a new one
+                setcookie(session_name(), '', time() - 3600, '/');
+                unset($_COOKIE[session_name()]);
+            }
             session_start();
         }
     }
