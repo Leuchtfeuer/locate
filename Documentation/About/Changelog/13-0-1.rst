@@ -1,0 +1,15 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 13.0.1 - 2025/10/06
+==========================
+
+This release is a maintenance release.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2025-06-06 Merge pull request #69 from Leuchtfeuer/feature/YODA-2297 (Commit 796d399 by mkauschmann)
+    2025-06-04 [TASK] Added @extensionScannerIgnoreLine for false positives. [YODA-2297] (Commit cf45d62 by kauschmann)
