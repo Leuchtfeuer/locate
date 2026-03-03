@@ -1,0 +1,23 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 13.0.3 - 2026/03/03
+==========================
+
+This release is a maintenance release.
+
+Updates
+=======
+
+Add missing changelog files. Update internal CI configuration.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2026-03-03 Merge pull request #72 from Leuchtfeuer/feature/TER-397 (Commit 4f153ec by bmheins)
+    2026-03-03 [TASK] Upgrade actions/cache to v4 in CI workflow [TER-397] [TER-398] (Commit 7519399 by Oliver Heins)
+    2026-03-03 [TASK] Upgrade actions/checkout to v4 in CI workflow [TER-397] [TER-398] (Commit 44e5492 by Oliver Heins)
+    2026-03-03 [TASK] Drop PHP 8.1 and 8.2 support from CI matrix [TER-397] [TER-398] (Commit 7a6306b by Oliver Heins)
+    2026-03-03 [TASK] Release Version 13.0.2 [TER-397] [TER-398] (Commit 84e1862 by Oliver Heins)
