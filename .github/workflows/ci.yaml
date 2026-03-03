@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        php-version: [8.1, 8.2, 8.3]
+        php-version: [8.3]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup PHP Environment
         uses: shivammathur/setup-php@v2
         with:
@@ -33,14 +33,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - php-version: 8.1
-            typo3-version: ^12.4
-            experimental: false
-
-          - php-version: 8.2
-            typo3-version: ^12.4
-            experimental: false
-
           - php-version: 8.3
             typo3-version: ^13.4
             experimental: false
@@ -54,7 +46,7 @@ jobs:
           echo "Running tests with TYPO3 ${TYPO3_VERSION} and PHP ${PHP_VERSION}"
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 10
 
@@ -76,7 +68,7 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}

@@ -1,0 +1,20 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 13.0.2 - 2026/03/02
+==========================
+
+This release is a bugfix release.
+
+Updates
+=======
+
+Security hardening fix preventing session fixation or injection via a crafted cookie value, combined with a correctness fix for the session status check.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2026-03-02 Merge pull request #71 from Leuchtfeuer/bugfix/BD-2827 (Commit a46f114 by AkhmedSagitov)
+    2026-02-27 [BUGFIX] extending condition and adding regex logic into initSession method [BD-2827] [BD-2882] (Commit d187f82 by sagitov)
