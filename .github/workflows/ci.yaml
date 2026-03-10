@@ -34,7 +34,7 @@ jobs:
       matrix:
         include:
           - php-version: 8.3
-            typo3-version: ^13.4
+            typo3-version: ^14.0
             experimental: false
     env:
       PHP_VERSION: ${{ matrix.php-version }}
