@@ -12,6 +12,7 @@
 namespace Leuchtfeuer\Locate\Tests\Functional\Utility;
 
 use Leuchtfeuer\Locate\Utility\LocateUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
@@ -29,7 +30,7 @@ class LocateUtilityTest extends FunctionalTestCase
 
         parent::setUp();
 
-        $this->subject = new LocateUtility();
+        $this->subject = GeneralUtility::makeInstance(LocateUtility::class);
     }
 
     /**
