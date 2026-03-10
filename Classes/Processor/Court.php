@@ -56,7 +56,7 @@ class Court implements ProcessorInterface
         if ($this->configuration->isExcludeBots()) {
             $crawlerDetect = new CrawlerDetect(
                 $request->getHeaders(),
-                GeneralUtility::getIndpEnv('HTTP_USER_AGENT')
+                $request->getHeaderLine('User-Agent')
             );
 
             if ($crawlerDetect->isCrawler()) {
@@ -75,7 +75,7 @@ class Court implements ProcessorInterface
                         1608653067
                     );
                 }
-                return $this->enforceJudgement($decision->getVerdictName());
+                return $this->enforceJudgement($decision->getVerdictName(), $request);
             }
         } catch (\Exception $exception) {
             $this->logger->critical($exception->getMessage());
@@ -209,7 +209,7 @@ class Court implements ProcessorInterface
         return $judgement;
     }
 
-    protected function enforceJudgement(string $actionName): ?ResponseInterface
+    protected function enforceJudgement(string $actionName, ServerRequestInterface $request): ?ResponseInterface
     {
         $verdicts = $this->configuration->getVerdicts();
         $className = $verdicts[$actionName] ?? null;
@@ -241,7 +241,7 @@ class Court implements ProcessorInterface
 
             $verdict = $verdict->withConfiguration($configuration);
 
-            return $verdict->execute();
+            return $verdict->execute($request);
         }
 
         return null;
