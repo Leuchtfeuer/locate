@@ -13,7 +13,6 @@ return [
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'searchFields' => 'title',
         'iconfile' => 'EXT:locate/Resources/Public/Icons/tx_locate_domain_model_region.svg',
     ],
     'types' => [
