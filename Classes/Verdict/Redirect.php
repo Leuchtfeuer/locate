@@ -17,7 +17,6 @@ use Leuchtfeuer\Locate\Domain\DTO\Configuration;
 use Leuchtfeuer\Locate\Utility\TypeCaster;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
@@ -38,18 +37,13 @@ class Redirect extends AbstractVerdict
 
     private int $requestedLanguageUid = 0;
 
-    public function __construct(protected readonly LoggerInterface $logger, protected readonly Context $context)
-    {
-        parent::__construct($logger);
-    }
-
     /**
      * @throws AspectNotFoundException
      */
     public function execute(ServerRequestInterface $request): ?ResponseInterface
     {
         $this->redirectLanguageUid = isset($this->configuration['sys_language']) ? TypeCaster::toInt($this->configuration['sys_language']) : 0;
-        $this->requestedLanguageUid = $this->context->getAspect('language')->getId();
+        $this->requestedLanguageUid = GeneralUtility::makeInstance(Context::class)->getAspect('language')->getId();
 
         // Initialize Session mode if necessary and prepare everything for possible redirects
         $this->initializeSessionMode();
