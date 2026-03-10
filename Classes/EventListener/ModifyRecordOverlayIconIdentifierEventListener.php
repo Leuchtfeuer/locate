@@ -16,10 +16,11 @@ use Leuchtfeuer\Locate\Utility\TypeCaster;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Imaging\Event\ModifyRecordOverlayIconIdentifierEvent;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final readonly class ModifyRecordOverlayIconIdentifierEventListener
 {
+    public function __construct(private ConnectionPool $connectionPool) {}
+
     /**
      * @throws Exception
      */
@@ -55,7 +56,7 @@ final readonly class ModifyRecordOverlayIconIdentifierEventListener
             return 0;
         }
 
-        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        $qb = $this->connectionPool->getQueryBuilderForTable($table);
 
         return TypeCaster::toInt($qb
             ->select('tx_locate_regions')

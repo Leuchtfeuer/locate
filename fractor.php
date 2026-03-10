@@ -22,7 +22,7 @@ return FractorConfiguration::configure()
         __DIR__ . '/.Build',
     ])
     ->withSets([
-        Typo3LevelSetList::UP_TO_TYPO3_13,
+        Typo3LevelSetList::UP_TO_TYPO3_14,
     ])
     ->withOptions([
         TypoScriptProcessorOption::INDENT_SIZE => 4,

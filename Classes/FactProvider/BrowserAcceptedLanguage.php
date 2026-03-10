@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BrowserAcceptedLanguage extends AbstractFactProvider
 {
-    public const string PROVIDER_NAME = 'browseracceptlanguage';
+    public const PROVIDER_NAME = 'browseracceptlanguage';
 
     protected bool $multiple = true;
 
@@ -67,7 +67,7 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
         $languages = array_unique($languages);
         $languages = array_values($languages);
 
-        array_walk($languages, [LocateUtility::class, 'mainstreamValue']);
+        array_walk($languages, LocateUtility::mainstreamValue(...));
 
         return $languages;
     }

@@ -16,12 +16,11 @@ namespace Leuchtfeuer\Locate\Utility;
 use TYPO3\CMS\Core\Country\CountryProvider;
 use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Localization\Locale;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 readonly class CountryHelper
 {
-    public function __construct(private CountryProvider $countryProvider) {}
+    public function __construct(private CountryProvider $countryProvider, private LanguageServiceFactory $languageServiceFactory) {}
 
     /**
      * @param array<string, mixed> $params
@@ -39,7 +38,7 @@ readonly class CountryHelper
                 ];
             }
 
-            $languageService = GeneralUtility::makeInstance(LanguageServiceFactory::class)
+            $languageService = $this->languageServiceFactory
                 ->createFromUserPreferences($GLOBALS['BE_USER']);
             $backendUserLocale = $languageService->getLocale();
             $languageCode = 'en';
@@ -47,9 +46,7 @@ readonly class CountryHelper
                 $languageCode = $backendUserLocale->getLanguageCode();
             }
             $collator = new \Collator($languageCode);
-            usort($params['items'], function ($a, $b) use ($collator) {
-                return $collator->compare($a['label'], $b['label']) ?: PHP_INT_MAX;
-            });
+            usort($params['items'], fn($a, $b) => $collator->compare($a['label'], $b['label']) ?: PHP_INT_MAX);
         }
     }
 }

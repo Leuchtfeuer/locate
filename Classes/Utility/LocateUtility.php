@@ -19,6 +19,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LocateUtility
 {
+    public function __construct(private readonly ConnectionPool $connectionPool) {}
+
     /**
      * Check the IP in the geoip table and returns iso 2 code for the current remote address
      *
@@ -31,7 +33,7 @@ class LocateUtility
             return false;
         }
         $tableName = $this->getTableNameForIp($ip);
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableName);
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable($tableName);
 
         $countryCode = $queryBuilder
             ->select('country_code')
@@ -59,7 +61,7 @@ class LocateUtility
     protected function getRemoteAddress(): ?string
     {
         $remoteAddr = $this->getHeader('X-Forwarded-For');
-        if ($remoteAddr !== null && $remoteAddr !== '' && $remoteAddr !== '0') {
+        if (!in_array($remoteAddr, [null, '', '0'], true)) {
             return $remoteAddr;
         }
         return (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');

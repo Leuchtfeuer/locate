@@ -25,11 +25,11 @@ use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\TypoScript\FrontendTypoScript;
 
-final class LanguageRedirectMiddleware implements MiddlewareInterface
+final readonly class LanguageRedirectMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly LinkService $link,
-        private readonly Court $court,
+        private LinkService $link,
+        private Court $court,
     ) {}
 
     /**

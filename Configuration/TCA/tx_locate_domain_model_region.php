@@ -17,7 +17,7 @@ return [
         'iconfile' => 'EXT:locate/Resources/Public/Icons/tx_locate_domain_model_region.svg',
     ],
     'types' => [
-        '1' => ['showitem' => '--div--;LLL:EXT:locate/Resources/Private/Language/Database.xlf:tabs.basic,title,countries,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,hidden',
+        '1' => ['showitem' => '--div--;LLL:EXT:locate/Resources/Private/Language/Database.xlf:tabs.basic,title,countries,--div--;core.form.tabs:access,hidden',
         ],
     ],
     'columns' => [

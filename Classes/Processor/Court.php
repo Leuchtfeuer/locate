@@ -154,7 +154,7 @@ class Court implements ProcessorInterface
             $this->addJudgement($judgements, $judgeConfig, (int)$key, $judge, $priorities);
         }
 
-        return empty($judgements) ? null : $this->getDecision($judgements);
+        return $judgements === [] ? null : $this->getDecision($judgements);
     }
 
     /**
