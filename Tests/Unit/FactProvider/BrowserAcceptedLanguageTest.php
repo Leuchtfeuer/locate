@@ -14,13 +14,12 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Locate\Tests\Unit\FactProvider;
 
 use Leuchtfeuer\Locate\FactProvider\BrowserAcceptedLanguage;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class BrowserAcceptedLanguageTest extends UnitTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function askingForIsGuiltyTwiceReturnsCorrectState(): void
     {
         $subject = $this->getAccessibleMock(
@@ -38,9 +37,7 @@ class BrowserAcceptedLanguageTest extends UnitTestCase
         self::assertFalse($subject->isGuilty('de'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function askingForIsGuiltyThreeTimesForMultipleLanguagesReturnsCorrectState(): void
     {
         $subject = $this->getAccessibleMock(

@@ -11,12 +11,16 @@
 
 namespace Leuchtfeuer\Locate\Tests\Functional;
 
+use Leuchtfeuer\Locate\Processor\Court;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalRequest;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
+#[CoversClass(Court::class)]
 class FrontendTest extends FunctionalTestCase
 {
     protected function setUp(): void
@@ -28,10 +32,7 @@ class FrontendTest extends FunctionalTestCase
         $this->importCSVDataSet(__DIR__ . '/Fixtures/redirect-scenario.csv');
     }
 
-    /**
-     * @test
-     * @covers \Leuchtfeuer\Locate\Processor\Court
-     */
+    #[Test]
     public function redirectToMainlandChinaFromIpAddress(): void
     {
         $this->setUpFrontendRootPage(

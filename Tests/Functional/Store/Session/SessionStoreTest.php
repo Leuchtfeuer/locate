@@ -12,11 +12,11 @@
 namespace Leuchtfeuer\Locate\Tests\Functional\Store\Session;
 
 use Leuchtfeuer\Locate\Store\SessionStore;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
-/**
- * @covers \Leuchtfeuer\Locate\Store\SessionStore
- */
+#[CoversClass(SessionStore::class)]
 class SessionStoreTest extends FunctionalTestCase
 {
     protected SessionStore $subject;
@@ -32,27 +32,21 @@ class SessionStoreTest extends FunctionalTestCase
         $this->subject = new SessionStore();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getSessionKeyTest(): void
     {
         $sessionKeyName = $this->subject->getSessionKeyName('foo');
         self::assertSame(SessionStore::SESSION_BASE_NAME . 'foo', $sessionKeyName);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function storeDataTest(): void
     {
         $this->subject->set('foo', 'bar');
         self::assertSame('bar', $this->subject->get('foo'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function deleteDataTest(): void
     {
         $this->subject->set('foo', 'bar');
@@ -61,9 +55,7 @@ class SessionStoreTest extends FunctionalTestCase
         self::assertSame('biz', $this->subject->get('foo', 'biz'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createNewStoreTest(): void
     {
         $sessionBaseName = 'test_key_';

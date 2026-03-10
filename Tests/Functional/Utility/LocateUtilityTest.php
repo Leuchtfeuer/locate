@@ -12,12 +12,12 @@
 namespace Leuchtfeuer\Locate\Tests\Functional\Utility;
 
 use Leuchtfeuer\Locate\Utility\LocateUtility;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
-/**
- * @covers \Leuchtfeuer\Locate\Utility\LocateUtility
- */
+#[CoversClass(LocateUtility::class)]
 class LocateUtilityTest extends FunctionalTestCase
 {
     protected LocateUtility $subject;
@@ -33,9 +33,7 @@ class LocateUtilityTest extends FunctionalTestCase
         $this->subject = GeneralUtility::makeInstance(LocateUtility::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getNumericIPTest(): void
     {
         $ips = [
@@ -49,9 +47,7 @@ class LocateUtilityTest extends FunctionalTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function transformValuesTest(): void
     {
         $values = [
