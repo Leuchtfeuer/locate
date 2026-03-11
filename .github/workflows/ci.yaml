@@ -15,7 +15,7 @@ jobs:
         php-version: [8.2, 8.3, 8.4, 8.5]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Setup PHP Environment
         uses: shivammathur/setup-php@v2
         with:
@@ -26,9 +26,9 @@ jobs:
 
   phpunit:
     needs: integration
-    name: PHP ${{ matrix.php-version }} - T3 ${{ matrix.typo3-version }}
-    runs-on: ubuntu-22.04
-    continue-on-error: ${{ matrix.experimental }}
+    name: PHP ${{ matrix.php-version }} - TYPO3 ${{ matrix.typo3-version }}
+    runs-on: ubuntu-latest
+    continue-on-error: false
     strategy:
       fail-fast: false
       matrix:
@@ -44,7 +44,7 @@ jobs:
           echo "Running tests with TYPO3 ${TYPO3_VERSION} and PHP ${PHP_VERSION}"
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 10
 
