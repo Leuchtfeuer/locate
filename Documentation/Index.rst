@@ -16,7 +16,7 @@ Locate - Identify users by IP and/or browser language
    en
 
 :Copyright:
-   2013-2023
+   2013-2026
 
 :Authors:
    Devs @ Leuchtfeuer Digital Marketing

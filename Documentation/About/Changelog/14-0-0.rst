@@ -1,0 +1,50 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 14.0.0 - 2026/03/12
+==========================
+
+This release is a major release.
+
+Download
+========
+
+Download this version from the `TYPO3 extension repository <https://extensions.typo3.org/extension/locate/>`__ or from
+`GitHub <https://github.com/Leuchtfeuer/locate/releases/tag/v14.0.0>`__.
+
+Added
+=====
+* Add support for TYPO3 v14
+* Add site sets to disable locate for certain scenarios
+
+Changed
+=======
+
+Deprecated
+==========
+
+Removed
+=======
+* Drop support for TYPO3 v13
+
+All Changes
+===========
+This is a list of all changes in this release::
+
+    2026-03-11 [TASK] Introduce site sets for disabling locate automatically in some scenarios [TER-403] [TER-404] (Commit 5394ca7 by Niklas Grieger)
+    2026-03-11 [TASK] Breaking #108054: Add AsAllowedCallable attribute to CountryHelper::selectItemsTCA [TER-403] [TER-404] (Commit b6f99c3 by Niklas Grieger)
+    2026-03-10 [TASK] Modernize tests and make the compatible with PHP 8.2 [TER-403] [TER-404] (Commit 9998a4b by Niklas Grieger)
+    2026-03-10 [TASK] Update dev-dependencies [TER-403] [TER-404] (Commit 0f1ef44 by Niklas Grieger)
+    2026-03-10 [TASK] Fix DI in functional tests [TER-403] [TER-404] (Commit d0da85d by Niklas Grieger)
+    2026-03-10 [TASK] Make redirect verdict instantiation in court work [TER-403] [TER-404] (Commit 195f97e by Niklas Grieger)
+    2026-03-10 [TASK] Breaking #108310: Update CI workflow to test against TYPO3 ^14.0 [TER-403] [TER-404] (Commit 3dd6f1d by Niklas Grieger)
+    2026-03-10 [TASK] Breaking #108310: Update TYPO3 version constraints to ^14.0 [TER-403] [TER-404] (Commit f4fb765 by Niklas Grieger)
+    2026-03-10 [TASK] Breaking #108113: Replace $GLOBALS['TYPO3_REQUEST'] with proper request injection [TER-403] [TER-404] (Commit ade4f3a by Niklas Grieger)
+    2026-03-10 [TASK] Breaking #106972: Remove searchFields from TCA ctrl [TER-403] [TER-404] (Commit 1dbf36e by Niklas Grieger)
+    2026-03-10 [TASK] Run rector for TYPO3 14 [TER-403] [TER-404] (Commit 1c7d8c5 by Niklas Grieger)
+
+Contributors
+============
+Following people have contributed to this release:
+
+*   Niklas Grieger
