@@ -22,7 +22,7 @@ jobs:
           php-version: ${{ matrix.php-version }}
           tools: php-cs-fixer:3
       - name: Check PHP CS
-        run: composer check:cs
+        run: composer ci:check:cs
 
   phpunit:
     needs: integration
@@ -88,5 +88,5 @@ jobs:
 
       - name: Run PHPUnit
         run: |
-          composer tests:unit
-          composer tests:functional
+          composer ci:tests:unit
+          composer ci:tests:functional
