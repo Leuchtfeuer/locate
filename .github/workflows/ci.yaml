@@ -32,10 +32,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - php-version: [8.2, 8.3, 8.4, 8.5]
-            typo3-version: ^14.0
-            experimental: false
+        php-version: [8.2, 8.3, 8.4, 8.5]
+        typo3-version: ['^14.0']
     env:
       PHP_VERSION: ${{ matrix.php-version }}
       TYPO3_VERSION: ${{ matrix.typo3-version }}
