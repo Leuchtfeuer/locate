@@ -22,6 +22,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TYPO3\CMS\Core\Controller\ErrorPageController;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Error\PageErrorHandler\InvalidPageErrorHandlerException;
 use TYPO3\CMS\Core\Error\PageErrorHandler\PageErrorHandlerInterface;
@@ -85,7 +86,7 @@ class PageUnavailableMiddleware implements MiddlewareInterface
         $pageUid = TypeCaster::toInt($page['uid']);
         $locateInvert = TypeCaster::toBool($page['tx_locate_invert']);
         $countryCode = GeneralUtility::makeInstance(LocateUtility::class)->getCountryIso2FromIP();
-        $regionRepository = GeneralUtility::makeInstance(RegionRepository::class);
+        $regionRepository = GeneralUtility::makeInstance(RegionRepository::class, GeneralUtility::makeInstance(ConnectionPool::class));
         $countries = $regionRepository->getCountriesForPage($pageUid);
 
         if (($countryCode === false || $countryCode === '-') && $regionRepository->shouldApplyWhenNoIpMatches($pageUid)) {
