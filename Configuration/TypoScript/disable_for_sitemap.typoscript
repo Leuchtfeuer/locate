@@ -1,0 +1,3 @@
+[request && request.getPageArguments()?.getPageType() == 1533906435]
+    config.tx_locate = 0
+[END]
