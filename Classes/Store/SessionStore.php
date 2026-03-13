@@ -13,7 +13,7 @@ namespace Leuchtfeuer\Locate\Store;
 
 class SessionStore
 {
-    public const string SESSION_BASE_NAME = 'tx_locate_';
+    public const SESSION_BASE_NAME = 'tx_locate_';
 
     protected string $sessionBaseName;
 
@@ -50,9 +50,9 @@ class SessionStore
     {
         if (session_status() !== \PHP_SESSION_ACTIVE) {
             $sessionId = $_COOKIE[session_name()] ?? null;
-            if ($sessionId !== null && !preg_match('/^[a-zA-Z0-9,-]{22,250}$/', $sessionId)) {
+            if ($sessionId !== null && !preg_match('/^[a-zA-Z0-9,-]{22,250}$/', (string)$sessionId)) {
                 // The session ID in the header is invalid, create a new one
-                setcookie(session_name(), '', time() - 3600, '/');
+                setcookie(session_name(), '', ['expires' => time() - 3600, 'path' => '/']);
                 unset($_COOKIE[session_name()]);
             }
             session_start();

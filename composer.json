@@ -1,6 +1,6 @@
 {
   "name": "leuchtfeuer/locate",
-  "description": "The users country, preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. Locate also provides geo blocking for configurable pages in configurable countries.",
+  "description": "Locate - The users country, preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. Locate also provides geo blocking for configurable pages in configurable countries.",
   "keywords": [
     "TYPO3",
     "extension",
@@ -27,11 +27,11 @@
     }
   ],
   "require": {
-    "php": ">=8.3",
-    "typo3/cms-backend": "^13.4",
-    "typo3/cms-core": "^13.4",
-    "typo3/cms-extbase": "^13.4",
-    "typo3/cms-frontend": "^13.4",
+    "php": ">=8.2",
+    "typo3/cms-backend": "^14.0",
+    "typo3/cms-core": "^14.0",
+    "typo3/cms-extbase": "^14.0",
+    "typo3/cms-frontend": "^14.0",
     "symfony/console": "^7.1",
     "doctrine/dbal": "^4.2",
     "jaybizzle/crawler-detect": "^1.3",
@@ -39,12 +39,10 @@
     "ext-zip": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^10.0",
-    "typo3/testing-framework": "^8.0",
+    "phpunit/phpunit": "^11.5",
+    "typo3/testing-framework": "^9.0",
     "friendsofphp/php-cs-fixer": "^3.0",
-    "saschaegerer/phpstan-typo3": "^1.10",
-    "phpstan/phpstan": "^1.11",
-    "ssch/typo3-rector": "^2.5",
+    "ssch/typo3-rector": "^3.11",
     "a9f/typo3-fractor": "^0.4"
   },
   "suggest": {
@@ -81,11 +79,14 @@
       "[ -L .Build/public/typo3conf/ext/locate ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/locate"
     ],
     "check:cs": "./.Build/bin/php-cs-fixer fix --dry-run --config ./php-cs-fixer.php --using-cache no --show-progress dots -v --diff --format=txt",
+    "ci:check:cs": "php-cs-fixer fix --config php-cs-fixer.php --dry-run --using-cache no --show-progress dots -vvv",
     "fix:cs": "./.Build/bin/php-cs-fixer fix --config ./php-cs-fixer.php --using-cache no --show-progress dots -v --diff --format=txt",
     "check:phpstan": "./.Build/bin/phpstan analyse -c ./phpstan.neon",
     "tests:unit": "./.Build/bin/phpunit -c ./Tests/Build/UnitTests.xml",
+    "ci:tests:unit": "./.Build/bin/phpunit -c ./Tests/Build/UnitTests.xml --no-progress --testdox",
     "tests:functional": "./.Build/bin/phpunit -c ./Tests/Build/FunctionalTests.xml --bootstrap ./.Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php",
-    "tests:functional:ddev": "./.Build/bin/phpunit -c ./Tests/Build/FunctionalTestsDdev.xml --bootstrap ./.Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php"
+    "tests:functional:ddev": "./.Build/bin/phpunit -c ./Tests/Build/FunctionalTestsDdev.xml --bootstrap ./.Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php",
+    "ci:tests:functional": "./.Build/bin/phpunit -c ./Tests/Build/FunctionalTests.xml --bootstrap ./.Build/vendor/typo3/testing-framework/Resources/Core/Build/FunctionalTestsBootstrap.php --no-progress --testdox"
   },
   "extra": {
     "typo3/cms": {

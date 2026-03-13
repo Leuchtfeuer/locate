@@ -18,7 +18,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class IP2Country extends AbstractFactProvider
 {
-    public const string PROVIDER_NAME = 'countrybyip';
+    public const PROVIDER_NAME = 'countrybyip';
 
     /**
      * @inheritDoc

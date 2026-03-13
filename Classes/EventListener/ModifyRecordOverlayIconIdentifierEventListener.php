@@ -16,10 +16,11 @@ use Leuchtfeuer\Locate\Utility\TypeCaster;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Imaging\Event\ModifyRecordOverlayIconIdentifierEvent;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final readonly class ModifyRecordOverlayIconIdentifierEventListener
 {
+    public function __construct(private ConnectionPool $connectionPool) {}
+
     /**
      * @throws Exception
      */
@@ -32,7 +33,7 @@ final readonly class ModifyRecordOverlayIconIdentifierEventListener
         $row = $event->getRow();
         $iconName = $event->getOverlayIconIdentifier();
 
-        if ($table === 'pages' && $row !== [] && !str_contains((string)$row['uid'], 'NEW')) {
+        if ($table === 'pages' && isset($row['uid']) && !str_contains((string)$row['uid'], 'NEW')) {
             // since tx_locate_regions is not included in the row array (PageTreeRepository is initialized with empty additionalFields)
             // we need to get the necessary information on our own
             $regions = $this->countRegions($table, $row);
@@ -55,7 +56,7 @@ final readonly class ModifyRecordOverlayIconIdentifierEventListener
             return 0;
         }
 
-        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        $qb = $this->connectionPool->getQueryBuilderForTable($table);
 
         return TypeCaster::toInt($qb
             ->select('tx_locate_regions')

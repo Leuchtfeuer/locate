@@ -1,7 +1,7 @@
 Language Utilities for TYPO3
 ============================
 
-[![TYPO3 13](https://img.shields.io/badge/TYPO3-13-orange.svg)](https://get.typo3.org/version/13)
+[![TYPO3 14](https://img.shields.io/badge/TYPO3-14-orange.svg)](https://get.typo3.org/version/14)
 [![Latest Stable Version](https://poser.pugx.org/leuchtfeuer/locate/v/stable)](https://packagist.org/packages/leuchtfeuer/locate)
 [![Build Status](https://github.com/Leuchtfeuer/locate/workflows/Continous%20Integration/badge.svg)](https://github.com/Leuchtfeuer/locate/actions)
 [![Total Downloads](https://poser.pugx.org/leuchtfeuer/locate/downloads)](https://packagist.org/leuchtfeuer/locate)
@@ -9,7 +9,7 @@ Language Utilities for TYPO3
 [![codecov](https://codecov.io/gh/Leuchtfeuer/locate/branch/master/graph/badge.svg?token=0GcE422Ms1)](https://codecov.io/gh/Leuchtfeuer/locate)
 [![License](https://poser.pugx.org/leuchtfeuer/locate/license)](https://packagist.org/packages/leuchtfeuer/locate)
 
-This TYPO3 extension provides some functions to **assign a suitable language** version of your website to the website user or to 
+This TYPO3 extension provides some functions to **assign a suitable language** version of your website to the website user or to
 **deny access to configurable pages** in configurable countries (geo blocking).
 
 The full documentation for the latest releases can be found [here](https://docs.typo3.org/p/leuchtfeuer/locate/master/en-us/).
@@ -18,14 +18,14 @@ The full documentation for the latest releases can be found [here](https://docs.
 
 We are currently supporting following TYPO3 versions:<br><br>
 
-| Extension Version | TYPO3 v13 Support | TYPO3 v12 Support |
+| Extension Version | TYPO3 v14 Support | TYPO3 v13 Support |
 |-------------------|-------------------|-------------------|
-| 13.x              | x                 | -                 |
-| 12.x              | -                 | x                 |
+| 14.x              | x                 | -                 |
+| 13.x              | -                 | x                 |
 
 ### IPv6 Support
 
-For an accurate IPv6 support, your PHP needs to support either `gmp` or `bcmath`. It also has to be compiled  without the 
+For an accurate IPv6 support, your PHP needs to support either `gmp` or `bcmath`. It also has to be compiled  without the
 `--disable-ipv6` option. The determination of IP addresses is also possible without these packages, but it is less precise.
 
 ## Contributing

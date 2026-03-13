@@ -31,9 +31,10 @@ use TYPO3\CMS\Core\Http\RequestFactory;
  *
  * IP data is available at https://lite.ip2location.com/
  */
+
 class UpdateIpDatabaseCommand extends Command
 {
-    protected const string DOWNLOAD_LINK = 'https://www.ip2location.com/download/?token=%s&file=%s';
+    protected const DOWNLOAD_LINK = 'https://www.ip2location.com/download/?token=%s&file=%s';
 
     protected SymfonyStyle $io;
 
@@ -185,13 +186,11 @@ class UpdateIpDatabaseCommand extends Command
         $data = [];
 
         while (($row = fgetcsv($resource)) !== false) {
-            if ($row !== []) {
-                $data[] = [
-                    'ip_from' => $row[0],
-                    'ip_to' => $row[1],
-                    'country_code' => $row[2],
-                ];
-            }
+            $data[] = [
+                'ip_from' => $row[0],
+                'ip_to' => $row[1],
+                'country_code' => $row[2],
+            ];
         }
 
         fclose($resource);

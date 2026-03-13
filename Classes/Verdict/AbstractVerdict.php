@@ -15,6 +15,7 @@ namespace Leuchtfeuer\Locate\Verdict;
 
 use Leuchtfeuer\Locate\Store\SessionStore;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractVerdict
@@ -46,5 +47,5 @@ abstract class AbstractVerdict
     /**
      * Call the action module
      */
-    abstract public function execute(): ?ResponseInterface;
+    abstract public function execute(ServerRequestInterface $request): ?ResponseInterface;
 }

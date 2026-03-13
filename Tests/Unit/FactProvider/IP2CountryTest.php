@@ -14,13 +14,12 @@ declare(strict_types=1);
 namespace Leuchtfeuer\Locate\Tests\Unit\FactProvider;
 
 use Leuchtfeuer\Locate\FactProvider\IP2Country;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class IP2CountryTest extends UnitTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function askingForIsGuiltyTwiceReturnsCorrectState(): void
     {
         $subject = $this->getAccessibleMock(

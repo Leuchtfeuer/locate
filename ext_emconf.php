@@ -3,11 +3,12 @@
 $EM_CONF['locate'] = [
     'title' => 'Locate',
     'description' => 'The users country, preferred language and other facts will be detected. Depending on configurable rules the user can be redirected to other languages or pages. Locate also provides geo blocking for configurable pages in configurable countries.',
-    'version' => '13.0.3',
+    'version' => '14.0.0',
     'category' => 'fe',
     'constraints' => [
         'depends' => [
-            'typo3' => '13.4.0-13.4.99',
+            'php' => '8.2.0-8.5.99',
+            'typo3' => '14.0.0-14.3.99',
         ],
         'conflicts' => [],
         'suggests' => [],

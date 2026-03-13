@@ -15,11 +15,12 @@ namespace Leuchtfeuer\Locate\Domain\Repository;
 
 use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class RegionRepository
 {
-    public const int APPLY_WHEN_NO_IP_MATCHES = -1;
+    public const APPLY_WHEN_NO_IP_MATCHES = -1;
+
+    public function __construct(private readonly ConnectionPool $connectionPool) {}
 
     /**
      * @return array<null>|array<string, bool>
@@ -27,7 +28,7 @@ class RegionRepository
      */
     public function getCountriesForPage(int $id): array
     {
-        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_locate_page_region_mm');
+        $qb = $this->connectionPool->getQueryBuilderForTable('tx_locate_page_region_mm');
         $iso2Codes = [];
 
         $results = $qb
@@ -55,7 +56,7 @@ class RegionRepository
      */
     public function shouldApplyWhenNoIpMatches(int $id): bool
     {
-        $qb = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_locate_page_region_mm');
+        $qb = $this->connectionPool->getQueryBuilderForTable('tx_locate_page_region_mm');
 
         $results = $qb
             ->select('*')
@@ -63,6 +64,6 @@ class RegionRepository
             ->where($qb->expr()->eq('uid_local', $id))->andWhere($qb->expr()->eq('uid_foreign', self::APPLY_WHEN_NO_IP_MATCHES))->executeQuery()
             ->fetchAllAssociative();
 
-        return !empty($results);
+        return $results !== [];
     }
 }

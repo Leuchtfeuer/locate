@@ -23,14 +23,14 @@ return RectorConfig::configure()
     ->withSkipPath(
         __DIR__ . '/.Build',
     )
-    ->withPhpSets(php83: true)
+    ->withPhpSets(php82: true)
     ->withRules([
         TypedPropertyFromStrictConstructorRector::class,
     ])
     ->withSets([
         Typo3SetList::CODE_QUALITY,
         Typo3SetList::GENERAL,
-        Typo3LevelSetList::UP_TO_TYPO3_13,
+        Typo3LevelSetList::UP_TO_TYPO3_14,
     ])
     // here we can define, what prepared sets of rules will be applied
     ->withPreparedSets(

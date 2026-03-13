@@ -1,0 +1,3 @@
+[request && traverse(request.getHeaders(), 'x-tx-solr-iq/0')]
+    config.tx_locate = 0
+[END]
