@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<guides xmlns="https://www.phpdoc.org/guides" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://www.phpdoc.org/guides ../vendor/phpdocumentor/guides-cli/resources/schema/guides.xsd"
+        links-are-relative="true">
+    <extension class="\T3Docs\Typo3DocsTheme\DependencyInjection\Typo3DocsThemeExtension"
+               project-home="https://github.com/Leuchtfeuer/locate"
+               project-contact="mailto:dev@Leuchtfeuer.com"
+               project-repository="https://github.com/Leuchtfeuer/locate"
+               project-issues="https://github.com/Leuchtfeuer/locate/issues"
+               edit-on-github-branch="master"
+               edit-on-github="Leuchtfeuer/locate"
+               interlink-shortcode="leuchtfeuer/locate"
+               typo3-core-preferred="stable"/>
+    <project title="Locate - Identify users by IP and/or browser language" release="14.0.0"
+             copyright="since 2013 by the authors"/>
+</guides>
