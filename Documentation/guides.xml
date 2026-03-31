@@ -7,7 +7,7 @@
                project-contact="mailto:dev@Leuchtfeuer.com"
                project-repository="https://github.com/Leuchtfeuer/locate"
                project-issues="https://github.com/Leuchtfeuer/locate/issues"
-               edit-on-github-branch="master"
+               edit-on-github-branch="main"
                edit-on-github="Leuchtfeuer/locate"
                interlink-shortcode="leuchtfeuer/locate"
                typo3-core-preferred="stable"/>
