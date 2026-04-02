@@ -13,7 +13,7 @@ namespace Leuchtfeuer\Locate\Domain\DTO;
 
 class Configuration
 {
-    public const string OVERRIDE_PARAMETER = 'setLang';
+    public const OVERRIDE_PARAMETER = 'setLang';
     protected bool $dryRun = false;
     protected bool $excludeBots = true;
     protected bool $sessionHandling = true;

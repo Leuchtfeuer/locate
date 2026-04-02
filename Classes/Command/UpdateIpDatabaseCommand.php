@@ -33,7 +33,7 @@ use TYPO3\CMS\Core\Http\RequestFactory;
  */
 class UpdateIpDatabaseCommand extends Command
 {
-    protected const string DOWNLOAD_LINK = 'https://www.ip2location.com/download/?token=%s&file=%s';
+    protected const DOWNLOAD_LINK = 'https://www.ip2location.com/download/?token=%s&file=%s';
 
     protected SymfonyStyle $io;
 

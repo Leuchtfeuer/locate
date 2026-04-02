@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BrowserAcceptedLanguage extends AbstractFactProvider
 {
-    public const string PROVIDER_NAME = 'browseracceptlanguage';
+    public const PROVIDER_NAME = 'browseracceptlanguage';
 
     protected bool $multiple = true;
 
