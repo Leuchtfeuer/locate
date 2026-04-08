@@ -1,0 +1,20 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 13.0.4 - 2026/04/09
+==========================
+
+This release is a maintenance release, readding PHP 8.2 compatibility.
+
+Updates
+=======
+
+Add missing changelog files. Update internal CI configuration.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2026-04-08 Merge pull request #77 from dmitryd/issue_76 (Commit ef812a2 by bmheins)
+    2026-04-02 [BUGFIX] Fix #76: simplify dependency management (Commit 13b9f1e by Dmitry Dulepov)
