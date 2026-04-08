@@ -27,13 +27,12 @@
     }
   ],
   "require": {
-    "php": ">=8.3",
-    "typo3/cms-backend": "^13.4",
+    "typo3/cms-backend": "*",
     "typo3/cms-core": "^13.4",
-    "typo3/cms-extbase": "^13.4",
-    "typo3/cms-frontend": "^13.4",
-    "symfony/console": "^7.1",
-    "doctrine/dbal": "^4.2",
+    "typo3/cms-extbase": "*",
+    "typo3/cms-frontend": "*",
+    "symfony/console": "*",
+    "doctrine/dbal": "*",
     "jaybizzle/crawler-detect": "^1.3",
     "ext-intl": "*",
     "ext-zip": "*"

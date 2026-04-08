@@ -17,7 +17,7 @@ use Leuchtfeuer\Locate\FactProvider\AbstractFactProvider;
 
 abstract class AbstractJudge
 {
-    public const int DEFAULT_PRIORITY = 999;
+    public const DEFAULT_PRIORITY = 999;
 
     protected ?Decision $decision = null;
 
