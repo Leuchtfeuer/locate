@@ -27,6 +27,7 @@
     }
   ],
   "require": {
+    "php": ">=8.2",
     "typo3/cms-backend": "*",
     "typo3/cms-core": "^13.4",
     "typo3/cms-extbase": "*",
