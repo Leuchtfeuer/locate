@@ -1,0 +1,19 @@
+﻿.. include:: ../../Includes.txt
+
+==========================
+Version 13.0.5 - 2026/04/20
+==========================
+
+This release is a maintenance release.
+
+Updates
+=======
+
+Fix undefined array key warning in event listener.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2026-04-20 [BUGFIX] Fix undefined array key warning in event listener [TER-433] [TER-434] (Commit 0b8ad2d by Niklas Grieger)
