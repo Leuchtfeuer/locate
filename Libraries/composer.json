@@ -1,0 +1,11 @@
+{
+	"config": {
+		"platform": {
+			"php": "8.2.0"
+		},
+		"classmap-authoritative": true
+	},
+	"require": {
+		"jaybizzle/crawler-detect": "^1.3"
+	}
+}
