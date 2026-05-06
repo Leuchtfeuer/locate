@@ -1,0 +1,24 @@
+.. include:: ../../Includes.txt
+
+==========================
+Version 14.0.1 - 2026/05/07
+==========================
+
+This release is a maintenance release.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2026-05-06 [TASK] Bundle dependencies for TER releases [TER-471] (Commit 0ac0806 by Oliver Heins)
+    2026-04-01 Merge pull request #75 from Leuchtfeuer/feature/TER-417 (Commit 3c69b88 by Ines Willenbrock)
+    2026-03-31 [TASK] Fix branch in guides.xml [TER-417][TER-419] (Commit 65262ce by Ines Willenbrock)
+    2026-03-31 [TASK] Migrate documentation to PHP based rendering [TER-417][TER-419] (Commit c3dd147 by Ines Willenbrock)
+
+Contributors
+============
+Following people have contributed to this release:
+
+*   Oliver Heins
+*   Ines Willenbrock
