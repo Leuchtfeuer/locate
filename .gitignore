@@ -3,3 +3,4 @@
 /composer.lock
 /var
 .idea
+/Libraries/vendor/

@@ -1,0 +1,19 @@
+.. include:: ../../Includes.txt
+
+===========================
+Version 13.0.6 - 2026/05/07
+===========================
+
+This release is a maintenance release.
+
+Updates
+=======
+
+Bundle third-party dependencies via a separate ``Libraries/composer.json`` so the extension can be installed from TER without an external dependency manager.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2026-05-06 [TASK] Bundle dependencies for TER releases [TER-470] (Commit f22ddf3 by Oliver Heins)
