@@ -33,17 +33,22 @@ class LocateUtility
         $tableName = $this->getTableNameForIp($ip);
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableName);
 
-        $countryCode = $queryBuilder
-            ->select('country_code')
+        // Only the last range starting at or below the IP can contain it. Reading it backwards along idx_ip_from
+        // touches a single row, while a condition on both ip_from and ip_to results in a (full) range scan.
+        $range = $queryBuilder
+            ->select('country_code', 'ip_to')
             ->from($tableName)
-            ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))->andWhere($queryBuilder->expr()->gte('ip_to', $queryBuilder->createNamedParameter($ip)))->executeQuery()
-            ->fetchOne();
+            ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))
+            ->orderBy('ip_from', 'DESC')
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative();
 
-        if ($countryCode !== false) {
-            return TypeCaster::toString($countryCode);
+        if ($range === false || $this->compareNumericStrings(TypeCaster::toString($range['ip_to']), $ip) < 0) {
+            return false;
         }
 
-        return false;
+        return TypeCaster::toString($range['country_code']);
     }
 
     public function getNumericIp(?string $ip = null): string|bool
@@ -117,6 +122,17 @@ class LocateUtility
     public static function mainstreamValue(string &$value): void
     {
         $value = mb_strtolower(str_replace('-', '_', $value));
+    }
+
+    /**
+     * Compares two non-negative integers given as decimal strings. IPv6 numbers exceed PHP_INT_MAX.
+     */
+    private function compareNumericStrings(string $a, string $b): int
+    {
+        $a = ltrim($a, '0');
+        $b = ltrim($b, '0');
+
+        return strlen($a) <=> strlen($b) ?: strcmp($a, $b) <=> 0;
     }
 
     protected function getTableNameForIp(string $ip): string
