@@ -74,12 +74,13 @@ class LocateUtility
         return $this->convertIpv6($ip);
     }
 
+    /**
+     * The client address as determined by TYPO3. Behind a reverse proxy, TYPO3 takes it from X-Forwarded-For once
+     * $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyIP'] and ['reverseProxyHeaderMultiValue'] are configured.
+     * Reading the header directly would let every visitor choose the country to be located in.
+     */
     protected function getRemoteAddress(): ?string
     {
-        $remoteAddr = $this->getHeader('X-Forwarded-For');
-        if (!in_array($remoteAddr, [null, '', '0'], true)) {
-            return $remoteAddr;
-        }
         return (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
     }
 
