@@ -13,6 +13,7 @@ namespace Leuchtfeuer\Locate\Tests\Functional\Utility;
 
 use Leuchtfeuer\Locate\Utility\LocateUtility;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -45,6 +46,32 @@ class LocateUtilityTest extends FunctionalTestCase
         foreach ($ips as $ip => $long) {
             self::assertSame($long, $this->subject->getNumericIp($ip));
         }
+    }
+
+    public static function countryIso2FromIpDataProvider(): array
+    {
+        return [
+            'IPv4 first address of range' => ['1.0.0.0', 'US'],
+            'IPv4 inside range' => ['1.0.0.1', 'US'],
+            'IPv4 last address of range' => ['1.0.0.255', 'US'],
+            'IPv4 between ranges' => ['1.0.1.0', false],
+            'IPv4 last address of last range' => ['1.0.7.255', 'AU'],
+            'IPv4 above last range' => ['1.0.8.0', false],
+            'IPv4 reserved range' => ['0.0.0.1', '-'],
+            // Both numbers are equal as floats, a lossy comparison would mix up the ranges
+            'IPv6 last address of range' => ['2A02:8108:8400:23D8:5C6C:DA81:E68D:5CAF', 'DE'],
+            'IPv6 first address of following range' => ['2A02:8108:8400:23D8:5C6C:DA81:E68D:5CB0', 'AT'],
+            'IPv6 above last range' => ['2A02:8108:8400:23D8:5C6C:DA81:E68D:5D00', false],
+        ];
+    }
+
+    #[Test]
+    #[DataProvider('countryIso2FromIpDataProvider')]
+    public function getCountryIso2FromIpReturnsCountryOfRangeContainingIp(string $ip, string|false $expected): void
+    {
+        $this->importCSVDataSet(__DIR__ . '/../Fixtures/ip2country.csv');
+
+        self::assertSame($expected, $this->subject->getCountryIso2FromIP($ip));
     }
 
     #[Test]
