@@ -60,7 +60,18 @@ class LocateUtility
             return false;
         }
 
-        return str_contains($ip, '.') ? (string)ip2long($ip) : $this->convertIpv6($ip);
+        // IPv4-mapped IPv6 addresses (::ffff:192.0.2.1, e.g. from dual-stack sockets) are looked up as IPv4
+        if (str_starts_with(strtolower($ip), '::ffff:') && filter_var(substr($ip, 7), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false) {
+            $ip = substr($ip, 7);
+        }
+
+        if (str_contains($ip, '.')) {
+            $long = ip2long($ip);
+
+            return $long === false ? false : (string)$long;
+        }
+
+        return $this->convertIpv6($ip);
     }
 
     protected function getRemoteAddress(): ?string
