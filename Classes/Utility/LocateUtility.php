@@ -35,26 +35,49 @@ class LocateUtility
         $tableName = $this->getTableNameForIp($ip);
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableName);
 
-        return $queryBuilder
-            ->select('country_code')
+        // Only the last range starting at or below the IP can contain it. Reading it backwards along idx_ip_from
+        // touches a single row, while a condition on both ip_from and ip_to results in a (full) range scan.
+        $range = $queryBuilder
+            ->select('country_code', 'ip_to')
             ->from($tableName)
-            ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))->andWhere($queryBuilder->expr()->gte('ip_to', $queryBuilder->createNamedParameter($ip)))->executeQuery()
-            ->fetchOne();
+            ->where($queryBuilder->expr()->lte('ip_from', $queryBuilder->createNamedParameter($ip)))
+            ->orderBy('ip_from', 'DESC')
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchAssociative();
+
+        if ($range === false || $this->compareNumericStrings((string)$range['ip_to'], $ip) < 0) {
+            return false;
+        }
+
+        return $range['country_code'];
     }
 
     public function getNumericIp(?string $ip = null): string|bool
     {
         $ip = $ip ?? $this->getRemoteAddress();
 
-        return str_contains($ip, '.') ? (string)ip2long($ip) : $this->convertIpv6($ip);
+        // IPv4-mapped IPv6 addresses (::ffff:192.0.2.1, e.g. from dual-stack sockets) are looked up as IPv4
+        if (str_starts_with(strtolower($ip), '::ffff:') && filter_var(substr($ip, 7), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false) {
+            $ip = substr($ip, 7);
+        }
+
+        if (str_contains($ip, '.')) {
+            $long = ip2long($ip);
+
+            return $long === false ? false : (string)$long;
+        }
+
+        return $this->convertIpv6($ip);
     }
 
+    /**
+     * The client address as determined by TYPO3. Behind a reverse proxy, TYPO3 takes it from X-Forwarded-For once
+     * $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyIP'] and ['reverseProxyHeaderMultiValue'] are configured.
+     * Reading the header directly would let every visitor choose the country to be located in.
+     */
     protected function getRemoteAddress(): ?string
     {
-        $remoteAddr = $this->getHeader('X-Forwarded-For');
-        if (!empty($remoteAddr)) {
-            return $remoteAddr;
-        }
         return (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
     }
 
@@ -106,6 +129,17 @@ class LocateUtility
     public static function mainstreamValue(string &$value): void
     {
         $value = mb_strtolower(str_replace('-', '_', $value));
+    }
+
+    /**
+     * Compares two non-negative integers given as decimal strings. IPv6 numbers exceed PHP_INT_MAX.
+     */
+    private function compareNumericStrings(string $a, string $b): int
+    {
+        $a = ltrim($a, '0');
+        $b = ltrim($b, '0');
+
+        return strlen($a) <=> strlen($b) ?: strcmp($a, $b) <=> 0;
     }
 
     protected function getTableNameForIp(string $ip): string
