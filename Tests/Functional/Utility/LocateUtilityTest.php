@@ -41,6 +41,7 @@ class LocateUtilityTest extends FunctionalTestCase
             '2A02:8108:8400:23D8:5C6C:DA81:E68D:5CAF' => '55840577522199898067217455099144920239',
             '127.0.0.1' => '2130706433',
             '192.168.178.1' => '3232281089',
+            '::ffff:127.0.0.1' => '2130706433',
         ];
 
         foreach ($ips as $ip => $long) {
@@ -62,6 +63,10 @@ class LocateUtilityTest extends FunctionalTestCase
             'IPv6 last address of range' => ['2A02:8108:8400:23D8:5C6C:DA81:E68D:5CAF', 'DE'],
             'IPv6 first address of following range' => ['2A02:8108:8400:23D8:5C6C:DA81:E68D:5CB0', 'AT'],
             'IPv6 above last range' => ['2A02:8108:8400:23D8:5C6C:DA81:E68D:5D00', false],
+            'IPv4-mapped IPv6' => ['::ffff:1.0.0.1', 'US'],
+            'IPv4-mapped IPv6 in upper case' => ['::FFFF:1.0.4.1', 'AU'],
+            'list of addresses' => ['1.0.0.1, 1.0.4.1', false],
+            'invalid IPv4' => ['1.0.0.256', false],
         ];
     }
 
