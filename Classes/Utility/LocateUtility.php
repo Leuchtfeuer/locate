@@ -19,6 +19,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LocateUtility
 {
+    private const IPV4_MAPPED_PREFIX = "\0\0\0\0\0\0\0\0\0\0\xff\xff";
+
     private const WORD_FACTOR = 2 ** 32;
 
     public function __construct(private readonly ConnectionPool $connectionPool) {}
@@ -62,18 +64,17 @@ class LocateUtility
             return false;
         }
 
+        $binaryIp = inet_pton($ip);
+        if ($binaryIp === false) {
+            return false;
+        }
+
         // IPv4-mapped IPv6 addresses (::ffff:192.0.2.1, e.g. from dual-stack sockets) are looked up as IPv4
-        if (str_starts_with(strtolower($ip), '::ffff:') && filter_var(substr($ip, 7), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false) {
-            $ip = substr($ip, 7);
+        if (str_starts_with($binaryIp, self::IPV4_MAPPED_PREFIX)) {
+            $binaryIp = substr($binaryIp, strlen(self::IPV4_MAPPED_PREFIX));
         }
 
-        if (str_contains($ip, '.')) {
-            $long = ip2long($ip);
-
-            return $long === false ? false : (string)$long;
-        }
-
-        return $this->convertIpv6($ip);
+        return $this->convertBinaryToDecimal($binaryIp);
     }
 
     /**
@@ -90,16 +91,6 @@ class LocateUtility
     {
         $headers = getallheaders();
         return $headers[$headerName] ?? null;
-    }
-
-    private function convertIpv6(string $ip): string|bool
-    {
-        $binaryIp = inet_pton($ip);
-        if ($binaryIp === false) {
-            return false;
-        }
-
-        return $this->convertBinaryToDecimal($binaryIp);
     }
 
     /**
