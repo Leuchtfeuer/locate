@@ -81,6 +81,7 @@ class LocateUtilityTest extends FunctionalTestCase
             'IPv6 above last range' => ['2A02:8108:8400:23D8:5C6C:DA81:E68D:5D00', false],
             'IPv4-mapped IPv6' => ['::ffff:1.0.0.1', 'US'],
             'IPv4-mapped IPv6 in upper case' => ['::FFFF:1.0.4.1', 'AU'],
+            'IPv4-mapped IPv6, expanded' => ['0:0:0:0:0:ffff:1.0.0.1', 'US'],
             'list of addresses' => ['1.0.0.1, 1.0.4.1', false],
             'invalid IPv4' => ['1.0.0.256', false],
         ];
