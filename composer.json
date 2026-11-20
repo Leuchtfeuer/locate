@@ -89,7 +89,7 @@
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": ".Build/public",
       "extension-key": "locate",
-      "version": "14.0.1",
+      "version": "14.1.0",
       "Package": {
         "providesPackages": {
           "jaybizzle/crawler-detect": "Libraries/vendor"

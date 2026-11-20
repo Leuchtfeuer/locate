@@ -11,6 +11,6 @@
                edit-on-github="Leuchtfeuer/locate"
                interlink-shortcode="leuchtfeuer/locate"
                typo3-core-preferred="stable"/>
-    <project title="Locate - Identify users by IP and/or browser language" release="14.0.0"
+    <project title="Locate - Identify users by IP and/or browser language" release="14.1.0"
              copyright="since 2013 by the authors"/>
 </guides>

@@ -1,0 +1,68 @@
+.. include:: ../../Includes.txt
+
+===========================
+Version 14.1.0 - 2026/11/20
+===========================
+
+This release fixes the IP based country lookup. The visitor's IP address is now determined via TYPO3's reverse proxy
+settings only, the IP range lookup uses the database index, and IPv6 addresses are converted exactly without gmp or bcmath.
+
+Breaking Changes
+================
+
+*   The :code:`X-Forwarded-For` header is no longer read directly. The visitor's IP address is taken from
+    :code:`GeneralUtility::getIndpEnv('REMOTE_ADDR')`, which evaluates the header only for requests from a proxy listed in
+    :code:`$GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyIP']`. Installations behind a proxy, load balancer or CDN have to
+    configure it, otherwise every visitor is located at the proxy's address. See :ref:`admin-reverseProxy`:
+
+    .. code-block:: php
+
+       $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyIP'] = '192.0.2.10,198.51.100.0/24';
+       $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyHeaderMultiValue'] = 'last';
+
+*   The protected method :code:`LocateUtility::getHeader()` has been removed. Subclasses calling it can use
+    :code:`GeneralUtility::getIndpEnv('REMOTE_ADDR')` or the PSR-7 request instead.
+*   The deprecated IPv4-compatible notation :code:`::192.0.2.1` is no longer rejected, but resolves to the same number as
+    :code:`::c000:201`.
+*   :file:`ext_emconf.php` has been removed, :file:`composer.json` is the only manifest. The category "fe" is no longer set.
+
+Fixed
+=====
+
+*   Every visitor could choose the country to be located in by sending an :code:`X-Forwarded-For` header, which also
+    allowed to bypass the geo blocking.
+*   The IP range lookup scanned large parts of the IP table on every request. It now reads a single row along the index.
+*   Calling :code:`LocateUtility::getCountryIso2FromIP()` without an IP address on the command line ended in a fatal error,
+    as :code:`getallheaders()` does not exist there.
+*   IPv4-mapped IPv6 addresses (:code:`::ffff:192.0.2.1`) are looked up as IPv4 in every notation. Invalid IPv4 addresses
+    and address lists no longer match the reserved range (:code:`-`).
+*   Without gmp or bcmath, IPv6 addresses were converted with floating point numbers, and neighbouring addresses were
+    located in the wrong country or not at all.
+
+Changed
+=======
+
+*   The PHP extensions gmp and bcmath are no longer needed and no longer suggested.
+*   :file:`composer.json` declares the bundled :code:`jaybizzle/crawler-detect` in :code:`providesPackages`.
+*   The usages of :code:`GeneralUtility::getIndpEnv()`, which is deprecated since TYPO3 v14.3, are marked for TYPO3 v15.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2026-11-20 [TASK] Use composer.json as the only extension manifest (Commit 8bc56cc by Oliver Heins)
+    2026-11-20 [TASK] Mark the usages of the deprecated GeneralUtility::getIndpEnv() (Commit 62f4e3f by Oliver Heins)
+    2026-11-20 [TASK] Remove unused LocateUtility::getHeader() (Commit 5a0d452 by Oliver Heins)
+    2026-11-20 [BUGFIX] Recognise IPv4-mapped IPv6 addresses in every notation (Commit af386fc by Oliver Heins)
+    2026-11-20 [BUGFIX] Convert IPv6 addresses to decimal numbers without loss of precision (Commit d95296e by Oliver Heins)
+    2026-10-14 [BUGFIX] Determine the visitor's IP address via TYPO3's reverse proxy settings (Commit be5bd36 by Andreas Sommer)
+    2026-10-14 [BUGFIX] Resolve IPv4-mapped IPv6 addresses and reject invalid IPv4 (Commit 7319bee by Andreas Sommer)
+    2026-10-14 [BUGFIX] Use an index-friendly query to look up the IP range (Commit e07e3ea by Andreas Sommer)
+
+Contributors
+============
+Following people have contributed to this release:
+
+*   Andreas Sommer
+*   Oliver Heins
