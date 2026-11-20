@@ -82,6 +82,8 @@ jobs:
         env:
           PHP_VERSION: ${{ matrix.php-version }}
           TYPO3_VERSION: ${{ matrix.typo3-version }}
+          # Fixed TYPO3 12.4 releases are only available via ELTS, all public ones have security advisories
+          COMPOSER_POLICY_ADVISORIES_BLOCK: '0'
         run: |
           if [[ "${{ matrix.typo3-version }}" == *"dev"* ]]; then
             composer config minimum-stability dev
