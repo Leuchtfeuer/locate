@@ -26,8 +26,7 @@ We are currently supporting following TYPO3 versions:<br><br>
 
 ### IPv6 Support
 
-For an accurate IPv6 support, your PHP needs to support either `gmp` or `bcmath`. It also has to be compiled  without the 
-`--disable-ipv6` option. The determination of IP addresses is also possible without these packages, but it is less precise.
+For IPv6 support, your PHP has to be compiled without the `--disable-ipv6` option.
 
 ## Contributing
 
