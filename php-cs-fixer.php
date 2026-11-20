@@ -21,7 +21,6 @@ $finder = (new PhpCsFixer\Finder())
     ->exclude('Configuration')
     ->exclude('Libraries')
     ->exclude('Resources')
-    ->notName('ext_emconf.php')
     ->notName('ext_tables.php')
     ->notName('ext_localconf.php')
     ->notName('php-cs-fixer.php');
