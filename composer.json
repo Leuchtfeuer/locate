@@ -45,10 +45,6 @@
     "ssch/typo3-rector": "^3.11",
     "a9f/typo3-fractor": "^0.4"
   },
-  "suggest": {
-    "ext-gmp": "Recommended for an accurate IPv6 calculation.",
-    "ext-bcmath": "Alternative for an accurate IPv6 calculation. Not needed if you have gmp installed."
-  },
   "replace": {
     "typo3-ter/locate": "self.version",
     "bitmotion/locate": "self.version"
