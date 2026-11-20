@@ -84,6 +84,10 @@ class LocateUtility
      */
     protected function getRemoteAddress(): ?string
     {
+        // @todo TYPO3 v15: getIndpEnv() is deprecated since v14.3 (Deprecation #109551) and removed in v15. Use
+        //       $request->getAttribute('normalizedParams')->getRemoteAddress() instead, which evaluates reverseProxyIP
+        //       the same way. LocateUtility has no request: the callers have to pass the address, and the IP2Country
+        //       fact provider needs the request from Court first.
         return (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
     }
 
