@@ -85,12 +85,6 @@ class LocateUtility
         return (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
     }
 
-    protected function getHeader(string $headerName): ?string
-    {
-        $headers = getallheaders();
-        return $headers[$headerName] ?? null;
-    }
-
     /**
      * Converts a binary IP address as returned by inet_pton() (4 bytes for IPv4, 16 bytes for IPv6) into its number,
      * written as a decimal string: 192.168.178.1 becomes '3232281089'. The IP tables store the same numbers.
