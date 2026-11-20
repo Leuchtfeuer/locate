@@ -78,7 +78,8 @@
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": ".Build/public",
-      "extension-key": "locate"
+      "extension-key": "locate",
+      "version": "12.1.0"
     }
   }
 }
