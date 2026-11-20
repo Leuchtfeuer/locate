@@ -59,6 +59,9 @@ class BrowserAcceptedLanguage extends AbstractFactProvider
      */
     protected function getAcceptedLanguages(): array
     {
+        // @todo TYPO3 v15: getIndpEnv() is deprecated since v14.3 (Deprecation #109551) and removed in v15. Use
+        //       $request->getAttribute('normalizedParams')->getHttpAcceptLanguage() instead. Fact providers have no
+        //       request yet, Court has to pass it on.
         preg_match_all('/([a-z]{2})(?:-[a-zA-Z]{2})?/', GeneralUtility::getIndpEnv('HTTP_ACCEPT_LANGUAGE'), $matches);
         [$locales, $languages] = $matches;
 

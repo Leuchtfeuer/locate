@@ -48,9 +48,7 @@ and upload the zip file to the extension manager of your TYPO3 instance and acti
 
 .. important::
 
-   For an more accurate IPv6 support, your PHP needs to support either :code:`gmp` or :code:`bcmath`. It also has to be compiled
-   without the :code:`--disable-ipv6` option. The determination of IP addresses is also possible without these packages, but it
-   is less precise.
+   For IPv6 support, your PHP has to be compiled without the :code:`--disable-ipv6` option.
 
 .. _admin-updatingIPDatabase:
 
@@ -130,6 +128,24 @@ If you do not want to activate the language assignment on every page, you can si
        config.tx_locate = 1
    [end]
 
+
+.. _admin-reverseProxy:
+
+Running behind a Reverse Proxy
+==============================
+
+The visitor's IP address is taken from :code:`GeneralUtility::getIndpEnv('REMOTE_ADDR')`. Behind a reverse proxy, load
+balancer or CDN, this is the address of the proxy unless TYPO3 is told to trust it. Configure the proxy addresses (IP
+addresses or CIDR ranges) and which entry of the :code:`X-Forwarded-For` header to use. Proxies append the address they
+received the request from, so :code:`last` is the right choice for a single proxy:
+
+.. code-block:: php
+
+   $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyIP'] = '192.0.2.10,198.51.100.0/24';
+   $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyHeaderMultiValue'] = 'last';
+
+The :code:`X-Forwarded-For` header is not evaluated otherwise, as every visitor could choose the country to be located in by
+sending it.
 
 .. _admin-logging:
 
