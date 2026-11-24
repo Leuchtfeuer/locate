@@ -38,13 +38,11 @@
   "require-dev": {
     "phpunit/phpunit": "^10.0",
     "typo3/testing-framework": "^8.0",
-    "friendsofphp/php-cs-fixer": "v3.23.0"
+    "friendsofphp/php-cs-fixer": "^3.0"
   },
   "suggest": {
     "jaybizzle/crawler-detect": "If you do not want to redirect bots.",
-    "sjbr/static-info-tables": "If you want to use IP based data.",
-    "ext-gmp": "Recommended for an accurate IPv6 calculation.",
-    "ext-bcmath": "Alternative for an accurate IPv6 calculation. Not needed if you have gmp installed."
+    "sjbr/static-info-tables": "If you want to use IP based data."
   },
   "replace": {
     "typo3-ter/locate": "self.version",
@@ -80,7 +78,8 @@
     "typo3/cms": {
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": ".Build/public",
-      "extension-key": "locate"
+      "extension-key": "locate",
+      "version": "12.1.0"
     }
   }
 }

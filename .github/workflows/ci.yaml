@@ -15,12 +15,12 @@ jobs:
         php-version: [8.1, 8.2]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup PHP Environment
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          tools: php-cs-fixer:3.23.0
+          tools: php-cs-fixer:3
       - name: Check PHP CS
         run: php-cs-fixer fix --config php-cs-fixer.php --dry-run --using-cache no --show-progress dots -vvv
 
@@ -50,7 +50,7 @@ jobs:
           echo "Running tests with TYPO3 ${TYPO3_VERSION} and PHP ${PHP_VERSION}"
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 10
 
@@ -72,7 +72,7 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -82,6 +82,8 @@ jobs:
         env:
           PHP_VERSION: ${{ matrix.php-version }}
           TYPO3_VERSION: ${{ matrix.typo3-version }}
+          # Fixed TYPO3 12.4 releases are only available via ELTS, all public ones have security advisories
+          COMPOSER_POLICY_ADVISORIES_BLOCK: '0'
         run: |
           if [[ "${{ matrix.typo3-version }}" == *"dev"* ]]; then
             composer config minimum-stability dev

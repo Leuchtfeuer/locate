@@ -6,14 +6,14 @@
  * For the full copyright and license information, please read the
  * LICENSE.txt file that was distributed with this source code.
  *
- * Florian Wessels <f.wessels@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
+ * Team YD <dev@Leuchtfeuer.com>, Leuchtfeuer Digital Marketing
  */
 
 namespace Leuchtfeuer\Locate\FactProvider;
 
 class StaticFactProvider extends AbstractFactProvider
 {
-    const PROVIDER_NAME = 'static';
+    public const PROVIDER_NAME = 'static';
 
     public function getBasename(): string
     {

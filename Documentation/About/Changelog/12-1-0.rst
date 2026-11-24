@@ -1,0 +1,80 @@
+.. include:: ../../Includes.txt
+
+===========================
+Version 12.1.0 - 2026/11/20
+===========================
+
+This release fixes the IP based country lookup. The visitor's IP address is now determined via TYPO3's reverse proxy
+settings only, the IP range lookup uses the database index, and IPv6 addresses are converted exactly without gmp or bcmath.
+
+It also brings back the changes of version 12.0.3, which version 12.0.4 did not contain: the fix for issue #54, the
+updated IP to country tables and the coding standards fixes.
+
+Breaking Changes
+================
+
+*   The :code:`X-Forwarded-For` header is no longer read directly. The visitor's IP address is taken from
+    :code:`GeneralUtility::getIndpEnv('REMOTE_ADDR')`, which evaluates the header only for requests from a proxy listed in
+    :code:`$GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyIP']`. Installations behind a proxy, load balancer or CDN have to
+    configure it, otherwise every visitor is located at the proxy's address. See :ref:`admin-reverseProxy`:
+
+    .. code-block:: php
+
+       $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyIP'] = '192.0.2.10,198.51.100.0/24';
+       $GLOBALS['TYPO3_CONF_VARS']['SYS']['reverseProxyHeaderMultiValue'] = 'last';
+
+*   The protected method :code:`LocateUtility::getHeader()` has been removed. Subclasses calling it can use
+    :code:`GeneralUtility::getIndpEnv('REMOTE_ADDR')` instead.
+*   The deprecated IPv4-compatible notation :code:`::192.0.2.1` is no longer rejected, but resolves to the same number as
+    :code:`::c000:201`.
+
+Fixed
+=====
+
+*   Every visitor could choose the country to be located in by sending an :code:`X-Forwarded-For` header, which also
+    allowed to bypass the geo blocking.
+*   The IP range lookup scanned large parts of the IP table on every request. It now reads a single row along the index.
+*   Calling :code:`LocateUtility::getCountryIso2FromIP()` without an IP address on the command line ended in a fatal error,
+    as :code:`getallheaders()` does not exist there.
+*   IPv4-mapped IPv6 addresses (:code:`::ffff:192.0.2.1`) are looked up as IPv4 in every notation. Invalid IPv4 addresses
+    and address lists no longer match the reserved range (:code:`-`).
+*   Without gmp or bcmath, IPv6 addresses were converted with floating point numbers, and neighbouring addresses were
+    located in the wrong country or not at all.
+*   The frontend TypoScript is read with the :code:`ConfigurationManager` instead of the
+    :code:`BackendConfigurationManager` again (issue #54, from version 12.0.3).
+
+Changed
+=======
+
+*   The PHP extensions gmp and bcmath are no longer needed and no longer suggested.
+*   The IP to country tables are updated to the data of version 12.0.3.
+
+All Changes
+===========
+
+This is a list of all changes in this release::
+
+    2026-11-20 [TASK] Remove unused LocateUtility::getHeader() (Commit fb63955 by Oliver Heins)
+    2026-11-20 [BUGFIX] Recognise IPv4-mapped IPv6 addresses in every notation (Commit 5d016c2 by Oliver Heins)
+    2026-11-20 [BUGFIX] Convert IPv6 addresses to decimal numbers without loss of precision (Commit a6ffc75 by Oliver Heins)
+    2026-11-20 [TASK] Allow TYPO3 12.4 versions with security advisories in CI (Commit 18de616 by Oliver Heins)
+    2026-11-20 [TASK] Upgrade actions/cache to v4 in CI workflow (Commit 5eb476c by Oliver Heins)
+    2026-11-20 [TASK] Upgrade actions/checkout to v4 in CI workflow (Commit 9b66813 by Oliver Heins)
+    2026-10-14 [BUGFIX] Determine the visitor's IP address via TYPO3's reverse proxy settings (Commit 5e67149 by Andreas Sommer)
+    2026-10-14 [BUGFIX] Resolve IPv4-mapped IPv6 addresses and reject invalid IPv4 (Commit 81a564c by Andreas Sommer)
+    2026-10-14 [BUGFIX] Use an index-friendly query to look up the IP range (Commit 5dd88ba by Andreas Sommer)
+    2024-05-21 [RELEASE] Release of version 12.0.3 (Commit dab4a40 by Fabian Martin)
+    2024-05-06 [TASK] Update ip to country database tables (Commit e3485cb by Fabian Martin)
+    2024-05-06 Run cs-fixer (Commit 0b35026 by Fabian Martin)
+    2024-05-06 [BUGFIX] Replace BackendConfigurationManager with ConfigurationManager for reading typoscript settings. Resolves issue #54 (Commit a84bf8f by Fabian Martin)
+    2024-04-03 [TASK] Fix cs-fixer (Commit 61f46c7 by Fabian Martin)
+    2024-04-03 [TASK] Run cs-fixer (Commit 4cf493b by Fabian Martin)
+    2024-04-03 [TASK] Run cs-fixer (Commit 3fb9e4b by Fabian Martin)
+
+Contributors
+============
+Following people have contributed to this release:
+
+*   Andreas Sommer
+*   Fabian Martin
+*   Oliver Heins
