@@ -19,6 +19,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LocateUtility
 {
+    private const IPV4_MAPPED_PREFIX = "\0\0\0\0\0\0\0\0\0\0\xff\xff";
+
+    private const WORD_FACTOR = 2 ** 32;
+
     /**
      * Check the IP in the geoip table and returns iso 2 code for the current remote address
      *
@@ -57,18 +61,17 @@ class LocateUtility
     {
         $ip = $ip ?? $this->getRemoteAddress();
 
+        $binaryIp = inet_pton($ip);
+        if ($binaryIp === false) {
+            return false;
+        }
+
         // IPv4-mapped IPv6 addresses (::ffff:192.0.2.1, e.g. from dual-stack sockets) are looked up as IPv4
-        if (str_starts_with(strtolower($ip), '::ffff:') && filter_var(substr($ip, 7), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false) {
-            $ip = substr($ip, 7);
+        if (str_starts_with($binaryIp, self::IPV4_MAPPED_PREFIX)) {
+            $binaryIp = substr($binaryIp, strlen(self::IPV4_MAPPED_PREFIX));
         }
 
-        if (str_contains($ip, '.')) {
-            $long = ip2long($ip);
-
-            return $long === false ? false : (string)$long;
-        }
-
-        return $this->convertIpv6($ip);
+        return $this->convertBinaryToDecimal($binaryIp);
     }
 
     /**
@@ -81,49 +84,55 @@ class LocateUtility
         return (string)GeneralUtility::getIndpEnv('REMOTE_ADDR');
     }
 
-    protected function getHeader(string $headerName): ?string
+    /**
+     * Converts a binary IP address as returned by inet_pton() (4 bytes for IPv4, 16 bytes for IPv6) into its number,
+     * written as a decimal string: 192.168.178.1 becomes '3232281089'. The IP tables store the same numbers.
+     *
+     * Why a string: IPv6 numbers reach 2^128 - 1, a number with 39 digits, far beyond PHP_INT_MAX (2^63 - 1). Floats
+     * hold only about 16 significant digits, so neighbouring IPv6 addresses would end up as the same, wrong number and
+     * be located in the wrong range. gmp or bcmath calculate exactly, but are optional PHP extensions. This conversion
+     * is exact without them, and the tests cover the same code in every environment.
+     *
+     * How: the address is read as a number with base 2^32, one 32-bit word per digit, most significant word first.
+     * Horner's method builds the number word by word: ((w1 * 2^32 + w2) * 2^32 + w3) * 2^32 + w4. Each multiplication
+     * by 2^32 runs on the decimal digits of the intermediate result, from right to left with a carry, like long
+     * multiplication on paper.
+     *
+     * Why 32-bit words instead of single bytes: an IPv4 address takes 1 round instead of 4, an IPv6 address 4 rounds
+     * instead of 16. As the intermediate result grows by about 10 digits per round, this saves most of the work.
+     *
+     * Requires 64-bit PHP: only there unpack('N') returns the words unsigned, and the intermediate values in the loop
+     * need up to 36 bits.
+     */
+    private function convertBinaryToDecimal(string $binary): string
     {
-        $headers = getallheaders();
-        return $headers[$headerName] ?? null;
-    }
+        $decimal = '0';
 
-    private function convertIpv6(string $ip): string|bool
-    {
-        $ip = inet_pton($ip);
-        $bin = '';
-        $binNum = '';
-        $decimalIp = '0';
+        // 'N*' splits the binary string into unsigned 32-bit integers in big-endian byte order, which is the order of
+        // the bytes from inet_pton(). The length is always a multiple of 4, so no byte is left out.
+        foreach (unpack('N*', $binary) as $word) {
+            // Calculates $decimal * 2^32 + $word. Starting with the word as carry adds it on the way, as the carry
+            // enters the last digit first.
+            $carry = $word;
+            $digits = '';
 
-        if (is_bool($ip)) {
-            return false;
+            for ($position = strlen($decimal) - 1; $position >= 0; $position--) {
+                // The carry is always below 2^32: it starts as a word, and intdiv() below keeps it there, since
+                // (9 * 2^32 + 2^32 - 1) / 10 < 2^32. So $value stays below 10 * 2^32 (about 4.3e10), an exact integer.
+                $value = (int)$decimal[$position] * self::WORD_FACTOR + $carry;
+                // The last decimal digit of $value is the new digit at this position ...
+                $digits = ($value % 10) . $digits;
+                // ... and the rest moves on to the next position to the left.
+                $carry = intdiv($value, 10);
+            }
+
+            // What remains of the carry exceeds the existing digits and is prepended as a whole number, the way the
+            // last carry of a long multiplication is written in front of the result. ltrim() removes the leading zero
+            // of a carry of 0; for the address 0 (e.g. '::'), nothing would be left, so it falls back to '0'.
+            $decimal = ltrim($carry . $digits, '0') ?: '0';
         }
 
-        for ($bit = strlen($ip) - 1; $bit >= 0; $bit--) {
-            $bin = sprintf('%08b', ord($ip[$bit])) . $bin;
-        }
-
-        switch (true) {
-            case function_exists('gmp_init'):
-                $decimalIp = gmp_strval(gmp_init($bin, 2), 10);
-                break;
-
-            case function_exists('bcadd'):
-                $max = strlen($bin);
-                for ($i = 0; $i < $max; $i++) {
-                    $decimalIp = bcmul($decimalIp, '2');
-                    $decimalIp = bcadd($decimalIp, $bin[$i]);
-                }
-                break;
-
-            default:
-                foreach (unpack('C*', $ip) as $byte) {
-                    $binNum .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
-                }
-
-                $decimalIp = base_convert(ltrim($binNum, '0'), 2, 10);
-        }
-
-        return $decimalIp;
+        return $decimal;
     }
 
     public static function mainstreamValue(string &$value): void
